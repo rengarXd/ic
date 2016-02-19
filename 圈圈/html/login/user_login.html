@@ -22,8 +22,8 @@
 				height: 1px;
 				border-top: 1px solid #55b0f7;
 				text-align: center;
-				margin-right: 10px;
-				margin-left: 10px;
+				margin-right: 20px;
+				margin-left: 20px;
 			}
 			.ds_line span {
 				position: relative;
@@ -76,16 +76,131 @@
 				text-align: center;
 				color: #fff;
 				margin-top: 20px;
+				font-size: 12px;
+			}
+			.qq_login_t {
+				padding-left: 20px;
+				padding-right: 20px;
+				margin-bottom: 70px;
+			}
+			.qq_login_t a {
+				color: #fff;
+				font-size: 13px;
+				text-decoration: underline
+			}
+			.qq_login_t a:active {
+				color: #55b0f7
+			}
+			.qq_login_button {
+				border-radius: 10px;
+				background-color: #3da7ff;
+				color: #fff;
+				padding: 9px;
+				margin-bottom: 10px;
+				border: 1px solid #92CCFF;
+			}
+			.qq_login_button:active {
+				background: #1191ff
+			}
+			.qq_userpawd {
+				background-color: #3da7ff;
+				padding: 3px 10px;
+				border-radius: 10px;
+				border: 1px solid #92CCFF;
+				margin-bottom: 20px;
+			}
+			.qq_text_white {
+				color: #fff;
+				margin-left: 6px;
+			}
+			.qq_input {
+				background-color: #3DA7FF;
+				margin-left: 10px;
+				color: #fff
+			}
+			.aui-line-x {
+				margin: 10px 0;
+			}
+			::-webkit-input-placeholder {/* WebKit browsers */
+				color: #a8dafd;
+			}
+			:-moz-placeholder {/* Mozilla Firefox 4 to 18 */
+				color: #a8dafd;
+			}
+			::-moz-placeholder {/* Mozilla Firefox 19+ */
+				color: #a8dafd;
+			}
+			:-ms-input-placeholder {/* Internet Explorer 10+ */
+				color: #a8dafd;
+			}
+			.qq_code_button {
+				float: right;
+				background-color: #f78105;
+				height: 28px;
+				line-height: 14px;
+				color: #ffdc99;
+				border: 1px solid #1191FF;
+				font-size: 12px;
+			}
+			.aui-input-row:first-child:after {
+				border-top: 0;
+			}
+			.aui-input-row:last-child:after {
+				border-bottom: 0
+			}
+			.aui-input-row {
+				padding: 0
 			}
 			/*第三方登录线*/
 		</style>
 	</head>
 	<body>
 		<header class="aui-bar aui-bar-nav qq_bg"></header>
-		<div class="aui-content">
-			<h1>2333</h1>
+		<div class="aui-content" style="height: 100px"></div>
+		<div class="aui-content-padded qq_login_t">
+			<div class="qq_userpawd">
+				<div class="aui-form" style="background-color: #3da7ff;">
+					<div class="aui-input-row" style="border-top:0px">
+						<label class="aui-input-addon" style="color: #fff">手机号</label>
+						<input type="tel" style="background-color: #3da7ff;color:#fff" class="aui-input" placeholder="请输入手机号码"/>
+					</div>
+					<div class="aui-input-row" style="border-top:0px">
+						<span class="aui-input-addon" style="color: #fff">验证码</span>
+						<input type="tel" style="background-color: #3da7ff;color: #fff" class="aui-input" placeholder="******"/>
+						<span class="aui-input-addon">
+							<div class="aui-btn qq_code_button" id="sendVerify" status="1" tapmode onclick="getVerify()">
+								获取验证码
+							</div> </span>
+					</div>
+				</div>
+				<!--	<div>
+				<span class="qq_text_white">手机号:</span>
+				<input class="qq_input" style="width: 120px"  placeholder="请输入手机号码" />
+				</div>
+				<div class="aui-line-x"></div>
+				<div>
+				<span class="qq_text_white">验证码:</span>
+				<input class="aui-input qq_input" style="width: 60px" placeholder="*****" />
+				<button class="qq_code_button">
+				获取验证码
+				</button>
+				</div>-->
+			</div>
+			<div>
+				<button class="aui-btn aui-btn-block qq_login_button">
+					登录
+				</button>
+			</div>
+			<div>
+				<div class="aui-col-xs-6" style="text-align: left">
+					<a href="#">变更登录名</a>
+				</div>
+				<div class="aui-col-xs-6" style="text-align: right">
+					<a href="#">注册新账号</a>
+				</div>
+			</div>
 		</div>
-		<div class="aui-content">
+		<div class="aui-content" style="margin-top: 30px;">
 			<!--第三方登录开始-->
 			<div class="ds_line">
 				<span>使用其他账号登录</span>
@@ -118,6 +233,37 @@
 		<script type="text/javascript" src="../../script/AHelper.js"></script>
 		<script type="text/javascript" src="../../script/zepto.min.js"></script>
 		<script type="text/javascript">
+			function getVerify() {
+				var sendVerify = H.$api.byId('sendVerify');
+				var status = H.$api.attr(sendVerify, 'status');
+				if (status != 1) {
+					return;
+				}
+				H.$api.removeAttr(sendVerify, 'onclick');
+				api.parseTapmode();
+				H.$api.html(sendVerify, '<span id="GetVerify">120</span>S');
+				times = 119;
+				isinerval = setInterval("CountDown()", 1000);
+				setTimeout(function() {
+					H.$api.val(H.$api.byId("code"), '888888');
+				}, 500)
+			}
+
+			function CountDown() {
+				if (times < 1) {
+					var sendVerify = H.$api.byId('sendVerify');
+					H.$api.attr(sendVerify, 'onclick', 'get_verify()');
+					H.$api.attr(sendVerify, 'status', '1');
+					api.parseTapmode();
+					H.$api.html(sendVerify, '重新获取');
+					clearInterval(isinerval);
+					return;
+				}
+				var getVerify = H.$api.byId('GetVerify');
+				H.$api.html(getVerify, '' + times + '');
+				times--;
+			}
+
 			Zepto(function($) {
 				$('#qq').on("click", function() {
 					H.$toast("QQ登录");
@@ -131,6 +277,7 @@
 			});
 			//所有的代码都写在H.ready(function(){})
 			H.ready(function() {
+				H.$closeCurrentToWin("index");
 				H.$dblclickToCloseApp(function() {
 				});
 			});
