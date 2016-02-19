@@ -8,20 +8,131 @@
 		<title>登录页面</title>
 		<!--引入aui框架win-->
 		<link rel="stylesheet" href="../../css/aui.css" />
+		<link rel="stylesheet" href="../../css/fonts/iconfont.css" />
 		<style>
 			body {
 				background: #1191ff
 			}
+			.qq_bg {
+				background: #1191ff
+			}
+			/*第三方登录线*/
+			.ds_line {
+				margin-top: 30px;
+				height: 1px;
+				border-top: 1px solid #55b0f7;
+				text-align: center;
+				margin-right: 10px;
+				margin-left: 10px;
+			}
+			.ds_line span {
+				position: relative;
+				top: -14px;
+				background: #1191ff;
+				padding: 0 10px;
+				font-size: 12px;
+				color: #fff
+			}
+			.qq_dsf {
+				margin-top: 30px;
+				color: #fff;
+				height: 32px;
+			}
+			.qq_login_text {
+				font-size: 13px;
+				text-align: center
+			}
+			.qq_login_icon_qq {
+				background: #ff7400;
+				padding: 10px;
+				border-radius: 50%;
+				font-size: 30px;
+				margin-bottom: 10px;
+			}
+			.qq_login_icon_weixin {
+				background: #ffc600;
+				padding: 10px;
+				border-radius: 50%;
+				font-size: 30px;
+				margin-bottom: 10px;
+			}
+			.qq_login_icon_weibo {
+				background: #0fded8;
+				padding: 10px;
+				border-radius: 50%;
+				font-size: 30px;
+				margin-bottom: 10px;
+			}
+			.qq_login_icon_qq:active {
+				background: #F79645
+			}
+			.qq_login_icon_weixin:active {
+				background: #FBD141
+			}
+			.qq_login_icon_weibo:active {
+				background: #4DC1BE
+			}
+			.qq_text {
+				text-align: center;
+				color: #fff;
+				margin-top: 20px;
+			}
+			/*第三方登录线*/
 		</style>
 	</head>
 	<body>
-		<h1>2222</h1>
+		<header class="aui-bar aui-bar-nav qq_bg"></header>
+		<div class="aui-content">
+			<h1>2333</h1>
+		</div>
+		<div class="aui-content">
+			<!--第三方登录开始-->
+			<div class="ds_line">
+				<span>使用其他账号登录</span>
+			</div>
+			<div class="qq_dsf">
+				<div class="aui-col-xs-4 qq_login_text" id="qq">
+					<span class="iconfont icon-qq qq_login_icon_qq"></span>
+				</div>
+				<div class="aui-col-xs-4 qq_login_text" id="weixin">
+					<span class="iconfont icon-iconfontweixin qq_login_icon_weixin"></span>
+				</div>
+				<div class="aui-col-xs-4 qq_login_text" id="weibo">
+					<span class="iconfont icon-iconfontweibo qq_login_icon_weibo"></span>
+				</div>
+			</div>
+			<div class="qq_text">
+				<div class="aui-col-xs-4">
+					QQ
+				</div>
+				<div class="aui-col-xs-4">
+					微信
+				</div>
+				<div class="aui-col-xs-4">
+					微博
+				</div>
+			</div>
+			<!--第三方登录结束-->
+		</div>
 		<!--封装了APICloud大量常用的类库，内置了DOM操作，模板引擎，表单验证等常用类库-->
 		<script type="text/javascript" src="../../script/AHelper.js"></script>
+		<script type="text/javascript" src="../../script/zepto.min.js"></script>
 		<script type="text/javascript">
+			Zepto(function($) {
+				$('#qq').on("click", function() {
+					H.$toast("QQ登录");
+				});
+				$('#weixin').on("click", function() {
+					H.$toast("微信登录");
+				});
+				$('#weibo').on("click", function() {
+					H.$toast("微博登录");
+				});
+			});
 			//所有的代码都写在H.ready(function(){})
 			H.ready(function() {
-				H.$toast("进入登录页面");
+				H.$dblclickToCloseApp(function() {
+				});
 			});
 		</script>
 	</body>
