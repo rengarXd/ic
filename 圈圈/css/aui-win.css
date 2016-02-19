@@ -1,10 +1,10 @@
 /*
  * =========================================================================
- * AUI  APICLOUD UI 框架    流浪男  QQ：343757327  http://www.auicss.com
+ * AUI  APICLOUD UI æ¡†æž¶    æµæµªç”·  QQï¼š343757327  http://www.auicss.com
  * Verson 1.1.3
  * =========================================================================
  */
- /*win窗口*/
+ /*winçª—å£*/
 @charset "UTF-8";
 html{
 	font-family: sans-serif;
@@ -69,7 +69,7 @@ button,input,optgroup,select,textarea {
 	clear: both;
 }
 
-/*文字对齐*/
+/*æ–‡å­—å¯¹é½*/
 .aui-text-left {
 	text-align: left !important;
 }
@@ -85,7 +85,7 @@ button,input,optgroup,select,textarea {
 .aui-text-right {
 	text-align: right !important;
 }
-/*文字类*/
+/*æ–‡å­—ç±»*/
 h1,h2,h3,h4,h5,h6 {
 	font-size: 100%;
 	font-weight: 400
@@ -137,7 +137,7 @@ h4 small,h5 small,h6 small {
 	font-size: 75%;
 }
 
-/*文字、背景颜色*/
+/*æ–‡å­—ã€èƒŒæ™¯é¢œè‰²*/
 .aui-text-default {
 	color: #666666 !important;
 }
@@ -194,7 +194,7 @@ h4 small,h5 small,h6 small {
 .aui-bg-pink {
 	background-color: #fbb8af !important;
 }
-/*对齐,显示，隐藏等*/
+/*å¯¹é½,æ˜¾ç¤ºï¼Œéšè—ç­‰*/
 .aui-pull-right {
 	float: right !important;
 }
@@ -215,7 +215,7 @@ h4 small,h5 small,h6 small {
 	vertical-align: top;
 }
 
-/*基本容器*/
+/*åŸºæœ¬å®¹å™¨*/
 .aui-content {
 	-webkit-overflow-scrolling: touch;
 	margin-bottom: 15px;
@@ -246,7 +246,7 @@ h4 small,h5 small,h6 small {
 	padding: 25px 15px 10px;
 }
 
-/*栅格类*/
+/*æ …æ ¼ç±»*/
 .aui-col-xs-1,.aui-col-xs-2,.aui-col-xs-3,.aui-col-xs-4,.aui-col-xs-5,.aui-col-xs-6,.aui-col-xs-7,.aui-col-xs-8,.aui-col-xs-9,.aui-col-xs-10,.aui-col-xs-11,.aui-col-5 {
 	position: relative;
 	float: left;
@@ -293,7 +293,7 @@ h4 small,h5 small,h6 small {
 }
 
 
-/*按钮样式*/
+/*æŒ‰é’®æ ·å¼*/
 button, .aui-btn {
 	display: inline-block;
 	padding: 6px 12px;
@@ -389,7 +389,7 @@ button, .aui-btn {
 	margin-left: 6px;
 }
 
-/*导航栏*/
+/*å¯¼èˆªæ */
 .aui-bar {
 	position: relative;
 	top: 0;
@@ -491,7 +491,7 @@ button, .aui-btn {
 .aui-bar-nav {
 	top: 0;
 }
-/*底部切换栏*/
+/*åº•éƒ¨åˆ‡æ¢æ */
 .aui-nav {
 	position: fixed;
 	right: 0;
@@ -525,7 +525,7 @@ button, .aui-btn {
 	margin-bottom: 0;
 }
 .aui-nav .aui-bar-tab .aui-iconfont {
-	font-size: 22px;
+	font-size: 28px;
 	color: #8f8f94;
 	padding-top: 5px;
 	height: 30px;
@@ -555,7 +555,7 @@ button, .aui-btn {
 }
 
 
-/*tab切换类*/
+/*tabåˆ‡æ¢ç±»*/
 .aui-tab {
 	width: 100%;
 	overflow: hidden;
@@ -612,7 +612,7 @@ button, .aui-btn {
             animation: fadeIn .5s ease both;
 }
 
-/*图标*/
+/*å›¾æ ‡*/
 @font-face {font-family: "iconfont";
 	src: url('aui_iconfont.ttf') format('truetype');
 }

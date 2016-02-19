@@ -203,6 +203,13 @@
 			};
 		}
 
+		/**
+		 *时间戳转换
+		 */
+		function getLocalTime(nS) {
+			return new Date(parseInt(nS) * 1000).toLocaleString().substr(0, 17)
+		}
+
 		// 去掉字符串首尾空格
 		// @str：字符串
 		u.trim = function(str) {
@@ -934,8 +941,8 @@
 		showProgress : {
 			style : 'default',
 			animationType : 'fade',
-			title : '努力加载中...',
-			text : '先喝杯茶...',
+			title : '加载中...',
+			text : '',
 			modal : true
 		},
 		toast : {

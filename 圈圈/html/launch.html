@@ -1,0 +1,135 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<!--确保绘制和缩放的效果需要在<head>标签中添加 viewport 元数据标签-->
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>应用引导页面</title>
+		<!--引入全屏幻灯插件css-->
+		<link rel="stylesheet" type="text/css" href="../css/swiper/swiper.min.css" />
+		<style>
+			html, body {
+				position: relative;
+				height: 100%;
+			}
+			body {
+				background: #eee;
+				font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+				font-size: 14px;
+				color: #000;
+				margin: 0;
+				padding: 0;
+			}
+			.swiper-container {
+				width: 100%;
+				height: 100%;
+			}
+			.swiper-slide {
+				text-align: center;
+				font-size: 18px;
+				background: #fff;
+				display: -webkit-box;
+				display: -ms-flexbox;
+				display: -webkit-flex;
+				display: flex;
+				-webkit-box-pack: center;
+				-ms-flex-pack: center;
+				-webkit-justify-content: center;
+				justify-content: center;
+				-webkit-box-align: center;
+				-ms-flex-align: center;
+				-webkit-align-items: center;
+				align-items: center;
+				position: relative;
+			}
+			.swiper-wrapper .swiper-slide:nth-child(1) {
+				background: url(../image/launch1.png) no-repeat center center;
+				background-size: cover;
+				-webkit-background-size: cover;
+			}
+			.swiper-wrapper .swiper-slide:nth-child(2) {
+				background: url(../image/launch1.png) no-repeat center center;
+				background-size: cover;
+				-webkit-background-size: cover;
+			}
+			.swiper-wrapper .swiper-slide:nth-child(3) {
+				background: url(../image/launch1.png) no-repeat center center;
+				background-size: cover;
+				-webkit-background-size: cover;
+			}
+			#loginApp {
+				position: absolute;
+				top: 10px;
+				right: 10px;
+				width: 30px;
+				height: 30px;
+				display: -webkit-box;
+				-webkit-box-orient: horizontal;
+				-webkit-box-pack: center;
+				-webkit-box-align: center;
+				display: box;
+				box-orient: horizontal;
+				box-pack: center;
+				box-align: center;
+				z-index: 10000000;
+				background: #fff;
+				border-radius: 50%;
+				-webkit-border-radius: 50%;
+			}
+			#loginApp i {
+				font-size: 22px;
+				color: #1d9dd5;
+				line-height: normal;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="swiper-container">
+			<div class="swiper-wrapper">
+				<div class="swiper-slide"></div>
+				<div class="swiper-slide"></div>
+				<div class="swiper-slide">
+					<p id="loginApp">
+						<i class="iconfont icon-login"></i>
+					</p>
+				</div>
+			</div>
+			<div class="swiper-pagination"></div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/AHelper.js"></script>
+	<script type="text/javascript" src="../script/zepto.min.js"></script>
+	<script type="text/javascript" src="../script/swiper/swiper.min.js"></script>
+	<script type="text/javascript">
+		//幻灯插件实例化及配置
+		var swiper = new Swiper('.swiper-container', {
+			pagination : '.swiper-pagination',
+			paginationClickable : true
+		});
+		Zepto(function($) {
+			//点击确定进入按钮
+			$("#loginApp").on("click", function() {
+				//更改偏好值（launch）为yes，下次直接进入app首页
+				H.$setPrefs(function(ret, err) {
+				}, 'launch', 'yes');
+				//获取偏好值（user_islogin），是否登录
+				H.$getPrefs(function(rets, errs) {
+					//如果有值
+					if (rets && rets.value) {
+						//打开APP首页
+						H.$openWin('main', 'main.html', {});
+					} else {
+						//打开用户登录页面
+						H.$openWin('user_login', 'login/user_login.html', {});
+					}
+				}, 'user_islogin');
+			});
+		});
+		H.ready(function() {
+			//双击退出APP
+			H.$dblclickToCloseApp(function() {
+			});
+		});
+	</script>
+</html>
