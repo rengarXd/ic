@@ -16,8 +16,8 @@
   <preference name="autoUpdate" value="true"/>  
   <preference name="smartUpdate" value="false"/>  
   <preference name="debug" value="true"/>  
-  <preference name="statusBarAppearance" value="true"/>  
   <preference name="iOS7StatusBarAppearance" value="true"/>  
+  <preference name="statusBarAppearance" value="true"/>  
   <preference name="softInputMode" value="resize"/>  
   <permission name="readPhoneState"/>  
   <permission name="camera"/>  
