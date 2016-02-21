@@ -288,21 +288,6 @@
 			//所有的代码都写在H.ready(function(){})
 			H.ready(function() {
 			
-		var smsVerify = api.require('smsVerify');
-			smsVerify.sms({
-			    phone:"15738364224",
-			    country:"86"
-			},function(ret, err){
-			    if(ret.status){
-			        if( ret.smart == true ){    // 安卓版特有功能 智能验证
-			            api.alert({msg: '智能验证成功：开发者可以在这里直接执行手机号验证成功之后的相关操作'});
-			        }else{
-			            api.alert({msg: '短信发送成功'});
-			        }
-			    }else{
-			        api.alert({msg: err.code+' '+err.msg});
-			    }
-			});
 			  api.setStatusBarStyle({
 	            style: 'light',
 	            color:'#ffffff'
