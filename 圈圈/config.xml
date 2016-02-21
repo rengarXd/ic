@@ -27,5 +27,11 @@
   <permission name="internet"/>  
   <permission name="bootCompleted"/>  
   <permission name="hardware"/>  
+  <feature name="smsVerify"> 
+    <param name="android_app_key" value="f9c5eeed9d1b"/>  
+    <param name="android_app_secret" value="2ced74d603b7f93b27d731f60e9624fe"/>  
+    <param name="ios_app_key" value="f9c647d10440"/>  
+    <param name="ios_app_secret" value="653b06aa2add94981f0395162ccb4fc5"/> 
+  </feature>  
   <access origin="*"/> 
 </widget>
