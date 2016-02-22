@@ -277,20 +277,21 @@
 							if (ret.smart == true) {// 安卓版特有功能 智能验证
 								H.$toast("已智能验证成功");
 								H.$showProgress();
-								H.$ajax(function(ret,err){
+								H.$ajax(function(ret, err) {
 									H.$hideProgress();
-									if(ret.retCode==1){
+									if (ret.retCode == 1) {
 										//设置偏好值islogin
-										H.$setPrefs(function(ret,err){},'islogin','ok');
+										H.$setPrefs(function(ret, err) {
+										}, 'islogin', 'ok');
 										//存储用户信息
-										H.$setPrefs(function(ret,err){
-											H.$openWin('main','../main.html');
+										H.$setPrefs(function(ret, err) {
+											H.$openWin('main', '../main.html');
 											H.$closeCurrentWin();
-										},'userinfo',JSON.stringify(ret.retValue));
-									}else{
+										}, 'userinfo', JSON.stringify(ret.retValue));
+									} else {
 										H.$toast("抱歉，手机号信息错误，请核对！");
 									}
-								},'http://q.endzk.com/apis/user_login/tel/'+tel+'/code/0000');
+								}, 'http://q.endzk.com/apis/user_login/tel/' + tel + '/code/0000');
 							} else {
 								//H.$toast("验证短信发送成功，请注意查收！");
 							}
@@ -351,9 +352,22 @@
 							var smsVerify = api.require('smsVerify');
 							smsVerify.register(function(ret, err) {
 								if (ret.status) {
-									H.$ajax(function(ret,err){
-										H.$alert(ret);
-									},'http://q.endzk.com/apis/user_login/tel/'+tel+'/code/'+code);
+									H.$showProgress();
+									H.$ajax(function(ret, err) {
+										H.$hideProgress();
+										if (ret.retCode == 1) {
+											//设置偏好值islogin
+											H.$setPrefs(function(ret, err) {
+											}, 'islogin', 'ok');
+											//存储用户信息
+											H.$setPrefs(function(ret, err) {
+												H.$openWin('main', '../main.html');
+												H.$closeCurrentWin();
+											}, 'userinfo', JSON.stringify(ret.retValue));
+										} else {
+											H.$toast("抱歉，手机号信息错误，请核对！");
+										}
+									}, 'http://q.endzk.com/apis/user_login/tel/' + tel + '/code/' + code);
 								} else {
 									H.$tosat("抱歉，登录异常，请稍后再试！");
 								}
@@ -408,14 +422,14 @@
 						if (ret.status) {
 							H.$hideProgress();
 							H.$ajax(function(ret, err) {
-									if (ret.retCode == 0) {
-										H.$hideProgress();
-										H.$alert(ret.retDesc);
-									} else {
-										H.$hideProgress();
-										H.$toast("认证通过！");
-									}
-								}, 'http://q.endzk.com/apis/app_token/weibo/1/token/' + ret.token);
+								if (ret.retCode == 0) {
+									H.$hideProgress();
+									H.$alert(ret.retDesc);
+								} else {
+									H.$hideProgress();
+									H.$toast("认证通过！");
+								}
+							}, 'http://q.endzk.com/apis/app_token/weibo/1/token/' + ret.token);
 						} else {
 							H.$hideProgress();
 							H.$toast("抱歉，微博认证异常，您可以选择使用其他方式登录");
