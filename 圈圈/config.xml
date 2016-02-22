@@ -37,5 +37,10 @@
   <feature name="qq"> 
     <param name="urlScheme" value="tencent1105121449"/>  
     <param name="apiKey" value="1105121449"/> 
+  </feature>  
+  <feature name="weibo"> 
+    <param name="urlScheme" value="wb4002923785"/>  
+    <param name="apiKey" value="4002923785"/>  
+    <param name="registUrl" value="http://www.quanquan.com"/> 
   </feature> 
 </widget>

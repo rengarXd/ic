@@ -367,8 +367,8 @@
 					    if(ret.status){
 					     	obj.login(function(ret,err){
 						    api.alert({
-						        title: 'id和token',
-						        msg: ret.openId + ret.accessToken
+						        title: 'token',
+						        msg: ret.accessToken
 						    });
 						});
 					    }else{
@@ -377,10 +377,10 @@
 					});
 				});
 				$('#weixin').on("click", function() {
-					H.$toast("微信登录");
+					H.$toast("敬请期待");
 				});
 				$('#weibo').on("click", function() {
-					H.$toast("微博登录");
+					H.$toast("敬请期待");
 				});
 			});
 			//所有的代码都写在H.ready(function(){})
