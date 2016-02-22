@@ -380,7 +380,13 @@
 					H.$toast("敬请期待");
 				});
 				$('#weibo').on("click", function() {
-					H.$toast("敬请期待");
+					H.$toast("微博登录");
+					var weibo = api.require('weibo');
+					weibo.auth(function(ret,err){
+					    if (ret.status) {
+					      alert(JSON.stringify(ret));
+					    }
+					});
 				});
 			});
 			//所有的代码都写在H.ready(function(){})
