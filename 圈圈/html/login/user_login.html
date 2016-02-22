@@ -332,9 +332,9 @@
 					if (tel.length != 11 || !tel.match(a)) {
 						H.$toast("请输入正确的手机号！");
 					} else {
-						if(code.length !=4){
+						if (code.length != 4) {
 							H.$toast("验证码格式错误！");
-						}else{
+						} else {
 							var smsVerify = api.require('smsVerify');
 							smsVerify.register(function(ret, err) {
 								if (ret.status) {
@@ -345,47 +345,66 @@
 							});
 							//校验验证码
 							smsVerify.verify({
-							    phone:tel,
-							    country:"86",
-							    code:code
-							},function(ret, err){
-							    if(ret.status){
-							        H.$ajax({
-							        
-							        },"");
-							    }else{
-							        api.alert({msg: err.code+' '+err.msg});
-							    }
+								phone : tel,
+								country : "86",
+								code : code
+							}, function(ret, err) {
+								if (ret.status) {
+									H.$ajax({
+									}, "");
+								} else {
+									api.alert({
+										msg : err.code + ' ' + err.msg
+									});
+								}
 							});
 						}
 					}
 				});
 				$('#qq').on("click", function() {
-					H.$toast("QQ登录");
 					var obj = api.require('qq');
-					obj.installed(function(ret,err){
-					    if(ret.status){
-					     	obj.login(function(ret,err){
-						    api.alert({
-						        title: 'token',
-						        msg: ret.accessToken
-						    });
-						});
-					    }else{
-					       	H.$toast("抱歉，您的手机上没有安装QQ");
-					    } 
+					obj.installed(function(ret, err) {
+						if (ret.status) {
+							obj.login(function(ret, err) {
+								H.$showProgress();
+								H.$ajax(function(ret, err) {
+									if (ret.retCode == 0) {
+										H.$hideProgress();
+										H.$alert(ret.retDesc);
+									} else {
+										H.$hideProgress();
+										H.$toast("认证通过！");
+									}
+								}, 'http://q.endzk.com/apis/app_token/qq/1/token/' + ret.accessToken);
+							});
+						} else {
+							H.$toast("抱歉，您的手机上没有安装QQ");
+						}
 					});
 				});
 				$('#weixin').on("click", function() {
 					H.$toast("敬请期待");
 				});
 				$('#weibo').on("click", function() {
-					H.$toast("微博登录");
+					//H.$toast("微博登录");
 					var weibo = api.require('weibo');
-					weibo.auth(function(ret,err){
-					    if (ret.status) {
-					      alert(JSON.stringify(ret));
-					    }
+					weibo.auth(function(ret, err) {
+						H.$showProgress();
+						if (ret.status) {
+							H.$hideProgress();
+							H.$ajax(function(ret, err) {
+									if (ret.retCode == 0) {
+										H.$hideProgress();
+										H.$alert(ret.retDesc);
+									} else {
+										H.$hideProgress();
+										H.$toast("认证通过！");
+									}
+								}, 'http://q.endzk.com/apis/app_token/weibo/1/token/' + ret.token);
+						} else {
+							H.$hideProgress();
+							H.$toast("抱歉，微博认证异常，您可以选择使用其他方式登录");
+						}
 					});
 				});
 			});

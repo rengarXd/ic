@@ -901,17 +901,17 @@
 	// APICloud 默认配置对象
 	var defaultsOption = {
 		alert : {
-			title : '点点例',
+			title : '温馨提示',
 			msg : '',
 			buttons : ['确定']
 		},
 		confirm : {
-			title : '点点例',
+			title : '温馨提示',
 			msg : '选择您要的操作类型',
 			buttons : ['确定', '取消']
 		},
 		prompt : {
-			title : '点点例',
+			title : '温馨提示',
 			msg : '请输入内容后点击确定按钮',
 			text : '',
 			type : 'text',
@@ -935,11 +935,11 @@
 			style : 'default',
 			animationType : 'zoom',
 			title : '努力加载中...',
-			text : '先喝杯茶...',
+			//text : '先喝杯茶...',
 			modal : true
 		},
 		toast : {
-			msg : '点点例',
+			msg : '温馨提示',
 			duration : 4000,
 			location : 'bottom'
 		},
