@@ -362,6 +362,19 @@
 				});
 				$('#qq').on("click", function() {
 					H.$toast("QQ登录");
+					var obj = api.require('qq');
+					obj.installed(function(ret,err){
+					    if(ret.status){
+					     	obj.login(function(ret,err){
+						    api.alert({
+						        title: 'id和token',
+						        msg: ret.openId + ret.accessToken
+						    });
+						});
+					    }else{
+					       	H.$toast("抱歉，您的手机上没有安装QQ");
+					    } 
+					});
 				});
 				$('#weixin').on("click", function() {
 					H.$toast("微信登录");
