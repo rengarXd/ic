@@ -9,6 +9,9 @@
 		<!--引入aui框架win-->
 		<link rel="stylesheet" href="../css/aui-win.css" />
 		<style>
+			.display-none {
+				display: none;
+			}
 			.brige {
 				display: inline-block;
 				position: absolute;
@@ -26,67 +29,140 @@
 				color: #fff;
 				font-style: normal;
 			}
-			#aui-footer{border-top:1px solid #ddd}
+			#aui-footer .aui-iconfont {
+				font-size: 25px;
+			}
+			#aui-footer {
+				background: #f7f7f7;
+				border-top: 1px solid #e2e2e2;
+			}
+			.aui-bar-1d9dd5 {
+				background: #4385f6;
+			}
+			#aui-footer li.active-1d9dd5, #aui-footer li.active-1d9dd5 span.aui-iconfont {
+				color: #4385f6 !important;
+			}
+			.icon-size{ font-size:26px}
 		</style>
 	</head>
 	<body>
 		<!--标题栏 start-->
-		<header class="aui-bar aui-bar-nav aui-bar-dark" id='aui-header'>
+		<header class="aui-bar aui-bar-nav aui-bar-dark header" id='index-header'>
 			<div class="aui-title">
 				圈圈
 			</div>
 		</header>
+		<header class="aui-bar aui-bar-nav aui-bar-dark display-none header" id='pet-header'>
+			<div class="aui-title">
+				宠物
+			</div>
+		</header>
+		<header class="aui-bar aui-bar-nav aui-bar-dark display-none header" id='friend-header'>
+			<div class="aui-title">
+				友邻
+			</div>
+		</header>
+		<header class="aui-bar aui-bar-nav aui-bar-dark display-none header" id='shop-header'>
+			<div class="aui-title">
+				市场
+			</div>
+		</header>
+		<header class="aui-bar aui-bar-nav aui-bar-dark display-none header" id='me-header'>
+			<div class="aui-title">
+				我的
+			</div>
+			<a class="aui-pull-right" tapmode onclick="H.$openWin('ucenter_setting_head','./me/ucenter_setting_head.html');"> <span class="iconfont icon-iconsetup"></span> </a>
+		</header>
 		<!--标题栏 end-->
 		<footer class="aui-nav" id="aui-footer">
 			<ul class="aui-bar-tab">
-				<li class="active-warning" id="tabbar1">
+				<li class="active-1d9dd5" data-header="index-header" tapmode>
 					<span class="aui-iconfont aui-icon-favor"></span>
 					<p>
 						首页
 					</p>
 				</li>
-				<li id="tabbar2" >
+				<li data-header="pet-header" tapmode>
 					<span class="aui-iconfont aui-icon-mark"></span>
 					<p>
 						宠物
 					</p>
 				</li>
-				<li id="tabbar3">
-				
+				<li data-header="friend-header" tapmode>
 					<span class="aui-iconfont aui-icon-like"></span>
 					<p>
 						友邻
-						
 					</p>
 					<!--消息样式-->
 					<em class="brige" id="brige">8</em>
 					<!--消息样式-->
 				</li>
-				<li id="tabbar4">
+				<li data-header="shop-header" tapmode>
 					<span class="aui-iconfont aui-icon-my"></span>
 					<p>
 						市场
 					</p>
 				</li>
-				<li id="tabbar4">
+				<li data-header="me-header" tapmode>
 					<span class="aui-iconfont aui-icon-my"></span>
 					<p>
 						我的
 					</p>
-					
 				</li>
 			</ul>
 		</footer>
 	</body>
 	<!--封装了APICloud大量常用的类库，内置了DOM操作，模板引擎，表单验证等常用类库-->
 	<script type="text/javascript" src="../script/AHelper.js"></script>
+	<script type="text/javascript" src="../script/zepto.min.js"></script>
 	<script type="text/javascript">
+		var groupName = "indexGroup";
+		function setHeaderFootInfo(index) {
+			var that = $("#aui-footer li").eq(index);
+			var headerId = that.attr("data-header");
+			that.addClass("active-1d9dd5").siblings("#aui-footer li").removeClass("active-1d9dd5");
+			$("#" + headerId).removeClass("display-none").siblings(".header").addClass("display-none");
+			// 设置沉浸式状态栏
+			H.$fixStatusBar(function(offset) {
+			}, headerId);
+		}
+
+		Zepto(function($) {
+			$("#aui-footer li").on("tap", function() {
+				var index = $(this).index();
+				setHeaderFootInfo(index);
+				H.$setFrameGroupIndex(groupName, index, true);
+			});
+		});
 		//所有的代码都写在H.ready(function(){})
 		H.ready(function() {
-			//快速打开窗口
-			H.$openFrameWithNav('aui-header', {
-				url : 'index/main_body.html',
-				name : 'main_body'
+			H.$openFrameGroupWithNav(function(ret, err) {
+				setHeaderFootInfo(ret.index);
+			}, 'index-header', {
+				name : groupName,
+				frames : [{
+					url : 'index/main_body.html',
+					name : 'main_body',
+					bounces : true
+				}, {
+					url : 'pet/pet_body.html',
+					name : 'pet_body',
+					bounces : false
+				}, {
+					url : 'friend/friend_body.html',
+					name : 'friend_body',
+					bounces : false
+				}, {
+					url : 'shop/shop_body.html',
+					name : 'shop_body',
+					bounces : false
+				}, {
+					url : 'me/me_body.html',
+					name : 'me_body',
+					bounces : false
+				}],
+				preload : 5,
+				scrollEnabled : true
 			}, 'aui-footer');
 			// 断开网络
 			H.$addEventListener(function(ret, err) {
