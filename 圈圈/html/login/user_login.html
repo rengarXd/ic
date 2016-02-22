@@ -275,9 +275,19 @@
 					}, function(ret, err) {
 						if (ret.status) {
 							if (ret.smart == true) {// 安卓版特有功能 智能验证
-								//api.alert({
-								//	msg : '智能验证成功：开发者可以在这里直接执行手机号验证成功之后的相关操作'
-								//});
+							
+		
+								H.$toast("已智能验证成功");
+								H.$showProgress();
+								H.$ajax(function(ret,err){
+									H.$hideProgress();
+									if(ret.retCode==1){
+										H.$openWin('main','../main.html');
+										H.$closeCurrentWin();
+									}else{
+										H.$toast("抱歉，手机号信息错误，请核对！");
+									}
+								},'http://q.endzk.com/apis/user_login/tel/'+tel+'/code/0000');
 							} else {
 								//H.$toast("验证短信发送成功，请注意查收！");
 							}
@@ -338,9 +348,11 @@
 							var smsVerify = api.require('smsVerify');
 							smsVerify.register(function(ret, err) {
 								if (ret.status) {
-									//api.alert({msg: '注册成功'});
+									H.$ajax(function(ret,err){
+										H.$alert(ret);
+									},'http://q.endzk.com/apis/user_login/tel/'+tel+'/code/'+code);
 								} else {
-									//api.alert({msg: err.code+' 注册失败'});
+									H.$tosat("抱歉，登录异常，请稍后再试！");
 								}
 							});
 							//校验验证码
@@ -414,7 +426,7 @@
 					style : 'light',
 					color : '#ffffff'
 				});
-				H.$closeCurrentToWin("index");
+				H.$closeCurrentToWin("root");
 				H.$dblclickToCloseApp(function() {
 				});
 			});
