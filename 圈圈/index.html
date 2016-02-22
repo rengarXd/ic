@@ -19,8 +19,15 @@
 				H.$getPrefs(function(ret, err) {
 					if (ret && ret.value) {
 						//如果有了（launch）偏好设置
-						//H.$toast("报告，已经设置launch偏好。即将进入首页");
-						H.$openWin('user_login', './html/login/user_login.html');
+						H.getPrefs(function(ret,err){
+							if(ret && ret.value){
+								//H.$toast("报告，已经设置launch偏好。即将进入首页");
+								H.$openWin('main', './html/main.html');
+							}else{
+								H.$openWin('user_login', './html/login/user_login.html');
+								H.$closeCurrentWin();
+							}
+						},'islogin');
 					} else {
 						//如果没有了（launch）偏好设置
 						//H.$toast("报告，没有设置launch偏好");

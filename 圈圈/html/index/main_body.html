@@ -17,6 +17,9 @@
 	<script type="text/javascript">
 		//所有的代码都写在H.ready(function(){})
 		H.ready(function() {
+			H.getPrefs(function(ret,err){
+				H.$toast(ret.value);
+			},'userinfo');
 			H.$closeCurrentToWin('user_login');
 		});
 	</script>
