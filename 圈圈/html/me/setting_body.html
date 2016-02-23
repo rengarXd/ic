@@ -8,6 +8,9 @@
 		<link rel="stylesheet" type="text/css" href="../../css/aui.css" />
 		<link rel="stylesheet" type="text/css" href="../../css/fonts/iconfont.css" />
 		<style>
+			.display-none {
+				display: none;
+			}
 			.icon-bg-70a1cd {
 				background: #70a1cd !important;
 			}
@@ -29,13 +32,13 @@
 		<div class="aui-content">
 			<ul class="aui-list-view aui-in">
 				<li class="aui-list-view-cell" tapmode id="qq_token">
-					<a class="aui-arrow-right"> <i class="aui-iconfont iconfont icon-qq icon-bg-e6567a stetting-icon" style="font-size:12px;padding: 7px;"></i>QQ登录授权</a>
+					<a class="aui-arrow-right"> <i class="aui-iconfont iconfont icon-qq icon-bg-e6567a stetting-icon" style="font-size:12px;padding: 7px;"></i>QQ登录授权<span class="aui-badge display-none" id="qq_bd">已绑定</span></a>
 				</li>
 				<li class="aui-list-view-cell" tapmode id="weixin_token">
 					<a class="aui-arrow-right"> <i class="aui-iconfont iconfont icon-iconfontweixin icon-bg-7658f8 stetting-icon" style="font-size:12px; padding: 7px;"></i>微信登录授权</a>
 				</li>
 				<li class="aui-list-view-cell" tapmode id="weibo_token">
-					<a class="aui-arrow-right"> <i class="aui-iconfont iconfont icon-iconfontweibo icon-bg-84c9a5 stetting-icon" style="font-size:12px; padding: 7px;"></i>微博登录授权</a>
+					<a class="aui-arrow-right"> <i class="aui-iconfont iconfont icon-iconfontweibo icon-bg-84c9a5 stetting-icon" style="font-size:12px; padding: 7px;"></i>微博登录授权<span class="aui-badge display-none" id="weibo_bd">已绑定</span></a>
 				</li>
 			</ul>
 		</div>
@@ -44,30 +47,75 @@
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript">
 		Zepto(function() {
-			$("#qq_token").on("click",function(){
-				var obj = api.require('qq');
-				obj.installed(function(ret,err){
-				    if(ret.status){
-				       obj.login(function(ret,err){
-					    api.alert({
-					        title: 'id和token',
-					        msg: ret.openId + ret.accessToken
-					    });
+			$("#qq_token").on("click", function() {
+				H.$getPrefs(function(ret, err) {
+					var retobj = eval('(' + ret.value + ')');
+					var obj = api.require('qq');
+					obj.installed(function(ret, err) {
+						if (ret.status) {
+							obj.login(function(ret, err) {
+								H.$showProgress();
+								H.$ajax(function(ret, err) {
+									if (ret.retCode == 0) {
+										H.$hideProgress();
+										H.$toast(ret.retDesc);
+									} else {
+										H.$toast(ret.retDesc);
+										$("#qq_bd").removeClass("display-none");
+										//更新用户信息
+										H.$setPrefs(function(ret, err) {
+										}, 'userinfo', JSON.stringify(ret.retValue));
+									}
+								}, "http://q.endzk.com/apis/app_dsf_token/token/" + retobj.token + "/qqToken/" + ret.accessToken);
+							});
+						} else {
+							H.$toast("抱歉您的手机上没有安装手机QQ，暂无法授权");
+						}
 					});
-				    }else{
-				        H.$toast("抱歉您的手机上没有安装手机QQ，暂无法授权");
-				    } 
-				});
+				}, 'userinfo');
 			});
-			$("#weixin_token").on("click",function(){
+			$("#weixin_token").on("click", function() {
 				H.$toast("敬请期待");
 			});
-			$("#weibo_token").on("click",function(){
-				
+			$("#weibo_token").on("click", function() {
+				H.$getPrefs(function(ret, err) {
+					var retobj = eval('(' + ret.value + ')');
+					var weibo = api.require('weibo');
+					weibo.auth(function(ret, err) {
+						if (ret.status) {
+							H.$showProgress();
+							H.$ajax(function(ret, err) {
+								if (ret.retCode == 0) {
+									H.$hideProgress();
+									H.$toast(ret.retDesc);
+								} else {
+									H.$toast(ret.retDesc);
+									$("#weibo_bd").removeClass("display-none");
+									//更新用户信息
+									H.$setPrefs(function(ret, err) {
+									}, 'userinfo', JSON.stringify(ret.retValue));
+								}
+							}, "http://q.endzk.com/apis/app_dsf_token/token/" + retobj.token + "/weiboToken/" + ret.token);
+							alert(JSON.stringify(ret));
+						} else {
+							H.$toast("抱歉绑定异常，请排查原因后再试");
+						}
+					});
+				}, 'userinfo');
 			});
 		});
 		H.ready(function() {
-			
+			H.$getPrefs(function(ret, err) {
+				var retobj = eval('(' + ret.value + ')');
+				//H.$toast(retobj);
+				if (retobj.qqtoken) {
+					$("#qq_bd").removeClass("display-none");
+					
+				}
+				if (retobj.weibotoken) {
+					$("#weibo_bd").removeClass("display-none");
+				}
+			}, 'userinfo');
 		});
 	</script>
 </html>

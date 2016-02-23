@@ -285,7 +285,6 @@
 										}, 'islogin', 'ok');
 										//存储用户信息
 										H.$setPrefs(function(ret, err) {
-											
 											H.$openWin('main', '../main.html');
 										}, 'userinfo', JSON.stringify(ret.retValue));
 									} else {
@@ -401,7 +400,12 @@
 										H.$alert(ret.retDesc);
 									} else {
 										H.$hideProgress();
-										H.$toast("认证通过！");
+										H.$setPrefs(function(ret, err) {
+										}, 'islogin', 'ok');
+										//存储用户信息
+										H.$setPrefs(function(ret, err) {
+											H.$openWin('main', '../main.html');
+										}, 'userinfo', JSON.stringify(ret.retValue));
 									}
 								}, 'http://q.endzk.com/apis/app_token/qq/1/token/' + ret.accessToken);
 							});
@@ -426,7 +430,12 @@
 									H.$alert(ret.retDesc);
 								} else {
 									H.$hideProgress();
-									H.$toast("认证通过！");
+									H.$setPrefs(function(ret, err) {
+									}, 'islogin', 'ok');
+									//存储用户信息
+									H.$setPrefs(function(ret, err) {
+										H.$openWin('main', '../main.html');
+									}, 'userinfo', JSON.stringify(ret.retValue));
 								}
 							}, 'http://q.endzk.com/apis/app_token/weibo/1/token/' + ret.token);
 						} else {
