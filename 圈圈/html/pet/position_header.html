@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<!--确保绘制和缩放的效果需要在<head>标签中添加 viewport 元数据标签-->
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title></title>
+		<!--引入aui框架win-->
+		<link rel="stylesheet" href="../../css/aui-win.css" />
+		<style>
+			#aui-footer {
+				background: #f7f7f7;
+				border-top: 1px solid #e2e2e2;
+			}
+		</style>
+	</head>
+	<body>
+		<!--标题栏 start-->
+		<header class="aui-bar aui-bar-nav aui-bar-dark" id='aui-header'>
+		<a class="aui-pull-left" onclick="H.$closeCurrentWin();"> <span class="aui-iconfont aui-icon-left"></span>返回 </a>
+			<div class="aui-title">
+				位置
+			</div>
+		</header>
+		
+		<!--标题栏 end-->
+		<footer class="aui-nav" id="aui-footer">
+			<ul class="aui-bar-tab">
+				<li class="active-1d9dd5" data-header="index-header" tapmode>
+					<span class="aui-iconfont iconfont icon-tabhomeiconhome01"></span>
+					<p>
+						首页
+					</p>
+				</li>
+				<li data-header="pet-header" tapmode>
+					<span class="aui-iconfont iconfont icon-iconpetsupplies"></span>
+					<p>
+						宠物
+					</p>
+				</li>
+				<li data-header="friend-header" tapmode>
+					<span class="aui-iconfont iconfont icon-iconfontfriend"></span>
+					<p>
+						友邻
+					</p>
+					<!--消息样式-->
+					<em class="brige" id="brige">8</em>
+					<!--消息样式-->
+				</li>
+				<li data-header="shop-header" tapmode>
+					<span class="aui-iconfont iconfont icon-icondianpushezhi"></span>
+					<p>
+						市场
+					</p>
+				</li>
+				<li data-header="me-header" tapmode>
+					<span class="aui-iconfont iconfont icon-iconhuiuyuan"></span>
+					<p>
+						我的
+					</p>
+				</li>
+			</ul>
+		</footer>
+	</body>
+	<!--封装了APICloud大量常用的类库，内置了DOM操作，模板引擎，表单验证等常用类库-->
+	<script type="text/javascript" src="../../script/AHelper.js"></script>
+	<script type="text/javascript">
+		//所有的代码都写在H.ready(function(){})
+		H.ready(function() {
+			// 快速打开窗口
+			H.$openFrameWithNav('aui-header', {
+				url : 'position_body.html',
+				name : 'position_body',
+				pageParam : H.$getPageParam()
+			});
+		});
+	</script>
+</html>

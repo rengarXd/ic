@@ -51,6 +51,9 @@
 			.img-cont .gender.max {
 				background: #f54171;
 			}
+			.aui-user-view-cell .aui-img-object{
+			    border-radius: 23%;
+			}
 		</style>
 	</head>
 	<body>
@@ -177,6 +180,15 @@
 				if (funcName) {
 					H.$openWin(funcName, funcName + '.html');
 				}
+			});
+		});
+		H.ready(function(){
+				/*下拉刷新*/
+			H.$dropdownToRefresh(function(ret, err) {
+				setTimeout(function() {
+					location.reload();
+					H.$recoverDropdownToNormal();
+				}, 1000);
 			});
 		});
 	</script>

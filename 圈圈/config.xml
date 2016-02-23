@@ -42,5 +42,9 @@
     <param name="urlScheme" value="wb4002923785"/>  
     <param name="apiKey" value="4002923785"/>  
     <param name="registUrl" value="http://www.quanquan.com"/> 
+  </feature>  
+  <feature name="bMap"> 
+    <param name="android_api_key" value="XCV0Afu7CG8g3MGCNfl1ONN9"/>  
+    <param name="ios_api_key" value="e6q7QUCL4AAzObIArdc5Zpsp"/> 
   </feature> 
 </widget>

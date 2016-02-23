@@ -8,18 +8,123 @@
 		<title>主body</title>
 		<!--引入aui框架win-->
 		<link rel="stylesheet" href="../../css/aui.css" />
+		<link rel="stylesheet" href="../../css/fonts/iconfont.css" />
+		<style>
+			.aui-bg-1f518b {
+				background: #1f518b;
+			}
+			.aui-bg-b5292a {
+				background: #b5292a;
+			}
+			.aui-bg-dedede {
+				background: #dedede;
+			}
+			.aui-bg-0b5743 {
+				background: #0b5743;
+			}
+			.aui-color-bbb {
+				color: #bbb !important;
+			}
+			.func-menu {
+				height: 84px;
+				background: #fff;
+				margin-bottom: 10px;
+			}
+			.item-func {
+				float: left;
+				width: 25%;
+				display: -webkit-box;
+				-webkit-box-orient: horizontal;
+				-webkit-box-pack: center;
+				-webkit-box-align: center;
+				display: box;
+				box-orient: horizontal;
+				box-pack: center;
+				box-align: center;
+				padding: 10px 0 10px 0;
+			}
+			.item-func p {
+				height: 42px;
+				width: 42px;
+				display: -webkit-box;
+				-webkit-box-orient: horizontal;
+				-webkit-box-pack: center;
+				-webkit-box-align: center;
+				display: box;
+				box-orient: horizontal;
+				box-pack: center;
+				box-align: center;
+				border-radius: 50%;
+				-webkit-border-radius: 50%;
+				margin: 0 auto;
+			}
+			.item-func p i {
+				color: #fff;
+				font-size: 20px;
+			}
+			.item-func span {
+				display: block;
+				padding: 5px 0 0 0;
+				font-size: 12px;
+				color: #666;
+				text-align: center
+			}
+			.item-func:active {
+				background: #f4f4f4;
+			}
+		</style>
 	</head>
 	<body>
-	<h2>23333</h2>
+		<div class="func-menu">
+			<div class="item-func" tapmode>
+				<div class="content-area">
+					<p class="aui-bg-info">
+						<i class="aui-iconfont aui-icon-copy"></i>
+					</p>
+					<span>诊疗</span>
+				</div>
+			</div>
+			<div class="item-func" tapmode >
+				<div class="content-area">
+					<p class="aui-bg-success">
+						<i class="iconfont icon-service1f"></i>
+					</p>
+					<span>问答</span>
+				</div>
+			</div>
+			<div class="item-func" id="position_header" tapmode >
+				<div class="content-area">
+					<p class="aui-bg-danger">
+						<i class="iconfont icon-position"></i>
+					</p>
+					<span>位置</span>
+				</div>
+			</div>
+			<div class="item-func" tapmode >
+				<div class="content-area">
+					<p class="aui-bg-warning">
+						<i class="iconfont icon-xixinguanli"></i>
+					</p>
+					<span>身份</span>
+				</div>
+			</div>
+		</div>
 	</body>
 	<!--封装了APICloud大量常用的类库，内置了DOM操作，模板引擎，表单验证等常用类库-->
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
+	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript">
+		Zepto(function() {
+			/*窗口打开处理 ok*/
+			$("#position_header").on("click", function() {
+				H.$openWin("position_header","../pet/position_header.html");
+			});
+		});
 		//所有的代码都写在H.ready(function(){})
 		H.ready(function() {
-			H.getPrefs(function(ret,err){
+			H.getPrefs(function(ret, err) {
 				H.$toast(ret.value);
-			},'userinfo');
+			}, 'userinfo');
 			/*下拉刷新*/
 			H.$dropdownToRefresh(function(ret, err) {
 				setTimeout(function() {
