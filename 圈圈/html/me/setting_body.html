@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/fonts/iconfont.css" />
+		<style>
+			.icon-bg-70a1cd {
+				background: #70a1cd !important;
+			}
+			.icon-bg-84c9a5 {
+				background: #84c9a5 !important;
+			}
+			.icon-bg-eac14d {
+				background: #eac14d !important;
+			}
+			.icon-bg-7658f8 {
+				background: #7658f8 !important;
+			}
+			.icon-bg-e6567a {
+				background: #e6567a !important;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="aui-content">
+			<ul class="aui-list-view aui-in">
+				<li class="aui-list-view-cell" tapmode id="qq_token">
+					<a class="aui-arrow-right"> <i class="aui-iconfont iconfont icon-qq icon-bg-e6567a stetting-icon" style="font-size:12px;padding: 7px;"></i>QQ登录授权</a>
+				</li>
+				<li class="aui-list-view-cell" tapmode id="weixin_token">
+					<a class="aui-arrow-right"> <i class="aui-iconfont iconfont icon-iconfontweixin icon-bg-7658f8 stetting-icon" style="font-size:12px; padding: 7px;"></i>微信登录授权</a>
+				</li>
+				<li class="aui-list-view-cell" tapmode id="weibo_token">
+					<a class="aui-arrow-right"> <i class="aui-iconfont iconfont icon-iconfontweibo icon-bg-84c9a5 stetting-icon" style="font-size:12px; padding: 7px;"></i>微博登录授权</a>
+				</li>
+			</ul>
+		</div>
+	</body>
+	<script type="text/javascript" src="../../script/AHelper.js"></script>
+	<script type="text/javascript" src="../../script/zepto.min.js"></script>
+	<script type="text/javascript">
+		Zepto(function() {
+			$("#qq_token").on("click",function(){
+				var obj = api.require('qq');
+				obj.installed(function(ret,err){
+				    if(ret.status){
+				       obj.login(function(ret,err){
+					    api.alert({
+					        title: 'id和token',
+					        msg: ret.openId + ret.accessToken
+					    });
+					});
+				    }else{
+				        H.$toast("抱歉您的手机上没有安装手机QQ，暂无法授权");
+				    } 
+				});
+			});
+			$("#weixin_token").on("click",function(){
+				H.$toast("敬请期待");
+			});
+			$("#weibo_token").on("click",function(){
+				
+			});
+		});
+		H.ready(function() {
+			
+		});
+	</script>
+</html>

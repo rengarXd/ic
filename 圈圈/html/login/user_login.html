@@ -285,9 +285,9 @@
 										}, 'islogin', 'ok');
 										//存储用户信息
 										H.$setPrefs(function(ret, err) {
-											H.$closeCurrentToWin('main');
+											
+											H.$openWin('main', '../main.html');
 										}, 'userinfo', JSON.stringify(ret.retValue));
-										
 									} else {
 										H.$toast("抱歉，手机号信息错误，请核对！");
 									}
@@ -361,7 +361,7 @@
 											}, 'islogin', 'ok');
 											//存储用户信息
 											H.$setPrefs(function(ret, err) {
-												H.$closeCurrentToWin('main');
+												H.$openWin('main', '../main.html');
 											}, 'userinfo', JSON.stringify(ret.retValue));
 										} else {
 											H.$toast("抱歉，手机号信息错误，请核对！");

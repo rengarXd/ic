@@ -146,6 +146,10 @@
 		});
 		//所有的代码都写在H.ready(function(){})
 		H.ready(function() {
+			api.setStatusBarStyle({
+				style: 'light',
+				color:'#ffffff'
+            });
 			H.$openFrameGroupWithNav(function(ret, err) {
 				setHeaderFootInfo(ret.index);
 			}, 'index-header', {
@@ -172,7 +176,7 @@
 					bounces : false
 				}],
 				preload : 5,
-				scrollEnabled : true
+				scrollEnabled : false
 			}, 'aui-footer');
 			// 断开网络
 			H.$addEventListener(function(ret, err) {

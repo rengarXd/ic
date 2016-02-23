@@ -8,9 +8,68 @@
 		<title>我的body</title>
 		<!--引入aui框架-->
 		<link rel="stylesheet" href="../../css/aui.css" />
+		<link rel="stylesheet" href="../../css/fonts/iconfont.css"/>
+		<style>
+			.stetting-icon {
+				font-size: 15px;
+			}
+			.setting_AF2800 {
+				background: #AF2800;
+			}
+			.setting_00A4E2 {
+				background: #00A4E2;
+			}
+			.icon-bg-70a1cd {
+				background: #70a1cd !important;
+			}
+			.icon-bg-84c9a5 {
+				background: #84c9a5 !important;
+			}
+			.icon-bg-eac14d {
+				background: #eac14d !important;
+			}
+			.icon-bg-7658f8 {
+				background: #7658f8 !important;
+			}
+			.icon-bg-e6567a {
+				background: #e6567a !important;
+			}
+		</style>
 	</head>
 	<body>
-		<h1>我的主体</h1>
-	
+	<div class="aui-content">
+			<ul class="aui-list-view aui-in">
+				<li class="aui-list-view-cell" tapmode data-funcName="myProfile_head">
+					<a class="aui-arrow-right"> <i class="aui-iconfont iconfont icon-iconshezhi setting_AF2800 stetting-icon" style="font-size:12px;padding: 7px;"></i>个人资料 </a>
+				</li>
+				<li class="aui-list-view-cell" tapmode data-funcName="setting_head">
+					<a class="aui-arrow-right"> <i class="aui-iconfont iconfont icon-iconshezhi setting_00A4E2 stetting-icon" style="font-size:12px; padding: 7px;"></i>设置 </a>
+				</li>
+			</ul>
+		</div>
+		<div class="aui-content">
+			<ul class="aui-list-view aui-in">
+				<li class="aui-list-view-cell" tapmode data-funcName="myProfile_head">
+					<a class="aui-arrow-right"> <i class="aui-iconfont iconfont icon-iconbangdingyonghu icon-bg-e6567a stetting-icon" style="font-size:12px;padding: 7px;"></i>关于我们 </a>
+				</li>
+				<li class="aui-list-view-cell" tapmode data-funcName="myProfile_head">
+					<a class="aui-arrow-right"> <i class="aui-iconfont iconfont icon-service1f icon-bg-7658f8 stetting-icon" style="font-size:12px; padding: 7px;"></i>推荐有奖 </a>
+				</li>
+			</ul>
+		</div>
+		<script type="text/javascript" src="../../script/AHelper.js"></script>
+		<script type="text/javascript" src="../../script/zepto.min.js"></script>
+		<script type="text/javascript">
+			Zepto(function($) {
+				$(".aui-list-view").on("tap", "li", function() {
+					var funcName = $(this).attr("data-funcName");
+					if (funcName) {
+						H.$openWin(funcName, funcName + '.html');
+					}
+				});
+			});
+			H.ready(function() {
+			});
+		</script>
 	</body>
-	</html>
+</html>
