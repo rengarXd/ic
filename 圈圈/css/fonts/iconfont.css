@@ -16,8 +16,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 .icon-qq:before { content: "\e613"; }
+.icon-activity:before { content: "\e623"; }
 .icon-iconpetsupplies:before { content: "\e620"; }
 .icon-saoyisao:before { content: "\e612"; }
+.icon-lbsfill:before { content: "\e624"; }
 .icon-iconfontweixin:before { content: "\e614"; }
 .icon-iconfontweibo:before { content: "\e615"; }
 .icon-position:before { content: "\e610"; }
