@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../../css/aui/aui-win.css" />
+		<style type="text/css">
+		</style>
+	</head>
+	<body>
+		<div id="statu-bar"></div>
+	</body>
+	<script type="text/javascript" src="../../script/AHelper.js"></script>
+	<script type="text/javascript" src="../../script/zepto.min.js"></script>
+	<script type="text/javascript">
+		H.ready(function() {
+			H.$fixStatusBar(function(offset) {
+			// 打开身体
+				H.$openFrame('setting_body', 'setting_body.html', {
+					paddingTop : offset.h + 46
+				}, {
+					x : 0,
+					y : 0,
+					h:api.frameHeight,
+					w:api.frameWidth
+				});
+				// 打开头部，并设置顶部高度
+				H.$openFrame('setting_head', 'setting_head.html', null, {
+					x : 0,
+					y : 0,
+					h : offset.h + 46
+				});
+				H.$setFrameStatus("setting_head", true);
+			}, 'statu-bar');
+		});
+	</script>
+</html>

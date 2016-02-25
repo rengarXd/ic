@@ -38,41 +38,43 @@
 				border-top: 1px solid #e2e2e2;
 			}
 			.aui-bar-1d9dd5 {
-				background: #4385f6;
+				background: #1786FF;
 			}
 			#aui-footer li.active-1d9dd5, #aui-footer li.active-1d9dd5 span.aui-iconfont {
 				color: #4385f6 !important;
 			}
-			.icon-size{ font-size:26px}
-			#index_massage span:active{ color: #34495E}
+			.icon-size {
+				font-size: 26px
+			}
+			#index_massage span:active {
+				color: #34495E
+			}
 		</style>
 	</head>
 	<body>
 		<!--标题栏 start-->
-		<header class="aui-bar aui-bar-nav aui-bar-dark header" id='index-header'>
+		<header class="aui-bar aui-bar-nav aui-bar-1d9dd5 header" id='index-header'>
 			<div class="aui-title">
 				圈圈
 			</div>
-			  <a class="aui-pull-right" id="index_massage">
-		        <span class="aui-iconfont aui-icon-message"></span>
-		    </a>
+			<a class="aui-pull-right" id="index_massage"> <span class="aui-iconfont aui-icon-message"></span> </a>
 		</header>
-		<header class="aui-bar aui-bar-nav aui-bar-dark display-none header" id='pet-header' style="background: #1786FF">
-			<div class="aui-title">
+		<header class="aui-bar aui-bar-nav aui-bar-1d9dd5 display-none header" id='pet-header' style="background: #1786FF">
+			<div class="aui-title" style="font-size: 12px;">
 				硬件ID在线  电量56%
 			</div>
 		</header>
-		<header class="aui-bar aui-bar-nav aui-bar-dark display-none header" id='friend-header'>
+		<header class="aui-bar aui-bar-nav aui-bar-1d9dd5 display-none header" id='friend-header'>
 			<div class="aui-title">
 				友邻
 			</div>
 		</header>
-		<header class="aui-bar aui-bar-nav aui-bar-dark display-none header" id='shop-header'>
+		<header class="aui-bar aui-bar-nav aui-bar-1d9dd5 display-none header" id='shop-header'>
 			<div class="aui-title">
 				市场
 			</div>
 		</header>
-		<header class="aui-bar aui-bar-nav aui-bar-dark display-none header" id='me-header'>
+		<header class="aui-bar aui-bar-nav aui-bar-1d9dd5 display-none header" id='me-header'>
 			<div class="aui-title">
 				我的
 			</div>
@@ -81,19 +83,19 @@
 		<!--标题栏 end-->
 		<footer class="aui-nav" id="aui-footer">
 			<ul class="aui-bar-tab">
-				<li class="active-1d9dd5" data-header="index-header" tapmode>
+				<li class="active-1d9dd5" data-header="index-header" data-frameName="index" tapmode>
 					<span class="aui-iconfont iconfont icon-tabhomeiconhome01"></span>
 					<p>
 						首页
 					</p>
 				</li>
-				<li data-header="pet-header" tapmode>
+				<li data-header="pet-header" data-frameName="pet" tapmode>
 					<span class="aui-iconfont iconfont icon-iconpetsupplies"></span>
 					<p>
 						宠物
 					</p>
 				</li>
-				<li data-header="friend-header" tapmode>
+				<li data-header="friend-header" data-frameName="friend" tapmode>
 					<span class="aui-iconfont iconfont icon-iconfontfriend"></span>
 					<p>
 						友邻
@@ -102,13 +104,13 @@
 					<em class="brige" id="brige">8</em>
 					<!--消息样式-->
 				</li>
-				<li data-header="shop-header" tapmode>
+				<li data-header="shop-header" data-frameName="shop" tapmode>
 					<span class="aui-iconfont iconfont icon-icondianpushezhi"></span>
 					<p>
 						市场
 					</p>
 				</li>
-				<li data-header="me-header" tapmode>
+				<li data-header="me-header" data-frameName="me" tapmode>
 					<span class="aui-iconfont iconfont icon-iconhuiuyuan"></span>
 					<p>
 						我的
@@ -121,62 +123,54 @@
 	<script type="text/javascript" src="../script/AHelper.js"></script>
 	<script type="text/javascript" src="../script/zepto.min.js"></script>
 	<script type="text/javascript">
-		var groupName = "indexGroup";
-		function setHeaderFootInfo(index) {
-			var that = $("#aui-footer li").eq(index);
-			var headerId = that.attr("data-header");
-			that.addClass("active-1d9dd5").siblings("#aui-footer li").removeClass("active-1d9dd5");
-			$("#" + headerId).removeClass("display-none").siblings(".header").addClass("display-none");
-			// 设置沉浸式状态栏
-			H.$fixStatusBar(function(offset) {
-			}, headerId);
+		//设置数组
+		var frames = [];
+		// 显示指定frame
+		function showFrame(frameName) {
+			$("#aui-footer li").each(function() {
+				var fName = $(this).attr("data-frameName");
+				if (fName != frameName) {
+					H.$setFrameStatus(fName, true);
+				} else {
+					H.$setFrameStatus(fName, false);
+				}
+			});
 		}
 
 		Zepto(function($) {
-			$("#aui-footer li").on("tap", function() {
-				var index = $(this).index();
-				setHeaderFootInfo(index);
-				H.$setFrameGroupIndex(groupName, index, true);
+			$("#aui-footer").on("tap", "li", function() {
+				var that = $(this);
+				var headerId = that.attr("data-header");
+				var frameName = that.attr("data-frameName");
+				that.addClass("active-1d9dd5").siblings("#aui-footer li").removeClass("active-1d9dd5");
+				$("#" + headerId).removeClass("display-none").siblings(".header").addClass("display-none");
+				showFrame(frameName);
+				if (frames.indexOf(frameName) == -1) {
+					frames.push(frameName);
+					// 打开新的frame
+					H.$openFrameWithNav(headerId, {
+						url : frameName + "/" + frameName + "_body.html",
+						name : frameName,
+						bounces : false
+					}, 'aui-footer');
+				}
 			});
-			
-			$("#index_massage").on('click',function(){
-				H.$toast("点击消息按钮");
-				H.$openWin('massage_header','index/massage_header.html');
+			$("#index_massage").on('click', function() {
+				H.$openWin('massage_header', 'index/massage_header.html');
 			});
 		});
 		//所有的代码都写在H.ready(function(){})
 		H.ready(function() {
 			api.setStatusBarStyle({
-				style: 'light',
-				color:'#ffffff'
-            });
-			H.$openFrameGroupWithNav(function(ret, err) {
-				setHeaderFootInfo(ret.index);
-			}, 'index-header', {
-				name : groupName,
-				frames : [{
-					url : 'index/main_body.html',
-					name : 'main_body',
-					bounces : true
-				}, {
-					url : 'pet/pet_body.html',
-					name : 'pet_body',
-					bounces : false
-				}, {
-					url : 'friend/friend_body.html',
-					name : 'friend_body',
-					bounces : false
-				}, {
-					url : 'shop/shop_body.html',
-					name : 'shop_body',
-					bounces : false
-				}, {
-					url : 'me/me_body.html',
-					name : 'me_body',
-					bounces : false
-				}],
-				preload : 5,
-				scrollEnabled : false
+				style : 'light',
+				color : '#ffffff'
+			});
+			frames.push('contact');
+			// 打开新的frame
+			H.$openFrameWithNav('index-header', {
+				url : 'index/index' + "_body.html",
+				name : 'index',
+				bounces : true
 			}, 'aui-footer');
 			// 断开网络
 			H.$addEventListener(function(ret, err) {
