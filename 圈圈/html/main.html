@@ -84,19 +84,19 @@
 		<footer class="aui-nav" id="aui-footer">
 			<ul class="aui-bar-tab">
 				<li class="active-1d9dd5" data-header="index-header" data-frameName="index" tapmode>
-					<span class="aui-iconfont iconfont icon-tabhomeiconhome01"></span>
+					<span class="aui-iconfont iconfont icon-iocnshangpinliebiao"></span>
 					<p>
 						首页
 					</p>
 				</li>
 				<li data-header="pet-header" data-frameName="pet" tapmode>
-					<span class="aui-iconfont iconfont icon-iconpetsupplies"></span>
+					<span class="aui-iconfont iconfont icon-iocnshangpinliebiao"></span>
 					<p>
 						宠物
 					</p>
 				</li>
 				<li data-header="friend-header" data-frameName="friend" tapmode>
-					<span class="aui-iconfont iconfont icon-iconfontfriend"></span>
+					<span class="aui-iconfont iconfont icon-iocnshangpinliebiao"></span>
 					<p>
 						友邻
 					</p>
@@ -105,13 +105,13 @@
 					<!--消息样式-->
 				</li>
 				<li data-header="shop-header" data-frameName="shop" tapmode>
-					<span class="aui-iconfont iconfont icon-icondianpushezhi"></span>
+					<span class="aui-iconfont iconfont icon-iocnshangpinliebiao"></span>
 					<p>
 						市场
 					</p>
 				</li>
 				<li data-header="me-header" data-frameName="me" tapmode>
-					<span class="aui-iconfont iconfont icon-iconhuiuyuan"></span>
+					<span class="aui-iconfont iconfont icon-iocnshangpinliebiao"></span>
 					<p>
 						我的
 					</p>
@@ -174,11 +174,11 @@
 			}, 'aui-footer');
 			// 断开网络
 			H.$addEventListener(function(ret, err) {
-				H.$alert('已断开网络');
+				H.$toast('已断开网络');
 			}, 'offline');
 			// 连接网络
 			H.$addEventListener(function(ret, err) {
-				H.$alert('已连接上网络');
+				H.$toast('已连接上网络');
 			}, 'online');
 			H.$dblclickToCloseApp(function() {
 				//双击退出的时候执行的操作

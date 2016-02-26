@@ -31,13 +31,13 @@
 	<body>
 		<div class="aui-content">
 			<ul class="aui-list-view aui-in">
-				<li class="aui-list-view-cell" tapmode id="qq_token">
+				<li class="aui-list-view-cell" tapmode id="qq_token" status="1">
 					<a class="aui-arrow-right"> <i class="aui-iconfont iconfont icon-qq icon-bg-e6567a stetting-icon" style="font-size:12px;padding: 7px;"></i>QQ登录授权<span class="aui-badge display-none" id="qq_bd">已绑定</span></a>
 				</li>
-				<li class="aui-list-view-cell" tapmode id="weixin_token">
+				<li class="aui-list-view-cell" tapmode id="weixin_token" status="1">
 					<a class="aui-arrow-right"> <i class="aui-iconfont iconfont icon-iconfontweixin icon-bg-7658f8 stetting-icon" style="font-size:12px; padding: 7px;"></i>微信登录授权</a>
 				</li>
-				<li class="aui-list-view-cell" tapmode id="weibo_token">
+				<li class="aui-list-view-cell" tapmode id="weibo_token" status="1">
 					<a class="aui-arrow-right"> <i class="aui-iconfont iconfont icon-iconfontweibo icon-bg-84c9a5 stetting-icon" style="font-size:12px; padding: 7px;"></i>微博登录授权<span class="aui-badge display-none" id="weibo_bd">已绑定</span></a>
 				</li>
 			</ul>
@@ -49,29 +49,36 @@
 		Zepto(function() {
 			$("#qq_token").on("click", function() {
 				H.$getPrefs(function(ret, err) {
-					var retobj = eval('(' + ret.value + ')');
-					var obj = api.require('qq');
-					obj.installed(function(ret, err) {
-						if (ret.status) {
-							obj.login(function(ret, err) {
-								H.$showProgress();
-								H.$ajax(function(ret, err) {
-									if (ret.retCode == 0) {
-										H.$hideProgress();
-										H.$toast(ret.retDesc);
-									} else {
-										H.$toast(ret.retDesc);
-										$("#qq_bd").removeClass("display-none");
-										//更新用户信息
-										H.$setPrefs(function(ret, err) {
-										}, 'userinfo', JSON.stringify(ret.retValue));
-									}
-								}, "http://q.endzk.com/apis/app_dsf_token/token/" + retobj.token + "/qqToken/" + ret.accessToken);
-							});
-						} else {
-							H.$toast("抱歉您的手机上没有安装手机QQ，暂无法授权");
-						}
-					});
+					var ss = ret.qqtoken;
+					if (!ss) {
+						var retobj = eval('(' + ret.value + ')');
+						var obj = api.require('qq');
+						obj.installed(function(ret, err) {
+							if (ret.status) {
+								obj.login(function(ret, err) {
+									H.$showProgress();
+									H.$getPrefs(function(ret, err) {
+										H.$ajax(function(ret, err) {
+											var rtemp = ret;
+											H.$hideProgress();
+											if (ret.retCode == 0) {
+												H.$toast(ret.retDesc);
+											} else {
+												H.$toast(ret.retDesc);
+												$("#qq_bd").removeClass("display-none");
+												H.$alert(JSON.stringify(ret.retValue));
+												//更新用户信息
+												H.$setPrefs(function(ret, err) {
+												}, 'userinfo', JSON.stringify(rtemp.retValue));
+											}
+										}, "http://q.endzk.com/apis/app_dsf_token/token/" + ret.token + "/qqToken/" + ret.accessToken);
+									}, 'userinfo');
+								});
+							} else {
+								H.$toast("抱歉您的手机上没有安装手机QQ，暂无法授权");
+							}
+						});
+					}
 				}, 'userinfo');
 			});
 			$("#weixin_token").on("click", function() {
@@ -79,28 +86,31 @@
 			});
 			$("#weibo_token").on("click", function() {
 				H.$getPrefs(function(ret, err) {
-					var retobj = eval('(' + ret.value + ')');
-					var weibo = api.require('weibo');
-					weibo.auth(function(ret, err) {
-						if (ret.status) {
-							H.$showProgress();
-							H.$ajax(function(ret, err) {
-								if (ret.retCode == 0) {
+					var ss = ret.weibotoken;
+					if (!ss) {
+						var retobj = eval('(' + ret.value + ')');
+						var weibo = api.require('weibo');
+						weibo.auth(function(ret, err) {
+							if (ret.status) {
+								H.$showProgress();
+								H.$ajax(function(ret, err) {
 									H.$hideProgress();
-									H.$toast(ret.retDesc);
-								} else {
-									H.$toast(ret.retDesc);
-									$("#weibo_bd").removeClass("display-none");
-									//更新用户信息
-									H.$setPrefs(function(ret, err) {
-									}, 'userinfo', JSON.stringify(ret.retValue));
-								}
-							}, "http://q.endzk.com/apis/app_dsf_token/token/" + retobj.token + "/weiboToken/" + ret.token);
-							alert(JSON.stringify(ret));
-						} else {
-							H.$toast("抱歉绑定异常，请排查原因后再试");
-						}
-					});
+									if (ret.retCode == 0) {
+										H.$toast(ret.retDesc);
+									} else {
+										H.$toast(ret.retDesc);
+										$("#weibo_bd").removeClass("display-none");
+										//更新用户信息
+										H.$setPrefs(function(ret, err) {
+										}, 'userinfo', JSON.stringify(ret.retValue));
+									}
+								}, "http://q.endzk.com/apis/app_dsf_token/token/" + retobj.token + "/weiboToken/" + ret.token);
+								//							alert(JSON.stringify(ret));
+							} else {
+								H.$toast("抱歉绑定异常，请排查原因后再试");
+							}
+						});
+					}
 				}, 'userinfo');
 			});
 		});
@@ -110,7 +120,6 @@
 				//H.$toast(retobj);
 				if (retobj.qqtoken) {
 					$("#qq_bd").removeClass("display-none");
-					
 				}
 				if (retobj.weibotoken) {
 					$("#weibo_bd").removeClass("display-none");

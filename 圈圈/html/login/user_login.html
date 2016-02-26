@@ -195,9 +195,9 @@
 				<div class="aui-col-xs-6" style="text-align: left">
 					<a href="#">变更登录名</a>
 				</div>
-				<div class="aui-col-xs-6" style="text-align: right">
-					<a href="#">注册新账号</a>
-				</div>
+			<!--	<div class="aui-col-xs-6" style="text-align: right">
+					<a href="#" id="register">注册新账号</a>
+				</div>-->
 			</div>
 		</div>
 		<div class="aui-content" style="margin-top: 30px;">
@@ -305,8 +305,8 @@
 					H.$api.attr(sendVerify, 'status', '0');
 					H.$api.removeAttr(sendVerify, 'onclick');
 					api.parseTapmode();
-					H.$api.html(sendVerify, '<span id="getVerify">120</span>S');
-					times = 119;
+					H.$api.html(sendVerify, '<span id="getVerify">60</span>S');
+					times = 59;
 					isinerval = setInterval("CountDown()", 1000);
 				} else {
 				}
@@ -352,37 +352,36 @@
 							smsVerify.register(function(ret, err) {
 								if (ret.status) {
 									H.$showProgress();
-									H.$ajax(function(ret, err) {
-										H.$hideProgress();
-										if (ret.retCode == 1) {
-											//设置偏好值islogin
-											H.$setPrefs(function(ret, err) {
-											}, 'islogin', 'ok');
-											//存储用户信息
-											H.$setPrefs(function(ret, err) {
-												H.$openWin('main', '../main.html');
-											}, 'userinfo', JSON.stringify(ret.retValue));
+									//校验验证码
+									smsVerify.verify({
+										phone : tel,
+										country : "86",
+										code : code
+									}, function(ret, err) {
+										if (ret.status) {
+											H.$ajax(function(ret, err) { 
+												H.$hideProgress();
+												if (ret.retCode == 1) {
+													//设置偏好值islogin
+													H.$setPrefs(function(ret, err) {
+													}, 'islogin', 'ok');
+													//存储用户信息
+													H.$setPrefs(function(ret, err) {
+														H.$openWin('main', '../main.html');
+													}, 'userinfo', JSON.stringify(ret.retValue));
+												} else {
+													H.$hideProgress();
+													H.$toast("抱歉，手机号信息错误，请核对！");
+												}
+											}, 'http://q.endzk.com/apis/user_login/tel/' + tel + '/code/' + code);
 										} else {
-											H.$toast("抱歉，手机号信息错误，请核对！");
+											H.$hideProgress();
+											H.$toast("抱歉" + err.msg);
 										}
-									}, 'http://q.endzk.com/apis/user_login/tel/' + tel + '/code/' + code);
-								} else {
-									H.$tosat("抱歉，登录异常，请稍后再试！");
-								}
-							});
-							//校验验证码
-							smsVerify.verify({
-								phone : tel,
-								country : "86",
-								code : code
-							}, function(ret, err) {
-								if (ret.status) {
-									H.$ajax({
-									}, "");
-								} else {
-									api.alert({
-										msg : err.code + ' ' + err.msg
 									});
+								} else {
+									H.$hideProgress();
+									H.$tosat("抱歉，登录异常，请稍后再试！");
 								}
 							});
 						}

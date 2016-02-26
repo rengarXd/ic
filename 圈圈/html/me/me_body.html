@@ -37,7 +37,7 @@
 		</style>
 	</head>
 	<body>
-	<div class="aui-content">
+		<div class="aui-content">
 			<ul class="aui-list-view aui-in">
 				<li class="aui-list-view-cell" tapmode data-funcName="myProfile_head">
 					<a class="aui-arrow-right"> <i class="aui-iconfont iconfont icon-iconshezhi setting_AF2800 stetting-icon" style="font-size:12px;padding: 7px;"></i>个人资料 </a>
@@ -57,6 +57,11 @@
 				</li>
 			</ul>
 		</div>
+		<div class="aui-content-padded">
+			<button class="aui-btn aui-btn-danger aui-btn-block" id="logout">
+				退出登录
+			</button>
+		</div>
 		<script type="text/javascript" src="../../script/AHelper.js"></script>
 		<script type="text/javascript" src="../../script/zepto.min.js"></script>
 		<script type="text/javascript">
@@ -66,6 +71,12 @@
 					if (funcName) {
 						H.$openWin(funcName, funcName + '.html');
 					}
+				});
+				$("#logout").on("click", function() {
+					H.$removePrefs(function(ret, err) {
+						
+						H.$openWin('user_login','../login/user_login.html');
+					}, 'islogin');
 				});
 			});
 			H.ready(function() {
