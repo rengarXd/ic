@@ -34,9 +34,39 @@
 			.icon-bg-e6567a {
 				background: #e6567a !important;
 			}
+			.avatar_pic {
+				width: 45px;
+				height: 45px;
+				border-radius: 50%
+			}
+			.aui-grid-sixteen:after {
+				border: none;
+			}
+			.aui-grid-sixteen li:after {
+				border: none;
+			}
+			.aui-grid-sixteen li .aui-iconfont {
+				color: #ffffff;
+				width: 38px;
+				height: 38px;
+				line-height: 38px;
+				border-radius: 50%;
+				font-size: 20px;
+			}
 		</style>
 	</head>
 	<body>
+		<div class="usercenter_avatar" style="margin-top:6px;">
+			<ul class="aui-list-view">
+				<li class="aui-list-view-cell" tapmode>
+					<i style="float: left"><img src="../../image/demo2.png" class="avatar_pic" /></i>
+					<span style="float:left;margin-left: 10px;">郎中令
+						<p>
+							登录账号：15738364224
+						</p></span>
+				</li>
+			</ul>
+		</div>
 		<div class="aui-content">
 			<ul class="aui-list-view aui-in">
 				<li class="aui-list-view-cell" tapmode data-funcName="myProfile_head">
@@ -74,8 +104,7 @@
 				});
 				$("#logout").on("click", function() {
 					H.$removePrefs(function(ret, err) {
-						
-						H.$openWin('user_login','../login/user_login.html');
+						H.$openWin('user_login', '../login/user_login.html');
 					}, 'islogin');
 				});
 			});
