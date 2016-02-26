@@ -10,6 +10,9 @@
 		<link rel="stylesheet" href="../css/aui-win.css" />
 		<link rel="stylesheet" href="../css/fonts/iconfont.css" />
 		<style>
+			body {
+				background:#ffffff;
+			}
 			.display-none {
 				display: none;
 			}
@@ -34,14 +37,18 @@
 				font-size: 25px;
 			}
 			#aui-footer {
-				background: #f7f7f7;
-				border-top: 1px solid #e2e2e2;
+				background: #e5e5e5;
+				/*border-top: 1px solid #e2e2e2;*/
 			}
 			.aui-bar-1d9dd5 {
 				background: #1786FF;
 			}
+			.aui_bar_f4f4f4 {
+				background: #f4f4f4;
+			}
 			#aui-footer li.active-1d9dd5, #aui-footer li.active-1d9dd5 span.aui-iconfont {
-				color: #4385f6 !important;
+				color: #ff0000 !important;
+				background: #fff;
 			}
 			.icon-size {
 				font-size: 26px
@@ -49,15 +56,49 @@
 			#index_massage span:active {
 				color: #34495E
 			}
+			.aui-bar .aui-iconfont {
+				line-height: 30px;
+			}
+			.aui-bar {
+				line-height: 0;
+			}
+			.index_serach {
+				font-size: 12px;
+				border: 1px solid #dfdfdf;
+				margin-top: 8px;
+				height: 28px;
+				border-radius: 5px;
+				margin-left: 8px;
+				line-height: 45px;
+			}
+			.aui-bar .aui-title {
+				right: 50px;
+				left: 0;
+				margin-top: 4px;
+				margin-left: 5px;
+			}
+			.index_serach input {
+				width: 100%;
+			}
+			.massages {
+				color: #999;
+				font-size: 12px;
+			}
+			#aui-footer .aui-bar-tab {
+				background: #e5e5e5;
+			}
 		</style>
 	</head>
 	<body>
 		<!--标题栏 start-->
-		<header class="aui-bar aui-bar-nav aui-bar-1d9dd5 header" id='index-header'>
-			<div class="aui-title">
-				圈圈
+		<header class="aui-bar aui-bar-nav aui_bar_f4f4f4 header" id='index-header'>
+			<div class="aui-title index_serach">
+				<input style="" />
 			</div>
-			<a class="aui-pull-right" id="index_massage"> <span class="aui-iconfont aui-icon-message"></span> </a>
+			<a class="aui-pull-right" id="index_massage"> <span class="aui-iconfont aui-icon-message" style="color:#999999"></span>
+			<p class="massages">
+				消息
+			</p></a>
 		</header>
 		<header class="aui-bar aui-bar-nav aui-bar-1d9dd5 display-none header" id='pet-header' style="background: #1786FF">
 			<div class="aui-title" style="font-size: 12px;">
@@ -84,19 +125,19 @@
 		<footer class="aui-nav" id="aui-footer">
 			<ul class="aui-bar-tab">
 				<li class="active-1d9dd5" data-header="index-header" data-frameName="index" tapmode>
-					<span class="aui-iconfont iconfont icon-iocnshangpinliebiao"></span>
+					<span class="aui-iconfont iconfont icon-shouye"></span>
 					<p>
 						首页
 					</p>
 				</li>
 				<li data-header="pet-header" data-frameName="pet" tapmode>
-					<span class="aui-iconfont iconfont icon-iocnshangpinliebiao"></span>
+					<span class="aui-iconfont iconfont icon-1"></span>
 					<p>
 						宠物
 					</p>
 				</li>
 				<li data-header="friend-header" data-frameName="friend" tapmode>
-					<span class="aui-iconfont iconfont icon-iocnshangpinliebiao"></span>
+					<span class="aui-iconfont iconfont icon-pengyouquan"></span>
 					<p>
 						友邻
 					</p>
@@ -105,13 +146,13 @@
 					<!--消息样式-->
 				</li>
 				<li data-header="shop-header" data-frameName="shop" tapmode>
-					<span class="aui-iconfont iconfont icon-iocnshangpinliebiao"></span>
+					<span class="aui-iconfont iconfont icon-gouwuche"></span>
 					<p>
 						市场
 					</p>
 				</li>
 				<li data-header="me-header" data-frameName="me" tapmode>
-					<span class="aui-iconfont iconfont icon-iocnshangpinliebiao"></span>
+					<span class="aui-iconfont iconfont icon-wode"></span>
 					<p>
 						我的
 					</p>

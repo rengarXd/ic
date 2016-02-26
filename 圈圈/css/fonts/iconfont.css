@@ -19,10 +19,15 @@
 .icon-activity:before { content: "\e623"; }
 .icon-iconpetsupplies:before { content: "\e620"; }
 .icon-saoyisao:before { content: "\e612"; }
+.icon-gouwuche:before { content: "\e62b"; }
+.icon-1:before { content: "\e626"; }
 .icon-lbsfill:before { content: "\e624"; }
+.icon-pengyouquan:before { content: "\e628"; }
+.icon-shouye:before { content: "\e629"; }
 .icon-iconfontweixin:before { content: "\e614"; }
 .icon-iconfontweibo:before { content: "\e615"; }
 .icon-position:before { content: "\e610"; }
+.icon-wode:before { content: "\e62a"; }
 .icon-icon:before { content: "\e600"; }
 .icon-iconfuzhi:before { content: "\e601"; }
 .icon-icon2fuzhi:before { content: "\e602"; }
