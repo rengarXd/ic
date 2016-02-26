@@ -9,6 +9,7 @@
 		<!--引入aui框架win-->
 		<link rel="stylesheet" href="../../css/aui.css" />
 		<link rel="stylesheet" href="../../css/fonts/iconfont.css" />
+		<link rel="stylesheet" href="../../css/swiper/swiper.min.css" />
 		<style>
 			.aui-bg-1f518b {
 				background: #1f518b;
@@ -26,9 +27,11 @@
 				color: #bbb !important;
 			}
 			.func-menu {
-				height: 84px;
+				height: 90px;
 				background: #fff;
 				margin-bottom: 10px;
+				box-shadow: inset 0 1px 0 #FFFFFF, 0 3px 5px rgba(236, 236, 236, 0.2);
+				border-bottom: 1px solid #E4E4E4;
 			}
 			.item-func {
 				float: left;
@@ -44,8 +47,8 @@
 				padding: 10px 0 10px 0;
 			}
 			.item-func p {
-				height: 42px;
-				width: 42px;
+				height: 47px;
+				width: 47px;
 				display: -webkit-box;
 				-webkit-box-orient: horizontal;
 				-webkit-box-pack: center;
@@ -54,32 +57,161 @@
 				box-orient: horizontal;
 				box-pack: center;
 				box-align: center;
-				border-radius: 50%;
-				-webkit-border-radius: 50%;
+				border-radius: 37%;
+				-webkit-border-radius: 37%;
 				margin: 0 auto;
 			}
 			.item-func p i {
 				color: #fff;
-				font-size: 20px;
+				font-size: 28px;
 			}
 			.item-func span {
 				display: block;
 				padding: 5px 0 0 0;
-				font-size: 12px;
+				font-size: 14px;
 				color: #666;
 				text-align: center
 			}
 			.item-func:active {
 				background: #f4f4f4;
 			}
+			.swiper-container {
+				width: 100%;
+				height: 100px;
+			}
+			.swiper-container .swiper-slide {
+				background-position: center;
+				background-size: cover;
+				-webkit-background-size: cover;
+			}
+			.banner-container .swiper-pagination {
+				bottom: 0;
+			}
+			.swiper-pagination-bullet-active {
+				background: #fefb62
+			}
+			.swiper-container-horizontal > .swiper-pagination {
+				bottom: 2px;
+			}
+			.twkb {
+				padding: 11px 20px;
+				margin-top: 10px;
+				border-top: 1px solid #e0e0e0;
+				background: #fff;
+				box-shadow: inset 0 1px 0 #FFFFFF, 0 3px 5px rgba(236, 236, 236, 0.2);
+				border-bottom: 1px solid #E4E4E4;
+			}
+			.index_more {
+				font-size: 12px;
+				background: #da6bc9;
+				color: #fff;
+				padding: 2px 6px;
+				border-radius: 8px;
+			}
+			.index_hb a {
+				color: #555555
+			}
+			.dian_0 {
+				width: 9px;
+				height: 9px;
+				background: #ff5b1c;
+				float: left;
+				margin-top: 8px;
+				margin-right: 6px;
+				border-radius: 3px;
+			}
+			.dian_1 {
+				width: 9px;
+				height: 9px;
+				background: #ffc80a;
+				float: left;
+				margin-top: 8px;
+				margin-right: 6px;
+				border-radius: 3px;
+			}
+			.dian_2 {
+				width: 9px;
+				height: 9px;
+				background: #5acace;
+				float: left;
+				margin-top: 8px;
+				margin-right: 6px;
+				border-radius: 3px;
+			}
+			.twkb2 {
+				padding-top: 11px;
+				padding-left: 5px;
+				padding-right: 5px;
+				margin-top: 10px;
+				border-top: 1px solid #e0e0e0;
+				background: #fff;
+				box-shadow: inset 0 1px 0 #FFFFFF, 0 3px 5px rgba(236, 236, 236, 0.2);
+				margin-bottom: 0
+			}
+			.slider {
+				margin-bottom: 0;
+			}
+			.slider img {
+				width: 100%;
+				height: 120px;
+				display: inherit;
+			}
+			.aui-grid-sixteen:after {
+				border: none;
+			}
+			.aui-grid-sixteen li:after {
+				border: none;
+			}
+			.aui-grid-sixteen li .aui-iconfont {
+				color: #ffffff;
+				width: 38px;
+				height: 38px;
+				line-height: 38px;
+				border-radius: 50%;
+				font-size: 20px;
+			}
+			p.goods-title {
+				font-size: 1em;
+				color: #333;
+			}
+			p.goods-info {
+				font-size: 12px;
+				color: #999;
+			}
+			.aui-line-x {
+				margin: 5px 0;
+			}
+			.aui-line-x:after {
+				border-color: #ddd;
+			}
+			.goods-price {
+				font-size: 0.875em;
+			}
+			.goods-price strong {
+				margin: 0 5px;
+				font-size: 16px;
+			}
 		</style>
 	</head>
 	<body>
+		<!--首页广告幻灯开始-->
+		<div class="swiper-container">
+			<div class="swiper-wrapper">
+				<div class="swiper-slide" style="background-image:url(../../image/banner1_02.png)"></div>
+				<div class="swiper-slide" style="background-image:url(../../image/banner1_02.png)"></div>
+				<div class="swiper-slide" style="background-image:url(../../image/banner1_02.png)"></div>
+				<div class="swiper-slide" style="background-image:url(../../image/banner1_02.png)"></div>
+			</div>
+			<!-- 如果需要分页器 -->
+			<div class="swiper-pagination"></div>
+		</div>
+		<!--首页广告幻灯结束-->
+		<!--首页菜单开始-->
 		<div class="func-menu">
 			<div class="item-func" tapmode>
 				<div class="content-area">
 					<p class="aui-bg-info">
-						<i class="aui-iconfont aui-icon-copy"></i>
+						<i class="iconfont icon-shenfenrenzheng"></i>
 					</p>
 					<span>诊疗</span>
 				</div>
@@ -87,7 +219,7 @@
 			<div class="item-func" tapmode >
 				<div class="content-area">
 					<p class="aui-bg-success">
-						<i class="iconfont icon-service1f"></i>
+						<i class="iconfont icon-wenda"></i>
 					</p>
 					<span>问答</span>
 				</div>
@@ -95,7 +227,7 @@
 			<div class="item-func" id="position_header" tapmode >
 				<div class="content-area">
 					<p class="aui-bg-danger">
-						<i class="iconfont icon-position"></i>
+						<i class="iconfont icon-weizhi"></i>
 					</p>
 					<span>位置</span>
 				</div>
@@ -103,21 +235,177 @@
 			<div class="item-func" tapmode >
 				<div class="content-area">
 					<p class="aui-bg-warning">
-						<i class="iconfont icon-xixinguanli"></i>
+						<i class="iconfont icon-shenfenrenzheng1"></i>
 					</p>
 					<span>身份</span>
 				</div>
 			</div>
 		</div>
+		<!--首页菜单结束-->
+		<div class="aui-content twkb">
+			<div style="height:27px">
+				<div class="aui-col-xs-6"><img src="../../image/mckb.png" style="height:20px;"/>
+				</div>
+				<div class="aui-col-xs-6" style="text-align: right;">
+					<span class="index_more">更多内容</span>
+				</div>
+			</div>
+			<div class="index_hb">
+				<ul>
+					<li>
+						<span class="dian_0"></span><a href="#">新用户首单立减20元（在线支付）</a>
+					</li>
+					<li>
+						<span class="dian_1"></span><a href="#">在线支付满50减15</a>
+					</li>
+					<li>
+						<span class="dian_2"></span><a href="#">1000积分换购项圈活动即将开始</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="aui-content twkb2">
+			<div><img src="../../image/jrjx.png" style="height: 20px;margin-left: 15px" />
+			</div>
+			<ul class="aui-list-view aui-grid-view">
+				<li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode onclick="openGoods()">
+					<img class="aui-img-object" src="../../image/shop1.png">
+					<div class="aui-img-body aui-text-left">
+						金毛比熊便便小型坐便器
+						<p>
+							<span class="goods-price aui-text-danger">¥<strong>19.80</strong>元</span>
+						</p>
+						<p class="goods-info">
+							共售出<span class="aui-text-danger">88</span>件
+						</p>
+					</div>
+				</li>
+				<li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode onclick="openGoods()">
+					<img class="aui-img-object" src="../../image/shop1.png">
+					<div class="aui-img-body aui-text-left">
+						金毛比熊便便小型坐便器
+						<p>
+							<span class="goods-price aui-text-danger">¥<strong>19.88</strong>元</span>
+						</p>
+						<p class="goods-info">
+							共售出<span class="aui-text-danger">12</span>件
+						</p>
+					</div>
+				</li>
+				<li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode onclick="openGoods()">
+					<img class="aui-img-object" src="../../image/shop1.png">
+					<div class="aui-img-body aui-text-left">
+						金毛比熊便便小型坐便器
+						<p>
+							<span class="goods-price aui-text-danger">¥<strong>19.80</strong>元</span>
+						</p>
+						<p class="goods-info">
+							共售出<span class="aui-text-danger">88</span>件
+						</p>
+					</div>
+				</li>
+				<li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode onclick="openGoods()">
+					<img class="aui-img-object" src="../../image/shop1.png">
+					<div class="aui-img-body aui-text-left">
+						金毛比熊便便小型坐便器
+						<p>
+							<span class="goods-price aui-text-danger">¥<strong>19.88</strong>元</span>
+						</p>
+						<p class="goods-info">
+							共售出<span class="aui-text-danger">12</span>件
+						</p>
+					</div>
+				</li>
+				<li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode onclick="openGoods()">
+					<img class="aui-img-object" src="../../image/shop1.png">
+					<div class="aui-img-body aui-text-left">
+						金毛比熊便便小型坐便器
+						<p>
+							<span class="goods-price aui-text-danger">¥<strong>19.80</strong>元</span>
+						</p>
+						<p class="goods-info">
+							共售出<span class="aui-text-danger">88</span>件
+						</p>
+					</div>
+				</li>
+				<li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode onclick="openGoods()">
+					<img class="aui-img-object" src="../../image/shop1.png">
+					<div class="aui-img-body aui-text-left">
+						金毛比熊便便小型坐便器
+						<p>
+							<span class="goods-price aui-text-danger">¥<strong>19.88</strong>元</span>
+						</p>
+						<p class="goods-info">
+							共售出<span class="aui-text-danger">12</span>件
+						</p>
+					</div>
+				</li>
+				<li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode onclick="openGoods()">
+					<img class="aui-img-object" src="../../image/shop1.png">
+					<div class="aui-img-body aui-text-left">
+						金毛比熊便便小型坐便器
+						<p>
+							<span class="goods-price aui-text-danger">¥<strong>19.80</strong>元</span>
+						</p>
+						<p class="goods-info">
+							共售出<span class="aui-text-danger">88</span>件
+						</p>
+					</div>
+				</li>
+				<li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode onclick="openGoods()">
+					<img class="aui-img-object" src="../../image/shop1.png">
+					<div class="aui-img-body aui-text-left">
+						金毛比熊便便小型坐便器
+						<p>
+							<span class="goods-price aui-text-danger">¥<strong>19.88</strong>元</span>
+						</p>
+						<p class="goods-info">
+							共售出<span class="aui-text-danger">12</span>件
+						</p>
+					</div>
+				</li>
+				<li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode onclick="openGoods()">
+					<img class="aui-img-object" src="../../image/shop1.png">
+					<div class="aui-img-body aui-text-left">
+						金毛比熊便便小型坐便器
+						<p>
+							<span class="goods-price aui-text-danger">¥<strong>19.80</strong>元</span>
+						</p>
+						<p class="goods-info">
+							共售出<span class="aui-text-danger">88</span>件
+						</p>
+					</div>
+				</li>
+				<li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode onclick="openGoods()">
+					<img class="aui-img-object" src="../../image/shop1.png">
+					<div class="aui-img-body aui-text-left">
+						金毛比熊便便小型坐便器
+						<p>
+							<span class="goods-price aui-text-danger">¥<strong>19.88</strong>元</span>
+						</p>
+						<p class="goods-info">
+							共售出<span class="aui-text-danger">12</span>件
+						</p>
+					</div>
+				</li>
+			</ul>
+		</div>
 	</body>
 	<!--封装了APICloud大量常用的类库，内置了DOM操作，模板引擎，表单验证等常用类库-->
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
+	<script type="text/javascript" src="../../script/swiper/swiper.min.js"></script>
 	<script type="text/javascript">
+		var mySwiper = new Swiper('.swiper-container', {
+			loop : true,
+			// 如果需要分页器
+			pagination : '.swiper-pagination',
+			autoplay : 3000
+		})
 		Zepto(function() {
 			/*窗口打开处理 ok*/
 			$("#position_header").on("click", function() {
-				H.$openWin("position_header","../pet/position_header.html");
+				H.$openWin("position_header", "../pet/position_header.html");
 			});
 		});
 		//所有的代码都写在H.ready(function(){})
@@ -133,5 +421,8 @@
 				}, 1000);
 			});
 		});
+		function openGoods() {
+			H.$toast("商品内容");
+		}
 	</script>
 </html>
