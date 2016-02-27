@@ -107,7 +107,7 @@
 					<span>位置</span>
 				</div>
 			</div>
-			<div class="item-func" tapmode >
+			<div class="item-func" tapmode  id="identity_header">
 				<div class="content-area">
 					<p class="aui-bg-danger">
 						<i class="iconfont icon-gouzheng"></i>
@@ -147,6 +147,18 @@
 				/*窗口打开处理 ok*/
 				$("#position_header").on("click", function() {
 					H.$openWin("position_header", "position_header.html");
+				});
+				$("#identity_header").on("click",function(){
+					var FNScanner = api.require('FNScanner');
+					FNScanner.openScanner({
+					    autorotation: true,
+					},function( ret, err ){        
+					    if( ret ){
+					        alert( JSON.stringify( ret ) );
+					    }else{
+					        alert( JSON.stringify( err ) );
+					    }
+					});
 				});
 			});
 		</script>
