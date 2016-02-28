@@ -61,66 +61,63 @@
 								if (ret.status) {
 								}
 							});
-							H.$getPrefs(function(ret, err) {
-								var retobj = eval('(' + ret.value + ')');
-								H.$ajax(function(ret, err) {
-									H.$toast(ret);
-									H.$hideProgress();
-									//添加标注
-									bMap.addAnnotations({
-										annotations : ret.retValue,
-										icon : 'widget://image/mark_red.png',
-										draggable : false
-									}, function(ret) {
-										H.$toast(ret);
-										if (ret) {
-											var id = ret.id;
-											//获取当前的标注点经纬度
-											bMap.getAnnotationCoords({
-												id : ret.id
-											}, function(ret) {
-												if (ret) {
-													//获取地址信息
-													bMap.getNameFromCoords(ret, function(ret, err) {
-														if (ret.status) {
-															bMap.setBubble({
-																id : id,
-																bgImg : 'widget://image/map_bgp.png',
-																content : {
-																	title : '嘟嘟(2016年02月28日20:50:50)',
-																	subTitle : ret.address + ret.streetName + ret.streetNumber,
-																	illus : 'widget://image/map_pet.png'
-																},
-																styles : {
-																	titleColor : '#ffc000',
-																	titleSize : 16,
-																	subTitleColor : '#fff',
-																	subTitleSize : 14,
-																	illusAlign : 'left'
-																}
-															}, function(ret) {
-																if (ret) {
-																	H.$toast(JSON.stringify(ret));
-																}
-															});
-															//															H.$alert("当前地址：" + ret.address + ret.streetName + ret.streetNumber);
-														}
-													});
-												}
-											})
-										}
-									});
-									//用户设备定位API
-									bMap.popupBubble({
-										id : 1
-									});
-								}, 'http://q.endzk.com/deviceapi/position/token/' + retobj.token);
-							}, 'userinfo');
 						} else {
 							H.$toast("抱歉定位失败，原因：" + err.code);
 						}
 					});
 				}, 1000);
+				H.$getPrefs(function(ret, err) {
+					var retobj = eval('(' + ret.value + ')');
+					H.$ajax(function(ret, err) {
+						H.$toast(ret);
+						H.$hideProgress();
+						//添加标注
+						bMap.addAnnotations({
+							annotations : ret.retValue,
+							icon : 'widget://image/mark_red.png',
+							draggable : false
+						}, function(ret) {
+							H.$toast(ret);
+							if (ret) {
+								var id = ret.id;
+								//获取当前的标注点经纬度
+								bMap.getAnnotationCoords({
+									id : id
+								}, function(ret) {
+									if (ret) {
+										//获取地址信息
+										bMap.getNameFromCoords(ret, function(ret, err) {
+											if (ret.status) {
+												bMap.setBubble({
+													id : id,
+													bgImg : 'widget://image/map_bgp.png',
+													content : {
+														title : '嘟嘟(2016年02月28日20:50:50)',
+														subTitle : ret.address + ret.streetName + ret.streetNumber,
+														illus : 'widget://image/map_pet.png'
+													},
+													styles : {
+														titleColor : '#ffc000',
+														titleSize : 15,
+														subTitleColor : '#fff',
+														subTitleSize : 13,
+														illusAlign : 'left'
+													}
+												}, function(ret) {
+													if (ret) {
+														H.$toast(JSON.stringify(ret));
+													}
+												});
+												//															H.$alert("当前地址：" + ret.address + ret.streetName + ret.streetNumber);
+											}
+										});
+									}
+								})
+							}
+						});
+						//用户设备定位API
+					}, 'http://q.endzk.com/deviceapi/position/token/' + retobj.token);
+				}, 'userinfo');
 			});
 		</script>
 	</body>
