@@ -64,6 +64,7 @@
 							H.$getPrefs(function(ret, err) {
 								var retobj = eval('(' + ret.value + ')');
 								H.$ajax(function(ret, err) {
+									H.$toast(ret);
 									H.$hideProgress();
 									//添加标注
 									bMap.addAnnotations({
@@ -71,7 +72,7 @@
 										icon : 'widget://image/mark_red.png',
 										draggable : false
 									}, function(ret) {
-										//H.$alert(ret);
+										H.$toast(ret);
 										if (ret) {
 											var id = ret.id;
 											//获取当前的标注点经纬度
@@ -79,7 +80,6 @@
 												id : ret.id
 											}, function(ret) {
 												if (ret) {
-												
 													//获取地址信息
 													bMap.getNameFromCoords(ret, function(ret, err) {
 														if (ret.status) {
@@ -87,23 +87,23 @@
 																id : id,
 																bgImg : 'widget://image/map_bgp.png',
 																content : {
-																	title : '毛毛',
+																	title : '嘟嘟(2016年02月28日20:50:50)',
 																	subTitle : ret.address + ret.streetName + ret.streetNumber,
 																	illus : 'widget://image/map_pet.png'
 																},
 																styles : {
-																	titleColor : '#fff',
-																	titleSize : 14,
-																	subTitleColor : '#999',
-																	subTitleSize : 12,
+																	titleColor : '#ffc000',
+																	titleSize : 16,
+																	subTitleColor : '#fff',
+																	subTitleSize : 14,
 																	illusAlign : 'left'
 																}
 															}, function(ret) {
 																if (ret) {
-																	alert(JSON.stringify(ret));
+																	H.$toast(JSON.stringify(ret));
 																}
 															});
-//															H.$alert("当前地址：" + ret.address + ret.streetName + ret.streetNumber);
+															//															H.$alert("当前地址：" + ret.address + ret.streetName + ret.streetNumber);
 														}
 													});
 												}
@@ -111,6 +111,9 @@
 										}
 									});
 									//用户设备定位API
+									bMap.popupBubble({
+										id : 1
+									});
 								}, 'http://q.endzk.com/deviceapi/position/token/' + retobj.token);
 							}, 'userinfo');
 						} else {
