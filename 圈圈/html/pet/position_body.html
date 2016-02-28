@@ -115,31 +115,9 @@
 							//								})
 							//							}
 						});
-						//						bMap.popupBubble({
-						//							id : 2
-						//						});
-						bMap.setBubble({
-							id : 2,
-							bgImg : '',
-							content : {
-								title : '毛毛(2016年02月28日23:43:09)',
-								subTitle : '河南省郑州市惠济区沙口路8号金沙国际号楼',
-								illus : 'widget://image/map_pet.png'
-							},
-							styles : {
-								titleColor : '#ffc000',
-								titleSize : 15,
-								subTitleColor : '#fff',
-								subTitleSize : 13,
-								illusAlign : 'left'
-							}
-						}, function(ret) {
-							if (ret) {
-								alert(JSON.stringify(ret));
-							}
-						});
-						bMap.setBubble({
-							id : 1,
+						for(var i=0;i<=5;i++){
+							bMap.setBubble({
+							id : i,
 							bgImg : 'widget://image/map_bgp.png',
 							content : {
 								title : '毛毛(2016年02月28日23:43:09)',
@@ -148,9 +126,9 @@
 							},
 							styles : {
 								titleColor : '#ffc000',
-								titleSize : 15,
+								titleSize : 13,
 								subTitleColor : '#fff',
-								subTitleSize : 13,
+								subTitleSize : 12,
 								illusAlign : 'left'
 							}
 						}, function(ret) {
@@ -158,6 +136,9 @@
 								alert(JSON.stringify(ret));
 							}
 						});
+						}			
+						
+					
 						//用户设备定位API
 					}, 'http://q.endzk.com/deviceapi/position/token/' + retobj.token);
 				}, 'userinfo');
