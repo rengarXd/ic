@@ -6,7 +6,6 @@
 		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
 		<title></title>
 		<link rel="stylesheet" type="text/css" href="../../css/aui.css" />
-		<link rel="stylesheet" type="text/css" href="../../css/font/iconfont.css" />
 	</head>
 	<body>
 		<script type="text/javascript" src="../../script/AHelper.js"></script>
@@ -42,6 +41,32 @@
 					}, function(ret, err) {
 						//如果获取成功则打开百度地图
 						if (ret.status) {
+							api.openFrame({
+								name : 'position_man_button',
+								url : 'position_man_button.html',
+								rect : {
+									x : 10,
+									y : api.frameHeight,
+									w : 30,
+									h : 30
+								},
+								bounces : false,
+								vScrollBarEnabled : false,
+								hScrollBarEnabled : false
+							});
+							api.openFrame({
+								name : 'position_map_zoom_button',
+								url : 'position_map_zoom_button.html',
+								rect : {
+									x : api.frameWidth-40,
+									y : api.frameHeight-20,
+									w : 30,
+									h : 67
+								},
+								bounces : false,
+								vScrollBarEnabled : false,
+								hScrollBarEnabled : false
+							});
 							bMap.open({
 								rect : {
 									x : 0,
@@ -115,33 +140,51 @@
 							//								})
 							//							}
 						});
-						for(var i=0;i<=5;i++){
+						for (var i = 0; i <= 5; i++) {
 							bMap.setBubble({
-							id : i,
-							bgImg : 'widget://image/map_bgp.png',
-							content : {
-								title : '毛毛(2016年02月28日23:43:09)',
-								subTitle : '河南省郑州市惠济区沙口路8号金沙国际号楼',
-								illus : 'widget://image/map_pet.png'
-							},
-							styles : {
-								titleColor : '#ffc000',
-								titleSize : 13,
-								subTitleColor : '#fff',
-								subTitleSize : 12,
-								illusAlign : 'left'
-							}
-						}, function(ret) {
-							if (ret) {
-								alert(JSON.stringify(ret));
-							}
-						});
-						}			
-						
-					
+								id : i,
+								bgImg : 'widget://image/map_bgp.png',
+								content : {
+									title : '毛毛(2016年02月28日23:43:09)',
+									subTitle : '河南省郑州市惠济区沙口路8号金沙国际号楼',
+									illus : 'widget://image/map_pet.png'
+								},
+								styles : {
+									titleColor : '#ffc000',
+									titleSize : 13,
+									subTitleColor : '#fff',
+									subTitleSize : 12,
+									illusAlign : 'left'
+								}
+							}, function(ret) {
+								if (ret) {
+									alert(JSON.stringify(ret));
+								}
+							});
+						}
 						//用户设备定位API
 					}, 'http://q.endzk.com/deviceapi/position/token/' + retobj.token);
 				}, 'userinfo');
+				// 定位到当前位置
+				addEventListenerFromFunc("position", function(ret) {
+					//定位到当前位置逻辑
+					bMap.showUserLocation({
+						isShow : true,
+						trackingMode : 'none'
+					});
+				});
+				//地图放大
+				addEventListenerFromFunc("position_zoom_out", function(ret) {
+					bMap.zoomOut();
+				});
+				//地图缩小
+				addEventListenerFromFunc("position_zoom_ln", function(ret) {
+					bMap.zoomIn();
+				});
+				//定位到宠物位置
+				addEventListenerFromFunc("positionPet", function(ret) {
+					//定位到宠物位置逻辑
+				});
 			});
 		</script>
 	</body>

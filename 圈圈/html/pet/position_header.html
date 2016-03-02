@@ -69,30 +69,19 @@
 			}
 			#aui-footer {
 				background: #f7f7f7;
-				border-top: 1px solid #e2e2e2;
 			}
 			.aui-bar-1d9dd5 {
 				background: #1d9dd5;
 			}
 			#aui-footer li.active-1d9dd5, #aui-footer li.active-1d9dd5 span.iconfont {
-				color: #4385f6 !important;
+				color: #ff0000 !important;
+				background: #fff;
 			}
-			.brige {
-				display: inline-block;
-				position: absolute;
-				top: 0;
-				right: 30%;
-				z-index: 100;
-				background: #EF9300;
-				border-radius: 50%;
-				-webkit-border-radius: 50%;
-				font-size: 11px;
-				height: 16px;
-				line-height: 16px;
-				text-align: center;
-				min-width: 16px;
-				color: #fff;
-				font-style: normal;
+			.aui-nav .aui-bar-tab {
+				background: #e5e5e5
+			}
+			.aui-nav .aui-bar-tab .active-1d9dd5 p {
+				color: #ff0000
 			}
 		</style>
 	</head>
@@ -118,20 +107,19 @@
 		<footer class="aui-nav" id="aui-footer">
 			<ul class="aui-bar-tab">
 				<li class="active-1d9dd5" tapmode data-header="position-header" data-frameName="position">
-					<span class="aui-iconfont iconfont icon-lbsfill"></span>
+					<span class="aui-iconfont iconfont icon-weizhi"></span>
 					<p>
 						位置
 					</p>
-					<em class="brige">9</em>
 				</li>
 				<li data-header="trajectory-header" tapmode  data-frameName="trajectory">
-					<span class="aui-iconfont iconfont icon-activity"></span>
+					<span class="aui-iconfont iconfont icon-guiji"></span>
 					<p>
 						轨迹
 					</p>
 				</li>
 				<li data-header="setting-header" tapmode  data-frameName="setting">
-					<span class="aui-iconfont iconfont icon-shezhi"></span>
+					<span class="aui-iconfont iconfont icon-iconshezhi"></span>
 					<p>
 						设置
 					</p>
@@ -156,7 +144,7 @@
 				}
 			});
 		}
-		
+
 		function sendEventTobMap(eventName, data) {
 			api.showProgress({
 				style : 'default',

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>title</title>
+		<link rel="stylesheet" href="../../css/aui-win.css" />
+		<link rel="stylesheet" href="../../css/fonts/iconfont.css" />
+		<style>
+			body {
+				background: #fff;
+				text-align: center;
+			}
+			body:active {
+				background: #efefef;
+			}
+		</style>
+	</head>
+	<body>
+		<i id="position_button" class="iconfont icon-dingwei" style="color:red;width: 29px;height: 29px;font-size:22px"></i>
+	</body>
+	<script type="text/javascript" src="../../script/api.js"></script>
+	<script type="text/javascript" src="../../script/zepto.min.js"></script>
+	<script type="text/javascript">
+		Zepto(function($) {
+			$("#position_button").on("click", function() {
+				var data = ( typeof arguments[1] == "undefined" || arguments[1] == null) ? {} : arguments[1];
+				api.sendEvent({
+					name : "position",
+					extra : data
+				});
+			});
+		});
+	</script>
+</html>
