@@ -194,18 +194,8 @@
 		</style>
 	</head>
 	<body>
-		<!--首页广告幻灯开始-->
-		<div class="swiper-container">
-			<div class="swiper-wrapper">
-				<div class="swiper-slide" style="background-image:url(../../image/banner1_02.png)"></div>
-				<div class="swiper-slide" style="background-image:url(../../image/banner1_02.png)"></div>
-				<div class="swiper-slide" style="background-image:url(../../image/banner1_02.png)"></div>
-				<div class="swiper-slide" style="background-image:url(../../image/banner1_02.png)"></div>
-			</div>
-			<!-- 如果需要分页器 -->
-			<div class="swiper-pagination"></div>
-		</div>
-		<!--首页广告幻灯结束-->
+		
+		<!--首页广告渲染结束-->
 		<!--首页菜单开始-->
 		<div class="func-menu">
 			<div class="item-func" tapmode>
@@ -410,9 +400,19 @@
 		});
 		//所有的代码都写在H.ready(function(){})
 		H.ready(function() {
-			H.getPrefs(function(ret, err) {
-				H.$toast(ret.value);
-			}, 'userinfo');
+			//获取个人认证token
+			api.getPrefs({
+				key : 'userinfo'
+			}, function(ret, err) {
+				//字符串转为json对象
+				var retobj = eval('(' + ret.value + ')');
+				//请求首页广告数据
+				api.ajax({
+					url : 'http://q.endzk.com/apis/app_index_manage/token/' + retobj.token
+				}, function(ret, err) {
+					
+				});
+			});
 			/*下拉刷新*/
 			H.$dropdownToRefresh(function(ret, err) {
 				setTimeout(function() {
