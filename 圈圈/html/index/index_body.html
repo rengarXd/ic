@@ -194,8 +194,18 @@
 		</style>
 	</head>
 	<body>
-		
-		<!--首页广告渲染结束-->
+		<!--首页广告幻灯开始-->
+		<div class="swiper-container">
+			<div class="swiper-wrapper" id="index_addata_body"></div>
+			<!-- 如果需要分页器 -->
+			<div class="swiper-pagination"></div>
+		</div>
+		<script id="index_addata" type="text/html">
+			{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
+			<div class="swiper-slide" style="background-image:url(http://q.endzk.com/{{ d.retValue[i].content }})"></div>
+			{{# } }}
+		</script>
+		<!--首页广告幻灯结束-->
 		<!--首页菜单开始-->
 		<div class="func-menu">
 			<div class="item-func" tapmode>
@@ -257,141 +267,33 @@
 		<div class="aui-content twkb2">
 			<div><img src="../../image/jrjx.png" style="height: 20px;margin-left: 15px" />
 			</div>
-			<ul class="aui-list-view aui-grid-view">
-				<li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode onclick="openGoods()">
-					<img class="aui-img-object" src="../../image/shop1.png">
-					<div class="aui-img-body aui-text-left">
-						金毛比熊便便小型坐便器
-						<p>
-							<span class="goods-price aui-text-danger">¥<strong>19.80</strong>元</span>
-						</p>
-						<p class="goods-info">
-							共售出<span class="aui-text-danger">88</span>件
-						</p>
-					</div>
-				</li>
-				<li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode onclick="openGoods()">
-					<img class="aui-img-object" src="../../image/shop1.png">
-					<div class="aui-img-body aui-text-left">
-						金毛比熊便便小型坐便器
-						<p>
-							<span class="goods-price aui-text-danger">¥<strong>19.88</strong>元</span>
-						</p>
-						<p class="goods-info">
-							共售出<span class="aui-text-danger">12</span>件
-						</p>
-					</div>
-				</li>
-				<li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode onclick="openGoods()">
-					<img class="aui-img-object" src="../../image/shop1.png">
-					<div class="aui-img-body aui-text-left">
-						金毛比熊便便小型坐便器
-						<p>
-							<span class="goods-price aui-text-danger">¥<strong>19.80</strong>元</span>
-						</p>
-						<p class="goods-info">
-							共售出<span class="aui-text-danger">88</span>件
-						</p>
-					</div>
-				</li>
-				<li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode onclick="openGoods()">
-					<img class="aui-img-object" src="../../image/shop1.png">
-					<div class="aui-img-body aui-text-left">
-						金毛比熊便便小型坐便器
-						<p>
-							<span class="goods-price aui-text-danger">¥<strong>19.88</strong>元</span>
-						</p>
-						<p class="goods-info">
-							共售出<span class="aui-text-danger">12</span>件
-						</p>
-					</div>
-				</li>
-				<li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode onclick="openGoods()">
-					<img class="aui-img-object" src="../../image/shop1.png">
-					<div class="aui-img-body aui-text-left">
-						金毛比熊便便小型坐便器
-						<p>
-							<span class="goods-price aui-text-danger">¥<strong>19.80</strong>元</span>
-						</p>
-						<p class="goods-info">
-							共售出<span class="aui-text-danger">88</span>件
-						</p>
-					</div>
-				</li>
-				<li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode onclick="openGoods()">
-					<img class="aui-img-object" src="../../image/shop1.png">
-					<div class="aui-img-body aui-text-left">
-						金毛比熊便便小型坐便器
-						<p>
-							<span class="goods-price aui-text-danger">¥<strong>19.88</strong>元</span>
-						</p>
-						<p class="goods-info">
-							共售出<span class="aui-text-danger">12</span>件
-						</p>
-					</div>
-				</li>
-				<li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode onclick="openGoods()">
-					<img class="aui-img-object" src="../../image/shop1.png">
-					<div class="aui-img-body aui-text-left">
-						金毛比熊便便小型坐便器
-						<p>
-							<span class="goods-price aui-text-danger">¥<strong>19.80</strong>元</span>
-						</p>
-						<p class="goods-info">
-							共售出<span class="aui-text-danger">88</span>件
-						</p>
-					</div>
-				</li>
-				<li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode onclick="openGoods()">
-					<img class="aui-img-object" src="../../image/shop1.png">
-					<div class="aui-img-body aui-text-left">
-						金毛比熊便便小型坐便器
-						<p>
-							<span class="goods-price aui-text-danger">¥<strong>19.88</strong>元</span>
-						</p>
-						<p class="goods-info">
-							共售出<span class="aui-text-danger">12</span>件
-						</p>
-					</div>
-				</li>
-				<li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode onclick="openGoods()">
-					<img class="aui-img-object" src="../../image/shop1.png">
-					<div class="aui-img-body aui-text-left">
-						金毛比熊便便小型坐便器
-						<p>
-							<span class="goods-price aui-text-danger">¥<strong>19.80</strong>元</span>
-						</p>
-						<p class="goods-info">
-							共售出<span class="aui-text-danger">88</span>件
-						</p>
-					</div>
-				</li>
-				<li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode onclick="openGoods()">
-					<img class="aui-img-object" src="../../image/shop1.png">
-					<div class="aui-img-body aui-text-left">
-						金毛比熊便便小型坐便器
-						<p>
-							<span class="goods-price aui-text-danger">¥<strong>19.88</strong>元</span>
-						</p>
-						<p class="goods-info">
-							共售出<span class="aui-text-danger">12</span>件
-						</p>
-					</div>
-				</li>
-			</ul>
+			<ul class="aui-list-view aui-grid-view" id="index_shopdata_body"></ul>
 		</div>
+		<script id="index_shopdata" type="text/html">
+			{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
+			<li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode onclick="openGoods()">
+			<img class="aui-img-object" src="http://q.endzk.com/{{ d.retValue[i].img }}">
+			<div class="aui-img-body aui-text-left">
+			{{ d.retValue[i].name }}
+			<p>
+			<span class="goods-price aui-text-danger">¥<strong>{{ d.retValue[i].sell_price }}</strong>元</span>
+			</p>
+			<p class="goods-info">
+			<span class="aui-text-danger">{{ d.retValue[i].favorite }}</span>人收藏
+			</p>
+			</div>
+			</li>
+			{{# } }}
+		</script>
 	</body>
 	<!--封装了APICloud大量常用的类库，内置了DOM操作，模板引擎，表单验证等常用类库-->
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript" src="../../script/swiper/swiper.min.js"></script>
+	<script type="text/javascript" src="../../script/echo.min.js"></script>
+	<script type="text/javascript" src="../../script/laytpl.js"></script>
 	<script type="text/javascript">
-		var mySwiper = new Swiper('.swiper-container', {
-			loop : true,
-			// 如果需要分页器
-			pagination : '.swiper-pagination',
-			autoplay : 3000
-		})
+		//图片y
 		Zepto(function() {
 			/*窗口打开处理 ok*/
 			$("#position_header").on("click", function() {
@@ -400,6 +302,23 @@
 		});
 		//所有的代码都写在H.ready(function(){})
 		H.ready(function() {
+			getdata();
+			/*下拉刷新*/
+			H.$dropdownToRefresh(function(ret, err) {
+				setTimeout(function() {
+					getdata();
+					H.$recoverDropdownToNormal();
+				}, 1000);
+			});
+		});
+		function openGoods() {
+			H.$toast("商品内容");
+		}
+
+		/*
+		 * 获取首页数据函数
+		 */
+		function getdata() {
 			//获取个人认证token
 			api.getPrefs({
 				key : 'userinfo'
@@ -410,19 +329,29 @@
 				api.ajax({
 					url : 'http://q.endzk.com/apis/app_index_manage/token/' + retobj.token
 				}, function(ret, err) {
-					
+					var tpl = document.getElementById('index_addata').innerHTML;
+					laytpl(tpl).render(ret, function(render) {
+						document.getElementById('index_addata_body').innerHTML = render;
+						var mySwiper = new Swiper('.swiper-container', {
+							loop : true,
+							// 如果需要分页器
+							pagination : '.swiper-pagination',
+							autoplay : 3000
+						});
+					});
+				});
+				//请求首页精选数据
+				api.ajax({
+					url : 'http://q.endzk.com/apis/app_index_commend/token/' + retobj.token
+				}, function(ret, err) {
+					// 获取模板内容，并加载数据
+					var tpl = document.getElementById('index_shopdata').innerHTML;
+					//读取模版
+					laytpl(tpl).render(ret, function(render) {
+						document.getElementById('index_shopdata_body').innerHTML = render;
+					});
 				});
 			});
-			/*下拉刷新*/
-			H.$dropdownToRefresh(function(ret, err) {
-				setTimeout(function() {
-					location.reload();
-					H.$recoverDropdownToNormal();
-				}, 1000);
-			});
-		});
-		function openGoods() {
-			H.$toast("商品内容");
 		}
 	</script>
 </html>
