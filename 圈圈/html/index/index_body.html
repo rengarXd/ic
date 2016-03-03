@@ -302,23 +302,6 @@
 		});
 		//所有的代码都写在H.ready(function(){})
 		H.ready(function() {
-			getdata();
-			/*下拉刷新*/
-			H.$dropdownToRefresh(function(ret, err) {
-				setTimeout(function() {
-					getdata();
-					H.$recoverDropdownToNormal();
-				}, 1000);
-			});
-		});
-		function openGoods() {
-			H.$toast("商品内容");
-		}
-
-		/*
-		 * 获取首页数据函数
-		 */
-		function getdata() {
 			//获取个人认证token
 			api.getPrefs({
 				key : 'userinfo'
@@ -352,6 +335,23 @@
 					});
 				});
 			});
+			/*下拉刷新*/
+			H.$dropdownToRefresh(function(ret, err) {
+				setTimeout(function() {
+					
+					H.$recoverDropdownToNormal();
+				}, 1000);
+			});
+		});
+		function openGoods() {
+			H.$toast("商品内容");
+		}
+
+		/*
+		 * 获取首页数据函数
+		 */
+		function getdata() {
+			
 		}
 	</script>
 </html>
