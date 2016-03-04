@@ -62,13 +62,47 @@
 			#aui-footer .aui-bar-tab {
 				background: #e5e5e5;
 			}
+			.serach_in {
+				width: 95%;
+				border-radius: 4px;
+				height: 31px;
+				margin-top: 6px;
+				margin-left: 8px;
+				font-size: 13px;
+				color: #8fb2f6;
+				border: 1px solid #006FEC;
+				line-height: 31px;
+				padding-left: 8px;
+			}
+			.index_massage {
+				text-align: center;
+				font-size: 11px;
+				line-height: 32px;
+			}
+			.index_massage i {
+				line-height: 33px;
+				font-size: 22px;
+			}
+			.index_massage p {
+				line-height: 0px;
+			}
+			.index_massage:active {
+				color: #ddd
+			}
 		</style>
 	</head>
 	<body>
 		<!--标题栏 start-->
 		<header class="aui-bar aui-bar-nav aui-bar-1d9dd5 header" id='index-header'>
-			<div class="aui-title">
-				圈圈
+			<div class="aui-col-xs-10" style="line-height: 0;">
+				<input class="serach_in" value="大家都在搜：狗狗在哪儿">
+			</div>
+			<div class="aui-col-xs-2 index_massage">
+				<i class="iconfont icon-xiaoxi"></i>
+				<p>
+					消息
+				</p>
+				<em class="brige" id="brige">8</em>
 			</div>
 		</header>
 		<header class="aui-bar aui-bar-nav aui-bar-1d9dd5 display-none header" id='pet-header' style="background: #0099ff">
