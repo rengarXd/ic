@@ -297,7 +297,13 @@
 		Zepto(function() {
 			/*窗口打开处理 ok*/
 			$("#position_header").on("click", function() {
+				api.parseTapmode();
 				H.$openWin("position_header", "../pet/position_header.html");
+			});
+			/*更多活动处理*/
+			$(".index_more").on("click",function(){
+				api.parseTapmode();
+				H.$openWin("moreActivity_header", "moreActivity_header.html");
 			});
 		});
 		//所有的代码都写在H.ready(function(){})
