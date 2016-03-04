@@ -115,7 +115,7 @@
 					<span>身份</span>
 				</div>
 			</div>
-			<div class="item-func" tapmode >
+			<div class="item-func" id="setting" tapmode >
 				<div class="content-area">
 					<p class="aui-bg-warning">
 						<i class="iconfont icon-set"></i>
@@ -148,6 +148,11 @@
 				$("#position_header").on("click", function() {
 					H.$openWin("position_header", "position_header.html");
 				});
+				
+				$("#setting").on("click", function() {
+					H.$openWin("setting", "setting.html");
+				});
+				
 				$("#identity_header").on("click",function(){
 					var FNScanner = api.require('FNScanner');
 					FNScanner.openScanner({
