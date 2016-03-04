@@ -5,11 +5,153 @@
 		<!--确保绘制和缩放的效果需要在<head>标签中添加 viewport 元数据标签-->
 		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
 		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-		<title>朋友body</title>
+		<title>友邻</title>
 		<!--引入aui框架-->
 		<link rel="stylesheet" href="../../css/aui.css" />
+		<link rel="stylesheet" href="../../css/fonts/iconfont.css" />
+		<style>
+			.aui-arrow-right {
+				line-height: 26px;
+			}
+			.f_pic {
+				width: 50px;
+				height: 50px;
+				float: left;
+				text-align: center;
+				background: #ff3366;
+				color: #fff;
+				/* font-size: 24px; */
+				border-radius: 38%;
+				margin-right: 10px;
+			}
+			.f_pic span {
+				font-size: 28px;
+				line-height: 46px;
+			}
+			.aui-list-view-cell:active {
+				background: #f5f5f5
+			}
+			.friend_ad img {
+				width: 100%;
+				padding: 0 2%;
+				margin-top: 6px;
+			}
+			.img-cont img {
+				max-width: 45px;
+				height: 45px;
+				line-height: 45px;
+				border-radius: 50%;
+				margin-right: 11px;
+			}
+		</style>
 	</head>
 	<body>
-		<h1>朋友主体</h1>
+		<div class="aui-content">
+			<ul class="aui-list-view">
+				<li class="aui-list-view-cell" tapmode>
+					<div class="aui-arrow-right">
+						<div class="f_pic">
+							<span class="iconfont icon-shenfenrenzheng"></span>
+						</div>
+						<div class="f_title">
+							<h3>诊疗</h3>
+							<p>
+								专业医生免费在线问诊
+							</p>
+						</div>
+					</div>
+				</li>
+				<li class="aui-list-view-cell" tapmode>
+					<div class="aui-arrow-right">
+						<div class="f_pic" style="background: #ffc80a">
+							<span class="iconfont icon-wenda"></span>
+						</div>
+						<div class="f_title">
+							<h3>问答</h3>
+							<p>
+								养宠人士互助沟通的平台
+							</p>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="aui-content friend_ad">
+			<ul class="aui-list-view">
+				<li class="aui-list-view-cell">
+					<div class="aui-col-xs-6">
+						<img src="../../image/friend/ad_01.png" />
+					</div>
+					<div class="aui-col-xs-6">
+						<img src="../../image/friend/ad_02.png" />
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="aui-content">
+			<ul class="aui-list-view">
+				<li class="aui-list-view-cell">
+					<div class="img-cont"><img class="aui-pull-left" src="../../image/friend/pic01.png" tapmode >
+					</div>
+					<div class="aui-img-body">
+						<span>巴布的妈妈</span><i class="iconfont icon-iconfontunfold" style="float: right"></i>
+						<p class='aui-ellipsis-1'>
+							来自 iphone6 plus
+						</p>
+					</div>
+					<p style="margin-top: 5px; margin-bottom: 5px;">
+						求助一下各位大神，看到一只小狗，谁知道是什么品种?
+					</p>
+					<h6>2016-1-22  15:23:58<span style="float: right">回复（20）</span></h6>
+				</li>
+				<li class="aui-list-view-cell">
+					<div class="img-cont"><img class="aui-pull-left" src="../../image/friend/pic02.png" tapmode >
+					</div>
+					<div class="aui-img-body">
+						<span>巴布的妈妈</span><i class="iconfont icon-iconfontunfold" style="float: right"></i>
+						<p class='aui-ellipsis-1'>
+							来自 iphone6 plus
+						</p>
+					</div>
+					<p style="margin-top: 5px;margin-bottom: 5px;">
+						今天早上发现它精神很不好带它出门都没什么精神
+					</p>
+					<h6>2016-1-22  15:23:58<span style="float: right">回复（20）</span></h6>
+				</li>
+				<li class="aui-list-view-cell">
+					<div class="img-cont"><img class="aui-pull-left" src="../../image/friend/pic01.png" tapmode >
+					</div>
+					<div class="aui-img-body">
+						<span>巴布的妈妈</span><i class="iconfont icon-iconfontunfold" style="float: right"></i>
+						<p class='aui-ellipsis-1'>
+							来自 iphone6 plus
+						</p>
+					</div>
+					<p style="margin-top: 5px; margin-bottom: 5px;">
+						求助一下各位大神，看到一只小狗，谁知道是什么品种?
+					</p>
+					<h6>2016-1-22  15:23:58<span style="float: right">回复（20）</span></h6>
+				</li>
+				<li class="aui-list-view-cell">
+					<div class="img-cont"><img class="aui-pull-left" src="../../image/friend/pic02.png" tapmode >
+					</div>
+					<div class="aui-img-body">
+						<span>巴布的妈妈</span><i class="iconfont icon-iconfontunfold" style="float: right"></i>
+						<p class='aui-ellipsis-1'>
+							来自 iphone6 plus
+						</p>
+					</div>
+					<p style="margin-top: 5px;margin-bottom: 5px;">
+						今天早上发现它精神很不好带它出门都没什么精神
+					</p>
+					<h6>2016-1-22  15:23:58<span style="float: right">回复（20）</span></h6>
+				</li>
+			</ul>
+		</div>
+		<script type="text/javascript" src="../../script/AHelper.js"></script>
+		<script type="text/javascript">
+			H.ready(function() {
+			});
+		</script>
 	</body>
 </html>

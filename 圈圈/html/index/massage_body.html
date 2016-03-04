@@ -15,7 +15,7 @@
 			.aui-list-view-cell:active {
 				background: #f4f4f4;
 			}
-				.img-cont {
+			.img-cont {
 				display: inline-block;
 				width: 48px;
 				height: 48px;
@@ -46,19 +46,20 @@
 			}
 			.img-cont .gender.man {
 				background: red;
-				font-size:12px;
+				font-size: 12px;
 			}
 			.img-cont .gender.max {
 				background: #f54171;
 			}
-			.aui-user-view-cell .aui-img-object{
-			    border-radius: 23%;
+			.aui-user-view-cell .aui-img-object {
+				border-radius: 23%;
 			}
-			.massage_time{
-			float: right;
-font-style: normal;
-font-size: 11px;
-color: #BBB7B7;}
+			.massage_time {
+				float: right;
+				font-style: normal;
+				font-size: 11px;
+				color: #BBB7B7;
+			}
 		</style>
 	</head>
 	<body>
@@ -68,7 +69,6 @@ color: #BBB7B7;}
 					<div class="img-cont"><img class="aui-img-object aui-pull-left" src="../../image/massage/mssage_01.png" tapmode >
 						<span class="gender man">1</span>
 					</div>
-					
 					<div class="aui-img-body">
 						<span>围栏提醒</span><i class="massage_time">2016-1-22  15:23:58</i>
 						<p class='aui-ellipsis-1'>
@@ -76,11 +76,9 @@ color: #BBB7B7;}
 						</p>
 					</div>
 				</li>
-					<li class="aui-user-view-cell aui-img">
+				<li class="aui-user-view-cell aui-img">
 					<div class="img-cont"><img class="aui-img-object aui-pull-left" src="../../image/massage/mssage_02.png" tapmode >
-					
 					</div>
-					
 					<div class="aui-img-body">
 						<span>系统消息</span><i class="massage_time">2016-1-22  15:23:58</i>
 						<p class='aui-ellipsis-1'>
@@ -88,11 +86,10 @@ color: #BBB7B7;}
 						</p>
 					</div>
 				</li>
-					<li class="aui-user-view-cell aui-img">
+				<li class="aui-user-view-cell aui-img">
 					<div class="img-cont"><img class="aui-img-object aui-pull-left" src="../../image/massage/mssage_03.png" tapmode >
 						<span class="gender man">10</span>
 					</div>
-					
 					<div class="aui-img-body">
 						<span>订阅消息</span><i class="massage_time">2016-1-22  15:23:58</i>
 						<p class='aui-ellipsis-1'>
@@ -114,8 +111,8 @@ color: #BBB7B7;}
 				}
 			});
 		});
-		H.ready(function(){
-				/*下拉刷新*/
+		H.ready(function() {
+			/*下拉刷新*/
 			H.$dropdownToRefresh(function(ret, err) {
 				setTimeout(function() {
 					location.reload();
