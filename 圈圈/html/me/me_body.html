@@ -53,38 +53,59 @@
 				border-radius: 50%;
 				font-size: 20px;
 			}
+			.aui-list-view li:active{background:#f5f5f5}
 		</style>
 	</head>
 	<body>
 		<div class="usercenter_avatar" style="margin-top:6px;">
 			<ul class="aui-list-view">
 				<li class="aui-list-view-cell" tapmode>
-					<i style="float: left"><img src="../../image/demo2.png" class="avatar_pic" /></i>
-					<span style="float:left;margin-left: 10px;">郎中令
+				<div class="aui-arrow-right">
+					<i style="float: left"><img src="../../image/me/me_pic.png" class="avatar_pic" /></i>
+					<span style="float:left;margin-left: 10px;">唐艺昕
 						<p>
-							登录账号：15738364224
+							萌宠账号：13937172004
 						</p></span>
+						<div class="aui-arrow-right">
 				</li>
+				
 			</ul>
 		</div>
 		<div class="aui-content">
-			<ul class="aui-list-view aui-in">
-				<li class="aui-list-view-cell" tapmode data-funcName="myProfile_head">
-					<a class="aui-arrow-right"> <i class="aui-iconfont iconfont icon-iconshezhi setting_AF2800 stetting-icon" style="font-size:12px;padding: 7px;"></i>个人资料 </a>
+			<ul class="aui-list-view">
+				<li class="aui-list-view-cell">
+					我的积分
 				</li>
-				<li class="aui-list-view-cell" tapmode data-funcName="setting_head">
-					<a class="aui-arrow-right"> <i class="aui-iconfont iconfont icon-iconshezhi setting_00A4E2 stetting-icon" style="font-size:12px; padding: 7px;"></i>设置 </a>
+				<li class="aui-list-view-cell">
+					我的礼券
+				</li>
+				<li class="aui-list-view-cell">
+					我的订单
 				</li>
 			</ul>
 		</div>
-		<div class="aui-content">
-			<ul class="aui-list-view aui-in">
-				<li class="aui-list-view-cell" tapmode data-funcName="myProfile_head">
-					<a class="aui-arrow-right"> <i class="aui-iconfont iconfont icon-iconbangdingyonghu icon-bg-e6567a stetting-icon" style="font-size:12px;padding: 7px;"></i>关于我们 </a>
+		
+			<div class="aui-content">
+			<ul class="aui-list-view">
+				<li class="aui-list-view-cell">
+					诊疗记录
 				</li>
-				<li class="aui-list-view-cell" tapmode data-funcName="myProfile_head">
-					<a class="aui-arrow-right"> <i class="aui-iconfont iconfont icon-service1f icon-bg-7658f8 stetting-icon" style="font-size:12px; padding: 7px;"></i>推荐有奖 </a>
+				<li class="aui-list-view-cell">
+					健康档案
 				</li>
+			
+			</ul>
+		</div>
+		
+			<div class="aui-content">
+			<ul class="aui-list-view">
+				<li class="aui-list-view-cell" data-funcName="about_us_header" tapmode >
+					<div class="aui-arrow-right">关于我们</div>
+				</li>
+				<li class="aui-list-view-cell" tapmode data-funcName="invite_friend_header" >
+					<div class="aui-arrow-right">推荐有奖</div>
+				</li>
+			
 			</ul>
 		</div>
 		<div class="aui-content-padded">
