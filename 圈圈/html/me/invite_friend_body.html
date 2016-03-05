@@ -24,7 +24,8 @@
 				padding: 0 10px;
 				font-size: 12px;
 				color: #848484
-			}.qq_dsf {
+			}
+			.qq_dsf {
 				margin-top: 30px;
 				color: #fff;
 				height: 32px;
@@ -54,7 +55,7 @@
 				font-size: 30px;
 				margin-bottom: 10px;
 			}
-			.qq_login_icon_duanxin{
+			.qq_login_icon_duanxin {
 				background: #56b725;
 				padding: 10px;
 				border-radius: 50%;
@@ -70,15 +71,15 @@
 			.qq_login_icon_weibo:active {
 				background: #4DC1BE
 			}
-			.qq_login_icon_duanxin:active{
+			.qq_login_icon_duanxin:active {
 				background: #87e758
 			}
-			
 			.qq_text {
 				text-align: center;
 				color: #000;
 				margin-top: 20px;
 				font-size: 13px;
+				height: 20px;
 			}
 			.qq_login_t {
 				padding-left: 20px;
@@ -93,11 +94,19 @@
 			.qq_login_t a:active {
 				color: #55b0f7
 			}
+			.yaw p {
+				text-indent: 2em;
+				line-height: 28px;
+			}
+			.yaw h4 {
+				margin-bottom: 10px;
+				padding-left: 10px;
+			}
 		</style>
 	</head>
 	<body>
 		<div class="aui-content">
-				<div class="ds_line">
+			<div class="ds_line">
 				<span>立即用以下方式邀请好友</span>
 			</div>
 		</div>
@@ -130,19 +139,106 @@
 					短信
 				</div>
 			</div>
-		<div class="aui-content">
-				<div class="ds_line">
-				<span>我的邀请二维码</span>
+			<div class="aui-content" style="text-align: center">
+				<div class="ds_line" style="height: 30px;">
+					<span>我的邀请二维码</span>
+				</div>
+				<img src="" id="ewm" />
 			</div>
+			<div class="ds_line"></div>
 		</div>
+		<div class="aui-content-padded yaw">
+			<h4>如何获得邀请</h4>
+			<p>
+				1、萌宠圈年货礼包+平安宠物安全险
+			</p>
+			<p>
+				2、萌宠圈年货礼包+平安宠物安全险
+			</p>
+			<p>
+				3、萌宠圈年货礼包+平安宠物安全险
+			</p>
+			<p>
+				4、萌宠圈年货礼包+平安宠物安全险
+			</p>
+			</ul>
 		</div>
 	</body>
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript">
 		Zepto(function() {
+			$("#duanxin").on("click", function() {
+				H.$getPrefs(function(ret, err) {
+					var retobj = eval('(' + ret.value + ')');
+					api.sms({
+						numbers : [''],
+						text : '我的宠物正在使用I宠，好东西不能独享，现在分享给你，点击链接http://q.endzk.com/apis/invite/userid/' + retobj.id
+					}, function(ret, err) {
+						if (ret) {
+							alert(JSON.stringify(ret));
+						} else {
+							alert(JSON.stringify(err));
+						}
+					});
+				}, 'userinfo');
+			});
+		});
+		$("#qq").on("click", function() {
+			api.getPrefs({
+				key : 'userinfo'
+			}, function(ret, err) {
+				var retobj = eval('(' + ret.value + ')');
+				var obj = api.require('qq');
+				obj.installed(function(ret, err) {
+					if (ret.status) {
+						obj.shareImage({
+							title : '我在使用I宠,扫描二维码和我一起加入这个爱宠大家庭吧',
+							description : 'http://q.endzk.com/apis/invite/userid/' + retobj.id,
+							imgPath : 'fs://album.png'
+						});
+					} else {
+						api.toast({
+							msg : '抱歉手机上没有安装QQ'
+						});
+					}
+				});
+			});
+			$("#weibo").on("click", function() {
+				var weibo = api.require('weibo');
+				weibo.shareImage({
+					text : '我在使用I宠,扫描二维码和我一起加入这个爱宠大家庭吧',
+					imageUrl : 'fs://album.png'
+				}, function(ret, err) {
+					if (ret.status) {
+						alert('分享图片内容成功');
+					}
+				});
+			});
 		});
 		H.ready(function() {
+			api.getPrefs({
+				key : 'userinfo'
+			}, function(ret, err) {
+				var retobj = eval('(' + ret.value + ')');
+				var FNScanner = api.require('FNScanner');
+				FNScanner.encodeImg({
+					content : 'http://q.endzk.com/apis/invite/userid/' + retobj.id,
+					saveToAlbum : true,
+					saveImg : {
+						path : 'fs://album.png',
+						w : 240,
+						h : 240
+					}
+				}, function(ret, err) {
+					if (ret.status) {
+						document.getElementById("ewm").src = ret.imgPath
+						//			        alert( JSON.stringify( ret ) );
+					} else {
+						alert(JSON.stringify(err));
+					}
+				});
+			});
 		});
 	</script>
 </html>
