@@ -143,7 +143,7 @@
 				<div class="ds_line" style="height: 30px;">
 					<span>我的邀请二维码</span>
 				</div>
-				<img src="" id="ewm" />
+				<img src="../../image/loading_more.gif" id="ewm" />
 			</div>
 			<div class="ds_line"></div>
 		</div>
@@ -168,6 +168,7 @@
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript">
 		Zepto(function() {
+			//短信按钮触发进行短信发送处理
 			$("#duanxin").on("click", function() {
 				H.$getPrefs(function(ret, err) {
 					var retobj = eval('(' + ret.value + ')');
@@ -176,34 +177,36 @@
 						text : '我的宠物正在使用I宠，好东西不能独享，现在分享给你，点击链接http://q.endzk.com/apis/invite/userid/' + retobj.id
 					}, function(ret, err) {
 						if (ret) {
-							alert(JSON.stringify(ret));
+							//alert(JSON.stringify(ret));
 						} else {
-							alert(JSON.stringify(err));
+							//alert(JSON.stringify(err));
 						}
 					});
 				}, 'userinfo');
 			});
-		});
-		$("#qq").on("click", function() {
-			api.getPrefs({
-				key : 'userinfo'
-			}, function(ret, err) {
-				var retobj = eval('(' + ret.value + ')');
-				var obj = api.require('qq');
-				obj.installed(function(ret, err) {
-					if (ret.status) {
-						obj.shareImage({
-							title : '我在使用I宠,扫描二维码和我一起加入这个爱宠大家庭吧',
-							description : 'http://q.endzk.com/apis/invite/userid/' + retobj.id,
-							imgPath : 'fs://album.png'
-						});
-					} else {
-						api.toast({
-							msg : '抱歉手机上没有安装QQ'
-						});
-					}
+			//QQ按钮点击触发进行分享处理
+			$("#qq").on("click", function() {
+				api.getPrefs({
+					key : 'userinfo'
+				}, function(ret, err) {
+					var retobj = eval('(' + ret.value + ')');
+					var obj = api.require('qq');
+					obj.installed(function(ret, err) {
+						if (ret.status) {
+							obj.shareImage({
+								title : '我在使用I宠,扫描二维码和我一起加入这个爱宠大家庭吧',
+								description : 'http://q.endzk.com/apis/invite/userid/' + retobj.id,
+								imgPath : 'fs://album.png'
+							});
+						} else {
+							api.toast({
+								msg : '抱歉手机上没有安装QQ'
+							});
+						}
+					});
 				});
 			});
+			//微博按钮点击以后进行分享处理
 			$("#weibo").on("click", function() {
 				var weibo = api.require('weibo');
 				weibo.shareImage({
@@ -215,35 +218,41 @@
 					}
 				});
 			});
+			//微信按钮点击以后进行分享处理
 			$("#weixin").on("click", function() {
 				api.toast({
-	                msg:'敬请期待'
-                });
+					msg : '敬请期待'
+				});
 			});
 		});
 		H.ready(function() {
-			api.getPrefs({
-				key : 'userinfo'
-			}, function(ret, err) {
-				var retobj = eval('(' + ret.value + ')');
-				var FNScanner = api.require('FNScanner');
-				FNScanner.encodeImg({
-					content : 'http://q.endzk.com/apis/invite/userid/' + retobj.id,
-					saveToAlbum : true,
-					saveImg : {
-						path : 'fs://album.png',
-						w : 240,
-						h : 240
-					}
+			//做一个延时操作
+			setTimeout(function() {
+				//初始化进入生成二维码
+				api.getPrefs({
+					key : 'userinfo'
 				}, function(ret, err) {
-					if (ret.status) {
-						document.getElementById("ewm").src = ret.imgPath
-						//			        alert( JSON.stringify( ret ) );
-					} else {
-						alert(JSON.stringify(err));
-					}
+					var retobj = eval('(' + ret.value + ')');
+					var FNScanner = api.require('FNScanner');
+					FNScanner.encodeImg({
+						content : 'http://q.endzk.com/apis/invite/userid/' + retobj.id,
+						//不保存到相册，每次进入都生成
+						saveToAlbum : false,
+						saveImg : {
+							path : 'fs://album.png',
+							w : 240,
+							h : 240
+						}
+					}, function(ret, err) {
+						if (ret.status) {
+							document.getElementById("ewm").src = ret.imgPath
+							//alert( JSON.stringify( ret ) );
+						} else {
+							//alert(JSON.stringify(err));
+						}
+					});
 				});
-			});
+			}, 700);
 		});
 	</script>
 </html>
