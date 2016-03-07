@@ -15,6 +15,7 @@
   -webkit-text-stroke-width: 0.2px;
   -moz-osx-font-smoothing: grayscale;
 }
+.icon-sousuo:before { content: "\e639"; }
 .icon-qq:before { content: "\e613"; }
 .icon-activity:before { content: "\e623"; }
 .icon-set:before { content: "\e62f"; }
@@ -44,12 +45,12 @@
 .icon-dianpu:before { content: "\e604"; }
 .icon-saoyisao1:before { content: "\e605"; }
 .icon-zhifu:before { content: "\e606"; }
-.icon-sousuo:before { content: "\e607"; }
+.icon-sousuo1:before { content: "\e607"; }
 .icon-bangzhuyufankui:before { content: "\e608"; }
 .icon-shezhi:before { content: "\e609"; }
 .icon-shoucangxihuan:before { content: "\e60a"; }
 .icon-shoucang:before { content: "\e60b"; }
-.icon-sousuo1:before { content: "\e60c"; }
+.icon-sousuo2:before { content: "\e60c"; }
 .icon-dingweidizhigpsditu:before { content: "\e60d"; }
 .icon-daohangzhinanzhen:before { content: "\e60f"; }
 .icon-dingwei:before { content: "\e633"; }

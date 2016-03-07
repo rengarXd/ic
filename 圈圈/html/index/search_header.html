@@ -3,11 +3,15 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
 		<title>title</title>
 		<link rel="stylesheet" type="text/css" href="../../css/aui.css"/>
 		<link rel="stylesheet" type="text/css" href="../../css/fonts/iconfont.css"/>
 		<style>
 			body {
+			}
+			.aui-bar-1d9dd5 {
+				background: #1786FF;
 			}
 			.serach_in {
 				width: 100%;
@@ -17,9 +21,10 @@
 				margin-left: 6px;
 				font-size: 13px;
 				color: #bbb;
-				border: 1px solid #006FEC;
 				line-height: 31px;
-				padding-left: 8px;
+				padding-left: 6px !important;
+				margin-bottom: 0px !important;
+				border:1px solid #0062d0 !important;
 			}
 			.sousuo_btn {
 				top: -15px;
@@ -32,12 +37,13 @@
 	<body>
 		<header class="aui-bar aui-bar-nav aui-bar-1d9dd5 header" id='search-header'>
 			<div class="aui-col-xs-10" style="line-height: 0;text-align: right">
-				<input class="serach_in " placeholder="大家都在搜：狗狗在哪儿 " />
-				<span class="iconfont icon-sousuo1 sousuo_btn" id="icon_btn"></span>
+				<input class="serach_in" type="text" placeholder="大家都在搜：狗狗在哪儿 " />
+				<span class="iconfont icon-sousuo sousuo_btn" id="icon_btn"></span>
 			</div>
 			<div class="aui-col-xs-2">
 				<a class="aui-pull-right" onclick="H.$closeCurrentWin();"> <span class="aui-iconfont "></span>取消 </a>
 			</div>
+		</header>
 	</body>
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
@@ -51,6 +57,7 @@
 			});
 		});
 		Zepto(function($) {
+			$(".serach_in").focus();
 			//	搜索图标点击事件的执行代码
 			$('icon_btn').on('click', function() {
 			});
