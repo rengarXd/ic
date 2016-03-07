@@ -129,7 +129,6 @@
 				margin-top: 8px;
 				margin-right: 6px;
 				border-radius: 3px;
-				
 			}
 			.dian_2 {
 				width: 9px;
@@ -139,7 +138,6 @@
 				margin-top: 8px;
 				margin-right: 6px;
 				border-radius: 3px;
-				
 			}
 			.twkb2 {
 				padding-top: 11px;
@@ -210,7 +208,7 @@
 		</script>
 		<!--首页广告幻灯结束-->
 		<!--首页菜单开始-->
-		<div class="func-menu">
+		<div class="func-menu"  id="consulting_header">
 			<div class="item-func" tapmode>
 				<div class="content-area">
 					<p class="aui-bg-ff3366">
@@ -219,7 +217,7 @@
 					<span>诊疗</span>
 				</div>
 			</div>
-			<div class="item-func" tapmode >
+			<div class="item-func" tapmode>
 				<div class="content-area">
 					<p class="aui-bg-ffc80a">
 						<i class="iconfont icon-wenda"></i>
@@ -304,9 +302,14 @@
 				H.$openWin("position_header", "../pet/position_header.html");
 			});
 			/*更多活动处理*/
-			$(".index_more").on("click",function(){
+			$(".index_more").on("click", function() {
 				api.parseTapmode();
 				H.$openWin("moreActivity_header", "moreActivity_header.html");
+			});
+			/*诊疗处理*/
+			$("#consulting_header").on("click", function() {
+				api.parseTapmode();
+				H.$openWin("consulting_header", "../friend/consulting_header.html");
 			});
 		});
 		//所有的代码都写在H.ready(function(){})
@@ -347,7 +350,6 @@
 			/*下拉刷新*/
 			H.$dropdownToRefresh(function(ret, err) {
 				setTimeout(function() {
-					
 					H.$recoverDropdownToNormal();
 				}, 1000);
 			});
@@ -360,7 +362,6 @@
 		 * 获取首页数据函数
 		 */
 		function getdata() {
-			
 		}
 	</script>
 </html>
