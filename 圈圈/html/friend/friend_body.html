@@ -48,7 +48,7 @@
 	<body>
 		<div class="aui-content">
 			<ul class="aui-list-view">
-				<li class="aui-list-view-cell" tapmode>
+				<li class="aui-list-view-cell" tapmode id="consulting_header">
 					<div class="aui-arrow-right">
 						<div class="f_pic">
 							<span class="iconfont icon-shenfenrenzheng"></span>
@@ -149,7 +149,13 @@
 			</ul>
 		</div>
 		<script type="text/javascript" src="../../script/AHelper.js"></script>
+		<script type="text/javascript" src="../../script/zepto.min.js"></script>
 		<script type="text/javascript">
+			Zepto(function($){
+				$("#consulting_header").on("tap",function(){
+					H.$openWin("consulting_header","consulting_header.html");
+				});
+			});
 			H.ready(function() {
 			});
 		</script>
