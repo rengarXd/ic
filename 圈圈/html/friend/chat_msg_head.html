@@ -11,6 +11,7 @@
 			.aui-bar-1d9dd5 {
 				background: #1786FF;
 			}
+		
 		</style>
 	</head>
 	<body>
@@ -64,7 +65,7 @@
 			// ####################### 聊天组件
 			UIChatBox.open({
 				placeholder : '',
-				maxRows : 4,
+				maxRows : 5,
 				emotionPath : 'widget://res/chatBox/emotion',
 				texts : {
 					recordBtn : {
@@ -111,7 +112,7 @@
 					},
 					sendBtn : {
 						titleColor : '#4cc518',
-						bg : '#999999',
+						bg : '#ffffff',
 						activeBg : '#46a91e',
 						titleSize : 14
 					}
@@ -160,6 +161,15 @@
 					var panelHeight = ret.panelHeight;
 					resetFrameHeight(inputBarHeight, panelHeight);
 				}
+			});
+			//退出时候进行评价
+			api.addEventListener({
+				name : 'keyback'
+			}, function(ret, err) {
+				//			    api.toast({
+				//	                msg:'返回评价啦，暂时点击屏幕返回'
+				//              });
+				H.$openWin("evaluate_doctor_header", "evaluate_doctor_header.html");
 			});
 		});
 	</script>
