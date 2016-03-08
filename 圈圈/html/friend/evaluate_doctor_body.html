@@ -1,39 +1,105 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="utf-8">
-		<!--确保绘制和缩放的效果需要在<head>标签中添加 viewport 元数据标签-->
 		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
-		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-		<title>医生评价header</title>
-		<!--引入aui框架-->
-		<link rel="stylesheet" href="../../css/aui-win.css" />
+		<title>医生评价body</title>
+		<link rel="stylesheet" type="text/css" href="../../css/aui.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/fonts/iconfont.css"/>
 		<style>
-			.aui-bar-1d9dd5 {
-				background: #1786FF;
+			.wenzhen_btn_wen {
+				color: #fff;
+				position: fixed;
+				bottom: 0;
+				border-radius: 0;
+				margin: 0;
+				border: 0;
+				background: -webkit-gradient(linear, left top, left bottom, from(#ff7f27), to(#ff6001));
 			}
-			
+			.wenzhen_btn_wen:active {
+				background: -webkit-gradient(linear, left top, left bottom, from(#ff6001), to(#ff9001));
+			}
+			.aui-input-row .aui-input-addon {
+				padding-left: 20px;
+			}
+			.bsy {
+				font-size: 12px;
+				color: #A0A0A0;
+				margin-left: 20px;
+			}
+			.aui-input-rows:first-child:after {
+				border-top: 0
+			}
+			.aui-input-rows {
+				display: block;
+				padding: 0
+			}
+			.pj {
+				height: 40px;
+				line-height: 40px;
+				font-size: 13px;
+				padding-left: 20px;
+			}
 		</style>
 	</head>
 	<body>
-		<!--标题栏 start-->
-		<header class="aui-bar aui-bar-nav aui-bar-1d9dd5 header" id='aui-header'>
-			<a class="aui-pull-left" onclick="H.$closeCurrentWin();"> <span class="aui-iconfont aui-icon-left"></span> 返回 </a>
-			<div class="aui-title">
-				医生评价
+		<div class="aui-form" style="margin-bottom: 15px;padding-top: 10px">
+			<span class="bsy">满意度</span>
+			<div class="aui-input-row">
+				<label class="aui-input-addon">非常满意</label>
+				<input class="aui-pull-right aui-radio" type="radio" name="demo" checked>
 			</div>
-		</header>
-		<script type="text/javascript" src="../../script/AHelper.js"></script>
-		<script type="text/javascript">
-			H.ready(function() {
-				// 快速打开窗口
-				H.$openFrameWithNav('aui-header', {
-					url : 'evaluate_doctor_body.html',
-					name : 'evaluate_doctor_body',
-					pageParam : H.$getPageParam()
-				});
-				
-			});
-		</script>
+			<div class="aui-input-row">
+				<label class="aui-input-addon">满意</label>
+				<input class="aui-pull-right aui-radio aui-radio-info" type="radio" name="demo">
+			</div>
+			<div class="aui-input-row">
+				<label class="aui-input-addon">不满意</label>
+				<input class="aui-pull-right aui-radio aui-radio-success" type="radio" name="demo" >
+			</div>
+		</div>
+		<div class="aui-content" style="background: #fff">
+			<span class="pj">评价</span>
+			<div class="aui-form">
+				<div class="aui-input-row aui-input-rows">
+					<textarea class="aui-input" placeholder="请给您的宠物的症状做一个详细的描述" style="height: 140px;"></textarea>
+				</div>
+			</div>
+		</div>
+		<!--撑开下部层页面-->
+		<div style="height:10px;"></div>
+		<!--撑开下部层页面-->
+		<!--我要问诊-->
+		<div class="aui-btn aui-btn-block wenzhen_btn_wen" id="consulting">
+			提交评价
+		</div>
+		<!--我要问诊-->
 	</body>
+	<script type="text/javascript" src="../../script/AHelper.js"></script>
+	<script type="text/javascript" src="../../script/zepto.min.js"></script>
+	<script>
+		Zepto(function($) {
+			$("#wenzhen").on("tap", function() {
+				api.actionSheet({
+					title : '请选择您要问诊的宠物',
+					cancelTitle : '取消',
+					destructiveTitle : '',
+					buttons : ['可可']
+				}, function(ret, err) {
+					if (ret) {
+						//						alert(JSON.stringify(ret));
+					} else {
+						//						alert(JSON.stringify(err));
+					}
+				});
+			});
+			$("#consulting").on("tap", function() {
+				api.parseTapmode();
+				H.$openWin("chat_msg_head", "chat_msg_head.html");
+			});
+			;
+		});
+		H.ready(function() {
+		});
+	</script>
 </html>
