@@ -1,0 +1,475 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../../css/aui/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont/iconfont.css" />
+		<style type="text/css">
+			html, body {
+				background: #f6f9fb;
+			}
+			.winu-flex-box-horizontal {
+				display: -webkit-box;
+				display: -webkit-flex;
+				display: flex;
+				-webkit-box-orient: horizontal;
+				-webkit-flex-flow: row;
+				flex-flow: row;
+				width: 100%;
+			}
+			.winu-flex-item {
+				-webkit-box-flex: 1;
+				-webkit-flex: 1;
+				flex: 1;
+			}
+			.msg-list {
+				padding: 8px 0 15px 0;
+				min-height: 0;
+				height: auto;
+			}
+			/*接收方*/
+			.receiver, .sender {
+				padding: 10px;
+				clear: both;
+			}
+			.user-pic {
+				width: 42px;
+				height: 42px;
+				border-radius: 50%;
+				-webkit-border-radius: 50%;
+			}
+			.status {
+				width: 24px;
+				display: inline-block;
+				height: 24px;
+				line-height: 24px;
+				text-align: center;
+				vertical-align: bottom;
+				position: absolute;
+				top: 9px;
+				left: 0;
+				background: #e3e7ec;
+				border-radius: 50%;
+				-webkit-border-radius: 50%;
+			}
+			.status i {
+				color: #556893;
+			}
+			.status.red {
+				background: #f00;
+			}
+			.status.red i {
+				color: #fff;
+				font-size: 14px;
+			}
+			.status.rotate {
+				animation: 1s linear 0s normal none infinite rotate;
+				-webkit-animation: 1s linear 0s normal none infinite rotate;
+			}
+			.area {
+				margin: 0 10px;
+				position: relative;
+				padding-right: 42px;
+			}
+			.sender .area {
+				padding-right: 0;
+				padding-left: 42px;
+			}
+			.content {
+				position: relative;
+				background: #4385f6;
+				color: #fff;
+				padding: 10px;
+				font-size: 14px;
+				line-height: 24px;
+				border-radius: 10px;
+				-webkit-border-radius: 10px;
+				margin-left: 6px;
+				min-height: 44px;
+				display: inline-block;
+			}
+			.content img {
+				max-width: 100%;
+			}
+			.receiver-jt, .sender-jt {
+				font-style: normal;
+				display: block;
+				height: 0px;
+				width: 0px;
+				border-width: 7px;
+				border-style: solid;
+				border-color: transparent #4385f6 transparent transparent;
+				position: absolute;
+				top: 10px;
+				left: -14px;
+				z-index: 12;
+			}
+			.sender	.content {
+				background: #e3e7ec;
+				color: #556893;
+				margin-right: 6px;
+				margin-left: 0;
+				float: right;
+			}
+			.sender-jt {
+				border-color: transparent transparent transparent #e3e7ec;
+				right: -14px;
+				left: auto;
+			}
+			.voice {
+				text-align: left;
+				padding-right: 10px;
+			}
+			.voice label {
+				padding-left: 10px;
+			}
+			.sender .voice {
+				text-align: right;
+				padding-left: 10px;
+			}
+			.sender .voice label {
+				padding-left: 0;
+				padding-right: 10px;
+			}
+			.voice i.icon-shengyin2 {
+				font-size: 20px;
+				vertical-align: middle;
+			}
+			.time {
+				font-size: 12px;
+				text-align: center;
+				height: 24px;
+				line-height: 24px;
+				color: #9daeca;
+			}
+			.userinfo {
+				padding: 0 0 7px 5px;
+				font-size: 12px;
+				color: #666;
+				text-align: left;
+			}
+			.level {
+				display: inline-block;
+				vertical-align: middle;
+				font-size: 9px;
+				color: #fff;
+				background: #1D9DD5;
+				height: 15px;
+				line-height: 16px;
+				padding: 0 4px;
+				border-radius: 2px;
+				-webkit-border-radius: 2px;
+				margin-left: 10px;
+			}
+			.sender .level {
+				margin-left: 0px;
+				margin-right: 10px;
+			}
+			.sender .userinfo {
+				padding: 0 5px 7px 0;
+				text-align: right;
+			}
+			@keyframes rotate{
+			from {
+				-webkit-transform: rotate(0deg)
+			}
+			to {
+				-webkit-transform: rotate(360deg)
+			}
+			}
+			@-webkit-keyframes
+			rotate {from {
+				-webkit-transform: rotate(0deg)
+			}
+			to {
+				-webkit-transform: rotate(360deg)
+			}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="msg-list">
+			<div class="time">
+				2016-02-06 13:24-15
+			</div>
+			<div class="receiver winu-flex-box-horizontal">
+				<img src="../../image/pic.jpg" class="user-pic" />
+				<div class="area winu-flex-item">
+					<div class="content">
+						<big class="receiver-jt"></big>
+						成功接收****一段文字
+					</div>
+				</div>
+			</div>
+			<div class="sender winu-flex-box-horizontal">
+				<div class="area winu-flex-item">
+					<div class="content">
+						<big class="sender-jt"></big>
+						成功发送****一段文字
+					</div>
+				</div>
+				<img src="../../image/pic.jpg" class="user-pic" />
+			</div>
+			<div class="receiver winu-flex-box-horizontal">
+				<img src="../../image/pic.jpg" class="user-pic" />
+				<div class="area winu-flex-item">
+					<div class="content">
+						<big class="receiver-jt"></big>
+						成功接收****一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字
+					</div>
+				</div>
+			</div>
+			<div class="sender winu-flex-box-horizontal">
+				<div class="area winu-flex-item">
+					<div class="content">
+						<big class="sender-jt"></big>
+						成功发送****一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字
+					</div>
+				</div>
+				<img src="../../image/pic.jpg" class="user-pic" />
+			</div>
+			<div class="receiver winu-flex-box-horizontal">
+				<img src="../../image/pic.jpg" class="user-pic" />
+				<div class="area winu-flex-item">
+					<div class="content">
+						<big class="receiver-jt"></big>
+						<img src="../../image/banner.jpg" />
+					</div>
+				</div>
+			</div>
+			<div class="sender winu-flex-box-horizontal">
+				<div class="area winu-flex-item">
+					<div class="content">
+						<big class="sender-jt"></big>
+						<img src="../../image/banner.jpg" />
+					</div>
+				</div>
+				<img src="../../image/pic.jpg" class="user-pic" />
+			</div>
+			<div class="receiver winu-flex-box-horizontal">
+				<img src="../../image/pic.jpg" class="user-pic" />
+				<div class="area winu-flex-item">
+					<div class="content">
+						<big class="receiver-jt"></big>
+						<div class="voice">
+							<i class="iconfont icon-shengyin2"></i><label>2"</label>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="time">
+				2016-02-06 13:24-15
+			</div>
+			<div class="sender winu-flex-box-horizontal">
+				<div class="area winu-flex-item">
+					<div class="content">
+						<big class="sender-jt"></big>
+						<div class="voice" style="width:80px">
+							<label>10"</label><i class="iconfont icon-shengyin"></i>
+						</div>
+					</div>
+				</div>
+				<img src="../../image/pic.jpg" class="user-pic" />
+			</div>
+			<div class="receiver winu-flex-box-horizontal">
+				<img src="../../image/pic.jpg" class="user-pic" />
+				<div class="area winu-flex-item">
+					<div class="content">
+						<big class="receiver-jt"></big>
+						<div class="voice" style="width:120px;">
+							<i class="iconfont icon-shengyin2"></i><label>18"</label>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="sender winu-flex-box-horizontal">
+				<div class="area winu-flex-item">
+					<span class="status rotate"><i class="aui-iconfont aui-icon-loading aui-chat-progress"></i></span>
+					<div class="content">
+						<big class="sender-jt"></big>
+						发送中****一段文字一
+					</div>
+				</div>
+				<img src="../../image/pic.jpg" class="user-pic" />
+			</div>
+			<div class="sender winu-flex-box-horizontal">
+				<div class="area winu-flex-item">
+					<span class="status rotate"><i class="aui-iconfont aui-icon-loading aui-chat-progress"></i></span>
+					<div class="content">
+						<big class="sender-jt"></big>
+						发送中****一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字
+					</div>
+				</div>
+				<img src="../../image/pic.jpg" class="user-pic" />
+			</div>
+			<div class="sender winu-flex-box-horizontal">
+				<div class="area winu-flex-item">
+					<span class="status rotate"><i class="aui-iconfont aui-icon-loading aui-chat-progress"></i></span>
+					<div class="content">
+						<big class="sender-jt"></big>
+						<img src="../../image/banner.jpg" />
+					</div>
+				</div>
+				<img src="../../image/pic.jpg" class="user-pic" />
+			</div>
+			<div class="time">
+				2016-02-06 13:24-15
+			</div>
+			<div class="sender winu-flex-box-horizontal">
+				<div class="area winu-flex-item">
+					<span class="status red"><i class="aui-iconfont iconfont icon-ganhaohao"></i></span>
+					<div class="content">
+						<big class="sender-jt"></big>
+						发送失败****一段文字一
+					</div>
+				</div>
+				<img src="../../image/pic.jpg" class="user-pic" />
+			</div>
+			<div class="sender winu-flex-box-horizontal">
+				<div class="area winu-flex-item">
+					<span class="status red"><i class="aui-iconfont iconfont icon-ganhaohao"></i></span>
+					<div class="content">
+						<big class="sender-jt"></big>
+						发送失败****一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字一段文字
+					</div>
+				</div>
+				<img src="../../image/pic.jpg" class="user-pic" />
+			</div>
+			<div class="sender winu-flex-box-horizontal">
+				<div class="area winu-flex-item">
+					<span class="status red"><i class="aui-iconfont iconfont icon-ganhaohao"></i></span>
+					<div class="content">
+						<big class="sender-jt"></big>
+						<img src="../../image/banner.jpg" />
+					</div>
+				</div>
+				<img src="../../image/pic.jpg" class="user-pic" />
+			</div>
+			<div class="time">
+				2016-02-06 13:24-15
+			</div>
+			<div class="receiver winu-flex-box-horizontal">
+				<img src="../../image/pic.jpg" class="user-pic" />
+				<div class="area winu-flex-item">
+					<div class="userinfo">
+						<span>点点例</span><font class="level">官方人员</font>
+					</div>
+					<div class="content">
+						<big class="receiver-jt"></big>
+						群聊有昵称和等级
+					</div>
+				</div>
+			</div>
+			<div class="sender winu-flex-box-horizontal">
+				<div class="area winu-flex-item">
+					<div class="userinfo">
+						<font class="level">官方人员</font><span>点点例</span>
+					</div>
+					<div class="content">
+						<big class="sender-jt"></big>
+						群聊有昵称和等级群聊有昵称和等级群聊有昵称和等级群聊有昵称和等级群聊有昵称和等级
+					</div>
+				</div>
+				<img src="../../image/pic.jpg" class="user-pic" />
+			</div>
+			<div class="receiver winu-flex-box-horizontal">
+				<img src="../../image/pic.jpg" class="user-pic" />
+				<div class="area winu-flex-item">
+					<div class="userinfo">
+						<span>点点例</span><font class="level">官方人员</font>
+					</div>
+					<div class="content">
+						<big class="receiver-jt"></big>
+						<div class="voice">
+							<i class="iconfont icon-shengyin2"></i><label>2"</label>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="time">
+				2016-02-06 13:24-15
+			</div>
+			<div class="sender winu-flex-box-horizontal">
+				<div class="area winu-flex-item">
+					<div class="userinfo">
+						<font class="level">官方人员</font><span>点点例</span>
+					</div>
+					<div class="content">
+						<big class="sender-jt"></big>
+						<div class="voice" style="width:80px">
+							<label>10"</label><i class="iconfont icon-shengyin"></i>
+						</div>
+					</div>
+				</div>
+				<img src="../../image/pic.jpg" class="user-pic" />
+			</div>
+			<div class="receiver winu-flex-box-horizontal">
+				<img src="../../image/pic.jpg" class="user-pic" />
+				<div class="area winu-flex-item">
+					<div class="userinfo">
+						<span>点点例</span><font class="level">官方人员</font>
+					</div>
+					<div class="content">
+						<big class="receiver-jt"></big>
+						群聊有昵称和等级群聊有昵称和等级群聊有昵称和等级群聊有昵称和等级群聊有昵称和等级
+					</div>
+				</div>
+			</div>
+			<div class="sender winu-flex-box-horizontal">
+				<div class="area winu-flex-item">
+					<div class="userinfo">
+						<font class="level">官方人员</font><span>点点例</span>
+					</div>
+					<div class="content">
+						<big class="sender-jt"></big>
+						成功发送****一段文字
+					</div>
+				</div>
+				<img src="../../image/pic.jpg" class="user-pic" />
+			</div>
+			<div class="receiver winu-flex-box-horizontal">
+				<img src="../../image/pic.jpg" class="user-pic" />
+				<div class="area winu-flex-item">
+					<div class="userinfo">
+						<span>点点例</span><font class="level">官方人员</font>
+					</div>
+					<div class="content">
+						<big class="receiver-jt"></big>
+						<img src="../../image/banner.jpg" />
+					</div>
+				</div>
+			</div>
+			<div class="sender winu-flex-box-horizontal">
+				<div class="area winu-flex-item">
+					<div class="userinfo">
+						<font class="level">官方人员</font><span>点点例</span>
+					</div>
+					<div class="content">
+						<big class="sender-jt"></big>
+						<img src="../../image/banner.jpg" />
+					</div>
+				</div>
+				<img src="../../image/pic.jpg" class="user-pic" />
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../../script/AHelper.js"></script>
+	<script type="text/javascript" src="../../script/zepto.min.js"></script>
+	<script type="text/javascript">
+		var currentPosition, timer;
+		Zepto(function($) {
+			H.$com.scrollToDocButton();
+			// 设置状态
+			$(".sender .status").each(function() {
+				var $content = $(this).siblings(".content");
+				var offset = H.$api.offset($content[0]);
+				$(this).css({
+					"left" : (offset.l - 55) + "px"
+				});
+			});
+		});
+	</script>
+</html>

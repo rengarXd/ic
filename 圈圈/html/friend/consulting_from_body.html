@@ -95,6 +95,11 @@
 					}
 				});
 			});
+			$("#consulting").on("tap",function(){
+				api.parseTapmode();
+				H.$openWin("chat_msg_head","chat_msg_head.html");
+			});;
+			
 		});
 		H.ready(function() {
 		});
