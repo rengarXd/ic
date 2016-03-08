@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>填写问诊信息body</title>
+		<link rel="stylesheet" type="text/css" href="../../css/aui.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/fonts/iconfont.css"/>
+		<style>
+			.aui-arrow-right span {
+				float: right;
+				margin-right: 22px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="aui-content">
+			<ul class="aui-list-view">
+				<li class="aui-list-view-cell" id="wenzhen">
+					<a class="aui-arrow-right"> 问诊人 <span>可可</span> </a>
+				</li>
+				<li class="aui-list-view-cell">
+					<a class="aui-arrow-right"> 宠物类别 <span>泰迪犬</span> </a>
+				</li>
+				<li class="aui-list-view-cell">
+					<a class="aui-arrow-right"> 宠物性别 <span>雄</span> </a>
+				</li>
+				<li class="aui-list-view-cell">
+					<a class="aui-arrow-right"> 宠物年龄 <span>0年0月</span> </a>
+				</li>
+				<li class="aui-list-view-cell">
+					<a class="aui-arrow-right"> 是否打疫苗 <span>未打疫苗</span> </a>
+				</li>
+			</ul>
+		</div>
+	</body>
+	<script type="text/javascript" src="../../script/AHelper.js"></script>
+	<script type="text/javascript" src="../../script/zepto.min.js"></script>
+	<script>
+		Zepto(function($) {
+			$("#wenzhen").on("tap", function() {
+				api.actionSheet({
+					title : '请选择你',
+					cancelTitle : '取消',
+					destructiveTitle : '红色警告按钮',
+					buttons : ['1', '2', '3']
+				}, function(ret, err) {
+					if (ret) {
+						alert(JSON.stringify(ret));
+					} else {
+						alert(JSON.stringify(err));
+					}
+				});
+			});
+		});
+		H.ready(function() {
+		});
+	</script>
+</html>
