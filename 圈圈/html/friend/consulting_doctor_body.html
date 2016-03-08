@@ -70,10 +70,7 @@
 				background: -webkit-gradient(linear, left top, left bottom, from(#ff7f27), to(#ff6001));
 			}
 			.wenzhen_btn_wen:active {
-				background: #ff6001
-			}
-			.uhfp {
-				margin-bottom: 55px !important;
+				background: -webkit-gradient(linear, left top, left bottom, from(#ff6001), to(#ff9001));
 			}
 		</style>
 	</head>
@@ -199,16 +196,23 @@
 					</p>
 				</li>
 			</ul>
+			<!--撑开下部层页面-->
+			<div style="height:50px;"></div>
+			<!--撑开下部层页面-->
 		</div>
 		<!--用户评价-->
-		<footer class="wenzhen_btn">
-			<div class="aui-btn aui-btn-block wenzhen_btn_wen">
-				我要问诊
-			</div>
-		</footer>
+		<div class="aui-btn aui-btn-block wenzhen_btn_wen" id="consulting">
+			我要问诊
+		</div>
 	</body>
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
+	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script>
+		Zepto(function($){
+			$("#consulting").on("tap",function(){
+				
+			});
+		});
 		H.ready(function() {
 		});
 	</script>

@@ -1,37 +1,111 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="utf-8">
-		<!--确保绘制和缩放的效果需要在<head>标签中添加 viewport 元数据标签-->
 		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
-		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-		<title>诊疗header</title>
-		<!--引入aui框架-->
-		<link rel="stylesheet" href="../../css/aui-win.css" />
+		<title>诊疗body</title>
+		<link rel="stylesheet" type="text/css" href="../../css/aui.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/fonts/iconfont.css"/>
 		<style>
-			.aui-bar-1d9dd5 {
-				background: #1786FF;
+			.aui-ellipsis-pp {
+				font-size: 10px;
+				margin-bottom: 6px;
+			}
+			.aui-ellipsis-1 {
+				font-size: 14px;
+			}
+			.intro {
+				margin-top: 8px;
+			}
+			.aui-img-body i {
+				font-size: 17px;
+				font-style: normal;
+				color: #ff4300;
+				margin-left: 13px;
+			}
+			.aui-user-view-cell .aui-img-object {
+				width: 48px !important
+			}
+			.aui-user-view-cell:active {
+				background: #f5f5f5
 			}
 		</style>
 	</head>
 	<body>
-		<!--标题栏 start-->
-		<header class="aui-bar aui-bar-nav aui-bar-1d9dd5 header" id='aui-header'>
-			<a class="aui-pull-left" onclick="H.$closeCurrentWin();"> <span class="aui-iconfont aui-icon-left"></span> 返回 </a>
-			<div class="aui-title">
-				诊疗
-			</div>
-		</header>
-		<script type="text/javascript" src="../../script/AHelper.js"></script>
-		<script type="text/javascript">
-			H.ready(function() {
-				// 快速打开窗口
-				H.$openFrameWithNav('aui-header', {
-					url : 'consulting_body.html',
-					name : 'consulting_body',
-					pageParam : H.$getPageParam()
-				});
-			});
-		</script>
+		<div class="aui-content">
+			<ul class="aui-user-view" id="doctor_list">
+				<li class="aui-user-view-cell aui-img" tapmode onclick="to_doctor(1);">
+					<img class="aui-img-object aui-pull-left" src="../../image/friend/pic04.png">
+					<div class="aui-img-body">
+						<span>唐艺昕<i>9.2分</i><em><img src="../../image/friend/rzys.png" style="width: 80px;"/></em></span>
+						<p class='aui-ellipsis-1'>
+							主治医师
+						</p>
+						<p class="aui-ellipsis-pp">
+							河南农业大学宠物医院（农业路东三街交叉口东）
+						</p>
+					</div>
+					<div class="aui-line-x"></div>
+					<h5 class="intro">专长：眼科、内科、老年医学及软组织手术。</h5>
+				</li>
+				<li class="aui-user-view-cell aui-img" tapmode onclick="to_doctor(1);">
+					<img class="aui-img-object aui-pull-left" src="../../image/friend/pic03.png">
+					<div class="aui-img-body">
+						<span>张飞<i>9.0分</i><em><img src="../../image/friend/rzys.png" style="width: 80px;"/></em></span>
+						<p class='aui-ellipsis-1'>
+							主治医师
+						</p>
+						<p class="aui-ellipsis-pp">
+							河南农业大学宠物医院（农业路东三街交叉口东）
+						</p>
+					</div>
+					<div class="aui-line-x"></div>
+					<h5 class="intro">专长：眼科、内科、老年医学及软组织手术。</h5>
+				</li>
+				<li class="aui-user-view-cell aui-img" tapmode onclick="to_doctor(1);">
+					<img class="aui-img-object aui-pull-left" src="../../image/friend/pic06.png">
+					<div class="aui-img-body">
+						<span>陈翔<i>9.0分</i><em><img src="../../image/friend/rzys.png" style="width: 80px;"/></em></span>
+						<p class='aui-ellipsis-1'>
+							主治医师
+						</p>
+						<p class="aui-ellipsis-pp">
+							河南农业大学宠物医院（农业路东三街交叉口东）
+						</p>
+					</div>
+					<div class="aui-line-x"></div>
+					<h5 class="intro">专长：眼科、内科、老年医学及软组织手术。</h5>
+				</li>
+				<li class="aui-user-view-cell aui-img" tapmode onclick="to_doctor(1);">
+					<img class="aui-img-object aui-pull-left" src="../../image/friend/pic03.png">
+					<div class="aui-img-body">
+						<span>刘涛<i>8.6分</i><em><img src="../../image/friend/rzys.png" style="width: 80px;"/></em></span>
+						<p class='aui-ellipsis-1'>
+							主治医师
+						</p>
+						<p class="aui-ellipsis-pp">
+							河南农业大学宠物医院（农业路东三街交叉口东）
+						</p>
+					</div>
+					<div class="aui-line-x"></div>
+					<h5 class="intro">专长：眼科、内科、老年医学及软组织手术。</h5>
+				</li>
+			</ul>
+		</div>
 	</body>
+	<script type="text/javascript" src="../../script/AHelper.js"></script>
+	<script type="text/javascript" src="../../script/zepto.min.js"></script>
+	<script>
+		//医生详情跳转
+		function to_doctor(id) {
+			H.$openWin("consulting_doctor_header", "consulting_doctor_header.html", {
+				id : id
+			});
+		}
+
+		Zepto(function($) {
+		});
+		H.ready(function() {
+		});
+	</script>
 </html>
