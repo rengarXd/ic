@@ -11,6 +11,25 @@
 				float: right;
 				margin-right: 22px;
 			}
+			.wenzhen_btn_wen {
+				color: #fff;
+				position: fixed;
+				bottom: 0;
+				border-radius: 0;
+				margin: 0;
+				border: 0;
+				background: -webkit-gradient(linear, left top, left bottom, from(#ff7f27), to(#ff6001));
+			}
+			.wenzhen_btn_wen:active {
+				background: -webkit-gradient(linear, left top, left bottom, from(#ff6001), to(#ff9001));
+			}
+			.aui-input-rows:first-child:after {
+				border-top: 0
+			}
+			.aui-input-rows {
+				display: block;
+				padding: 0
+			}
 		</style>
 	</head>
 	<body>
@@ -33,6 +52,30 @@
 				</li>
 			</ul>
 		</div>
+		<!--症状描述-->
+		<div class="aui-form">
+			<div class="aui-input-row aui-input-rows">
+				<textarea class="aui-input" placeholder="请给您的宠物的症状做一个详细的描述" style="height: 140px;"></textarea>
+			</div>
+		</div>
+		<!--症状描述-->
+		<!--添加图片-->
+		<div class="aui-content" style="margin-bottom: 68px;">
+			<ul class="aui-list-view aui-grid-view" id="imgslist">
+				<li class="aui-list-view-cell aui-img aui-col-xs-4" id="addpic">
+					<img class="aui-img-object" src="../../image/add.jpg">
+				</li>
+			</ul>
+		</div>
+		<!--添加图片-->
+		<!--撑开下部层页面-->
+		<div style="height:10px;"></div>
+		<!--撑开下部层页面-->
+		<!--我要问诊-->
+		<div class="aui-btn aui-btn-block wenzhen_btn_wen" id="consulting">
+			我要问诊
+		</div>
+		<!--我要问诊-->
 	</body>
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
@@ -40,15 +83,15 @@
 		Zepto(function($) {
 			$("#wenzhen").on("tap", function() {
 				api.actionSheet({
-					title : '请选择你',
+					title : '请选择您要问诊的宠物',
 					cancelTitle : '取消',
-					destructiveTitle : '红色警告按钮',
-					buttons : ['1', '2', '3']
+					destructiveTitle : '',
+					buttons : ['可可']
 				}, function(ret, err) {
 					if (ret) {
-						alert(JSON.stringify(ret));
+						//						alert(JSON.stringify(ret));
 					} else {
-						alert(JSON.stringify(err));
+						//						alert(JSON.stringify(err));
 					}
 				});
 			});
