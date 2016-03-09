@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>问答body</title>
+		<link rel="stylesheet" type="text/css" href="../../css/aui.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/fonts/iconfont.css"/>
+		<style>
+			.a_keyword span {
+				background: #e3e3e3;
+				color: #555555;
+				font-size: 12px;
+				padding: 4px 16px;
+				border-radius: 20px;
+				-moz-border-radius: 20px;
+				-webkit-border-radius: 20px;
+				float: left;
+				margin-top: 11px;
+				margin-left: 10px;
+			}
+			.a_keyword span:active {
+				background: #D5D5D5
+			}
+			.a_title {
+				font-size: 12px
+			}
+			.a_title h4 {
+				padding: 4px 12px;
+				color: #888888;
+			}
+			.a_rm {
+				background: #fff;
+				height: 124px;
+			}
+			.img-cont img {
+				max-width: 45px;
+				height: 45px;
+				line-height: 45px;
+				border-radius: 50%;
+				margin-right: 11px;
+			}
+			.aui-content-title {
+				background: #fff;
+				padding: 11px;
+				font-size: 16px;
+			}
+			.aui-list-view:after {
+				border: 0
+			}
+			.wenzhen_btn_wen:active {
+				background: -webkit-gradient(linear, left top, left bottom, from(#ff6001), to(#ff9001));
+			}
+			.wenzhen_btn_wen {
+				border: 0;
+				color: #fff;
+				border-radius: 0;
+				background: -webkit-gradient(linear, left top, left bottom, from(#ff7f27), to(#ff6001));
+			}
+		</style>
+	</head>
+	<body>
+		<!--搜索框-->
+		<div class="aui-searchbar-wrap demo" id="search">
+			<div class="aui-searchbar aui-border-radius" tapmode onclick="doSearch()">
+				<i class="aui-iconfont aui-icon-search"></i>
+				<div class="aui-searchbar-text">
+					大家都在搜：犬类腹泻
+				</div>
+				<div class="aui-searchbar-input">
+					<form action="javascript:search();">
+						<input type="search" placeholder="大家都在搜：犬类腹泻" id="search-input">
+					</form>
+				</div>
+				<i class="aui-iconfont aui-icon-roundclosefill" tapmode onclick="clearInput()"></i>
+			</div>
+			<div class="aui-searchbar-cancel aui-text-info" tapmode onclick="cancelSearch()">
+				取消
+			</div>
+		</div>
+		<!--搜索框-->
+		<!--热门搜索-->
+		<div class="aui-content a_rm">
+			<div class="a_title">
+				<h4>热门搜索</h4>
+				<div class="aui-line-x"></div>
+			</div>
+			<div class="a_keyword">
+				<span class="a_key">发热</span>
+				<span class="a_key">褪毛</span>
+				<span class="a_key">呕吐</span>
+				<span class="a_key">发情</span>
+				<span class="a_key">美容</span>
+				<span class="a_key">萌宠项圈</span>
+				<span class="a_key">腰间盘突出</span>
+				<span class="a_key">骨折</span>
+			</div>
+		</div>
+		<!--热门搜索-->
+		<!--最新问题-->
+		<!--用户评价-->
+		<div class="aui-content">
+			<div class="aui-content-title">
+				最新问题
+			</div>
+			<div class="aui-line-x"></div>
+			<ul class="aui-list-view">
+				<li class="aui-list-view-cell" tapmode>
+					<div class="img-cont"><img class="aui-pull-left" src="../../image/friend/pic01.png" tapmode >
+					</div>
+					<div class="aui-img-body">
+						<span>巴布的妈妈</span><!--<i class="iconfont icon-iconfontunfold" style="float: right">--></i>
+						<p class='aui-ellipsis-1'>
+							来自 iphone6 plus
+						</p>
+					</div>
+					<p style="margin-top: 5px; margin-bottom: 5px;">
+						求助一下各位大神，看到一只小狗，谁知道是什么品种?
+					</p>
+					<h6>2016-1-22  15:23:58<span style="float: right">回复（20）</span></h6>
+				</li>
+				<li class="aui-list-view-cell" tapmode>
+					<div class="img-cont"><img class="aui-pull-left" src="../../image/friend/pic02.png" tapmode >
+					</div>
+					<div class="aui-img-body">
+						<span>巴布的妈妈</span><!--<i class="iconfont icon-iconfontunfold" style="float: right">--></i>
+						<p class='aui-ellipsis-1'>
+							来自 iphone6 plus
+						</p>
+					</div>
+					<p style="margin-top: 5px;margin-bottom: 5px;">
+						可可：你好，我家的小狗是今天才从宠物店接回家的两个月的泰迪，回来后一直发抖，还不停的叫，大了几个喷嚏，我想问问是不是感冒了？
+					</p>
+					<h6>2016-1-22  15:23:58<span style="float: right">回复（20）</span></h6>
+				</li>
+			</ul>
+		</div>
+		<!--最新问题-->
+		<!--热点问题-->
+		<div class="aui-content">
+			<div class="aui-content-title">
+				热点问答
+			</div>
+			<div class="aui-line-x"></div>
+			<ul class="aui-list-view">
+				<li class="aui-list-view-cell" tapmode>
+					<div class="img-cont"><img class="aui-pull-left" src="../../image/friend/pic01.png" tapmode >
+					</div>
+					<div class="aui-img-body">
+						<span>巴布的妈妈</span><!--<i class="iconfont icon-iconfontunfold" style="float: right">--></i>
+						<p class='aui-ellipsis-1'>
+							来自 iphone6 plus
+						</p>
+					</div>
+					<p style="margin-top: 5px; margin-bottom: 5px;">
+						求助一下各位大神，看到一只小狗，谁知道是什么品种?
+					</p>
+					<h6>2016-1-22  15:23:58<span style="float: right">回复（20）</span></h6>
+				</li>
+				<li class="aui-list-view-cell" tapmode onclick="open_show();">
+					<div class="img-cont"><img class="aui-pull-left" src="../../image/friend/pic02.png" tapmode >
+					</div>
+					<div class="aui-img-body">
+						<span>巴布的妈妈</span><!--<i class="iconfont icon-iconfontunfold" style="float: right">--></i>
+						<p class='aui-ellipsis-1'>
+							来自 iphone6 plus
+						</p>
+					</div>
+					<p style="margin-top: 5px;margin-bottom: 5px;">
+						可可：你好，我家的小狗是今天才从宠物店接回家的两个月的泰迪，回来后一直发抖，还不停的叫，大了几个喷嚏，我想问问是不是感冒了？
+					</p>
+					<h6>2016-1-22  15:23:58<span style="float: right">回复（20）</span></h6>
+				</li>
+			</ul>
+		</div>
+		<!--热点问题-->
+		<div class="aui-btn aui-btn-block wenzhen_btn_wen" id="consulting">
+			发布问答
+		</div>
+	</body>
+	<script type="text/javascript" src="../../script/AHelper.js"></script>
+	<script type="text/javascript" src="../../script/zepto.min.js"></script>
+	<script>
+		Zepto(function($) {
+			
+		});
+		H.ready(function() {
+			api.parseTapmode();
+		});
+		function doSearch() {
+			H.$api.addCls(H.$api.dom(".aui-searchbar-wrap"), "focus");
+			H.$api.dom('.aui-searchbar-input input').focus();
+		}
+
+		function cancelSearch() {
+			H.$api.removeCls(H.$api.dom(".aui-searchbar-wrap.focus"), "focus");
+			H.$api.val(H.$api.byId("search-input"), '');
+			H.$api.dom('.aui-searchbar-input input').blur();
+		}
+
+		function clearInput() {
+			H.$api.val(H.$api.byId("search-input"), '');
+		}
+
+		function search() {
+			var content = H.$api.val(H.$api.byId("search-input"));
+			if (content) {
+				H.$openWin("", "", {
+					content : content
+				});
+			} else {
+				api.alert({
+					title : '搜索提示',
+					msg : '您没有输入任何内容'
+				});
+			}
+			cancelSearch();
+		}
+		function open_show(){
+			H.$openWin("answers_show_header","answers_show_header.html",{});
+		}
+	</script>
+</html>

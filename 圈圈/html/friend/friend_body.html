@@ -61,7 +61,7 @@
 						</div>
 					</div>
 				</li>
-				<li class="aui-list-view-cell" tapmode>
+				<li class="aui-list-view-cell" id="answers_header" tapmode>
 					<div class="aui-arrow-right">
 						<div class="f_pic" style="background: #ffc80a">
 							<span class="iconfont icon-wenda"></span>
@@ -151,9 +151,15 @@
 		<script type="text/javascript" src="../../script/AHelper.js"></script>
 		<script type="text/javascript" src="../../script/zepto.min.js"></script>
 		<script type="text/javascript">
-			Zepto(function($){
-				$("#consulting_header").on("tap",function(){
-					H.$openWin("consulting_header","consulting_header.html");
+			Zepto(function($) {
+				$("#consulting_header").on("tap", function() {
+					api.parseTapmode();
+					H.$openWin("consulting_header", "consulting_header.html");
+				});
+				/*问答处理*/
+				$("#answers_header").on("tap", function() {
+					api.parseTapmode();
+					H.$openWin("answers_header", "answers_header.html");
 				});
 			});
 			H.ready(function() {

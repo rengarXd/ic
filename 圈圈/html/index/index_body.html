@@ -208,8 +208,9 @@
 		</script>
 		<!--首页广告幻灯结束-->
 		<!--首页菜单开始-->
-		<div class="func-menu"  id="consulting_header">
-			<div class="item-func" tapmode>
+		<div class="func-menu">
+			<!--诊疗-->
+			<div class="item-func" id="consulting_header" tapmode>
 				<div class="content-area">
 					<p class="aui-bg-ff3366">
 						<i class="iconfont icon-shenfenrenzheng"></i>
@@ -217,7 +218,9 @@
 					<span>诊疗</span>
 				</div>
 			</div>
-			<div class="item-func" tapmode>
+			<!--诊疗-->
+			<!--问答-->
+			<div class="item-func" id="answers_header" tapmode>
 				<div class="content-area">
 					<p class="aui-bg-ffc80a">
 						<i class="iconfont icon-wenda"></i>
@@ -225,6 +228,8 @@
 					<span>问答</span>
 				</div>
 			</div>
+			<!--问答-->
+			<!--位置-->
 			<div class="item-func" id="position_header" tapmode >
 				<div class="content-area">
 					<p class="aui-bg-33cccc">
@@ -233,7 +238,9 @@
 					<span>位置</span>
 				</div>
 			</div>
-			<div class="item-func" tapmode >
+			<!--位置-->
+			<!--身份-->
+			<div class="item-func" id="identity_header" tapmode >
 				<div class="content-area">
 					<p class="aui-bg-cc99cc">
 						<i class="iconfont icon-shenfenrenzheng1"></i>
@@ -241,6 +248,7 @@
 					<span>身份</span>
 				</div>
 			</div>
+			<!--身份-->
 		</div>
 		<!--首页菜单结束-->
 		<div class="aui-content twkb">
@@ -310,6 +318,24 @@
 			$("#consulting_header").on("click", function() {
 				api.parseTapmode();
 				H.$openWin("consulting_header", "../friend/consulting_header.html");
+			});
+			/*问答处理*/
+			$("#answers_header").on("tap", function() {
+				api.parseTapmode();
+				H.$openWin("answers_header", "../friend/answers_header.html");
+			});
+			/*身份处理*/
+			$("#identity_header").on("tap", function() {
+				var FNScanner = api.require('FNScanner');
+				FNScanner.openScanner({
+					autorotation : true,
+				}, function(ret, err) {
+					if (ret) {
+						//alert( JSON.stringify( ret ) );
+					} else {
+						//alert( JSON.stringify( err ) );
+					}
+				});
 			});
 		});
 		//所有的代码都写在H.ready(function(){})
