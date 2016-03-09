@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>问答详情body</title>
+		<link rel="stylesheet" type="text/css" href="../../css/aui.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/fonts/iconfont.css"/>
+		<style>
+			.img-cont img {
+				max-width: 45px;
+				height: 45px;
+				line-height: 45px;
+				border-radius: 50%;
+				margin-right: 11px;
+			}
+			.aui-content-title {
+				background: #fff;
+				padding: 15px;
+				font-size: 18px;
+			}
+			.aui-list-view:after {
+				border: 0
+			}
+		</style>
+	</head>
+	<body>
+		<div class="aui-content">
+			<ul class="aui-list-view">
+				<div class="aui-line-x"></div>
+				<li class="aui-list-view-cell" tapmode>
+					<div class="img-cont"><img class="aui-pull-left" src="../../image/friend/pic01.png" tapmode >
+					</div>
+					<div class="aui-img-body">
+						<span>巴布的妈妈</span><!--<i class="iconfont icon-iconfontunfold" style="float: right">--></i>
+						<p class='aui-ellipsis-1'>
+							来自 iphone6 plus
+						</p>
+					</div>
+					<p style="margin-top: 5px; margin-bottom: 5px;">
+						求助一下各位大神，看到一只小狗，谁知道是什么品种?
+					</p>
+					<h6>2016-1-22  15:23:58<span style="float: right">回复（20）</span></h6>
+				</li>
+			</ul>
+		</div>
+	</body>
+	<script type="text/javascript" src="../../script/AHelper.js"></script>
+	<script type="text/javascript" src="../../script/zepto.min.js"></script>
+	<script>
+		Zepto(function($) {
+		});
+		H.ready(function() {
+			var obj = api.require('inputField');
+			obj.open({
+				bgColor : '#e5e5e5',
+				lineColor : '#DDDDDD',
+				fileBgColor : '#fcfcfc',
+				borderColor : '#ffffff',
+				sendImg : 'widget://res/ask/sendimg.png',
+				maxLines : 3,
+				fixedOn : api.frameName
+			}, function(ret) {
+				if (ret.status) {
+					alert(JSON.stringify(ret));
+				}
+			});
+			obj.setPlaceholder({
+				placeholder : '相信你的评论可以一针见血'
+			});
+		});
+	</script>
+</html>
