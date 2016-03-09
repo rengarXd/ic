@@ -23,6 +23,8 @@
 			.aui-list-view:after {
 				border: 0
 			}
+			.aui-img{ width: 100%}
+			.aui-col-xs-4{padding-right: 5px;}
 		</style>
 	</head>
 	<body>
@@ -33,7 +35,7 @@
 					<div class="img-cont"><img class="aui-pull-left" src="../../image/friend/pic01.png" tapmode >
 					</div>
 					<div class="aui-img-body">
-						<span>巴布的妈妈</span><!--<i class="iconfont icon-iconfontunfold" style="float: right">--></i>
+						<span>巴布的妈妈</span><b class="aui-pull-right" style="">#楼主</b>
 						<p class='aui-ellipsis-1'>
 							来自 iphone6 plus
 						</p>
@@ -41,6 +43,11 @@
 					<p style="margin-top: 5px; margin-bottom: 5px;">
 						求助一下各位大神，看到一只小狗，谁知道是什么品种?
 					</p>
+					<div class="aui-content" style="display: inline-block;">
+					<div class="aui-col-xs-4"><img src="../../image/friend/20071120121953798_2.jpg" alt="" class="aui-img" /></div>
+					<div class="aui-col-xs-4"><img src="../../image/friend/20071120121953798_2.jpg" alt="" class="aui-img" /></div>
+					
+					</div>
 					<h6>2016-1-22  15:23:58<span style="float: right">回复（20）</span></h6>
 				</li>
 			</ul>
@@ -52,8 +59,8 @@
 		Zepto(function($) {
 		});
 		H.ready(function() {
-			var obj = api.require('inputField');
-			obj.open({
+			var inputField = api.require('inputField');
+			inputField.open({
 				bgColor : '#e5e5e5',
 				lineColor : '#DDDDDD',
 				fileBgColor : '#fcfcfc',
@@ -62,11 +69,11 @@
 				maxLines : 3,
 				fixedOn : api.frameName
 			}, function(ret) {
-				if (ret.status) {
-					alert(JSON.stringify(ret));
-				}
+				api.toast({
+	                msg:ret.msg
+                });
 			});
-			obj.setPlaceholder({
+			inputField.setPlaceholder({
 				placeholder : '相信你的评论可以一针见血'
 			});
 		});
