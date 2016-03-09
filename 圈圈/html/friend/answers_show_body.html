@@ -23,8 +23,13 @@
 			.aui-list-view:after {
 				border: 0
 			}
-			.aui-img{ width: 100%}
-			.aui-col-xs-4{padding-right: 5px;}
+			.aui-img {
+				width: 100%
+			}
+			.aui-col-xs-4 {
+				padding-right: 5px;
+			}
+			.aui-ellipsis-1{white-space: inherit;}
 		</style>
 	</head>
 	<body>
@@ -43,12 +48,44 @@
 					<p style="margin-top: 5px; margin-bottom: 5px;">
 						求助一下各位大神，看到一只小狗，谁知道是什么品种?
 					</p>
-					<div class="aui-content" style="display: inline-block;">
-					<div class="aui-col-xs-4"><img src="../../image/friend/20071120121953798_2.jpg" alt="" class="aui-img" /></div>
-					<div class="aui-col-xs-4"><img src="../../image/friend/20071120121953798_2.jpg" alt="" class="aui-img" /></div>
-					
+					<div class="aui-content" style="display: inline-block;" id="an_photo">
+						<div class="aui-col-xs-4"><img src="../../image/friend/20071120121953798_2.jpg" alt="" class="aui-img" />
+						</div>
+						<div class="aui-col-xs-4"><img src="../../image/friend/20071120121953798_2.jpg" alt="" class="aui-img" />
+						</div>
 					</div>
 					<h6>2016-1-22  15:23:58<span style="float: right">回复（20）</span></h6>
+				</li>
+			</ul>
+		</div>
+		<div class="aui-content" style="margin-bottom: 60px;">
+			<ul class="aui-user-view aui-in">
+				<li class="aui-user-view-cell aui-img">
+					<img class="aui-img-object aui-pull-left" src="../../image/friend/pic02.png">
+					<div class="aui-img-body">
+						<span>love三壮<em>2016-01-26  12:15:30</em></span>
+						<p class='aui-ellipsis-1'>
+							狗在正常状态下不太喜欢舔毛或是舔爪子，如果你的狗一个劲儿的舔爪子，你可一定要及时的制止它，因为它会越舔越糟糕的。
+						</p>
+					</div>
+				</li>
+				<li class="aui-user-view-cell aui-img">
+					<img class="aui-img-object aui-pull-left" src="../../image/friend/pic01.png">
+					<div class="aui-img-body">
+						<span>肚如有<em>2016-01-26  12:15:30</em></span>
+						<p class='aui-ellipsis-1'>
+							要是粘着东西还好，要是趾间炎它的自己处理会让炎症更加厉害，开始只是一小块红斑，它舔两天就会脱毛起包再严重还会红肿流脓。
+						</p>
+					</div>
+				</li>
+				<li class="aui-user-view-cell aui-img">
+					<img class="aui-img-object aui-pull-left" src="../../image/friend/pic03.png">
+					<div class="aui-img-body">
+						<span>sophia的爸爸<em>2016-01-26  12:15:30</em></span>
+						<p class='aui-ellipsis-1'>
+							要是粘着东西还好，要是趾间炎它的自己处理会让炎症更加厉害，开始只是一小块红斑，它舔两天就会脱毛起包再严重还会红肿流脓。
+						</p>
+					</div>
 				</li>
 			</ul>
 		</div>
@@ -56,9 +93,31 @@
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script>
+		var photoBrowser;
 		Zepto(function($) {
+			$("#an_photo").on("tap", function() {
+				//记录路径
+				var photoBrowserPath = [];
+				var imgs = $("#an_photo img");
+				for (var i = 0; i < imgs.length; i++) {
+					photoBrowserPath.push(imgs[i].src);
+				}
+				photoBrowser.open({
+					images : photoBrowserPath,
+					activeIndex : 0,
+					placeholderImg : 'widget://res/img/loading_more.gif',
+					bgColor : '#000'
+				}, function(ret) {
+					//					alert(JSON.stringify(ret));
+					//如果单击则退出浏览
+					if (ret.eventType == "click") {
+						photoBrowser.close();
+					}
+				});
+			});
 		});
 		H.ready(function() {
+			photoBrowser = api.require('photoBrowser');
 			var inputField = api.require('inputField');
 			inputField.open({
 				bgColor : '#e5e5e5',
@@ -70,8 +129,8 @@
 				fixedOn : api.frameName
 			}, function(ret) {
 				api.toast({
-	                msg:ret.msg
-                });
+					msg : ret.msg
+				});
 			});
 			inputField.setPlaceholder({
 				placeholder : '相信你的评论可以一针见血'
