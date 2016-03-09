@@ -33,68 +33,35 @@
 	</head>
 	<body>
 		<div class="aui-content">
-			<ul class="aui-user-view" id="doctor_list">
-				<li class="aui-user-view-cell aui-img" tapmode onclick="to_doctor(1);">
-					<img class="aui-img-object aui-pull-left" src="../../image/friend/pic04.png">
-					<div class="aui-img-body">
-						<span>唐艺昕<i>9.2分</i><em><img src="../../image/friend/rzys.png" style="width: 80px;"/></em></span>
-						<p class='aui-ellipsis-1'>
-							主治医师
-						</p>
-						<p class="aui-ellipsis-pp">
-							河南农业大学宠物医院（农业路东三街交叉口东）
-						</p>
-					</div>
-					<div class="aui-line-x"></div>
-					<h5 class="intro">专长：眼科、内科、老年医学及软组织手术。</h5>
-				</li>
-				<li class="aui-user-view-cell aui-img" tapmode onclick="to_doctor(1);">
-					<img class="aui-img-object aui-pull-left" src="../../image/friend/pic03.png">
-					<div class="aui-img-body">
-						<span>张飞<i>9.0分</i><em><img src="../../image/friend/rzys.png" style="width: 80px;"/></em></span>
-						<p class='aui-ellipsis-1'>
-							主治医师
-						</p>
-						<p class="aui-ellipsis-pp">
-							河南农业大学宠物医院（农业路东三街交叉口东）
-						</p>
-					</div>
-					<div class="aui-line-x"></div>
-					<h5 class="intro">专长：眼科、内科、老年医学及软组织手术。</h5>
-				</li>
-				<li class="aui-user-view-cell aui-img" tapmode onclick="to_doctor(1);">
-					<img class="aui-img-object aui-pull-left" src="../../image/friend/pic06.png">
-					<div class="aui-img-body">
-						<span>陈翔<i>9.0分</i><em><img src="../../image/friend/rzys.png" style="width: 80px;"/></em></span>
-						<p class='aui-ellipsis-1'>
-							主治医师
-						</p>
-						<p class="aui-ellipsis-pp">
-							河南农业大学宠物医院（农业路东三街交叉口东）
-						</p>
-					</div>
-					<div class="aui-line-x"></div>
-					<h5 class="intro">专长：眼科、内科、老年医学及软组织手术。</h5>
-				</li>
-				<li class="aui-user-view-cell aui-img" tapmode onclick="to_doctor(1);">
-					<img class="aui-img-object aui-pull-left" src="../../image/friend/pic03.png">
-					<div class="aui-img-body">
-						<span>刘涛<i>8.6分</i><em><img src="../../image/friend/rzys.png" style="width: 80px;"/></em></span>
-						<p class='aui-ellipsis-1'>
-							主治医师
-						</p>
-						<p class="aui-ellipsis-pp">
-							河南农业大学宠物医院（农业路东三街交叉口东）
-						</p>
-					</div>
-					<div class="aui-line-x"></div>
-					<h5 class="intro">专长：眼科、内科、老年医学及软组织手术。</h5>
-				</li>
+			<ul class="aui-user-view" id="consulting_data_body">
+		
+				
+				
 			</ul>
 		</div>
+		
+			<script id="consulting_data" type="text/html">
+				{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
+				<li class="aui-user-view-cell aui-img" tapmode onclick="to_doctor({{ d.retValue[i].id }});">
+					<img class="aui-img-object aui-pull-left" src="http://q.endzk.com/{{ d.retValue[i].pic }}">
+					<div class="aui-img-body">
+						<span>{{ d.retValue[i].name }}<i>{{ d.retValue[i].stars }}分</i><em><img src="../../image/friend/rzys.png" style="width: 80px;"/></em></span>
+						<p class='aui-ellipsis-1'>
+							{{ d.retValue[i].jobname }}
+						</p>
+						<p class="aui-ellipsis-pp">
+							{{ d.retValue[i].form }}
+						</p>
+					</div>
+					<div class="aui-line-x"></div>
+					<h5 class="intro">专长：{{ d.retValue[i].expertise }}</h5>
+				</li>	
+				{{# } }}
+			</script>
 	</body>
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
+	<script type="text/javascript" src="../../script/laytpl.js"></script>
 	<script>
 		//医生详情跳转
 		function to_doctor(id) {
@@ -106,6 +73,26 @@
 		Zepto(function($) {
 		});
 		H.ready(function() {
+			api.getPrefs({
+				key : 'userinfo'
+			}, function(ret, err) {
+				var retobj = eval("(" + ret.value + ")");
+				api.showProgress({
+                });
+				api.ajax({
+					url : 'http://q.endzk.com/apis/doctor_list/token/' + retobj.token
+				}, function(ret, err) {
+					
+					// 获取模板内容，并加载数据
+					var tpl = document.getElementById('consulting_data').innerHTML;
+					//读取模版
+					laytpl(tpl).render(ret, function(render) {
+						document.getElementById('consulting_data_body').innerHTML = render;
+						api.hideProgress();
+					});
+					
+				});
+			});
 		});
 	</script>
 </html>
