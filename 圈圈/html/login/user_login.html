@@ -10,7 +10,9 @@
 		<link rel="stylesheet" href="../../css/aui.css" />
 		<link rel="stylesheet" href="../../css/fonts/iconfont.css" />
 		<style>
-			
+			html, body {
+				background: rgba(0,0,0,0);
+			}
 			.qq_bg {
 				background: #1191ff
 			}
@@ -465,10 +467,7 @@
 			});
 			//所有的代码都写在H.ready(function(){})
 			H.ready(function() {
-				api.setStatusBarStyle({
-					style : 'light',
-					color : '#ffffff'
-				});
+
 				H.$closeCurrentToWin("root");
 				H.$dblclickToCloseApp(function() {
 				});
