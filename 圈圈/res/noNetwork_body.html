@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>无网络</title>
+		<link rel="stylesheet" type="text/css" href="../css/fonts/iconfont.css"/>
+		<style>
+			#no {
+				text-align: center
+			}
+			#no h5 {
+				color: #828282;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="no">
+			<span class="iconfont icon-wangluo" style="font-size: 133px;color: rgb(219, 219, 219);
+			"></span>
+			<span style="display: block;
+			color: #B1B1B1;
+			font-size: 11px;">抱歉，网络连接中断</span>
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/zepto.min.js"></script>
+	<script type="text/javascript" src="../script/AHelper.js"></script>
+	<script type="text/javascript">
+		H.ready(function() {
+			var heights = (api.frameHeight - 344) / 2;
+			$("#no").css("margin-top", heights);
+			// 连接网络
+			H.$addEventListener(function(ret, err) {
+				H.$closeCurrentWin();
+			}, 'online');
+		});
+		Zepto(function($) {
+		});
+	</script>
+</html>
