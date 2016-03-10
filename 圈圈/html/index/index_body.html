@@ -196,6 +196,10 @@
 				height: 42px;
 				overflow: hidden;
 			}
+			.goodss-info {
+				font-size: 10px !important;
+				line-height: 31px !important;
+			}
 		</style>
 	</head>
 	<body>
@@ -290,9 +294,9 @@
 			<div class="shop_title">{{ d.retValue[i].name }}</div>
 			<p>
 			<span class="goods-price aui-text-danger">¥<strong>{{ d.retValue[i].sell_price }}</strong>元</span>
-			</p>
-			<p class="goods-info">
+			<span class=" aui-pull-right goodss-info">
 			<span class="aui-text-danger">{{ d.retValue[i].favorite }}</span>人收藏
+			</span>
 			</p>
 			</div>
 			</li>
