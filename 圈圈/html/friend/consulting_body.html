@@ -32,6 +32,12 @@
 		</style>
 	</head>
 	<body>
+		<div class="aui-toast" id="loading">
+			<div class="aui-toast-loading"></div>
+			<div class="aui-toast-content">
+				加载中
+			</div>
+		</div>
 		<div class="aui-content">
 			<ul class="aui-user-view" id="doctor_list_html"></ul>
 		</div>
@@ -74,9 +80,6 @@
 				key : 'userinfo'
 			}, function(ret, err) {
 				var retabc = eval("(" + ret.value + ")");
-				api.showProgress({
-					title : '请再稍等一下..'
-				});
 				//请求ajax数据
 				api.ajax({
 					url : 'http://q.endzk.com/apis/doctor_list/token/' + retabc.token
@@ -84,7 +87,8 @@
 					var t = document.getElementById('doctor_list_data').innerHTML;
 					laytpl(t).render(ret, function(render) {
 						document.getElementById('doctor_list_html').innerHTML = render;
-						api.hideProgress();
+						H.$recoverDropdownToNormal();
+						H.$api.css(H.$api.byId("loading"),"display:none");
 					});
 				});
 			});
@@ -96,7 +100,7 @@
 			/*下拉刷新*/
 			H.$dropdownToRefresh(function(ret, err) {
 				get_data();
-				H.$recoverDropdownToNormal();
+				
 			});
 		});
 		Zepto(function($) {

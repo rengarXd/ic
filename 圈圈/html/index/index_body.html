@@ -310,6 +310,10 @@
 	<script type="text/javascript" src="../../script/echo.min.js"></script>
 	<script type="text/javascript" src="../../script/laytpl.js"></script>
 	<script type="text/javascript">
+		//记录广告缓存路径
+		var ad_cache = [];
+		//记录商品缓存路径
+		var goods_cache = [];
 		//图片y
 		Zepto(function() {
 			/*窗口打开处理 ok*/
@@ -358,16 +362,41 @@
 				api.ajax({
 					url : 'http://q.endzk.com/apis/app_index_manage/token/' + retobj.token
 				}, function(ret, err) {
-					var tpl = document.getElementById('index_addata').innerHTML;
-					laytpl(tpl).render(ret, function(render) {
-						document.getElementById('index_addata_body').innerHTML = render;
-						var mySwiper = new Swiper('.swiper-container', {
-							loop : true,
-							// 如果需要分页器
-							pagination : '.swiper-pagination',
-							autoplay : 3000
+					//如果请求有数据返回
+					if (ret) {
+						var tpl = document.getElementById('index_addata').innerHTML;
+						laytpl(tpl).render(ret, function(render) {
+							document.getElementById('index_addata_body').innerHTML = render;
+							var mySwiper = new Swiper('.swiper-container', {
+								loop : true,
+								// 如果需要分页器
+								pagination : '.swiper-pagination',
+								autoplay : 3000
+							});
 						});
-					});
+						//						//缓存图片
+						//						for (var i = 0; i < ret.retValue.length; i++) {
+						//							api.imageCache({
+						//								url : "http://q.endzk.com/" + ret.retValue[i].content
+						//							}, function(ret, err) {
+						//								if (ret) {
+						//									ad_cache.push(ret.url);
+						//								} else {
+						//								}
+						//							});
+						//						}
+						//						if (ad_cache) {
+						//							var imgs = $("#index_addata_body img")
+						//							for (var ii = 0; ii < ad_cache.length; ii++) {
+						//								imgs[i].src = ad_cache[i];
+						//							}
+						//						}
+					}
+					if (err) {
+						api.toast({
+							msg : JSON.stringify(err)
+						});
+					}
 				});
 				//请求首页精选数据
 				api.ajax({
@@ -377,6 +406,7 @@
 					var tpl = document.getElementById('index_shopdata').innerHTML;
 					//读取模版
 					laytpl(tpl).render(ret, function(render) {
+						H.$recoverDropdownToNormal();
 						document.getElementById('index_shopdata_body').innerHTML = render;
 					});
 				});
@@ -389,17 +419,10 @@
 			/*下拉刷新*/
 			H.$dropdownToRefresh(function(ret, err) {
 				get_data();
-				H.$recoverDropdownToNormal();
 			});
 		});
 		function openGoods() {
 			H.$toast("商品内容");
-		}
-
-		/*
-		 * 获取首页数据函数
-		 */
-		function getdata() {
 		}
 	</script>
 </html>
