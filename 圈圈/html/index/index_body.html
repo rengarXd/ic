@@ -347,7 +347,7 @@
 			});
 		});
 		//所有的代码都写在H.ready(function(){})
-		H.ready(function() {
+		function get_data() {
 			//获取个人认证token
 			api.getPrefs({
 				key : 'userinfo'
@@ -381,11 +381,15 @@
 					});
 				});
 			});
+		}
+
+
+		H.ready(function() {
+			get_data();
 			/*下拉刷新*/
 			H.$dropdownToRefresh(function(ret, err) {
-				setTimeout(function() {
-					H.$recoverDropdownToNormal();
-				}, 1000);
+				get_data();
+				H.$recoverDropdownToNormal();
 			});
 		});
 		function openGoods() {
