@@ -42,11 +42,33 @@
 				</li>
 			</ul>
 		</div>
+		<div class="aui-content">
+			<ul class="aui-list-view">
+				<li class="aui-list-view-cell" id="clear-cache">
+					<a class="aui-arrow-right"> 清除缓存 <span class="aui-badge">12</span> </a>
+				</li>
+				<li class="aui-list-view-cell" id="logout">
+					<a class="aui-arrow-right"> 退出登录 </a>
+				</li>
+			</ul>
+		</div>
 	</body>
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript">
 		Zepto(function() {
+			// 清除缓存
+			$("#clear-cache").on("tap", function() {
+				api.clearCache(function(ret, err) {
+					$("#clear-cache span.aui-badge").text("0 M");
+					H.$toast("清除成功");
+				});
+			});
+			$("#logout").on("tap", function() {
+				H.$removePrefs(function(ret, err) {
+					H.$openWin('user_login', '../login/user_login.html');
+				}, 'islogin');
+			});
 			$("#qq_token").on("click", function() {
 				H.$getPrefs(function(ret, err) {
 					var ss = ret.qqtoken;
@@ -115,6 +137,7 @@
 			});
 		});
 		H.ready(function() {
+			api.parseTapmode();
 			H.$getPrefs(function(ret, err) {
 				var retobj = eval('(' + ret.value + ')');
 				//H.$toast(retobj);
@@ -125,6 +148,13 @@
 					$("#weibo_bd").removeClass("display-none");
 				}
 			}, 'userinfo');
+			api.getCacheSize(function(ret, err) {
+				if (ret) {
+					$("#clear-cache span.aui-badge").text((ret.size / 1000 / 1000).toFixed(2) + " M");
+				} else {
+					$("#clear-cache span.aui-badge").text("0 M");
+				}
+			});
 		});
 	</script>
 </html>

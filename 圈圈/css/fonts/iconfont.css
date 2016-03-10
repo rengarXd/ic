@@ -15,18 +15,24 @@
   -webkit-text-stroke-width: 0.2px;
   -moz-osx-font-smoothing: grayscale;
 }
+.icon-wangluo:before { content: "\e63c"; }
 .icon-sousuo:before { content: "\e639"; }
 .icon-qq:before { content: "\e613"; }
 .icon-activity:before { content: "\e623"; }
+.icon-dangan:before { content: "\e63e"; }
 .icon-set:before { content: "\e62f"; }
 .icon-iconpetsupplies:before { content: "\e620"; }
+.icon-jifen:before { content: "\e63d"; }
+.icon-zhenliaoguahao:before { content: "\e63f"; }
 .icon-saoyisao:before { content: "\e612"; }
 .icon-gouwuche:before { content: "\e62b"; }
 .icon-1:before { content: "\e626"; }
+.icon-dingdan:before { content: "\e640"; }
 .icon-shenfenrenzheng:before { content: "\e627"; }
 .icon-jia:before { content: "\e634"; }
 .icon-jian:before { content: "\e635"; }
 .icon-gouzheng:before { content: "\e631"; }
+.icon-tuijian:before { content: "\e641"; }
 .icon-weibiaoti2:before { content: "\e63a"; }
 .icon-lbsfill:before { content: "\e624"; }
 .icon-xingxing:before { content: "\e63b"; }
@@ -55,12 +61,14 @@
 .icon-sousuo2:before { content: "\e60c"; }
 .icon-dingweidizhigpsditu:before { content: "\e60d"; }
 .icon-daohangzhinanzhen:before { content: "\e60f"; }
+.icon-liquan:before { content: "\e642"; }
 .icon-dingwei:before { content: "\e633"; }
 .icon-fanhui:before { content: "\e60e"; }
 .icon-iocnshangpinliebiao:before { content: "\e625"; }
 .icon-iocntupiandaohang:before { content: "\e616"; }
 .icon-service1f:before { content: "\e611"; }
 .icon-shenfenrenzheng1:before { content: "\e62c"; }
+.icon-guanyu:before { content: "\e643"; }
 .icon-iconfontfriend:before { content: "\e621"; }
 .icon-iconhuiuyuan:before { content: "\e617"; }
 .icon-wenda:before { content: "\e62d"; }

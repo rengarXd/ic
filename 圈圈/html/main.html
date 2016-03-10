@@ -147,7 +147,7 @@
 			<div class="aui-title">
 				我的
 			</div>
-			<a class="aui-pull-right" style="line-height: 19px;padding-top: 7px;"> <span class="iconfont icon-iconshezhi" style="line-height: 23px;
+			<a class="aui-pull-right" id="setting_to" style="line-height: 19px;padding-top: 7px;"> <span class="iconfont icon-iconshezhi" style="line-height: 23px;
 			font-size: 20px;"></span>
 			<p style="font-size: 10px;line-height: 9px;">
 				设置
@@ -233,6 +233,9 @@
 			});
 			$("#input_box").on('click', function() {
 				H.$openWin('search_header', 'index/search_header.html');
+			});
+			$("#setting_to").on("tap",function(){
+				H.$openWin('setting_head.', 'me/setting_head.html');
 			});
 		});
 		//所有的代码都写在H.ready(function(){})

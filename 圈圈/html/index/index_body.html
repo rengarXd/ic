@@ -402,13 +402,19 @@
 				api.ajax({
 					url : 'http://q.endzk.com/apis/app_index_commend/token/' + retobj.token
 				}, function(ret, err) {
-					// 获取模板内容，并加载数据
-					var tpl = document.getElementById('index_shopdata').innerHTML;
-					//读取模版
-					laytpl(tpl).render(ret, function(render) {
-						H.$recoverDropdownToNormal();
-						document.getElementById('index_shopdata_body').innerHTML = render;
-					});
+					if (ret) {
+						// 获取模板内容，并加载数据
+						var tpl = document.getElementById('index_shopdata').innerHTML;
+						//读取模版
+						laytpl(tpl).render(ret, function(render) {
+							H.$recoverDropdownToNormal();
+							document.getElementById('index_shopdata_body').innerHTML = render;
+						});
+					} else {
+						api.toast({
+							msg : JSON.stringify(err)
+						});
+					}
 				});
 			});
 		}

@@ -53,66 +53,63 @@
 				border-radius: 50%;
 				font-size: 20px;
 			}
-			.aui-list-view li:active{background:#f5f5f5}
+			.aui-list-view li:active {
+				background: #f5f5f5
+			}
 		</style>
 	</head>
 	<body>
 		<div class="usercenter_avatar" style="margin-top:6px;">
 			<ul class="aui-list-view">
 				<li class="aui-list-view-cell" tapmode data-funcName="user_message_header">
-				<div class="aui-arrow-right">
-					<i style="float: left"><img src="../../image/me/me_pic.png" class="avatar_pic" /></i>
-					<span style="float:left;margin-left: 10px;">唐艺昕
-						<p>
-							萌宠账号：13937172004
-						</p></span>
+					<div class="aui-arrow-right">
+						<i style="float: left"><img src="../../image/me/me_pic.png" class="avatar_pic" /></i>
+						<span style="float:left;margin-left: 10px;">唐艺昕
+							<p>
+								萌宠账号：13937172004
+							</p></span>
 						<div class="aui-arrow-right">
 				</li>
-				
 			</ul>
 		</div>
 		<div class="aui-content">
 			<ul class="aui-list-view">
 				<li class="aui-list-view-cell">
-					我的积分
+					<i class="aui-iconfont iconfont icon-jifen aui-bg-blue"></i> 我的积分
 				</li>
 				<li class="aui-list-view-cell">
-					我的礼券
+					<i class="aui-iconfont iconfont icon-liquan aui-bg-danger"></i> 我的礼券
 				</li>
 				<li class="aui-list-view-cell">
-					我的订单
+					<i class="aui-iconfont iconfont icon-dingdan aui-bg-success"></i> 我的订单
 				</li>
 			</ul>
 		</div>
-		
-			<div class="aui-content">
+		<div class="aui-content">
 			<ul class="aui-list-view">
 				<li class="aui-list-view-cell">
-					诊疗记录
+					<i class="aui-iconfont iconfont icon-zhenliaoguahao aui-bg-warning"></i> 诊疗记录
 				</li>
 				<li class="aui-list-view-cell" data-funcName="health_header" tapmode>
-					健康档案
+					<i class="aui-iconfont iconfont icon-dangan aui-bg-primary"></i> 健康档案
 				</li>
-			
+			</ul>
+		</div>
+		<div class="aui-content">
+			<ul class="aui-list-view">
+				<li class="aui-list-view-cell" data-funcName="about_us_header" tapmode >
+					<div class="aui-arrow-right">
+						<i class="aui-iconfont iconfont icon-guanyu aui-bg-blue"></i> 关于我们
+					</div>
+				</li>
+				<li class="aui-list-view-cell" tapmode data-funcName="invite_friend_header" >
+					<div class="aui-arrow-right">
+						<i class="aui-iconfont iconfont icon-tuijian aui-bg-danger"></i> 推荐有奖
+					</div>
+				</li>
 			</ul>
 		</div>
 		
-			<div class="aui-content">
-			<ul class="aui-list-view">
-				<li class="aui-list-view-cell" data-funcName="about_us_header" tapmode >
-					<div class="aui-arrow-right">关于我们</div>
-				</li>
-				<li class="aui-list-view-cell" tapmode data-funcName="invite_friend_header" >
-					<div class="aui-arrow-right">推荐有奖</div>
-				</li>
-			
-			</ul>
-		</div>
-		<div class="aui-content-padded">
-			<button class="aui-btn aui-btn-danger aui-btn-block" id="logout">
-				退出登录
-			</button>
-		</div>
 		<script type="text/javascript" src="../../script/AHelper.js"></script>
 		<script type="text/javascript" src="../../script/zepto.min.js"></script>
 		<script type="text/javascript">

@@ -38,10 +38,9 @@
 				加载中
 			</div>
 		</div>
-		<div class="aui-content">
-			<ul class="aui-user-view" id="doctor_list_html"></ul>
-		</div>
+		<div class="aui-content" id="doctor_list_html"></div>
 		<script id="doctor_list_data" type="text/html">
+			<ul class="aui-user-view">
 			<!--加载医师信息的循环-->
 			{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
 			<!--医师信息-->
@@ -61,6 +60,7 @@
 			</li>
 			<!---->
 			{{# } }}
+			</ul>
 		</script>
 	</body>
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
@@ -84,12 +84,20 @@
 				api.ajax({
 					url : 'http://q.endzk.com/apis/doctor_list/token/' + retabc.token
 				}, function(ret, err) {
-					var t = document.getElementById('doctor_list_data').innerHTML;
-					laytpl(t).render(ret, function(render) {
-						document.getElementById('doctor_list_html').innerHTML = render;
-						H.$recoverDropdownToNormal();
-						H.$api.css(H.$api.byId("loading"),"display:none");
-					});
+					if (ret) {
+						var t = document.getElementById('doctor_list_data').innerHTML;
+						laytpl(t).render(ret, function(render) {
+							document.getElementById('doctor_list_html').innerHTML = render;
+							H.$recoverDropdownToNormal();
+							H.$api.css(H.$api.byId("loading"), "display:none");
+						});
+					} else {
+						H.$api.css(H.$api.byId("loading"), "display:none");
+						H.$openFrame('noNetwork', 'widget://res/noNetwork_body.html', {}, {
+							x : 0,
+							y : 55
+						})
+					}
 				});
 			});
 		}
@@ -100,7 +108,6 @@
 			/*下拉刷新*/
 			H.$dropdownToRefresh(function(ret, err) {
 				get_data();
-				
 			});
 		});
 		Zepto(function($) {
