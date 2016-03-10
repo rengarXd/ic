@@ -83,14 +83,9 @@
 				}, function(ret, err) {
 					var t = document.getElementById('doctor_list_data').innerHTML;
 					laytpl(t).render(ret, function(render) {
-						
 						document.getElementById('doctor_list_html').innerHTML = render;
-						api.hideProgress();					
+						api.hideProgress();
 					});
-				});
-				
-				api.toast({
-					msg : retabc.token
 				});
 			});
 		}
