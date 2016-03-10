@@ -34,7 +34,7 @@
 			#old_bgs {
 				width: 100%;
 				height: 100%;
-				opacity: 0.4;
+				opacity: 0.4 !important;
 				background: #000000;
 				-moz-opacity:0.4;
 				position: absolute;
@@ -146,6 +146,7 @@
 			});
 			$("#chongwunianling").on("tap", function() {
 				//
+				$("#old_bgs").css("opacity",0.4);
 				$("#old_bgs").show();
 				var UICustomPicker = api.require('UICustomPicker');
 				UICustomPicker.open({
