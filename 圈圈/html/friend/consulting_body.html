@@ -33,31 +33,29 @@
 	</head>
 	<body>
 		<div class="aui-content">
-			<ul class="aui-user-view" id="consulting_data_body">
-		
-				
-				
-			</ul>
+			<ul class="aui-user-view" id="doctor_list_html"></ul>
 		</div>
-		
-			<script id="consulting_data" type="text/html">
-				{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
-				<li class="aui-user-view-cell aui-img" tapmode onclick="to_doctor({{ d.retValue[i].id }});">
-					<img class="aui-img-object aui-pull-left" src="http://q.endzk.com/{{ d.retValue[i].pic }}">
-					<div class="aui-img-body">
-						<span>{{ d.retValue[i].name }}<i>{{ d.retValue[i].stars }}分</i><em><img src="../../image/friend/rzys.png" style="width: 80px;"/></em></span>
-						<p class='aui-ellipsis-1'>
-							{{ d.retValue[i].jobname }}
-						</p>
-						<p class="aui-ellipsis-pp">
-							{{ d.retValue[i].form }}
-						</p>
-					</div>
-					<div class="aui-line-x"></div>
-					<h5 class="intro">专长：{{ d.retValue[i].expertise }}</h5>
-				</li>	
-				{{# } }}
-			</script>
+		<script id="doctor_list_data" type="text/html">
+			<!--加载医师信息的循环-->
+			{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
+			<!--医师信息-->
+			<li class="aui-user-view-cell aui-img" tapmode onclick="to_doctor({{ d.retValue[i].id }});">
+			<img class="aui-img-object aui-pull-left" src="http://q.endzk.com/{{ d.retValue[i].pic }}">
+			<div class="aui-img-body">
+			<span>{{ d.retValue[i].name }}<i>{{ d.retValue[i].stars }}</i>{{# if (d.retValue[i].isauthent == 1){ }}<em><img src="../../image/friend/rzys.png" style="width: 80px;"/></em>{{# }}}</span>
+			<p class='aui-ellipsis-1'>
+			{{ d.retValue[i].jobname}}
+			</p>
+			<p class="aui-ellipsis-pp">
+			{{ d.retValue[i].form }}
+			</p>
+			</div>
+			<div class="aui-line-x"></div>
+			<h5 class="intro">专长：{{ d.retValue[i].expertise }}</h5>
+			</li>
+			<!---->
+			{{# } }}
+		</script>
 	</body>
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
@@ -70,29 +68,43 @@
 			});
 		}
 
-		Zepto(function($) {
-		});
-		H.ready(function() {
+		//获取数据并渲染
+		function get_data() {
 			api.getPrefs({
 				key : 'userinfo'
 			}, function(ret, err) {
-				var retobj = eval("(" + ret.value + ")");
+				var retabc = eval("(" + ret.value + ")");
 				api.showProgress({
-                });
+					title : '请再稍等一下..'
+				});
+				//请求ajax数据
 				api.ajax({
-					url : 'http://q.endzk.com/apis/doctor_list/token/' + retobj.token
+					url : 'http://q.endzk.com/apis/doctor_list/token/' + retabc.token
 				}, function(ret, err) {
-					
-					// 获取模板内容，并加载数据
-					var tpl = document.getElementById('consulting_data').innerHTML;
-					//读取模版
-					laytpl(tpl).render(ret, function(render) {
-						document.getElementById('consulting_data_body').innerHTML = render;
-						api.hideProgress();
+					var t = document.getElementById('doctor_list_data').innerHTML;
+					laytpl(t).render(ret, function(render) {
+						
+						document.getElementById('doctor_list_html').innerHTML = render;
+						api.hideProgress();					
 					});
-					
+				});
+				
+				api.toast({
+					msg : retabc.token
 				});
 			});
+		}
+
+
+		H.ready(function() {
+			get_data();
+			/*下拉刷新*/
+			H.$dropdownToRefresh(function(ret, err) {
+				get_data();
+				H.$recoverDropdownToNormal();
+			});
+		});
+		Zepto(function($) {
 		});
 	</script>
 </html>
