@@ -18,6 +18,7 @@
 				border-radius: 0;
 				margin: 0;
 				border: 0;
+				z-index: 4;
 				background: -webkit-gradient(linear, left top, left bottom, from(#ff7f27), to(#ff6001));
 			}
 			.wenzhen_btn_wen:active {
@@ -30,22 +31,32 @@
 				display: block;
 				padding: 0
 			}
+			#old_bgs {
+				width: 100%;
+				height: 100%;
+				opacity: 0.4;
+				background: #000000;
+				-moz-opacity:0.4;
+				position: absolute;
+				z-index: 1;
+			}
 		</style>
 	</head>
 	<body>
+		<div id="old_bgs" style="display:none"></div>
 		<div class="aui-content">
 			<ul class="aui-list-view">
 				<li class="aui-list-view-cell" id="wenzhen">
-					<a class="aui-arrow-right"> 问诊人 <span>可可</span> </a>
+					<a class="aui-arrow-right"> 问诊人 <span id="wenzhenren">可可</span> </a>
 				</li>
-				<li class="aui-list-view-cell">
+				<li class="aui-list-view-cell" id="chongwuleibie">
 					<a class="aui-arrow-right"> 宠物类别 <span>泰迪犬</span> </a>
 				</li>
-				<li class="aui-list-view-cell">
-					<a class="aui-arrow-right"> 宠物性别 <span>雄</span> </a>
+				<li class="aui-list-view-cell" id="chongwuxingbie">
+					<a class="aui-arrow-right"> 宠物性别 <span id="chongwuxingbie_name">雄</span> </a>
 				</li>
-				<li class="aui-list-view-cell">
-					<a class="aui-arrow-right"> 宠物年龄 <span>0年0月</span> </a>
+				<li class="aui-list-view-cell" id="chongwunianling">
+					<a class="aui-arrow-right"> 宠物年龄 <span id="chongwunianling_name"></span> </a>
 				</li>
 				<li class="aui-list-view-cell">
 					<a class="aui-arrow-right"> 是否打疫苗 <span>未打疫苗</span> </a>
@@ -81,26 +92,108 @@
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script>
 		Zepto(function($) {
+			//			问诊
 			$("#wenzhen").on("tap", function() {
-				
 				api.actionSheet({
-					title : '请选择您要问诊的宠物',
+					title : '请选择您要问诊的宠物名字',
 					cancelTitle : '取消',
 					destructiveTitle : '',
 					buttons : ['可可']
 				}, function(ret, err) {
 					if (ret) {
-						//						alert(JSON.stringify(ret));
+						if (ret.buttonIndex == 1) {
+							$("#wenzhenren").html("可可");
+						};
+						//						switch判断
+						//						switch(ret.buttonIndex) {
+						//							case 1:
+						//								$("#wenzhenren").html("可可");
+						//								break;
+						//							case 2:
+						//								$("#wenzhenren").html("菲菲");
+						//								break;
+						//							case 3:
+						//								$("#wenzhenren").html("丁丁");
+						//								break;
+						//						}
 					} else {
-						//						alert(JSON.stringify(err));
+						alert(JSON.stringify(err));
 					}
 				});
 			});
-			$("#consulting").on("tap",function(){
+			//			类别
+			$("#chongwuxingbie").on("tap", function() {
+				api.actionSheet({
+					title : '请选择您要问诊的宠物性别',
+					cancelTitle : '取消',
+					destructiveTitle : '',
+					buttons : ['雄', '雌']
+				}, function(ret, err) {
+					if (ret) {
+						//						switch
+						switch(ret.buttonIndex) {
+							case 1:
+								$("#chongwuxingbie_name").html("雄");
+								break;
+							case 2:
+								$("#chongwuxingbie_name").html("雌");
+								break;
+						};
+					} else {
+						alert(JSON.stringify(err));
+					}
+				});
+			});
+			$("#chongwunianling").on("tap", function() {
+				//
+				$("#old_bgs").show();
+				var UICustomPicker = api.require('UICustomPicker');
+				UICustomPicker.open({
+					rect : {
+						x : (api.frameWidth - 220) / 2,
+						y : (api.frameHeight - 340) / 2,
+						w : 180,
+						h : 340
+					},
+					styles : {
+						bg : 'rgba(0,0,0,0)',
+						normalColor : '#ffffff',
+						selectedColor : '#ffffff',
+						selectedSize : 36,
+						tagColor : '#ffffff',
+						tagSize : 36
+					},
+					data : [{
+						tag : '年',
+						scope : '0-20'
+					}, {
+						tag : '月',
+						scope : '0-12'
+					}],
+					rows : 3,
+					fixedOn : api.frameName,
+					fixed : true
+				}, function(ret, err) {
+					if (ret) {
+						if (ret.data) {
+							var nian = ret.data[0];
+							var yue = ret.data[1];
+							$("#chongwunianling_name").html(nian + '年' + yue + '月');
+							//
+							$("#old_bgs").hide();
+							UICustomPicker.close({
+								id : ret.id
+							});
+						}
+					} else {
+						alert(JSON.stringify(err));
+					}
+				});
+			});
+			$("#consulting").on("tap", function() {
 				api.parseTapmode();
-				H.$openWin("chat_msg_head","chat_msg_head.html");
-			});;
-			
+				H.$openWin("chat_msg_head", "chat_msg_head.html");
+			});
 		});
 		H.ready(function() {
 		});
