@@ -192,6 +192,10 @@
 				margin: 0 5px;
 				font-size: 16px;
 			}
+			.shop_title {
+				height: 42px;
+				overflow: hidden;
+			}
 		</style>
 	</head>
 	<body>
@@ -283,7 +287,7 @@
 			<li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode onclick="openGoods()">
 			<img class="aui-img-object" src="http://q.endzk.com/{{ d.retValue[i].img }}">
 			<div class="aui-img-body aui-text-left">
-			{{ d.retValue[i].name }}
+			<div class="shop_title">{{ d.retValue[i].name }}</div>
 			<p>
 			<span class="goods-price aui-text-danger">¥<strong>{{ d.retValue[i].sell_price }}</strong>元</span>
 			</p>
