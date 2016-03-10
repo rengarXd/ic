@@ -252,6 +252,13 @@
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript">
 		var currentPosition, timer;
+		H.ready(function(){
+			var rong = api.require('rongCloud2');
+			rong.init(function(ret, err){
+			    if (ret.status == 'error')
+			        api.toast({ msg: err.code });
+			});
+		});
 		Zepto(function($) {
 			H.$com.scrollToDocButton();
 			// 设置状态

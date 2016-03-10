@@ -360,7 +360,7 @@
 				var retobj = eval('(' + ret.value + ')');
 				//请求首页广告数据
 				api.ajax({
-					url : 'http://q.endzk.com/apis/app_index_manage/token/' + retobj.token
+					url : window.serverUrl+'/app_index_manage/token/' + retobj.token
 				}, function(ret, err) {
 					//如果请求有数据返回
 					if (ret) {
@@ -400,7 +400,7 @@
 				});
 				//请求首页精选数据
 				api.ajax({
-					url : 'http://q.endzk.com/apis/app_index_commend/token/' + retobj.token
+					url : window.serverUrl+'/app_index_commend/token/' + retobj.token
 				}, function(ret, err) {
 					if (ret) {
 						// 获取模板内容，并加载数据

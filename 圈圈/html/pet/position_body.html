@@ -163,7 +163,7 @@
 							});
 						}
 						//用户设备定位API
-					}, 'http://q.endzk.com/deviceapi/position/token/' + retobj.token);
+					}, window.deviceserverUrl+'/position/token/' + retobj.token);
 				}, 'userinfo');
 				// 定位到当前位置
 				addEventListenerFromFunc("position", function(ret) {

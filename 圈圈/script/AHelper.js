@@ -15,6 +15,11 @@
 
 	// 全局模块
 	var modules = {};
+	
+	//常规api请求地址
+	window.serverUrl = "http://q.endzk.com/apis";
+	//设备访问api请求地址
+	window.deviceserverUrl = "http://q.endzk.com/deviceapi";
 
 	// 公共类库
 	var $$com = {
