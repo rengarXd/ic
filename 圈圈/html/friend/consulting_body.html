@@ -82,7 +82,7 @@
 				var retabc = eval("(" + ret.value + ")");
 				//请求ajax数据
 				api.ajax({
-					url : window.serverUrl + 'doctor_list/token/' + retabc.token
+					url : window.serverUrl + '/doctor_list/token/' + retabc.token
 				}, function(ret, err) {
 					if (ret) {
 						var t = document.getElementById('doctor_list_data').innerHTML;

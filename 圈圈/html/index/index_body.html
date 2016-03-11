@@ -211,7 +211,7 @@
 		</div>
 		<script id="index_addata" type="text/html">
 			{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
-			<div class="swiper-slide" style="background-image:url(http://q.endzk.com/{{ d.retValue[i].content }})"></div>
+			<div class="swiper-slide" onclick="ad_do({{ d.retValue[i].href_type }},'{{ d.retValue[i].link }}',{{ d.retValue[i].id }});" style="background-image:url(http://q.endzk.com/{{ d.retValue[i].content }})"></div>
 			{{# } }}
 		</script>
 		<!--首页广告幻灯结束-->
@@ -314,6 +314,20 @@
 		var ad_cache = [];
 		//记录商品缓存路径
 		var goods_cache = [];
+		/*
+		 * 1、广告处理 (href_type) 0 广告跳转
+		 * 	  广告ids (ids)
+		 */
+		function ad_do(href_type, link, ids) {
+			switch(href_type) {
+				case 0:
+					H.$openWin("ad_header", "../activity/ad_header.html", {
+						link : link
+					});
+					break;
+			}
+		}
+
 		//图片y
 		Zepto(function() {
 			/*窗口打开处理 ok*/
@@ -360,7 +374,7 @@
 				var retobj = eval('(' + ret.value + ')');
 				//请求首页广告数据
 				api.ajax({
-					url : window.serverUrl+'/app_index_manage/token/' + retobj.token
+					url : window.serverUrl + '/app_index_manage/token/' + retobj.token
 				}, function(ret, err) {
 					//如果请求有数据返回
 					if (ret) {
@@ -374,23 +388,6 @@
 								autoplay : 3000
 							});
 						});
-						//						//缓存图片
-						//						for (var i = 0; i < ret.retValue.length; i++) {
-						//							api.imageCache({
-						//								url : "http://q.endzk.com/" + ret.retValue[i].content
-						//							}, function(ret, err) {
-						//								if (ret) {
-						//									ad_cache.push(ret.url);
-						//								} else {
-						//								}
-						//							});
-						//						}
-						//						if (ad_cache) {
-						//							var imgs = $("#index_addata_body img")
-						//							for (var ii = 0; ii < ad_cache.length; ii++) {
-						//								imgs[i].src = ad_cache[i];
-						//							}
-						//						}
 					}
 					if (err) {
 						api.toast({
@@ -400,7 +397,7 @@
 				});
 				//请求首页精选数据
 				api.ajax({
-					url : window.serverUrl+'/app_index_commend/token/' + retobj.token
+					url : window.serverUrl + '/app_index_commend/token/' + retobj.token
 				}, function(ret, err) {
 					if (ret) {
 						// 获取模板内容，并加载数据
