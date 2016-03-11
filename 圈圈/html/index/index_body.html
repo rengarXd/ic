@@ -268,19 +268,16 @@
 				</div>
 			</div>
 			<div class="index_hb">
-				<ul>
-					<li>
-						<span class="dian_0"></span><a href="#">新用户首单立减20元（在线支付）</a>
-					</li>
-					<li>
-						<span class="dian_1"></span><a href="#">在线支付满50减15</a>
-					</li>
-					<li>
-						<span class="dian_2"></span><a href="#">1000积分换购项圈活动即将开始</a>
-					</li>
-				</ul>
+				<ul id="index_kbdata_body"></ul>
 			</div>
 		</div>
+		<script id="index_kbdata" type="text/html">
+			{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
+			<li>
+			<span class="dian_{{ i }}"></span><a href="#">{{ d.retValue[i].title }}</a>
+			</li>
+			{{# } }}
+		</script>
 		<div class="aui-content twkb2">
 			<div><img src="../../image/jrjx.png" style="height: 20px;margin-left: 15px" />
 			</div>
@@ -303,20 +300,6 @@
 			{{# } }}
 		</script>
 	</body>
-	<div class="aui-dialog aui-hidden" id="dialog">
-		<div class="aui-dialog-header">
-			登录状态异常
-		</div>
-		<div class="aui-dialog-body aui-text-left">
-			抱歉，您的认证状态出现了异常，请点击确定进行重新认证
-		</div>
-		<div class="aui-dialog-footer">
-			<!--<div class="aui-dialog-btn aui-text-danger" tapmode onclick="cancel()">取消</div>-->
-			<div class="aui-dialog-btn aui-text-info" tapmode onclick="confirm()">
-				确定
-			</div>
-		</div>
-	</div>
 	<!--封装了APICloud大量常用的类库，内置了DOM操作，模板引擎，表单验证等常用类库-->
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
@@ -324,10 +307,6 @@
 	<!--<script type="text/javascript" src="../../script/echo.min.js"></script>-->
 	<script type="text/javascript" src="../../script/laytpl.js"></script>
 	<script type="text/javascript">
-		//记录广告缓存路径
-		var ad_cache = [];
-		//记录商品缓存路径
-		var goods_cache = [];
 		/*
 		 * 1、广告处理 (href_type) 0 广告跳转
 		 * 	  广告ids (ids)
@@ -340,22 +319,6 @@
 					});
 					break;
 			}
-		}
-
-		//登录异常重新认证
-		function confirm() {
-			$api.remove($api.dom(".aui-mask"));
-			$api.addCls($api.dom(".aui-dialog"), "aui-hidden");
-			api.sendEvent({
-				name : 'dialogEvent',
-				extra : {
-					type : 'hidden'
-				}
-			});
-			api.alert({
-				title : '提示',
-				msg : '您点击了确定'
-			});
 		}
 
 		//图片y
@@ -419,24 +382,9 @@
 							});
 						});
 					} else {
-						api.alert({
-							title : '温馨提示',
-							msg : '抱歉您的登录信息失效，需要点击确定重新认证',
-							buttons : ['确定']
-						}, function(ret, err) {
-							if (ret) {
-								H.$openWin('login_head', '../login/login_head.html', {
-									type : 1
-								});
-							} else {
-								alert(JSON.stringify(err));
-							}
-						});
-					}
-					if (err) {
-						api.toast({
-							msg : JSON.stringify(err)
-						});
+						if (ret.retCode == 0) {
+							loginguoqi();
+						}
 					}
 				});
 				//请求I宠快报数据
@@ -445,6 +393,12 @@
 					url : window.serverUrl + '/app_kuaibao/token/' + retobj.token + '/t/1'
 				}, function(ret, err) {
 					if (ret && ret.retValue) {
+						var tpl = document.getElementById('index_kbdata').innerHTML;
+						//读取模版
+						laytpl(tpl).render(ret, function(render) {
+							H.$recoverDropdownToNormal();
+							document.getElementById('index_kbdata_body').innerHTML = render;
+						});
 					} else {
 					}
 				});
@@ -480,6 +434,23 @@
 
 		function closeindex() {
 			H.$closeCurrentFrame();
+		}
+
+		function loginguoqi() {
+			api.alert({
+				title : '温馨提示',
+				msg : '抱歉您的登录信息失效，需要点击确定重新认证',
+				buttons : ['确定']
+			}, function(ret, err) {
+				if (ret) {
+					H.$recoverDropdownToNormal();
+					H.$openWin('login_head', '../login/login_head.html', {
+						type : 1
+					});
+				} else {
+					alert(JSON.stringify(err));
+				}
+			});
 		}
 	</script>
 </html>
