@@ -186,7 +186,6 @@
 							</div> </span>
 					</div>
 				</div>
-			
 			</div>
 			<div>
 				<button class="aui-btn aui-btn-block qq_login_button" id="app_login_btn">
@@ -300,9 +299,9 @@
 									} else {
 										H.$toast("抱歉，手机号信息错误，请核对！");
 									}
-								}, window.serverUrl+'/user_login/tel/' + tel + '/code/0000');
+								}, window.serverUrl + '/user_login/tel/' + tel + '/code/0000');
 							} else {
-								//H.$toast("验证短信发送成功，请注意查收！");
+								H.$toast("验证短信发送成功，请注意查收！");
 							}
 						} else {
 							//api.alert({
@@ -383,7 +382,7 @@
 													H.$hideProgress();
 													H.$toast("抱歉，手机号信息错误，请核对！");
 												}
-											}, window.serverUrl+'user_login/tel/' + tel + '/code/' + code);
+											}, window.serverUrl + '/user_login/tel/' + tel + '/code/' + code);
 										} else {
 											H.$hideProgress();
 											H.$toast("抱歉" + err.msg);
@@ -416,7 +415,7 @@
 											H.$openWin('main', '../main.html');
 										}, 'userinfo', JSON.stringify(ret.retValue));
 									}
-								}, window.serverUrl+'app_token/qq/1/token/' + ret.accessToken);
+								}, window.serverUrl + '/app_token/qq/1/token/' + ret.accessToken);
 							});
 						} else {
 							H.$toast("抱歉，您的手机上没有安装QQ");
@@ -446,7 +445,7 @@
 										H.$openWin('main', '../main.html');
 									}, 'userinfo', JSON.stringify(ret.retValue));
 								}
-							}, window.serverUrl+'app_token/weibo/1/token/' + ret.token);
+							}, window.serverUrl + '/app_token/weibo/1/token/' + ret.token);
 						} else {
 							H.$hideProgress();
 							H.$toast("抱歉，微博认证异常，您可以选择使用其他方式登录");
@@ -456,8 +455,10 @@
 			});
 			//所有的代码都写在H.ready(function(){})
 			H.ready(function() {
-
-				
+				var types = H.$getPageParam();
+				if(types.type == 1){
+					H.$execScript('main','index','closeindex();');
+				}
 				H.$dblclickToCloseApp(function() {
 				});
 			});

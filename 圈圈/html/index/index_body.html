@@ -303,11 +303,25 @@
 			{{# } }}
 		</script>
 	</body>
+	<div class="aui-dialog aui-hidden" id="dialog">
+		<div class="aui-dialog-header">
+			登录状态异常
+		</div>
+		<div class="aui-dialog-body aui-text-left">
+			抱歉，您的认证状态出现了异常，请点击确定进行重新认证
+		</div>
+		<div class="aui-dialog-footer">
+			<!--<div class="aui-dialog-btn aui-text-danger" tapmode onclick="cancel()">取消</div>-->
+			<div class="aui-dialog-btn aui-text-info" tapmode onclick="confirm()">
+				确定
+			</div>
+		</div>
+	</div>
 	<!--封装了APICloud大量常用的类库，内置了DOM操作，模板引擎，表单验证等常用类库-->
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript" src="../../script/swiper/swiper.min.js"></script>
-	<script type="text/javascript" src="../../script/echo.min.js"></script>
+	<!--<script type="text/javascript" src="../../script/echo.min.js"></script>-->
 	<script type="text/javascript" src="../../script/laytpl.js"></script>
 	<script type="text/javascript">
 		//记录广告缓存路径
@@ -326,6 +340,22 @@
 					});
 					break;
 			}
+		}
+
+		//登录异常重新认证
+		function confirm() {
+			$api.remove($api.dom(".aui-mask"));
+			$api.addCls($api.dom(".aui-dialog"), "aui-hidden");
+			api.sendEvent({
+				name : 'dialogEvent',
+				extra : {
+					type : 'hidden'
+				}
+			});
+			api.alert({
+				title : '提示',
+				msg : '您点击了确定'
+			});
 		}
 
 		//图片y
@@ -377,7 +407,7 @@
 					url : window.serverUrl + '/app_index_manage/token/' + retobj.token
 				}, function(ret, err) {
 					//如果请求有数据返回
-					if (ret) {
+					if (ret && ret.retCode == 1) {
 						var tpl = document.getElementById('index_addata').innerHTML;
 						laytpl(tpl).render(ret, function(render) {
 							document.getElementById('index_addata_body').innerHTML = render;
@@ -388,6 +418,20 @@
 								autoplay : 3000
 							});
 						});
+					} else {
+						api.alert({
+							title : '温馨提示',
+							msg : '抱歉您的登录信息失效，需要点击确定重新认证',
+							buttons : ['确定']
+						}, function(ret, err) {
+							if (ret) {
+								H.$openWin('login_head', '../login/login_head.html', {
+									type : 1
+								});
+							} else {
+								alert(JSON.stringify(err));
+							}
+						});
 					}
 					if (err) {
 						api.toast({
@@ -395,11 +439,20 @@
 						});
 					}
 				});
+				//请求I宠快报数据
+				api.ajax({
+					//请求首页三条数据
+					url : window.serverUrl + '/app_kuaibao/token/' + retobj.token + '/t/1'
+				}, function(ret, err) {
+					if (ret && ret.retValue) {
+					} else {
+					}
+				});
 				//请求首页精选数据
 				api.ajax({
 					url : window.serverUrl + '/app_index_commend/token/' + retobj.token
 				}, function(ret, err) {
-					if (ret) {
+					if (ret && ret.retCode == 1) {
 						// 获取模板内容，并加载数据
 						var tpl = document.getElementById('index_shopdata').innerHTML;
 						//读取模版
@@ -408,9 +461,6 @@
 							document.getElementById('index_shopdata_body').innerHTML = render;
 						});
 					} else {
-						api.toast({
-							msg : JSON.stringify(err)
-						});
 					}
 				});
 			});
@@ -426,6 +476,10 @@
 		});
 		function openGoods() {
 			H.$toast("商品内容");
+		}
+
+		function closeindex() {
+			H.$closeCurrentFrame();
 		}
 	</script>
 </html>
