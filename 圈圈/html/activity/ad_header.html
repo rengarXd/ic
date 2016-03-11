@@ -24,11 +24,8 @@
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript">
 		H.ready(function() {
-			//获取传递过来的广告id
+			//获取传递过来的广告地址
 			var ad_data = H.$getPageParam();
-			api.toast({
-				msg : ad_data
-			});
 			H.$openFrameWithNav('aui-header', {
 				url : ad_data.link,
 				name : 'adss_body',
