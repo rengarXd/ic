@@ -64,9 +64,9 @@
 				<li class="aui-list-view-cell" tapmode data-funcName="user_message_header">
 					<div class="aui-arrow-right">
 						<i style="float: left"><img src="../../image/me/me_pic.png" class="avatar_pic" /></i>
-						<span style="float:left;margin-left: 10px;">唐艺昕
+						<span style="float:left;margin-left: 10px;" id="username">唐艺昕
 							<p>
-								萌宠账号：13937172004
+								萌宠账号：<span id="tel">13937172004</span>
 							</p></span>
 						<div class="aui-arrow-right">
 				</li>
@@ -120,13 +120,14 @@
 						H.$openWin(funcName, funcName + '.html');
 					}
 				});
-				$("#logout").on("click", function() {
-					H.$removePrefs(function(ret, err) {
-						H.$openWin('user_login', '../login/user_login.html');
-					}, 'islogin');
-				});
+				
 			});
 			H.ready(function() {
+				api.getPrefs({
+	                key:'userinfo'
+                },function(ret,err){
+                		var username = 
+                });
 			});
 		</script>
 	</body>
