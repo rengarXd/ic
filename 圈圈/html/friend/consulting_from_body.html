@@ -50,7 +50,7 @@
 					<a class="aui-arrow-right"> 问诊人 <span id="wenzhenren"></span> </a>
 				</li>
 				<li class="aui-list-view-cell" id="chongwuleibie">
-					<a class="aui-arrow-right"> 宠物类别 <span ></span> </a>
+					<a class="aui-arrow-right"> 宠物类别 <span id="pet_type"></span> </a>
 				</li>
 				<li class="aui-list-view-cell" id="chongwuxingbie">
 					<a class="aui-arrow-right"> 宠物性别 <span id="chongwuxingbie_name"></span> </a>
@@ -94,7 +94,9 @@
 	<script type="text/javascript" src="../../script/hammer.min.js"></script>
 	<script type="text/javascript">
 		var uiMediaScanner = null, imageFilter = null, imageBrowser = null, bMap = null, retobj = null;
-		//			生成随机文件名
+		var isIOS = false;
+		var temps_html = "";
+		// 生成guid,主要用于生成随机文件名
 		function NewGuid() {
 			function S4() {
 				return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
@@ -103,7 +105,7 @@
 			return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
 		}
 
-		//				获取当前时间
+		// 获取当前的时间，拼接成2015-11-09这样的格式，主要用于对图片进行时间分类
 		function getNowFormatDate() {
 			var date = new Date();
 			var seperator1 = "-";
@@ -154,7 +156,8 @@
 			});
 		}
 
-		//		打开图片预览
+		// 打开图片浏览
+		// imgs：需要预览的图片集合
 		function openImageBrowser(imgs) {
 			imageBrowser.openImages({
 				imageUrls : imgs,
@@ -163,7 +166,7 @@
 			});
 		}
 
-		//			添加长按方法
+		// 添加长按方法
 		function addPress(obj, index) {
 			// 获取目前长按的对象
 			var hammertime = new Hammer(obj[0]);
@@ -203,9 +206,9 @@
 				}
 			}, function(ret, err) {
 				if (ret) {
-					if (ret.statu == 1) {
-						callback(ret.path);
-					} else if (ret.statu == 0) {
+					if (ret.retCode == 1) {
+						callback(ret.retValue);
+					} else if (ret.retCode == 0) {
 						alert("上传失败");
 					}
 				} else {
@@ -337,10 +340,147 @@
 					// 将图片追加到数组中
 					browerImgs.push($(this).find("img").attr("src"));
 				});
+				//alert(browerImgs);
 				// 调用图片预览函数
 				openImageBrowser(browerImgs);
 			});
-
+			// 添加图片绑定点击事件
+			$("#imgslist").on("tap", "#addpic", function() {
+				api.actionSheet({
+					title : '选择图片来源',
+					buttons : ['相机拍照', '浏览相册']
+				}, function(ret, err) {
+					var index = ret.buttonIndex;
+					switch(index) {
+						// 拍照
+						case 1:
+							// 打开拍照
+							api.getPicture({
+								sourceType : "camera",
+								encodingType : "jpg",
+								destinationType : "url",
+								mediaValue : "pic",
+								quality : 50,
+								saveToPhotoAlbum : true
+							}, function(ret, err) {
+								if (ret && ret.data) {
+									// 拍照返回的本地路径
+									var returnUrl = ret.data;
+									// 图片压缩
+									imgCompress(returnUrl, 0.5, 0.5, getExt(returnUrl), function(compressImg) {
+										var showImgHtml = '<li class="aui-list-view-cell aui-img aui-col-xs-4"><img class="aui-img-object" src="' + compressImg + '" style="width:' + normalW + 'px;height:' + normalW + 'px;"></li>';
+										// 追加图片
+										$("#addpic").before(showImgHtml);
+										// ########################################  绑定长按事件 ########################
+										addPress($("#imgslist img[src='" + compressImg + "']").parent("li"));
+										// ########################################
+										// ################### 上传图片 #########################
+										uploadFile(window.serverUrl + '/img_upload/token/' + retobj.token + '/user_id/' + retobj.id, compressImg, function(serverImg) {
+											alert("上传成功后服务器返回的地址：http://linshiren.gotoip3.com/" + serverImg);
+										});
+									});
+								} else {
+									api.toast({
+										msg : '没有选择，或者选择出错'
+									});
+								}
+							});
+							break;
+						// 打开图片选择器
+						case 2:
+							uiMediaScanner.open({
+								type : 'picture',
+								column : 4,
+								classify : true,
+								max : 6,
+								sort : {
+									key : 'time',
+									order : 'desc'
+								},
+								texts : {
+									stateText : '已选*项',
+									cancelText : '取消',
+									finishText : '完成'
+								},
+								styles : {
+									bg : '#fff',
+									mark : {
+										icon : '',
+										position : 'bottom_left',
+										size : 20
+									},
+									nav : {
+										bg : '#b23e4b',
+										stateColor : '#fff',
+										stateSize : 18,
+										cancelBg : 'rgba(0,0,0,0)',
+										cancelColor : '#fff',
+										cancelSize : 18,
+										finishBg : 'rgba(0,0,0,0)',
+										finishColor : '#fff',
+										finishSize : 18
+									}
+								}
+							}, function(ret) {
+								if (ret) {
+									for (var i = 0; i < ret.list.length; i++) {
+										var selectImg = ret.list[i];
+										// 获取图片的路径
+										var selectimgPath = selectImg.path;
+										var selectimgThumbPath = selectImg.thumbPath;
+										// IOS需要将虚拟路径转换为本地路径才可以压缩
+										if (isIOS) {
+											// 转换为真实路径
+											uiMediaScanner.transPath({
+												path : selectimgPath
+											}, function(transObj) {
+												// 图片压缩
+												imgCompress(transObj.path, 0.5, 0.5, selectImg.suffix, function(compressImg) {
+													$("#addpic").before('<li class="aui-list-view-cell aui-img aui-col-xs-4"><img class="aui-img-object" src="' + compressImg + '" style="width:' + normalW + 'px;height:' + normalW + 'px;"></li>');
+													// ########################################  绑定长按事件 ########################
+													addPress($("#imgslist img[src='" + compressImg + "']").parent("li"));
+													// ########################################
+													// ################### 上传图片 #########################
+													uploadFile(window.serverUrl + '/img_upload/' + retobj.token + '/user_id/' + retobj.id, compressImg, function(serverImg) {
+														alert("上传成功后服务器返回的地址：http://linshiren.gotoip3.com/" + serverImg);
+													});
+												});
+											});
+										} else {
+											// 图片压缩
+											imgCompress(selectimgPath, 0.5, 0.5, selectImg.suffix, function(compressImg) {
+												// 追加图片
+												$("#addpic").before('<li class="aui-list-view-cell aui-img aui-col-xs-4"><img class="aui-img-object" src="' + compressImg + '" style="width:' + normalW + 'px;height:' + normalW + 'px;"></li>');
+												// ########################################  绑定长按事件 ########################
+												addPress($("#imgslist img[src='" + compressImg + "']").parent("li"));
+												// ########################################
+												// ################### 上传图片 #########################
+												uploadFile(window.serverUrl + '/img_upload/token/' + retobj.token + '/user_id/' + retobj.id, compressImg, function(serverImg) {
+													alert("上传成功后服务器返回的地址：http://linshiren.gotoip3.com/" + serverImg);
+												});
+											});
+										}
+									}
+								}
+							});
+							break;
+					}
+				});
+			});
+			// 获取图片宽高
+			var normalW = $("#addpic img").width();
+			// ###############################################################
+			// 为图片添加点击预览功能,排除添加按钮
+			$("#imgslist").on("tap", "li:not(#addpic)", function() {
+				// 定义一个数组，存储需要预览的图片
+				var browerImgs = [];
+				$("#imgslist li:not(#addpic)").each(function() {
+					// 将图片追加到数组中
+					browerImgs.push($(this).find("img").attr("src"));
+				});
+				// 调用图片预览函数
+				openImageBrowser(browerImgs);
+			});
 			$("#imgslist").on("tap", "#addpic", function() {
 				api.actionSheet({
 					title : '请选择图片来源',
@@ -372,7 +512,7 @@
 										addPress($("#imgslist img[src='" + compressImg + "']").parent("li"));
 										// ########################################
 										// ################### 上传图片 #########################
-										uploadFile(window.serverUrl + '/apis/img_upload/' + retobj.token + '/user_id/' + retobj.id, compressImg, function(serverImg) {
+										uploadFile(window.serverUrl + '/img_upload/token/' + retobj.token + '/user_id/' + retobj.id, compressImg, function(serverImg) {
 											alert("上传成功后服务器返回的地址：http://linshiren.gotoip3.com/" + serverImg);
 										});
 									});
@@ -433,7 +573,7 @@
 											addPress($("#imgslist img[src='" + compressImg + "']").parent("li"));
 											// ########################################
 											// ################### 上传图片 #########################
-											uploadFile(window.serverUrl + '/apis/img_upload/' + retobj.token + '/user_id/' + retobj.id, compressImg, function(serverImg) {
+											uploadFile(window.serverUrl + '/img_upload/token/' + retobj.token + '/user_id/' + retobj.id, compressImg, function(serverImg) {
 												alert("上传成功后服务器返回的地址：http://linshiren.gotoip3.com/" + serverImg);
 											});
 										});
@@ -446,7 +586,19 @@
 			});
 			$("#consulting").on("tap", function() {
 				api.parseTapmode();
-				H.$openWin("chat_msg_head", "chat_msg_head.html");
+				var wenzhenren = $("#wenzhenren").html();
+				if (wenzhenren) {
+					var pet_type = $("#pet_type").html();
+					if (pet_type) {
+					} else {
+					}
+				} else {
+					api.toast({
+						msg : '抱歉,请选择问诊人',
+						location : 'top'
+					});
+				}
+				//				H.$openWin("chat_msg_head", "chat_msg_head.html");
 			});
 		});
 		H.ready(function() {
