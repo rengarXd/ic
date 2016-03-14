@@ -96,6 +96,13 @@
 		var uiMediaScanner = null, imageFilter = null, imageBrowser = null, bMap = null, retobj = null;
 		var isIOS = false;
 		var temps_html = "";
+		function exec(dd){
+			api.getPrefs({
+	            key:'pet_type'
+            },function(ret,err){
+            		$("#pet_type").html(ret.value);
+            });
+		}
 		// 生成guid,主要用于生成随机文件名
 		function NewGuid() {
 			function S4() {

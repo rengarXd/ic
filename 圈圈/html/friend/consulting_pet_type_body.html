@@ -25,7 +25,7 @@
 		</div>
 		<script id="pet_type" type="text/html">
 			{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
-			<div class="aui-input-row" id="typeidd">
+			<div class="aui-input-row" onclick="selectd(this);">
 			<label class="aui-input-addon">{{ d.retValue[i].name }}</label>
 			<input class="aui-pull-right aui-radio aui-radio-info" type="radio" name="types" {{# if(i==0){ }}checked{{# } }}>
 			</div>
@@ -36,11 +36,17 @@
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript" src="../../script/laytpl.js"></script>
 	<script type="text/javascript">
-		function type_s() {
-			var petname = $("#typeidd .aui-input-addon").html;
-			api.toast({
-	            msg:petname
-            });
+		function selectd(obj) {
+			var typevalue = $(obj).find(".aui-input-addon").html();
+			H.$setPrefs(function(ret, err) {
+				api.execScript({
+					name : 'consulting_from_header',
+					frameName : 'consulting_from_body',
+					script : 'exec();'
+				});
+				api.closeWin({});
+			}, 'pet_type', typevalue);
+			
 		}
 
 		Zepto(function() {
