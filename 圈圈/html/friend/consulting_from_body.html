@@ -47,16 +47,16 @@
 		<div class="aui-content">
 			<ul class="aui-list-view">
 				<li class="aui-list-view-cell" id="wenzhen">
-					<a class="aui-arrow-right"> 问诊人 <span id="wenzhenren"></span> </a>
+					<a class="aui-arrow-right"> 问诊人 <span id="user_id"></span> </a>
 				</li>
 				<li class="aui-list-view-cell" id="chongwuleibie">
-					<a class="aui-arrow-right"> 宠物类别 <span id="pet_type"></span> </a>
+					<a class="aui-arrow-right"> 宠物类别 <span ></span id="pet_type"> </a>
 				</li>
 				<li class="aui-list-view-cell" id="chongwuxingbie">
-					<a class="aui-arrow-right"> 宠物性别 <span id="chongwuxingbie_name"></span> </a>
+					<a class="aui-arrow-right"> 宠物性别 <span id="pet_sex"></span> </a>
 				</li>
 				<li class="aui-list-view-cell" id="chongwunianling">
-					<a class="aui-arrow-right"> 宠物年龄 <span id="chongwunianling_name"></span> </a>
+					<a class="aui-arrow-right"> 宠物年龄 <span id="pet_age"></span> </a>
 				</li>
 				<li class="aui-list-view-cell" id="yimiao">
 					<a class="aui-arrow-right"> 是否打疫苗 <span id="yimiao_name"></span> </a>
@@ -66,7 +66,7 @@
 		<!--症状描述-->
 		<div class="aui-form">
 			<div class="aui-input-row aui-input-rows">
-				<textarea class="aui-input" placeholder="请给您的宠物的症状做一个详细的描述" style="height: 140px;"></textarea>
+				<textarea class="aui-input" id="pet_text" placeholder="请给您的宠物的症状做一个详细的描述" style="height: 140px;"></textarea>
 			</div>
 		</div>
 		<!--症状描述-->
@@ -94,7 +94,6 @@
 	<script type="text/javascript" src="../../script/hammer.min.js"></script>
 	<script type="text/javascript">
 		var uiMediaScanner = null, imageFilter = null, imageBrowser = null, bMap = null, retobj = null;
-		var isIOS = false;
 		var temps_html = "";
 		function exec(dd){
 			api.getPrefs({
@@ -103,7 +102,7 @@
             		$("#pet_type").html(ret.value);
             });
 		}
-		// 生成guid,主要用于生成随机文件名
+		//			生成随机文件名
 		function NewGuid() {
 			function S4() {
 				return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
@@ -112,7 +111,7 @@
 			return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
 		}
 
-		// 获取当前的时间，拼接成2015-11-09这样的格式，主要用于对图片进行时间分类
+		//				获取当前时间
 		function getNowFormatDate() {
 			var date = new Date();
 			var seperator1 = "-";
@@ -163,8 +162,7 @@
 			});
 		}
 
-		// 打开图片浏览
-		// imgs：需要预览的图片集合
+		//		打开图片预览
 		function openImageBrowser(imgs) {
 			imageBrowser.openImages({
 				imageUrls : imgs,
@@ -173,7 +171,7 @@
 			});
 		}
 
-		// 添加长按方法
+		//			添加长按方法
 		function addPress(obj, index) {
 			// 获取目前长按的对象
 			var hammertime = new Hammer(obj[0]);
@@ -232,12 +230,11 @@
 				api.actionSheet({
 					title : '请选择您要问诊的宠物名字',
 					cancelTitle : '取消',
-					destructiveTitle : '',
 					buttons : ['可可']
 				}, function(ret, err) {
 					if (ret) {
 						if (ret.buttonIndex == 1) {
-							$("#wenzhenren").html("可可");
+							$("#user_id").html("可可");
 						};
 					} else {
 						alert(JSON.stringify(err));
@@ -249,17 +246,16 @@
 				api.actionSheet({
 					title : '请选择您要问诊的宠物性别',
 					cancelTitle : '取消',
-					destructiveTitle : '',
 					buttons : ['雄', '雌']
 				}, function(ret, err) {
 					if (ret) {
 						//						switch
 						switch(ret.buttonIndex) {
 							case 1:
-								$("#chongwuxingbie_name").html("雄");
+								$("#pet_sex").html("雄");
 								break;
 							case 2:
-								$("#chongwuxingbie_name").html("雌");
+								$("#pet_sex").html("雌");
 								break;
 						};
 					} else {
@@ -302,7 +298,7 @@
 						if (ret.data) {
 							var nian = ret.data[0];
 							var yue = ret.data[1];
-							$("#chongwunianling_name").html(nian + '年' + yue + '月');
+							$("#pet_age").html(nian + '年' + yue + '月');
 							//
 							$("#old_bgs").hide();
 							UICustomPicker.close({
@@ -333,144 +329,6 @@
 						};
 					} else {
 						alert(JSON.stringify(err));
-					}
-				});
-			});
-			// 获取图片宽高
-			var normalW = $("#addpic img").width();
-			// ###############################################################
-			// 为图片添加点击预览功能,排除添加按钮
-			$("#imgslist").on("tap", "li:not(#addpic)", function() {
-				// 定义一个数组，存储需要预览的图片
-				var browerImgs = [];
-				$("#imgslist li:not(#addpic)").each(function() {
-					// 将图片追加到数组中
-					browerImgs.push($(this).find("img").attr("src"));
-				});
-				//alert(browerImgs);
-				// 调用图片预览函数
-				openImageBrowser(browerImgs);
-			});
-			// 添加图片绑定点击事件
-			$("#imgslist").on("tap", "#addpic", function() {
-				api.actionSheet({
-					title : '选择图片来源',
-					buttons : ['相机拍照', '浏览相册']
-				}, function(ret, err) {
-					var index = ret.buttonIndex;
-					switch(index) {
-						// 拍照
-						case 1:
-							// 打开拍照
-							api.getPicture({
-								sourceType : "camera",
-								encodingType : "jpg",
-								destinationType : "url",
-								mediaValue : "pic",
-								quality : 50,
-								saveToPhotoAlbum : true
-							}, function(ret, err) {
-								if (ret && ret.data) {
-									// 拍照返回的本地路径
-									var returnUrl = ret.data;
-									// 图片压缩
-									imgCompress(returnUrl, 0.5, 0.5, getExt(returnUrl), function(compressImg) {
-										var showImgHtml = '<li class="aui-list-view-cell aui-img aui-col-xs-4"><img class="aui-img-object" src="' + compressImg + '" style="width:' + normalW + 'px;height:' + normalW + 'px;"></li>';
-										// 追加图片
-										$("#addpic").before(showImgHtml);
-										// ########################################  绑定长按事件 ########################
-										addPress($("#imgslist img[src='" + compressImg + "']").parent("li"));
-										// ########################################
-										// ################### 上传图片 #########################
-										uploadFile(window.serverUrl + '/img_upload/token/' + retobj.token + '/user_id/' + retobj.id, compressImg, function(serverImg) {
-											alert("上传成功后服务器返回的地址：http://linshiren.gotoip3.com/" + serverImg);
-										});
-									});
-								} else {
-									api.toast({
-										msg : '没有选择，或者选择出错'
-									});
-								}
-							});
-							break;
-						// 打开图片选择器
-						case 2:
-							uiMediaScanner.open({
-								type : 'picture',
-								column : 4,
-								classify : true,
-								max : 6,
-								sort : {
-									key : 'time',
-									order : 'desc'
-								},
-								texts : {
-									stateText : '已选*项',
-									cancelText : '取消',
-									finishText : '完成'
-								},
-								styles : {
-									bg : '#fff',
-									mark : {
-										icon : '',
-										position : 'bottom_left',
-										size : 20
-									},
-									nav : {
-										bg : '#b23e4b',
-										stateColor : '#fff',
-										stateSize : 18,
-										cancelBg : 'rgba(0,0,0,0)',
-										cancelColor : '#fff',
-										cancelSize : 18,
-										finishBg : 'rgba(0,0,0,0)',
-										finishColor : '#fff',
-										finishSize : 18
-									}
-								}
-							}, function(ret) {
-								if (ret) {
-									for (var i = 0; i < ret.list.length; i++) {
-										var selectImg = ret.list[i];
-										// 获取图片的路径
-										var selectimgPath = selectImg.path;
-										var selectimgThumbPath = selectImg.thumbPath;
-										// IOS需要将虚拟路径转换为本地路径才可以压缩
-										if (isIOS) {
-											// 转换为真实路径
-											uiMediaScanner.transPath({
-												path : selectimgPath
-											}, function(transObj) {
-												// 图片压缩
-												imgCompress(transObj.path, 0.5, 0.5, selectImg.suffix, function(compressImg) {
-													$("#addpic").before('<li class="aui-list-view-cell aui-img aui-col-xs-4"><img class="aui-img-object" src="' + compressImg + '" style="width:' + normalW + 'px;height:' + normalW + 'px;"></li>');
-													// ########################################  绑定长按事件 ########################
-													addPress($("#imgslist img[src='" + compressImg + "']").parent("li"));
-													// ########################################
-													// ################### 上传图片 #########################
-													uploadFile(window.serverUrl + '/img_upload/' + retobj.token + '/user_id/' + retobj.id, compressImg, function(serverImg) {
-														alert("上传成功后服务器返回的地址：http://linshiren.gotoip3.com/" + serverImg);
-													});
-												});
-											});
-										} else {
-											// 图片压缩
-											imgCompress(selectimgPath, 0.5, 0.5, selectImg.suffix, function(compressImg) {
-												// 追加图片
-												$("#addpic").before('<li class="aui-list-view-cell aui-img aui-col-xs-4"><img class="aui-img-object" src="' + compressImg + '" style="width:' + normalW + 'px;height:' + normalW + 'px;"></li>');
-												// ########################################  绑定长按事件 ########################
-												addPress($("#imgslist img[src='" + compressImg + "']").parent("li"));
-												// ########################################
-												// ################### 上传图片 #########################
-												uploadFile(window.serverUrl + '/img_upload/token/' + retobj.token + '/user_id/' + retobj.id, compressImg, function(serverImg) {
-													alert("上传成功后服务器返回的地址：http://linshiren.gotoip3.com/" + serverImg);
-												});
-											});
-										}
-									}
-								}
-							});
-							break;
 					}
 				});
 			});
@@ -591,23 +449,56 @@
 					}
 				});
 			});
-			$("#chongwuleibie").on("tap",function(){
-				H.$openWin("consulting_pet_type_header","consulting_pet_type_header.html");
-			});
 			$("#consulting").on("tap", function() {
-				api.parseTapmode();
-				var wenzhenren = $("#wenzhenren").html();
+				//				$("#wenzhenren").html();
+				var wenzhenren = $("#user_id").html();
 				if (wenzhenren) {
-					var pet_type = $("#pet_type").html();
-					if (pet_type) {
+					var pet_sex = $("#pet_sex").html();
+					if (pet_sex) {
+						var pet_age = $("#pet_age").html();
+						if (pet_age) {
+							var yimiao_name = $("#yimiao_name").html();
+							if (yimiao_name) {
+								api.ajax({
+									url : window.serverUrl + '/inquiry_add/token/' + retobj.token + '/user_id/' + retobj.id,
+									method : 'post',
+									data : {
+										values : {
+											
+											"user_id" : user_id,
+											"doctor_id": id,
+											"pet_sex" : pet_sex,
+											"pet_age" : pet_age,	
+											"content": pet_text
+										}
+									}
+								}, function(ret, err) {
+									if (ret && ret.Code == 1) {
+										H.$openWin("chat_msg_head", "chat_msg_head.html");
+									} else {
+										api.alert({
+											msg : ('错误码：' + err.code + '；错误信息：' + err.msg + '；网络状态码：' + err.statusCode)
+										});
+									}
+								});
+							} else { msg:'抱歉，您没有选择是否打过疫苗'
+							};
+						} else {
+							api.toast({
+								msg : '抱歉，您没有添加宠物年龄'
+							});
+						};
 					} else {
-					}
+						api.toast({
+							msg : '抱歉，您没有添加宠物性别'
+						});
+					};
 				} else {
 					api.toast({
-						msg : '抱歉,请选择问诊人',
-						location : 'top'
+						msg : '抱歉，您没有添加问诊人'
 					});
 				}
+				api.parseTapmode();
 				//				H.$openWin("chat_msg_head", "chat_msg_head.html");
 			});
 		});
