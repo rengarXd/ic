@@ -36,6 +36,7 @@
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript" src="../../script/laytpl.js"></script>
 	<script type="text/javascript">
+		var userinfoobj = null;
 		function selectd(obj) {
 			var typevalue = $(obj).find(".aui-input-addon").html();
 			H.$setPrefs(function(ret, err) {
@@ -46,7 +47,6 @@
 				});
 				api.closeWin({});
 			}, 'pet_type', typevalue);
-			
 		}
 
 		Zepto(function() {
@@ -55,25 +55,51 @@
 			api.getPrefs({
 				key : 'userinfo'
 			}, function(ret, err) {
-				var userinfoobj = eval('(' + ret.value + ')');
-				api.ajax({
-					url : window.serverUrl + '/pettype_list/token/' + userinfoobj.token
-				}, function(ret, err) {
-					if (ret && ret.retValue) {
-						// 获取模板内容，并加载数据
-						var tpl = document.getElementById('pet_type').innerHTML;
-						//读取模版
-						laytpl(tpl).render(ret, function(render) {
-							document.getElementById('pet_type_body').innerHTML = render;
-							H.$api.css(H.$api.byId("loading"), "display:none");
-						});
-					} else {
-						api.toast({
-							msg : '抱歉，获取信息失败'
-						});
-					}
-				});
+				userinfoobj = eval('(' + ret.value + ')');
+			});
+			H.$dropdownToRefresh(function(ret, err) {
+				get_data();
+			});
+			api.getPrefs({
+				key : 'pet_type_data'
+			}, function(ret, err) {
+				if (ret && ret.value) {
+					// 获取模板内容，并加载数据
+					var tpl = document.getElementById('pet_type').innerHTML;
+					//读取模版
+					laytpl(tpl).render(eval('(' + ret.value + ')'), function(render) {
+						document.getElementById('pet_type_body').innerHTML = render;
+						H.$api.css(H.$api.byId("loading"), "display:none");
+					});
+				} else {
+					get_data();
+				}
 			});
 		});
+		//获取数据并渲染
+		function get_data() {
+			api.ajax({
+				url : window.serverUrl + '/pettype_list/token/' + userinfoobj.token
+			}, function(ret, err) {
+				if (ret && ret.retValue) {
+					api.setPrefs({
+						key : 'pet_type_data',
+						value : JSON.stringify(ret)
+					});
+					// 获取模板内容，并加载数据
+					var tpl = document.getElementById('pet_type').innerHTML;
+					//读取模版
+					laytpl(tpl).render(ret, function(render) {
+						document.getElementById('pet_type_body').innerHTML = render;
+						H.$api.css(H.$api.byId("loading"), "display:none");
+						H.$recoverDropdownToNormal();
+					});
+				} else {
+					api.toast({
+						msg : '抱歉，获取信息失败'
+					});
+				}
+			});
+		}
 	</script>
 </html>
