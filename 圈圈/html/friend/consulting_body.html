@@ -67,6 +67,7 @@
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript" src="../../script/laytpl.js"></script>
 	<script>
+		var retabc = null;
 		//医生详情跳转
 		function to_doctor(id) {
 			H.$openWin("consulting_doctor_header", "consulting_doctor_header.html", {
@@ -76,54 +77,56 @@
 
 		//获取数据并渲染
 		function get_data() {
-			api.getPrefs({
-				key : 'userinfo'
+			
+			//请求ajax数据
+			api.ajax({
+				url : window.serverUrl + '/doctor_list/token/' + retabc.token
 			}, function(ret, err) {
-				var retabc = eval("(" + ret.value + ")");
-				api.getPrefs({
-	                key:'doctor_list'
-                },function(ret,err){
-                		//如果有缓存数据
-                		if(ret && ret.Value){
-                			var t = document.getElementById('doctor_list_data').innerHTML;
-						laytpl(t).render('('+ret.value+')', function(render) {
-                			document.getElementById('doctor_list_html').innerHTML = render;
-                		}else{
-                		//如果没有缓存数据
-                		
-                						//请求ajax数据
-				api.ajax({
-					url : window.serverUrl + '/doctor_list/token/' + retabc.token
-				}, function(ret, err) {
-					if (ret && ret.retValue==1) {
-						var t = document.getElementById('doctor_list_data').innerHTML;
-						laytpl(t).render(ret, function(render) {
-							api.setPrefs({
-				                key:'doctor_list',
-				                value: ret
-			                });
-							document.getElementById('doctor_list_html').innerHTML = render;
-							H.$recoverDropdownToNormal();
-							H.$api.css(H.$api.byId("loading"), "display:none");
+				if (ret && ret.retCode == 1) {
+					var t = document.getElementById('doctor_list_data').innerHTML;
+					laytpl(t).render(ret, function(render) {
+						api.setPrefs({
+							key : 'doctor_list',
+							value : JSON.stringify(ret)
 						});
-					} else {
+						document.getElementById('doctor_list_html').innerHTML = render;
+						H.$recoverDropdownToNormal();
 						H.$api.css(H.$api.byId("loading"), "display:none");
-						H.$openFrame('noNetwork', 'widget://res/noNetwork_body.html', {}, {
-							x : 0,
-							y : 55
-						})
-					}
-				});
-                			
-                		}
-                });
-		
+					});
+				} else {
+					H.$api.css(H.$api.byId("loading"), "display:none");
+					H.$openFrame('noNetwork', 'widget://res/noNetwork_body.html', {}, {
+						x : 0,
+						y : 55
+					})
+				}
 			});
 		}
 
 
 		H.ready(function() {
-			get_data();
+			api.refreshHeaderLoading();
+			api.getPrefs({
+				key : 'userinfo'
+			}, function(ret, err) {
+				retabc = eval("(" + ret.value + ")");
+				api.getPrefs({
+					key : 'doctor_list'
+				}, function(ret, err) {
+					//如果有缓存数据
+					if (ret && ret.value) {
+						var t = document.getElementById('doctor_list_data').innerHTML;
+						laytpl(t).render(eval('(' + ret.value + ')'), function(render) {
+							document.getElementById('doctor_list_html').innerHTML = render;
+							H.$api.css(H.$api.byId("loading"), "display:none");
+							H.$recoverDropdownToNormal();
+						});
+					} else {
+						//如果没有缓存数据
+						get_data();
+					}
+				});
+			});
 			/*下拉刷新*/
 			H.$dropdownToRefresh(function(ret, err) {
 				get_data();
