@@ -80,13 +80,28 @@
 				key : 'userinfo'
 			}, function(ret, err) {
 				var retabc = eval("(" + ret.value + ")");
-				//请求ajax数据
+				api.getPrefs({
+	                key:'doctor_list'
+                },function(ret,err){
+                		//如果有缓存数据
+                		if(ret && ret.Value){
+                			var t = document.getElementById('doctor_list_data').innerHTML;
+						laytpl(t).render('('+ret.value+')', function(render) {
+                			document.getElementById('doctor_list_html').innerHTML = render;
+                		}else{
+                		//如果没有缓存数据
+                		
+                						//请求ajax数据
 				api.ajax({
 					url : window.serverUrl + '/doctor_list/token/' + retabc.token
 				}, function(ret, err) {
-					if (ret) {
+					if (ret && ret.retValue==1) {
 						var t = document.getElementById('doctor_list_data').innerHTML;
 						laytpl(t).render(ret, function(render) {
+							api.setPrefs({
+				                key:'doctor_list',
+				                value: ret
+			                });
 							document.getElementById('doctor_list_html').innerHTML = render;
 							H.$recoverDropdownToNormal();
 							H.$api.css(H.$api.byId("loading"), "display:none");
@@ -99,6 +114,10 @@
 						})
 					}
 				});
+                			
+                		}
+                });
+		
 			});
 		}
 
