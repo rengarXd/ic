@@ -50,7 +50,7 @@
 					<a class="aui-arrow-right"> 问诊人 <span id="user_id"></span> </a>
 				</li>
 				<li class="aui-list-view-cell" id="chongwuleibie">
-					<a class="aui-arrow-right"> 宠物类别 <span ></span id="pet_type"> </a>
+					<a class="aui-arrow-right"> 宠物类别 <span id="pet_type"></span> </a>
 				</li>
 				<li class="aui-list-view-cell" id="chongwuxingbie">
 					<a class="aui-arrow-right"> 宠物性别 <span id="pet_sex"></span> </a>
@@ -95,13 +95,14 @@
 	<script type="text/javascript">
 		var uiMediaScanner = null, imageFilter = null, imageBrowser = null, bMap = null, retobj = null;
 		var temps_html = "";
-		function exec(){
+		function exec() {
 			api.getPrefs({
-	            key:'pet_type'
-            },function(ret,err){
-            		$("#pet_type").html(ret.value);
-            });
+				key : 'pet_type'
+			}, function(ret, err) {
+				$("#pet_type").html(ret.value);
+			});
 		}
+
 		//			生成随机文件名
 		function NewGuid() {
 			function S4() {
@@ -240,6 +241,9 @@
 						alert(JSON.stringify(err));
 					}
 				});
+			});
+			$("#chongwuleibie").on("tap", function() {
+				H.$openWin("consulting_pet_type_header", "consulting_pet_type_header.html");
 			});
 			//			类别
 			$("#chongwuxingbie").on("tap", function() {
@@ -464,12 +468,11 @@
 									method : 'post',
 									data : {
 										values : {
-											
 											"user_id" : user_id,
-											"doctor_id": id,
+											"doctor_id" : id,
 											"pet_sex" : pet_sex,
-											"pet_age" : pet_age,	
-											"content": pet_text
+											"pet_age" : pet_age,
+											"content" : pet_text
 										}
 									}
 								}, function(ret, err) {
