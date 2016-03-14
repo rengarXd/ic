@@ -50,7 +50,7 @@
 					<a class="aui-arrow-right"> 问诊人 <span id="user_id"></span> </a>
 				</li>
 				<li class="aui-list-view-cell" id="chongwuleibie">
-					<a class="aui-arrow-right"> 宠物类别 <span id="pet_type"></span> </a>
+					<a class="aui-arrow-right"> 宠物类别 <span id="pet_type" petid=""></span> </a>
 				</li>
 				<li class="aui-list-view-cell" id="chongwuxingbie">
 					<a class="aui-arrow-right"> 宠物性别 <span id="pet_sex"></span> </a>
@@ -99,7 +99,12 @@
 			api.getPrefs({
 				key : 'pet_type'
 			}, function(ret, err) {
-				$("#pet_type").html(ret.value);
+				api.toast({
+					msg : JSON.stringify(ret)
+				});
+				var dd = eval('('+ret.value+')');
+				$("#pet_type").html(dd.typeval);
+				$("#pet_type").attr("petid", dd.typeid);
 			});
 		}
 
@@ -227,21 +232,22 @@
 
 		Zepto(function($) {
 			//			问诊
-			$("#wenzhen").on("tap", function() {
-				api.actionSheet({
-					title : '请选择您要问诊的宠物名字',
-					cancelTitle : '取消',
-					buttons : ['可可']
-				}, function(ret, err) {
-					if (ret) {
-						if (ret.buttonIndex == 1) {
-							$("#user_id").html("可可");
-						};
-					} else {
-						alert(JSON.stringify(err));
-					}
-				});
-			});
+			//
+			//			$("#wenzhen").on("tap", function() {
+			//				api.actionSheet({
+			//					title : '请选择您要问诊的宠物名字',
+			//					cancelTitle : '取消',
+			//					buttons : ['可可']
+			//				}, function(ret, err) {
+			//					if (ret) {
+			//						if (ret.buttonIndex == 1) {
+			//							$("#user_id").html("可可");
+			//						};
+			//					} else {
+			//						alert(JSON.stringify(err));
+			//					}
+			//				});
+			//			});
 			$("#chongwuleibie").on("tap", function() {
 				H.$openWin("consulting_pet_type_header", "consulting_pet_type_header.html");
 			});
@@ -454,6 +460,7 @@
 				});
 			});
 			$("#consulting").on("tap", function() {
+				var doctorid = H.$getPageParam();
 				//				$("#wenzhenren").html();
 				var wenzhenren = $("#user_id").html();
 				if (wenzhenren) {
@@ -468,8 +475,7 @@
 									method : 'post',
 									data : {
 										values : {
-											"user_id" : user_id,
-											"doctor_id" : id,
+											"doctorid" : doctorid.doctor_id,
 											"pet_sex" : pet_sex,
 											"pet_age" : pet_age,
 											"content" : pet_text
@@ -510,6 +516,7 @@
 				key : 'userinfo'
 			}, function(ret, err) {
 				retobj = eval('(' + ret.value + ')');
+				$("#user_id").html(retobj.username);
 			});
 			// 引入多选模块
 			uiMediaScanner = api.require('UIMediaScanner');

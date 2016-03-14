@@ -26,7 +26,7 @@
 		<script id="pet_type" type="text/html">
 			{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
 			<div class="aui-input-row" onclick="selectd(this);">
-			<label class="aui-input-addon">{{ d.retValue[i].name }}</label>
+			<label class="aui-input-addon" pettypeid="{{ d.retValue[i].id }}">{{ d.retValue[i].name }}</label>
 			<input class="aui-pull-right aui-radio aui-radio-info" type="radio" name="types" {{# if(i==0){ }}checked{{# } }}>
 			</div>
 			{{# } }}
@@ -39,6 +39,7 @@
 		var userinfoobj = null;
 		function selectd(obj) {
 			var typevalue = $(obj).find(".aui-input-addon").html();
+			var typeid = $(obj).find(".aui-input-addon").attr("pettypeid");
 			H.$setPrefs(function(ret, err) {
 				api.execScript({
 					name : 'consulting_from_header',
@@ -46,7 +47,7 @@
 					script : 'exec();'
 				});
 				api.closeWin({});
-			}, 'pet_type', typevalue);
+			}, 'pet_type', '{typeval:"'+typevalue+'",typeid:'+typeid+'}');
 		}
 
 		Zepto(function() {
