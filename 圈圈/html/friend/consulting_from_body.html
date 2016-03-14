@@ -53,13 +53,13 @@
 					<a class="aui-arrow-right"> 宠物类别 <span id="pet_type" petid=""></span> </a>
 				</li>
 				<li class="aui-list-view-cell" id="chongwuxingbie">
-					<a class="aui-arrow-right"> 宠物性别 <span id="pet_sex"></span> </a>
+					<a class="aui-arrow-right"> 宠物性别 <span id="pet_sex" sex=""></span> </a>
 				</li>
 				<li class="aui-list-view-cell" id="chongwunianling">
 					<a class="aui-arrow-right"> 宠物年龄 <span id="pet_age"></span> </a>
 				</li>
 				<li class="aui-list-view-cell" id="yimiao">
-					<a class="aui-arrow-right"> 是否打疫苗 <span id="yimiao_name"></span> </a>
+					<a class="aui-arrow-right"> 是否打疫苗 <span id="yimiao_name" isym=""></span> </a>
 				</li>
 			</ul>
 		</div>
@@ -95,14 +95,13 @@
 	<script type="text/javascript">
 		var uiMediaScanner = null, imageFilter = null, imageBrowser = null, bMap = null, retobj = null;
 		var temps_html = "";
+		//组装最后的图片路径
+		var upimgpath = "";
 		function exec() {
 			api.getPrefs({
 				key : 'pet_type'
 			}, function(ret, err) {
-				api.toast({
-					msg : JSON.stringify(ret)
-				});
-				var dd = eval('('+ret.value+')');
+				var dd = eval('(' + ret.value + ')');
 				$("#pet_type").html(dd.typeval);
 				$("#pet_type").attr("petid", dd.typeid);
 			});
@@ -263,9 +262,11 @@
 						switch(ret.buttonIndex) {
 							case 1:
 								$("#pet_sex").html("雄");
+								$("pet_sex").attr("sex", 1);
 								break;
 							case 2:
 								$("#pet_sex").html("雌");
+								$("pet_sex").attr("sex", 2);
 								break;
 						};
 					} else {
@@ -332,9 +333,11 @@
 						switch(index) {
 							case 1:
 								$("#yimiao_name").html("是");
+								$("#yimiao_name").attr("isym", 1);
 								break;
 							case 2:
 								$("#yimiao_name").html("否");
+								$("#yimiao_name").attr("isym", 0);
 								break;
 						};
 					} else {
@@ -388,7 +391,7 @@
 										// ########################################
 										// ################### 上传图片 #########################
 										uploadFile(window.serverUrl + '/img_upload/token/' + retobj.token + '/user_id/' + retobj.id, compressImg, function(serverImg) {
-											alert("上传成功后服务器返回的地址：http://linshiren.gotoip3.com/" + serverImg);
+											upimgpath += serverImg.img + ',';
 										});
 									});
 								} else {
@@ -449,7 +452,7 @@
 											// ########################################
 											// ################### 上传图片 #########################
 											uploadFile(window.serverUrl + '/img_upload/token/' + retobj.token + '/user_id/' + retobj.id, compressImg, function(serverImg) {
-												alert("上传成功后服务器返回的地址：http://linshiren.gotoip3.com/" + serverImg);
+												upimgpath += serverImg.img + ',';
 											});
 										});
 									}
@@ -461,36 +464,57 @@
 			});
 			$("#consulting").on("tap", function() {
 				var doctorid = H.$getPageParam();
-				//				$("#wenzhenren").html();
-				var wenzhenren = $("#user_id").html();
-				if (wenzhenren) {
+				//$("#wenzhenren").html();
+				var pet_type = $("#pet_type").html();
+				if (pet_type) {
 					var pet_sex = $("#pet_sex").html();
 					if (pet_sex) {
 						var pet_age = $("#pet_age").html();
 						if (pet_age) {
 							var yimiao_name = $("#yimiao_name").html();
 							if (yimiao_name) {
-								api.ajax({
-									url : window.serverUrl + '/inquiry_add/token/' + retobj.token + '/user_id/' + retobj.id,
-									method : 'post',
-									data : {
-										values : {
-											"doctorid" : doctorid.doctor_id,
-											"pet_sex" : pet_sex,
-											"pet_age" : pet_age,
-											"content" : pet_text
+								var pet_text = $("#pet_text").val();
+								if (pet_text) {
+									api.showProgress({
+                                    });
+									api.ajax({
+										url : window.serverUrl + '/inquiry_add/token/' + retobj.token + '/user_id/' + retobj.id,
+										method : 'post',
+										data : {
+											values : {
+												"doctorid" : doctorid.doctor_id.id,
+												"pet_type" : $("#pet_type").attr("petid"),
+												"pet_sex" : $("#pet_sex").attr("sex"),
+												"pet_age" : pet_age,
+												"is_vaccine" : $("#yimiao_name").attr("isym"),
+												"content" : pet_text,
+												"img" : upimgpath,
+												"from" : api.deviceModel
+											}
 										}
-									}
-								}, function(ret, err) {
-									if (ret && ret.Code == 1) {
-										H.$openWin("chat_msg_head", "chat_msg_head.html");
-									} else {
-										api.alert({
-											msg : ('错误码：' + err.code + '；错误信息：' + err.msg + '；网络状态码：' + err.statusCode)
+									}, function(ret, err) {
+										api.toast({
+											msg : ret
 										});
-									}
+										api.hideProgress();
+										if (ret && ret.retCode == 1) {
+											H.$openWin("chat_msg_head", "chat_msg_head.html");
+										
+										} else {
+											api.toast({
+	                                            msg:ret.retDesc
+                                            });
+										}
+									});
+								} else {
+									api.toast({
+										msg : '抱歉，您还没有给您宠物的症状描述一下'
+									});
+								}
+							} else {
+								api.toast({
+									msg : '抱歉，您没有选择是否打过疫苗'
 								});
-							} else { msg:'抱歉，您没有选择是否打过疫苗'
 							};
 						} else {
 							api.toast({
@@ -504,7 +528,7 @@
 					};
 				} else {
 					api.toast({
-						msg : '抱歉，您没有添加问诊人'
+						msg : '抱歉，您没有选择宠物类别'
 					});
 				}
 				api.parseTapmode();
