@@ -72,33 +72,34 @@
 			.wenzhen_btn_wen:active {
 				background: -webkit-gradient(linear, left top, left bottom, from(#ff6001), to(#ff9001));
 			}
+			#doctor_isauthent{ width: 80px;}
 		</style>
 	</head>
 	<body>
 		<div class="aui-content">
 			<ul class="aui-user-view">
 				<li class="aui-user-view-cell aui-img">
-					<img class="aui-img-object aui-pull-left" src="../../image/friend/pic04.png">
+					<img class="aui-img-object aui-pull-left" id="doctor_pic" src="../../image/friend/pic04.png">
 					<div class="aui-img-body">
-						<span>唐艺昕<i>9.2分</i><em><img src="../../image/friend/rzys.png" style="width: 80px;"/></em></span>
-						<p class='aui-ellipsis-1'>
-							主治医师
+						<span><span id="doctor_name">&nbsp;&nbsp;&nbsp;</span><i id="doctor_fen">&nbsp;&nbsp;&nbsp;</i><em><img id="doctor_isauthent" style="display:none" src="../../image/friend/rzys.png"/></em></span>
+						<p class='aui-ellipsis-1' id="doctor_jobname">
+							&nbsp;&nbsp;&nbsp;
 						</p>
-						<p class="aui-ellipsis-pp">
-							河南农业大学宠物医院（农业路东三街交叉口东）
+						<p class="aui-ellipsis-pp" id="doctor_from">
+							&nbsp;&nbsp;&nbsp;
 						</p>
 					</div>
 					<div class="aui-line-x"></div>
 					<div class="asc">
 						<div class="aui-col-xs-6" style="border-right:1px solid #ddd">
-							回答数：5896
+							回答数：<span id="doctor_answer">&nbsp;&nbsp;&nbsp;</span>
 						</div>
 						<div class="aui-col-xs-6">
-							好评率：98.9%
+							好评率：<span id="doctor_goodrate">&nbsp;&nbsp;&nbsp;</span>
 						</div>
 					</div>
 					<div class="aui-line-x"></div>
-					<h5 class="intro">专长：眼科、内科、老年医学及软组织手术。</h5>
+					<h5 class="intro" id="doctor_expertise"></h5>
 				</li>
 			</ul>
 		</div>
@@ -222,13 +223,23 @@
 				key : 'userinfo'
 			}, function(ret, err) {
 				var userinfoobj = eval('(' + ret.value + ')');
-				api.ajax({
-					url : window.serverurl + '/doctors/token/' + userinfoobj.token + '/doctorid/' + doctorid.id
-				}, function(ret, err) {
-					api.toast({
-						msg : "333"
-					});
-				});
+				H.$ajax(function(ret, err) {
+					//如果有值并且返回状态码为1
+					if (ret && ret.retCode == 1) {
+						if (ret.retValue.doctor[0].isauthent == 1) {
+							$("#doctor_isauthent").show();
+						}
+						$("#doctor_name").html(ret.retValue.doctor[0].name);
+						$("#doctor_fen").html(ret.retValue.doctor[0].stars + "分");
+						$("#doctor_pic").src = window.serverUrlPath + ret.retValue.doctor[0].pic;
+						$("#doctor_jobname").html(ret.retValue.doctor[0].jobname);
+						$("#doctor_from").html(ret.retValue.doctor[0].from);
+						$("#doctor_answer").html(ret.retValue.doctor[0].answer);
+						$("#doctor_goodrate").html(ret.retValue.doctor[0].goodrate);
+						$("#doctor_expertise").html("专长：" + ret.retValue.doctor[0].expertise);
+					} else {
+					}
+				}, window.serverUrl + '/doctors/token/' + userinfoobj.token + '/doctorid/' + doctorid.id);
 			});
 		});
 	</script>

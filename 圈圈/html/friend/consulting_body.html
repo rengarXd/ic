@@ -29,11 +29,6 @@
 			.aui-user-view-cell:active {
 				background: #f5f5f5
 			}
-			img.loading {
-				width: 100%;
-				background: url('../../image/loading.gif') no-repeat center center;
-				background-color: #f5f5f5;
-			}
 		</style>
 	</head>
 	<body>
@@ -50,7 +45,7 @@
 			{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
 			<!--医师信息-->
 			<li class="aui-user-view-cell aui-img" tapmode onclick="to_doctor({{ d.retValue[i].id }});">
-			<img class="aui-img-object aui-pull-left loading" src="../../image/blank.gif" data-echo="http://q.endzk.com/{{ d.retValue[i].pic }}">
+			<img class="aui-img-object aui-pull-left" src="http://q.endzk.com/{{ d.retValue[i].pic }}">
 			<div class="aui-img-body">
 			<span>{{ d.retValue[i].name }}<i>{{ d.retValue[i].stars }}</i>{{# if (d.retValue[i].isauthent == 1){ }}<em><img src="../../image/friend/rzys.png" style="width: 80px;"/></em>{{# }}}</span>
 			<p class='aui-ellipsis-1'>
@@ -71,7 +66,6 @@
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript" src="../../script/laytpl.js"></script>
-	<script type="text/javascript" src="../../script/echo.min.js"></script>
 	<script>
 	
 		var retabc = null;
@@ -98,13 +92,6 @@
 						document.getElementById('doctor_list_html').innerHTML = render;
 						H.$recoverDropdownToNormal();
 						H.$api.css(H.$api.byId("loading"), "display:none");
-							echo.init({
-								offset : 100,
-								throttle : 250,
-								unload : false,
-								callback : function(element, op) {
-								}
-							});
 					});
 				} else {
 					H.$api.css(H.$api.byId("loading"), "display:none");
@@ -133,13 +120,6 @@
 							document.getElementById('doctor_list_html').innerHTML = render;
 							H.$api.css(H.$api.byId("loading"), "display:none");
 							H.$recoverDropdownToNormal();
-							echo.init({
-								offset : 100,
-								throttle : 250,
-								unload : false,
-								callback : function(element, op) {
-								}
-							});
 						});
 					} else {
 						//如果没有缓存数据

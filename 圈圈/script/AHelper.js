@@ -20,6 +20,9 @@
 	window.serverUrl = "http://q.endzk.com/apis";
 	//设备访问api请求地址
 	window.deviceserverUrl = "http://q.endzk.com/deviceapi";
+	
+	//常规静态资源请求地址
+	window.serverUrlPath = "http://q.endzk.com/";
 
 	// 公共类库
 	var $$com = {
