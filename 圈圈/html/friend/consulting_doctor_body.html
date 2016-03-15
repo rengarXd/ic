@@ -107,37 +107,7 @@
 			<div class="aui-content-title">
 				<span class="iconfont icon-iconxiaoxi"></span> 近期评论
 			</div>
-			<ul class="aui-list-view">
-				<div class="aui-line-x"></div>
-				<li class="aui-list-view-cell" tapmode>
-					<div class="img-cont"><img class="aui-pull-left" src="../../image/friend/pic01.png" tapmode >
-					</div>
-					<div class="aui-img-body">
-						<span>巴布的妈妈</span><!--<i class="iconfont icon-iconfontunfold" style="float: right">--></i>
-						<p class='aui-ellipsis-1'>
-							来自 iphone6 plus
-						</p>
-					</div>
-					<p style="margin-top: 5px; margin-bottom: 5px;">
-						求助一下各位大神，看到一只小狗，谁知道是什么品种?
-					</p>
-					<h6>2016-1-22  15:23:58<span style="float: right">回复（20）</span></h6>
-				</li>
-				<li class="aui-list-view-cell" tapmode>
-					<div class="img-cont"><img class="aui-pull-left" src="../../image/friend/pic02.png" tapmode >
-					</div>
-					<div class="aui-img-body">
-						<span>巴布的妈妈</span><!--<i class="iconfont icon-iconfontunfold" style="float: right">--></i>
-						<p class='aui-ellipsis-1'>
-							来自 iphone6 plus
-						</p>
-					</div>
-					<p style="margin-top: 5px;margin-bottom: 5px;">
-						可可：你好，我家的小狗是今天才从宠物店接回家的两个月的泰迪，回来后一直发抖，还不停的叫，大了几个喷嚏，我想问问是不是感冒了？
-					</p>
-					<h6>2016-1-22  15:23:58<span style="float: right">回复（20）</span></h6>
-				</li>
-			</ul>
+			<ul class="aui-list-view" id="inquiry_data_body"></ul>
 		</div>
 		<!--用户评价-->
 		<div class="aui-content">
@@ -145,18 +115,9 @@
 				<span class="iconfont icon-iconxiaoxi"></span> 用户评价
 			</div>
 			<div class="aui-line-x"></div>
-			<ul class="aui-list-view">
-				<li class="aui-list-view-cell">
-					<img class="user_pj aui-pull-left" width="30" height="30" src="../../image/friend/pic04.png">
-					<div class="aui-img-body user_pj_name">
-						巴布的妈妈 <span class="iconfont icon-xingxing icon_red"></span><span class="iconfont icon-xingxing icon_red"></span><span class="iconfont icon-xingxing icon_red"></span><span class="iconfont icon-xingxing icon_red"></span><span class="iconfont icon-xingxing icon_red"></span>
-						<span class="aui-pull-right aui-badge aui-badge-info">满意</span>
-					</div>
-					<p>
-						认真负责，态度好！
-					</p>
-				</li>
-				<li class="aui-list-view-cell">
+			<ul class="aui-list-view" id="evaluate_data_body">
+				
+				<!--<li class="aui-list-view-cell">
 					<img class="user_pj aui-pull-left" width="30" height="30" src="../../image/friend/pic04.png">
 					<div class="aui-img-body user_pj_name">
 						巴布的妈妈 <span class="iconfont icon-xingxing icon_red"></span><span class="iconfont icon-xingxing icon_red"></span><span class="iconfont icon-xingxing icon_red"></span><span class="iconfont icon-xingxing icon_red"></span><span class="iconfont icon-xingxing icon_red"></span>
@@ -195,7 +156,7 @@
 					<p>
 						认真负责，态度好！
 					</p>
-				</li>
+				</li>-->
 			</ul>
 			<!--撑开下部层页面-->
 			<div style="height:50px;"></div>
@@ -205,9 +166,45 @@
 		<div class="aui-btn aui-btn-block wenzhen_btn_wen" id="consulting">
 			我要问诊
 		</div>
+		<script id="inquiry_data" type="text/html">
+			<div class="aui-line-x"></div>
+				{{# for(var i = 0, len = d.length; i < len; i++){ }}
+				<li class="aui-list-view-cell" tapmode>
+					<div class="img-cont"><img class="aui-pull-left" src="../../image/friend/pic01.png" tapmode >
+					</div>
+					<div class="aui-img-body">
+						<span>{{ d[i].username }}</span><!--<i class="iconfont icon-iconfontunfold" style="float: right">--></i>
+						<p class='aui-ellipsis-1'>
+							来自 iphone6 plus
+						</p>
+					</div>
+					<p style="margin-top: 5px; margin-bottom: 5px;">
+						{{ d[i].content }}
+					</p>
+					<h6>{{ d[i].time }}<span style="float: right">回复（{{ d[i].answer_nums }}）</span></h6>
+				</li>
+				{{# } }}
+		</script>
+		
+		<script id="evaluate_data" type="text/html">
+			<div class="aui-line-x"></div>
+			{{# for(var i = 0, len = d.length; i < len; i++){ }}
+				<li class="aui-list-view-cell">
+					<img class="user_pj aui-pull-left" width="30" height="30" src="../../image/friend/pic04.png">
+					<div class="aui-img-body user_pj_name">
+						{{ d[i].username }}  {{# for(var a = 0, b = d[i].star; a < b; a++){ }}<span class="iconfont icon-xingxing icon_red"></span>{{# } }}<!--<span class="iconfont icon-xingxing icon_red"></span><span class="iconfont icon-xingxing icon_red"></span><span class="iconfont icon-xingxing icon_red"></span><span class="iconfont icon-xingxing icon_red"></span>-->
+						<span class="aui-pull-right aui-badge aui-badge-info">{{ d[i].isSatisfied }}</span>
+					</div>
+					<p>
+						{{ d[i].content }}
+					</p>
+				</li>
+				{{# } }}
+		</script>
 	</body>
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
+	<script type="text/javascript" src="../../script/laytpl.js"></script>
 	<script>
 		Zepto(function($) {
 			$("#consulting").on("tap", function() {
@@ -237,6 +234,22 @@
 						$("#doctor_answer").html(ret.retValue.doctor[0].answer);
 						$("#doctor_goodrate").html(ret.retValue.doctor[0].goodrate);
 						$("#doctor_expertise").html("专长：" + ret.retValue.doctor[0].expertise);
+					
+						//======分割线
+						
+						var inquiry = ret.retValue.inquiry;
+						var tpl = document.getElementById('inquiry_data').innerHTML;
+						laytpl(tpl).render(inquiry, function(render) {
+							document.getElementById('inquiry_data_body').innerHTML = render;
+						});
+						
+						var evaluate = ret.retValue.evaluate;
+						var tpl = document.getElementById('evaluate_data').innerHTML;
+						laytpl(tpl).render(evaluate, function(render){
+							document.getElementById('evaluate_data_body').innerHTML = render;
+						});
+						
+														
 					} else {
 					}
 				}, window.serverUrl + '/doctors/token/' + userinfoobj.token + '/doctorid/' + doctorid.id);
