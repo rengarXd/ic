@@ -34,6 +34,14 @@
 			.aui-list-view-cell {
 				color: #999;
 			}
+			#username {
+				float: right
+			}
+			.userds span {
+				float: right;
+				margin-right: 20px;
+				color: #B3B3B3;
+			}
 		</style>
 	</head>
 	<body>
@@ -52,28 +60,26 @@
 			<!--头像-->
 			<ul class="aui-list-view">
 				<li class="aui-list-view-cell">
+					登录名 <span id="username"></span>
+				</li>
+				<li class="aui-list-view-cell userds">
 					<div class="aui-arrow-right">
-						登录名
+						昵称 <span id="usern"></span>
 					</div>
 				</li>
-				<li class="aui-list-view-cell">
+				<li class="aui-list-view-cell userds">
 					<div class="aui-arrow-right">
-						昵称
+						姓名 <span id="name"></span>
 					</div>
 				</li>
-				<li class="aui-list-view-cell">
+				<li class="aui-list-view-cell userds">
 					<div class="aui-arrow-right">
-						姓名
+						性别 <span id="sex"></span>
 					</div>
 				</li>
-				<li class="aui-list-view-cell">
+				<li class="aui-list-view-cell userds">
 					<div class="aui-arrow-right">
-						性别
-					</div>
-				</li>
-				<li class="aui-list-view-cell">
-					<div class="aui-arrow-right">
-						所在地
+						所在地 <span id="address"></span>
 					</div>
 				</li>
 			</ul>
@@ -208,9 +214,9 @@
 											uploadFile(window.serverUrl + '/user_ico_upload/token/' + retobj.token + '/user_id/' + retobj.id, compressImg, function(serverImg) {
 												console.log(JSON.stringify(serverImg.userinfo[0]));
 												var picurl = window.serverUrlPath + serverImg.imgdata.data;
-												H.$setPrefs(function(ret,err){
+												H.$setPrefs(function(ret, err) {
 													$("#nopic").attr("src", picurl);
-												},'userinfo',JSON.stringify(serverImg.userinfo[0]));
+												}, 'userinfo', JSON.stringify(serverImg.userinfo[0]));
 											});
 										});
 									} else {
@@ -263,6 +269,12 @@
 				key : 'userinfo'
 			}, function(ret, err) {
 				retobj = eval('(' + ret.value + ')');
+				$("#username").text(retobj.tel);
+				$("#usern").text(retobj.username);
+				$("#name").text(retobj.true_name);
+				
+				$("#name").text(retobj.true_name);
+				
 				if (retobj.head_ico == null) {
 					//如果没有上传过头像则为默认无头像
 					$("#nopic").attr("src", "../../image/noavatar.gif");
@@ -273,7 +285,6 @@
 						url : window.serverUrlPath + retobj.head_ico
 					}, function(ret, err) {
 						if (ret.status) {
-						 	
 							$("#nopic").attr("src", ret.url);
 							console.log(ret.url);
 						}
