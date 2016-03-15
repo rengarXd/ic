@@ -63,10 +63,10 @@
 			<ul class="aui-list-view">
 				<li class="aui-list-view-cell" tapmode data-funcName="user_message_header">
 					<div class="aui-arrow-right">
-						<i style="float: left"><img src="../../image/me/me_pic.png" class="avatar_pic" /></i>
-						<span style="float:left;margin-left: 10px;" id="username">唐艺昕
+						<i style="float: left"><img src="../../image/noavatar.gif" class="avatar_pic" /></i>
+						<span style="float:left;margin-left: 10px;"><span id="username"></span>
 							<p>
-								萌宠账号：<span id="tel">13937172004</span>
+								萌宠账号：<span id="tel"></span>
 							</p></span>
 						<div class="aui-arrow-right">
 				</li>
@@ -109,7 +109,6 @@
 				</li>
 			</ul>
 		</div>
-		
 		<script type="text/javascript" src="../../script/AHelper.js"></script>
 		<script type="text/javascript" src="../../script/zepto.min.js"></script>
 		<script type="text/javascript">
@@ -120,14 +119,16 @@
 						H.$openWin(funcName, funcName + '.html');
 					}
 				});
-				
 			});
 			H.ready(function() {
 				api.getPrefs({
-	                key:'userinfo'
-                },function(ret,err){
-                		var username = 
-                });
+					key : 'userinfo'
+				}, function(ret, err) {
+					alert(ret.value);
+					var userinfoobj = eval('(' + ret.value + ')');
+					$("#username").html(userinfoobj.username);
+					$("#tel").html(userinfoobj.tel);
+				});
 			});
 		</script>
 	</body>
