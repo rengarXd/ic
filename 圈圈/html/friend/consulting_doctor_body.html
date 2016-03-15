@@ -72,7 +72,19 @@
 			.wenzhen_btn_wen:active {
 				background: -webkit-gradient(linear, left top, left bottom, from(#ff6001), to(#ff9001));
 			}
-			#doctor_isauthent{ width: 80px;}
+			#doctor_isauthent {
+				width: 80px;
+			}
+			.img-cont img {
+				width: 40px !important;
+				height: 40px !important;
+			}
+			.user_pj {
+				border-radius: 50%;
+				-moz-border-radius: 50%;
+				-khtml-border-radius: 50%;
+				-webkit-border-radius: 50%;
+			}
 		</style>
 	</head>
 	<body>
@@ -114,9 +126,7 @@
 			<div class="aui-content-title">
 				<span class="iconfont icon-iconxiaoxi"></span> 用户评价
 			</div>
-			<ul class="aui-list-view" id="evaluate_data_body">
-				
-			</ul>
+			<ul class="aui-list-view" id="evaluate_data_body"></ul>
 			<!--撑开下部层页面-->
 			<div style="height:50px;"></div>
 			<!--撑开下部层页面-->
@@ -127,46 +137,54 @@
 		</div>
 		<script id="inquiry_data" type="text/html">
 			<div class="aui-line-x"></div>
-				{{# for(var i = 0, len = d.length; i < len; i++){ }}
-				<li class="aui-list-view-cell" tapmode>
-					<div class="img-cont"><img class="aui-pull-left" src="../../image/friend/pic01.png" tapmode >
-					</div>
-					<div class="aui-img-body">
-						<span>{{ d[i].username }}</span>
-						<p class='aui-ellipsis-1'>
-							来自 {{ d[i].from }}
-						</p>
-					</div>
-					<p style="margin-top: 5px; margin-bottom: 5px;">
-						{{ d[i].content }}
-					</p>
-					<h6>{{ d[i].time }}<span style="float: right">回复（{{ d[i].answer_nums }}）</span></h6>
-				</li>
-				{{# } }}
+			{{# for(var i = 0, len = d.length; i < len; i++){ }}
+			<li class="aui-list-view-cell" tapmode>
+			<div class="img-cont">
+			{{# if(d[i].head_ico == null){ }}
+			<img class="aui-pull-left" width="40" height="40" src="../../image/noavatar.gif" tapmode >
+			{{# }else{ }}
+			<img class="aui-pull-left" width="40" height="40" src="http://q.endzk.com/{{ d[i].head_ico }}" tapmode >
+			{{# } }}
+			</div>
+			<div class="aui-img-body">
+			<span>{{ d[i].username }}</span>
+			<p class='aui-ellipsis-1'>
+			来自 {{ d[i].from }}
+			</p>
+			</div>
+			<p style="margin-top: 5px; margin-bottom: 5px;">
+			{{ d[i].content }}
+			</p>
+			<h6>{{ d[i].time }}<span style="float: right">回复（{{ d[i].answer_nums }}）</span></h6>
+			</li>
+			{{# } }}
 		</script>
-		
 		<script id="evaluate_data" type="text/html">
 			<div class="aui-line-x"></div>
 			{{# for(var i = 0, len = d.length; i < len; i++){ }}
-				<li class="aui-list-view-cell">
-					<img class="user_pj aui-pull-left" width="30" height="30" src="../../image/friend/pic04.png">
-					<div class="aui-img-body user_pj_name">
-						{{ d[i].username }}  {{# for(var a = 0, b = d[i].star; a < b; a++){ }}<span class="iconfont icon-xingxing icon_red"></span>{{# } }}
-						{{# if(d[i].isSatisfied==1){ }}
-						<span class="aui-pull-right aui-badge aui-badge-info">非常满意</span>
-						{{# } }}
-						{{# if(d[i].isSatisfied==2){ }}
-						<span class="aui-pull-right aui-badge aui-badge-success">满意</span>
-						{{# } }}
-						{{# if(d[i].isSatisfied==3){ }}
-						<span class="aui-pull-right aui-badge aui-badge-danger">不满意</span>
-						{{# } }}
-					</div>
-					<p>
-						{{ d[i].content }}
-					</p>
-				</li>
-				{{# } }}
+			<li class="aui-list-view-cell">
+			{{# if(d[i].head_ico == null){ }}
+			<img class="user_pj aui-pull-left" width="30" height="30" src="../../image/noavatar.gif">
+			{{# }else{ }}
+			<img class="user_pj aui-pull-left" width="30" height="30" src="http://q.endzk.com/{{ d[i].head_ico }}">
+			{{# } }}
+			<div class="aui-img-body user_pj_name">
+			{{ d[i].username }}  {{# for(var a = 0, b = d[i].star; a < b; a++){ }}<span class="iconfont icon-xingxing icon_red"></span>{{# } }}
+			{{# if(d[i].isSatisfied==1){ }}
+			<span class="aui-pull-right aui-badge aui-badge-info">非常满意</span>
+			{{# } }}
+			{{# if(d[i].isSatisfied==2){ }}
+			<span class="aui-pull-right aui-badge aui-badge-success">满意</span>
+			{{# } }}
+			{{# if(d[i].isSatisfied==3){ }}
+			<span class="aui-pull-right aui-badge aui-badge-danger">不满意</span>
+			{{# } }}
+			</div>
+			<p>
+			{{ d[i].content }}
+			</p>
+			</li>
+			{{# } }}
 		</script>
 	</body>
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
@@ -201,25 +219,19 @@
 						$("#doctor_answer").html(ret.retValue.doctor[0].answer);
 						$("#doctor_goodrate").html(ret.retValue.doctor[0].goodrate);
 						$("#doctor_expertise").html("专长：" + ret.retValue.doctor[0].expertise);
-					
 						//======分割线
-						
 						var inquiry = ret.retValue.inquiry;
 						var tpl = document.getElementById('inquiry_data').innerHTML;
 						laytpl(tpl).render(inquiry, function(render) {
 							document.getElementById('inquiry_data_body').innerHTML = render;
 						});
-						
 						//评价渲染
 						var evaluate = ret.retValue.evaluate;
 						var tpl = document.getElementById('evaluate_data').innerHTML;
-						laytpl(tpl).render(evaluate, function(render){
+						laytpl(tpl).render(evaluate, function(render) {
 							document.getElementById('evaluate_data_body').innerHTML = render;
 						});
-						
-														
 					} else {
-						
 					}
 				}, window.serverUrl + '/doctors/token/' + userinfoobj.token + '/doctorid/' + doctorid.id);
 			});
