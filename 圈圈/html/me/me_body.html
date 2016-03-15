@@ -56,6 +56,11 @@
 			.aui-list-view li:active {
 				background: #f5f5f5
 			}
+			.userds span {
+				float: right;
+				margin-right: 20px;
+				color: #B3B3B3;
+			}
 		</style>
 	</head>
 	<body>
@@ -74,24 +79,34 @@
 		</div>
 		<div class="aui-content">
 			<ul class="aui-list-view">
-				<li class="aui-list-view-cell">
-					<i class="aui-iconfont iconfont icon-jifen aui-bg-blue"></i> 我的积分
+				<li class="aui-list-view-cell userds">
+					<div class="aui-arrow-right">
+						<i class="aui-iconfont iconfont icon-jifen aui-bg-blue"></i> 我的积分 <span id="ujf"></span>
+					</div>
 				</li>
-				<li class="aui-list-view-cell">
-					<i class="aui-iconfont iconfont icon-liquan aui-bg-danger"></i> 我的礼券
+				<li class="aui-list-view-cell userds">
+					<div class="aui-arrow-right">
+						<i class="aui-iconfont iconfont icon-liquan aui-bg-danger"></i> 我的余额 <span id="yue"></span>
+					</div>
 				</li>
-				<li class="aui-list-view-cell">
-					<i class="aui-iconfont iconfont icon-dingdan aui-bg-success"></i> 我的订单
+				<li class="aui-list-view-cell userds">
+					<div class="aui-arrow-right">
+						<i class="aui-iconfont iconfont icon-dingdan aui-bg-success"></i> 我的订单 <span id="order"></span>
+					</div>
 				</li>
 			</ul>
 		</div>
 		<div class="aui-content">
 			<ul class="aui-list-view">
 				<li class="aui-list-view-cell">
-					<i class="aui-iconfont iconfont icon-zhenliaoguahao aui-bg-warning"></i> 诊疗记录
+					<div class="aui-arrow-right">
+						<i class="aui-iconfont iconfont icon-zhenliaoguahao aui-bg-warning"></i> 诊疗记录
+					</div>
 				</li>
 				<li class="aui-list-view-cell" data-funcName="health_header" tapmode>
-					<i class="aui-iconfont iconfont icon-dangan aui-bg-primary"></i> 健康档案
+					<div class="aui-arrow-right">
+						<i class="aui-iconfont iconfont icon-dangan aui-bg-primary"></i> 健康档案
+					</div>
 				</li>
 			</ul>
 		</div>
@@ -127,7 +142,9 @@
 					var userinfoobj = eval('(' + ret.value + ')');
 					$("#username").html(userinfoobj.username);
 					$("#tel").html(userinfoobj.tel);
-					$(".avatar_pic").attr('src',window.serverUrlPath+userinfoobj.head_ico);
+					$(".avatar_pic").attr('src', window.serverUrlPath + userinfoobj.head_ico);
+					$("#ujf").text(userinfoobj.point);
+					$("#yue").text(userinfoobj.balance);
 				});
 			});
 		</script>
