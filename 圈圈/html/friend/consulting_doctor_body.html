@@ -72,7 +72,6 @@
 			.wenzhen_btn_wen:active {
 				background: -webkit-gradient(linear, left top, left bottom, from(#ff6001), to(#ff9001));
 			}
-			
 		</style>
 	</head>
 	<body>
@@ -209,13 +208,28 @@
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script>
-		Zepto(function($){
-			$("#consulting").on("tap",function(){
-				 var id = H.$getPageParam();
-				H.$openWin("consulting_from_header","consulting_from_header.html",{doctor_id:id});
+		Zepto(function($) {
+			$("#consulting").on("tap", function() {
+				var id = H.$getPageParam();
+				H.$openWin("consulting_from_header", "consulting_from_header.html", {
+					doctor_id : id
+				});
 			});
 		});
 		H.ready(function() {
+			var doctorid = H.$getPageParam();
+			api.getPrefs({
+				key : 'userinfo'
+			}, function(ret, err) {
+				var userinfoobj = eval('(' + ret.value + ')');
+				api.ajax({
+					url : window.serverurl + '/doctors/token/' + userinfoobj.token + '/doctorid/' + doctorid.id
+				}, function(ret, err) {
+					api.toast({
+						msg : "333"
+					});
+				});
+			});
 		});
 	</script>
 </html>
