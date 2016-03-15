@@ -41,7 +41,7 @@
 			<!--头像-->
 			<ul class="aui-user-view">
 				<li class="aui-user-view-cell" id="userpic">
-					<img class="aui-img-object aui-pull-right" src="../../image/noavatar.gif">
+					<img class="aui-img-object aui-pull-right" width="45" height="45" src="../../image/noavatar.gif" id="nopic">
 					<div class="aui-img-body userpictext">
 						<span>头像</span>
 					</div>
@@ -206,11 +206,17 @@
 										//压缩图片
 										imgCompress(returnUrl, 0.5, 0.5, getExt(returnUrl), function(compressImg) {
 											uploadFile(window.serverUrl + '/user_ico_upload/token/' + retobj.token + '/user_id/' + retobj.id, compressImg, function(serverImg) {
-												alert(serverImg);
+												console.log(JSON.stringify(serverImg.userinfo[0]));
+												var picurl = window.serverUrlPath + serverImg.imgdata.data;
+												H.$setPrefs(function(ret,err){
+													$("#nopic").attr("src", picurl);
+												},'userinfo',JSON.stringify(serverImg.userinfo[0]));
 											});
 										});
 									} else {
-										alert(JSON.stringify(err));
+										api.toast({
+											msg : JSON.stringify(err)
+										});
 									}
 								});
 								break;
@@ -227,9 +233,19 @@
 									saveToPhotoAlbum : false
 								}, function(ret, err) {
 									if (ret) {
-										alert(JSON.stringify(ret));
+										// 拍照返回的本地路径
+										var returnUrl = ret.data;
+										//压缩图片
+										imgCompress(returnUrl, 0.5, 0.5, getExt(returnUrl), function(compressImg) {
+											uploadFile(window.serverUrl + '/user_ico_upload/token/' + retobj.token + '/user_id/' + retobj.id, compressImg, function(serverImg) {
+												var picurl = window.serverUrlPath + serverImg.imgdata.data;
+												$("#nopic").attr("src", picurl);
+											});
+										});
 									} else {
-										alert(JSON.stringify(err));
+										api.toast({
+											msg : JSON.stringify(err)
+										});
 									}
 								});
 								break;
@@ -247,6 +263,22 @@
 				key : 'userinfo'
 			}, function(ret, err) {
 				retobj = eval('(' + ret.value + ')');
+				if (retobj.head_ico == null) {
+					//如果没有上传过头像则为默认无头像
+					$("#nopic").attr("src", "../../image/noavatar.gif");
+				} else {
+					//如果有头像数据
+					api.imageCache({
+						//拼接地址
+						url : window.serverUrlPath + retobj.head_ico
+					}, function(ret, err) {
+						if (ret.status) {
+						 	
+							$("#nopic").attr("src", ret.url);
+							console.log(ret.url);
+						}
+					});
+				}
 			});
 			// 引入过滤压缩模块
 			imageFilter = api.require("imageFilter");

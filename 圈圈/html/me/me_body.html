@@ -59,7 +59,7 @@
 		</style>
 	</head>
 	<body>
-		<div class="usercenter_avatar" style="margin-top:6px;">
+		<div class="usercenter_avatar" style=" margin-top: 15px">
 			<ul class="aui-list-view">
 				<li class="aui-list-view-cell" tapmode data-funcName="user_message_header">
 					<div class="aui-arrow-right">
@@ -124,10 +124,10 @@
 				api.getPrefs({
 					key : 'userinfo'
 				}, function(ret, err) {
-					alert(ret.value);
 					var userinfoobj = eval('(' + ret.value + ')');
 					$("#username").html(userinfoobj.username);
 					$("#tel").html(userinfoobj.tel);
+					$(".avatar_pic").attr('src',window.serverUrlPath+userinfoobj.head_ico);
 				});
 			});
 		</script>

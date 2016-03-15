@@ -295,7 +295,7 @@
 										//存储用户信息
 										H.$setPrefs(function(ret, err) {
 											H.$openWin('main', '../main.html');
-										}, 'userinfo', JSON.stringify(ret.retValue));
+										}, 'userinfo', JSON.stringify(ret.retValue[0]));
 									} else {
 										H.$toast("抱歉，手机号信息错误，请核对！");
 									}
@@ -377,7 +377,7 @@
 													//存储用户信息
 													H.$setPrefs(function(ret, err) {
 														H.$openWin('main', '../main.html');
-													}, 'userinfo', JSON.stringify(ret.retValue));
+													}, 'userinfo', JSON.stringify(ret.retValue[0]));
 												} else {
 													H.$hideProgress();
 													H.$toast("抱歉，手机号信息错误，请核对！");
@@ -413,7 +413,7 @@
 										//存储用户信息
 										H.$setPrefs(function(ret, err) {
 											H.$openWin('main', '../main.html');
-										}, 'userinfo', JSON.stringify(ret.retValue));
+										}, 'userinfo', JSON.stringify(ret.retValue[0]));
 									}
 								}, window.serverUrl + '/app_token/qq/1/token/' + ret.accessToken);
 							});
@@ -443,7 +443,7 @@
 									//存储用户信息
 									H.$setPrefs(function(ret, err) {
 										H.$openWin('main', '../main.html');
-									}, 'userinfo', JSON.stringify(ret.retValue));
+									}, 'userinfo', JSON.stringify(ret.retValue[0]));
 								}
 							}, window.serverUrl + '/app_token/weibo/1/token/' + ret.token);
 						} else {
