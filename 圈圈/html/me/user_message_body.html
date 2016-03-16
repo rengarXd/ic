@@ -63,7 +63,7 @@
 				<li class="aui-list-view-cell">
 					登录名 <span id="username"></span>
 				</li>
-				<li class="aui-list-view-cell userds">
+				<li class="aui-list-view-cell userds" id="usernamechange" tapmode>
 					<div class="aui-arrow-right">
 						昵称 <span id="usern"></span>
 					</div>
@@ -190,6 +190,10 @@
 		}
 
 		Zepto(function($) {
+			
+			$("#usernamechange").on("tap",function(){
+				H.$openWin("me_userinfo_change_header","me_userinfo_change_header.html",{type:1,username:$("#usern").text()});
+			});
 			$("#userpic").on("tap", function() {
 				api.actionSheet({
 					title : '请选择您要上传头像的方式',
@@ -282,6 +286,7 @@
 			});
 		})
 		H.ready(function() {
+			api.parseTapmode();
 			api.getPrefs({
 				key : 'userinfo'
 			}, function(ret, err) {
