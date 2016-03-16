@@ -3,6 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" 息content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
 		<title>用户信息body</title>
 		<link rel="stylesheet" type="text/css" href="../../css/aui.css" />
 		<link rel="stylesheet" type="text/css" href="../../css/font/iconfont.css" />
@@ -214,9 +215,12 @@
 											uploadFile(window.serverUrl + '/user_ico_upload/token/' + retobj.token + '/user_id/' + retobj.id, compressImg, function(serverImg) {
 												console.log(JSON.stringify(serverImg.userinfo[0]));
 												var picurl = window.serverUrlPath + serverImg.imgdata.data;
-												H.$setPrefs(function(ret, err) {
-													$("#nopic").attr("src", picurl);
-												}, 'userinfo', JSON.stringify(serverImg.userinfo[0]));
+												$("#nopic").attr("src", picurl);
+												api.execScript({
+													name : 'main',
+													frameName : 'me',
+													script : 'reload();'
+												});
 											});
 										});
 									} else {
@@ -246,6 +250,11 @@
 											uploadFile(window.serverUrl + '/user_ico_upload/token/' + retobj.token + '/user_id/' + retobj.id, compressImg, function(serverImg) {
 												var picurl = window.serverUrlPath + serverImg.imgdata.data;
 												$("#nopic").attr("src", picurl);
+												api.execScript({
+													name : 'main',
+													frameName : 'me',
+													script : 'reload();'
+												});
 											});
 										});
 									} else {
@@ -272,9 +281,7 @@
 				$("#username").text(retobj.tel);
 				$("#usern").text(retobj.username);
 				$("#name").text(retobj.true_name);
-				
 				$("#name").text(retobj.true_name);
-				
 				if (retobj.head_ico == null) {
 					//如果没有上传过头像则为默认无头像
 					$("#nopic").attr("src", "../../image/noavatar.gif");
@@ -291,6 +298,7 @@
 					});
 				}
 			});
+			
 			// 引入过滤压缩模块
 			imageFilter = api.require("imageFilter");
 		});

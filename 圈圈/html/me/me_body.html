@@ -127,7 +127,14 @@
 		<script type="text/javascript" src="../../script/AHelper.js"></script>
 		<script type="text/javascript" src="../../script/zepto.min.js"></script>
 		<script type="text/javascript">
+			function reload(){
+				location.reload();
+			}
 			Zepto(function($) {
+				//头像如果没有则设置默认无头像
+				$(".avatar_pic").error(function(){
+					 $(this).attr('src',"../../image/noavatar.gif");
+				});
 				$(".aui-list-view").on("tap", "li", function() {
 					var funcName = $(this).attr("data-funcName");
 					if (funcName) {
