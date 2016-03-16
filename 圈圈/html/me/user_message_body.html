@@ -95,6 +95,9 @@
 		// data：上传的文件
 		// callback：上传成功返回地址
 		function uploadFile(url, data, callback) {
+			api.showProgress({
+				 title: '头像正在更换...',
+            });
 			api.ajax({
 				url : url,
 				method : 'post',
@@ -107,6 +110,7 @@
 					}
 				}
 			}, function(ret, err) {
+				api.hideProgress();
 				if (ret) {
 					if (ret.retCode == 1) {
 						callback(ret.retValue);
@@ -215,12 +219,14 @@
 											uploadFile(window.serverUrl + '/user_ico_upload/token/' + retobj.token + '/user_id/' + retobj.id, compressImg, function(serverImg) {
 												console.log(JSON.stringify(serverImg.userinfo[0]));
 												var picurl = window.serverUrlPath + serverImg.imgdata.data;
-												$("#nopic").attr("src", picurl);
-												api.execScript({
-													name : 'main',
-													frameName : 'me',
-													script : 'reload();'
-												});
+												H.$setPrefs(function(ret, err) {
+													$("#nopic").attr("src", picurl);
+													api.execScript({
+														name : 'main',
+														frameName : 'me',
+														script : 'reload();'
+													});
+												}, 'userinfo', JSON.stringify(serverImg.userinfo[0]));
 											});
 										});
 									} else {
@@ -249,12 +255,14 @@
 										imgCompress(returnUrl, 0.5, 0.5, getExt(returnUrl), function(compressImg) {
 											uploadFile(window.serverUrl + '/user_ico_upload/token/' + retobj.token + '/user_id/' + retobj.id, compressImg, function(serverImg) {
 												var picurl = window.serverUrlPath + serverImg.imgdata.data;
-												$("#nopic").attr("src", picurl);
-												api.execScript({
-													name : 'main',
-													frameName : 'me',
-													script : 'reload();'
-												});
+												H.$setPrefs(function(ret, err) {
+													$("#nopic").attr("src", picurl);
+													api.execScript({
+														name : 'main',
+														frameName : 'me',
+														script : 'reload();'
+													});
+												}, 'userinfo', JSON.stringify(serverImg.userinfo[0]));
 											});
 										});
 									} else {
@@ -298,7 +306,6 @@
 					});
 				}
 			});
-			
 			// 引入过滤压缩模块
 			imageFilter = api.require("imageFilter");
 		});
