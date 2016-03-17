@@ -127,13 +127,14 @@
 		<script type="text/javascript" src="../../script/AHelper.js"></script>
 		<script type="text/javascript" src="../../script/zepto.min.js"></script>
 		<script type="text/javascript">
-			function reload(){
+			function reload() {
 				location.reload();
 			}
+
 			Zepto(function($) {
 				//头像如果没有则设置默认无头像
-				$(".avatar_pic").error(function(){
-					 $(this).attr('src',"../../image/noavatar.gif");
+				$(".avatar_pic").error(function() {
+					$(this).attr('src', "../../image/noavatar.gif");
 				});
 				$(".aui-list-view").on("tap", "li", function() {
 					var funcName = $(this).attr("data-funcName");
@@ -147,11 +148,23 @@
 					key : 'userinfo'
 				}, function(ret, err) {
 					var userinfoobj = eval('(' + ret.value + ')');
-					$("#username").html(userinfoobj.username);
-					$("#tel").html(userinfoobj.tel);
-					$(".avatar_pic").attr('src', window.serverUrlPath + userinfoobj.head_ico);
-					$("#ujf").text(userinfoobj.point);
-					$("#yue").text(userinfoobj.balance);
+					api.ajax({
+						url : window.serverUrl + '/userinfo_list/token/' + userinfoobj.token + '/user_id/' + userinfoobj.id,
+					}, function(ret, err) {
+						api.toast({
+	                        msg:ret
+                        });
+//						if (ret) {
+//							alert(JSON.stringify(ret));
+//							$("#username").html(userinfoobj.username);
+//							$("#tel").html(userinfoobj.tel);
+//							$(".avatar_pic").attr('src', window.serverUrlPath + userinfoobj.head_ico);
+//							$("#ujf").text(userinfoobj.point);
+//							$("#yue").text(userinfoobj.balance);
+//						} else {
+//							alert(JSON.stringify(err));
+//						}
+					});
 				});
 			});
 		</script>
