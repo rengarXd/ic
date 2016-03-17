@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
-		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no,text=no">
 		<title>个人资料更改body</title>
 		<link rel="stylesheet" type="text/css" href="../../css/aui.css" />
 		<link rel="stylesheet" type="text/css" href="../../css/font/iconfont.css" />
@@ -22,14 +22,41 @@
 	<body>
 		<!--昵称-->
 		<div class="aui-content" style="padding-top: 15px;">
-			<div class="aui-form">
-				<div class="aui-input-row" id="username" style="display: none">
+			<div class="aui-form" id="username" style="display: none">
+				<div class="aui-input-row" >
 					<span class="aui-input-addon">昵称</span>
 					<input type="text" class="aui-input" id="usernamevalue" placeholder="要更改的昵称"/>
 				</div>
+				<div class="aui-btn aui-btn-block aui-btn-danger" onclick="save();">
+					保存
+				</div>
 			</div>
-			<div class="aui-btn aui-btn-block aui-btn-danger">
-				保存
+			<div class="aui-form" id="firstname" style="display: none">
+				<div class="aui-input-row"  >
+					<span class="aui-input-addon">姓名</span>
+					<input type="text" class="aui-input" id="firstnamevalue" placeholder="请输入姓名"/>
+				</div>
+				<div class="aui-btn aui-btn-block aui-btn-danger" onclick="save_a();">
+					保存
+				</div>
+			</div>
+			<div class="aui-form" id="sexname" style="display: none">
+				<!--<input type="text" class="aui-input" id="sexnamevalue" placeholder="要更改的姓名"/>-->
+				<div class="aui-input-row" >
+					<label class="aui-input-addon">男</label>
+					<input class="aui-pull-right aui-radio aui-radio-success" value="3" type="radio" name="sex">
+				</div>
+				<div class="aui-input-row" >
+					<label class="aui-input-addon" >女</label>
+					<input class="aui-pull-right aui-radio aui-radio-success" value="2" type="radio" name="sex">
+				</div>
+				<div class="aui-input-row">
+					<label class="aui-input-addon">保密</label>
+					<input class="aui-pull-right aui-radio aui-radio-success" value="1" type="radio" name="sex"checked>
+				</div>
+				<div class="aui-btn aui-btn-block aui-btn-danger" onclick="save_b();">
+					保存
+				</div>
 			</div>
 		</div>
 		<!--昵称-->
@@ -37,12 +64,56 @@
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript">
-		
+		function save() {
+			//						var users = $(".aui-form[value]").val();
+			//						switch (users) {
+			//							case 1:
+			var usernm = $("#usernamevalue").val();
+			H.$setPrefs(function(ret, err) {
+				api.execScript({
+					name : 'user_message_header',
+					frameName : 'user_message_body',
+					script : 'qwer();'
+				});
+				api.closeWin({});
+			}, 'user_name', '{userval:"' + usernm + '"}');
+			//								break;
+			//							case 2:
+		}
+
+		function save_a() {
+			var firstnm = $("#firstnamevalue").val();
+			H.$setPrefs(function(ret, err) {
+				api.execScript({
+					name : 'user_message_header',
+					frameName : 'user_message_body',
+					script : 'asdf();'
+				});
+				api.closeWin({});
+			}, 'first_name', '{firstval:"' + firstnm + '"}');
+			//					break;
+			//				case 3:
+		}
+
+		function save_b() {
+			var sexid = $("#sexname input[type='radio']:checked").val();
+			H.$setPrefs(function(ret, err) {
+				api.execScript({
+					name : 'user_message_header',
+					frameName : 'user_message_body',
+					script : 'exec();'
+				});
+				api.closeWin({});
+			}, 'userms_sex', sexid);
+			//					break;
+			//			}
+		}
+
 		Zepto(function() {
 		});
 		H.ready(function() {
 			var types = H.$getPageParam();
-			console.log(types.type);
+			//			alert(JSON.stringify(types));
 			switch(types.type) {
 				//更改用户名
 				case 1:
@@ -50,8 +121,41 @@
 					$("#usernamevalue").val(types.username);
 					break;
 				case 2:
+					$("#firstname").show();
+					break;
+				case 3:
+					$("#sexname").show();
 					break;
 			}
+			api.getPrefs({
+				key : 'userinfo'
+			}, function(ret, err) {
+				//字符串转为json对象
+				var retobj = eval('(' + ret.value + ')');
+				api.showProgress();
+				api.ajax({
+					url : window.serverUrl + '/userinf_edit/token/' + retobj.token + '' + retobj.id,
+					method : 'post',
+					data : {
+						values : {
+						}
+					}
+				}, function(ret, err) {
+					api.toast({
+						msg : ret
+					});
+					api.hideProgress();
+					if (ret) {
+						api.toast({
+							msg : ret
+						});
+					} else {
+						api.toast({
+							msg : ret.retDesc
+						});
+					}
+				});
+			});
 		});
 	</script>
 </html>
