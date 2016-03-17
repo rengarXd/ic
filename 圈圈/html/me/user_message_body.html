@@ -43,6 +43,9 @@
 				margin-right: 20px;
 				color: #B3B3B3;
 			}
+			.userds:active {
+				background: #bbb;
+			}
 		</style>
 	</head>
 	<body>
@@ -68,19 +71,19 @@
 						昵称 <span id="usern"></span>
 					</div>
 				</li>
-				<li class="aui-list-view-cell userds">
+				<li class="aui-list-view-cell userds" id="firstnamechange" tapmode>
 					<div class="aui-arrow-right">
 						姓名 <span id="name"></span>
 					</div>
 				</li>
-				<li class="aui-list-view-cell userds">
+				<li class="aui-list-view-cell userds" id="sexnamechange" tapmode>
 					<div class="aui-arrow-right">
 						性别 <span id="sex"></span>
 					</div>
 				</li>
-				<li class="aui-list-view-cell userds">
+				<li class="aui-list-view-cell userds" id="addressname" tapmode>
 					<div class="aui-arrow-right">
-						所在地 <span id="address"></span>
+						所在地 <span id="ads_span"></span>
 					</div>
 				</li>
 			</ul>
@@ -89,15 +92,54 @@
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript">
-		var imageFilter = null, retobj = null;
+		var imageFilter = null, retobj = null, citySelector = null;
+		function exec() {
+			api.getPrefs({
+				key : 'userms_sex'
+			}, function(ret, err) {
+				var dd = eval('(' + ret.value + ')');
+				switch (dd) {
+					case 1:
+						$("#sex").html("保密");
+						break;
+					case 2:
+						$("#sex").html("女");
+						break;
+					case 3:
+						$("#sex").html("男");
+						break;
+				}
+			});
+		}
+
+		function qwer() {
+			api.getPrefs({
+				key : 'user_name'
+			}, function(ret, err) {
+				var cc = eval('(' + ret.value + ')');
+				//				alert(cc.userval)
+				$("#usern").html(cc.userval);
+			});
+		}
+
+		function asdf() {
+			api.getPrefs({
+				key : 'first_name'
+			}, function(ret, err) {
+				var bb = eval('(' + ret.value + ')');
+				//				alert(bb.firstval)
+				$("#name").html(bb.firstval);
+			});
+		}
+
 		// 上传图片
 		// url：上传的url地址
 		// data：上传的文件
 		// callback：上传成功返回地址
 		function uploadFile(url, data, callback) {
 			api.showProgress({
-				 title: '头像正在更换...',
-            });
+				title : '头像正在更换...',
+			});
 			api.ajax({
 				url : url,
 				method : 'post',
@@ -190,10 +232,6 @@
 		}
 
 		Zepto(function($) {
-			
-			$("#usernamechange").on("tap",function(){
-				H.$openWin("me_userinfo_change_header","me_userinfo_change_header.html",{type:1,username:$("#usern").text()});
-			});
 			$("#userpic").on("tap", function() {
 				api.actionSheet({
 					title : '请选择您要上传头像的方式',
@@ -242,7 +280,7 @@
 								break;
 							case 2:
 								api.getPicture({
-									sourceType : 'library',
+									sourceType : 'album',
 									encodingType : 'jpg',
 									mediaValue : 'pic',
 									destinationType : 'url',
@@ -284,17 +322,65 @@
 					}
 				});
 			});
-		})
+			$("#usernamechange").on("tap", function() {
+				H.$openWin("me_userinfo_change_header", "me_userinfo_change_header.html", {
+					type : 1,
+					username : $("#usern").text()
+				});
+			});
+			$("#firstnamechange").on("tap", function() {
+				H.$openWin("me_userinfo_change_header", "me_userinfo_change_header.html", {
+					type : 2
+				});
+			});
+			$("#sexnamechange").on("tap", function() {
+				H.$openWin("me_userinfo_change_header", "me_userinfo_change_header.html", {
+					type : 3
+				});
+			});
+			//			[{type:1},{type:2},{type:3}]
+			//			var id = $("li .userds").attr(id);
+			//			$(".userds").on("tap", function(){
+			//				H.$openWin("me_userinfo_change_header","me_userinfo_change_header.html",{id:id})
+			//			});
+			$("#addressname").on("tap", function() {
+				citySelector.open({
+					y : api.frameHeight / 1.7,
+					fixedOn : api.frameName
+				}, function(ret, err) {
+					if (ret) {
+						$("#ads_span").html(ret.province + ' ' + ret.city + ' ' + ret.county);
+					} else {
+						alert(JSON.stringify(err));
+					}
+				});
+			});
+		});
 		H.ready(function() {
 			api.parseTapmode();
 			api.getPrefs({
 				key : 'userinfo'
 			}, function(ret, err) {
+				alert(JSON.stringify(ret));
 				retobj = eval('(' + ret.value + ')');
-				$("#username").text(retobj.tel);
-				$("#usern").text(retobj.username);
-				$("#name").text(retobj.true_name);
-				$("#name").text(retobj.true_name);
+				api.ajax({
+					url : window.serverUrl + '/userinfo_edit/token/' + retobj.token + '/user_id/' + retobj.id,
+					method : 'post',
+					data : {
+						value : {
+						}
+					}
+				}, function(ret, err) {
+					if (ret) {
+						alert(JSON.stringify(ret));
+						$("#username").html(retobj.tel);
+						$("#usern").html(retobj.username);
+						$("#name").html(retobj.true_name);
+					} else {
+						alert(JSON.stringify(err));
+					}
+				});
+				//头像上传判断
 				if (retobj.head_ico == null) {
 					//如果没有上传过头像则为默认无头像
 					$("#nopic").attr("src", "../../image/noavatar.gif");
@@ -313,6 +399,8 @@
 			});
 			// 引入过滤压缩模块
 			imageFilter = api.require("imageFilter");
+			//				引入城市选择模块
+			citySelector = api.require("citySelector");
 		});
 	</script>
 </html>
