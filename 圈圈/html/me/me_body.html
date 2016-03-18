@@ -127,10 +127,7 @@
 		<script type="text/javascript" src="../../script/AHelper.js"></script>
 		<script type="text/javascript" src="../../script/zepto.min.js"></script>
 		<script type="text/javascript">
-			function reload() {
-				location.reload();
-			}
-
+		
 			Zepto(function($) {
 				//头像如果没有则设置默认无头像
 				$(".avatar_pic").error(function() {
@@ -144,6 +141,7 @@
 				});
 			});
 			H.ready(function() {
+			
 				api.getPrefs({
 					key : 'userinfo'
 				}, function(ret, err) {
@@ -164,6 +162,16 @@
 						alert(JSON.stringify(err));
 					}
 					//					});
+				});
+				//添加页刷新的监听
+				api.addEventListener({
+				    name: 'pagereload'
+				}, function( ret, err ){
+				    if( ret ){
+				       location.reload();
+				    }else{
+				        
+				    }
 				});
 			});
 		</script>

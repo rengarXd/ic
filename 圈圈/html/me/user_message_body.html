@@ -73,7 +73,7 @@
 						姓名 <span id="name"></span>
 					</div>
 				</li>
-					<li class="aui-list-view-cell userds" id="sexnamechange" tapmode>
+				<li class="aui-list-view-cell userds" id="sexnamechange" tapmode>
 					<div class="aui-arrow-right">
 						性别 <span id="sex"></span>
 					</div>
@@ -89,10 +89,6 @@
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript">
-		function reload() {
-			location.reload();
-		}
-
 		//头像如果没有则设置默认无头像
 		$(".userpic").error(function() {
 			$(this).attr('src', "../../image/noavatar.gif");
@@ -345,21 +341,18 @@
 				$("#usern").text(retobj.username);
 				$("#name").text(retobj.true_name);
 				$("#ads_span").text(retobj.area);
-				api.toast({
-	                msg:retobj.sex
-                });
-				switch(retobj.sex){
-					case 0:
+			
+				switch(retobj.sex) {
+					case "0":
 						$("#sex").text("保密");
-					break;
-					case 1:
+						break;
+					case "1":
 						$("#sex").text("男");
-					break;
-					case 2:
+						break;
+					case "2":
 						$("#sex").text("女");
-					break;
-				} 
-				
+						break;
+				}
 				if (retobj.head_ico == null) {
 					//如果没有上传过头像则为默认无头像
 					$("#nopic").attr("src", "../../image/noavatar.gif");
@@ -374,6 +367,15 @@
 							console.log(ret.url);
 						}
 					});
+				}
+			});
+			//添加页刷新的监听
+			api.addEventListener({
+				name : 'pagereload'
+			}, function(ret, err) {
+				if (ret) {
+					location.reload();
+				} else {
 				}
 			});
 			// 引入过滤压缩模块
