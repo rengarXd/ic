@@ -147,24 +147,23 @@
 				api.getPrefs({
 					key : 'userinfo'
 				}, function(ret, err) {
-					var userinfoobj = eval('(' + ret.value + ')');
-					api.ajax({
-						url : window.serverUrl + '/userinfo_list/token/' + userinfoobj.token + '/user_id/' + userinfoobj.id,
-					}, function(ret, err) {
-						api.toast({
-	                        msg:ret
-                        });
-//						if (ret) {
-//							alert(JSON.stringify(ret));
-//							$("#username").html(userinfoobj.username);
-//							$("#tel").html(userinfoobj.tel);
-//							$(".avatar_pic").attr('src', window.serverUrlPath + userinfoobj.head_ico);
-//							$("#ujf").text(userinfoobj.point);
-//							$("#yue").text(userinfoobj.balance);
-//						} else {
-//							alert(JSON.stringify(err));
-//						}
-					});
+					//					api.ajax({
+					//						url : window.serverUrl + '/userinfo_list/token/' + userinfoobj.token + '/user_id/' + userinfoobj.id,
+					//					}, function(ret, err) {
+					//						api.toast({
+					//	                        msg:ret
+					//                      });
+					if (ret && ret.value) {
+						var userinfoobj = eval('(' + ret.value + ')');
+						$("#username").html(userinfoobj.username);
+						$("#tel").html(userinfoobj.tel);
+						$(".avatar_pic").attr('src', window.serverUrlPath + userinfoobj.head_ico);
+						$("#ujf").text(userinfoobj.point);
+						$("#yue").text(userinfoobj.balance);
+					} else {
+						alert(JSON.stringify(err));
+					}
+					//					});
 				});
 			});
 		</script>

@@ -44,7 +44,7 @@
 				<!--<input type="text" class="aui-input" id="sexnamevalue" placeholder="要更改的姓名"/>-->
 				<div class="aui-input-row" >
 					<label class="aui-input-addon">男</label>
-					<input class="aui-pull-right aui-radio aui-radio-success" value="3" type="radio" name="sex">
+					<input class="aui-pull-right aui-radio aui-radio-success" value="1" type="radio" name="sex">
 				</div>
 				<div class="aui-input-row" >
 					<label class="aui-input-addon" >女</label>
@@ -52,7 +52,7 @@
 				</div>
 				<div class="aui-input-row">
 					<label class="aui-input-addon">保密</label>
-					<input class="aui-pull-right aui-radio aui-radio-success" value="1" type="radio" name="sex"checked>
+					<input class="aui-pull-right aui-radio aui-radio-success" value="0" type="radio" name="sex"checked>
 				</div>
 				<div class="aui-btn aui-btn-block aui-btn-danger" onclick="save_b();">
 					保存
@@ -64,54 +64,84 @@
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript">
+		var retobj=null;
 		function save() {
-			//						var users = $(".aui-form[value]").val();
-			//						switch (users) {
-			//							case 1:
-			var usernm = $("#usernamevalue").val();
-			H.$setPrefs(function(ret, err) {
-				api.execScript({
-					name : 'user_message_header',
-					frameName : 'user_message_body',
-					script : 'qwer();'
-				});
-				api.closeWin({});
-			}, 'user_name', '{userval:"' + usernm + '"}');
-			//								break;
-			//							case 2:
+		var usernamevalue = $("#usernamevalue").val();
+			api.showProgress({
+				title:"正在更改..."
+            });
+			H.$ajax(function(ret, err) {
+				if (ret && ret.retCode == 1) {
+					H.$setPrefs(function(ret, err) {
+						api.hideProgress();
+						//更新操作
+						api.execScript({
+							name : 'user_message_header',
+							frameName : 'user_message_body',
+							script : 'reload();'
+						});
+						api.closeWin({
+                        });
+					}, 'userinfo', JSON.stringify(ret.retValue));
+				}
+			}, window.serverUrl + '/userinfo_edit/token/' + retobj.token + '/user_id/' + retobj.id + '/type/1' + '/username/' + encodeURI(usernamevalue));
 		}
-
+		//更改用户姓名
 		function save_a() {
 			var firstnm = $("#firstnamevalue").val();
-			H.$setPrefs(function(ret, err) {
-				api.execScript({
-					name : 'user_message_header',
-					frameName : 'user_message_body',
-					script : 'asdf();'
-				});
-				api.closeWin({});
-			}, 'first_name', '{firstval:"' + firstnm + '"}');
-			//					break;
-			//				case 3:
+			api.showProgress({
+				title:"正在更改..."
+            });
+			H.$ajax(function(ret, err) {
+				if (ret && ret.retCode == 1) {
+					H.$setPrefs(function(ret, err) {
+						api.hideProgress();
+						//更新操作
+						api.execScript({
+							name : 'user_message_header',
+							frameName : 'user_message_body',
+							script : 'reload();'
+						});
+						api.closeWin({
+                        });
+					}, 'userinfo', JSON.stringify(ret.retValue));
+				}
+			}, window.serverUrl + '/userinfo_edit/token/' + retobj.token + '/user_id/' + retobj.id + '/type/2' + '/truename/' + encodeURI(firstnm));
+		
 		}
 
 		function save_b() {
 			var sexid = $("#sexname input[type='radio']:checked").val();
-			H.$setPrefs(function(ret, err) {
-				api.execScript({
-					name : 'user_message_header',
-					frameName : 'user_message_body',
-					script : 'exec();'
-				});
-				api.closeWin({});
-			}, 'userms_sex', sexid);
-			//					break;
-			//			}
+		api.showProgress({
+				title:"正在更改..."
+            });
+			H.$ajax(function(ret, err) {
+				if (ret && ret.retCode == 1) {
+					H.$setPrefs(function(ret, err) {
+						api.hideProgress();
+						//更新操作
+						api.execScript({
+							name : 'user_message_header',
+							frameName : 'user_message_body',
+							script : 'reload();'
+						});
+						api.closeWin({
+                        });
+					}, 'userinfo', JSON.stringify(ret.retValue));
+				}
+			}, window.serverUrl + '/userinfo_edit/token/' + retobj.token + '/user_id/' + retobj.id + '/type/2' + '/sex/' + sexid);
+		
+	
 		}
 
 		Zepto(function() {
 		});
 		H.ready(function() {
+			api.getPrefs({
+				key : 'userinfo'
+			}, function(ret, err) {
+				retobj = eval('(' + ret.value + ')');
+			});
 			var types = H.$getPageParam();
 			//			alert(JSON.stringify(types));
 			switch(types.type) {
@@ -120,42 +150,15 @@
 					$("#username").show();
 					$("#usernamevalue").val(types.username);
 					break;
-				case 2:
+				case 2: 
 					$("#firstname").show();
+					$("#firstnamevalue").val(types.truename);
 					break;
 				case 3:
 					$("#sexname").show();
 					break;
 			}
-			api.getPrefs({
-				key : 'userinfo'
-			}, function(ret, err) {
-				//字符串转为json对象
-				var retobj = eval('(' + ret.value + ')');
-				api.showProgress();
-				api.ajax({
-					url : window.serverUrl + '/userinf_edit/token/' + retobj.token + '' + retobj.id,
-					method : 'post',
-					data : {
-						values : {
-						}
-					}
-				}, function(ret, err) {
-					api.toast({
-						msg : ret
-					});
-					api.hideProgress();
-					if (ret) {
-						api.toast({
-							msg : ret
-						});
-					} else {
-						api.toast({
-							msg : ret.retDesc
-						});
-					}
-				});
-			});
+			
 		});
 	</script>
 </html>
