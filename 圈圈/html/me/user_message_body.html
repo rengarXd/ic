@@ -75,7 +75,7 @@
 				</li>
 				<li class="aui-list-view-cell userds" id="sexnamechange" tapmode>
 					<div class="aui-arrow-right">
-						性别 <span id="sex"></span>
+						性别 <span id="sex" sexvalue=""></span>
 					</div>
 				</li>
 				<li class="aui-list-view-cell userds" id="addressname" tapmode>
@@ -327,7 +327,8 @@
 			//性别
 			$("#sexnamechange").on("tap", function() {
 				H.$openWin("me_userinfo_change_header", "me_userinfo_change_header.html", {
-					type : 3
+					type : 3,
+					sex:$("#sex").attr("sexvalue")
 				});
 			});
 		})
@@ -345,12 +346,15 @@
 				switch(retobj.sex) {
 					case "0":
 						$("#sex").text("保密");
+						$("#sex").attr("sexvalue",0);
 						break;
 					case "1":
 						$("#sex").text("男");
+						$("#sex").attr("sexvalue",1);
 						break;
 					case "2":
 						$("#sex").text("女");
+						$("#sex").attr("sexvalue",2);
 						break;
 				}
 				if (retobj.head_ico == null) {

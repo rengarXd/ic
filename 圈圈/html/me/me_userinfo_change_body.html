@@ -52,7 +52,7 @@
 				</div>
 				<div class="aui-input-row">
 					<label class="aui-input-addon">保密</label>
-					<input class="aui-pull-right aui-radio aui-radio-success" value="0" type="radio" name="sex"checked>
+					<input class="aui-pull-right aui-radio aui-radio-success" value="0" type="radio" name="sex" checked>
 				</div>
 				<div class="aui-btn aui-btn-block aui-btn-danger" onclick="save_b();">
 					保存
@@ -148,8 +148,26 @@
 					break;
 				case 3:
 					$("#sexname").show();
+					api.toast({
+						msg : types.sex
+					});
+					if (types.sex == 1) {
+						$("#sexname input[name='sex']").get(0).checked = true;
+					} else {
+						if (types.sex == 2) {
+							$("#sexname input[name='sex']").get(1).checked = true;
+						}
+					}
 					break;
 			}
 		});
+		function writeObj(obj) {
+			var description = "";
+			for (var i in obj) {
+				var property = obj[i];
+				description += i + " = " + property + "\n";
+			}
+			alert(description);
+		}
 	</script>
 </html>
