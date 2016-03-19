@@ -107,7 +107,7 @@
 			});
 		}
 
-		//			生成随机文件名
+		//生成随机文件名
 		function NewGuid() {
 			function S4() {
 				return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
@@ -445,6 +445,7 @@
 					}
 				});
 			});
+			//1.发起问诊
 			$("#consulting").on("tap", function() {
 				var doctorid = H.$getPageParam();
 				//$("#wenzhenren").html();
@@ -466,7 +467,8 @@
 									}, function(ret, err) {
 										//如果有返回并且请求成功
 										if (ret && ret.retCode == 1) {
-											console.log(JSON.stringify(ret));
+											
+											console.log('唯一id'+ JSON.stringify( doctorid ));
 											//初始化融云
 											var rong = api.require('rongCloud2');
 											rong.init(function(ret, err) {
@@ -475,58 +477,61 @@
 														msg : err.code
 													});
 											});
-											var rongobj = eval('('+ret.retValue+')'); 
+											var rongobj = eval('(' + ret.retValue + ')');
 											rong.connect({
 												token : rongobj.token
 											}, function(ret, err) {
-												console.log("融云ID"+doctorid.rongid);
+												//1.个人融云token
+												console.log("融云ID" + rongobj.token);
 												if (ret.status == 'success') {
 													rong.sendTextMessage({
-												        conversationType: 'PRIVATE',
-												        targetId: doctorid.doctor_id.rongid,
-												        text: 'Hello world.',
-												        extra: ''
-												    }, function (ret, err) {
-												        if (ret.status == 'prepare')
-												            api.toast({ msg: JSON.stringify(ret.result.message) });
-												        else if (ret.status == 'success')
-												            api.toast({ msg: ret.result.message.messageId });
-												        else if (ret.status == 'error')
-												            api.toast({ msg: err.code });
-												    }
-												);
+														conversationType : 'PRIVATE',
+														targetId : doctorid.doctor_id.rongid,
+														text : pet_type + '/' + pet_sex + '/' + pet_age + '/' + yimiao_name + '\n问题：' + pet_text,
+														extra : JSON.stringify(retobj)
+													}, function(ret, err) {
+														if (ret.status == 'prepare')
+															api.toast({
+																msg : JSON.stringify(ret.result.message)
+															});
+														else if (ret.status == 'success')
+															api.ajax({
+																url : window.serverUrl + '/inquiry_add/token/' + retobj.token + '/user_id/' + retobj.id,
+																method : 'post',
+																data : {
+																	values : {
+																		"doctorid" : doctorid.doctor_id.id,
+																		"pet_type" : $("#pet_type").attr("petid"),
+																		"pet_sex" : $("#pet_sex").attr("sex"),
+																		"pet_age" : pet_age,
+																		"is_vaccine" : $("#yimiao_name").attr("isym"),
+																		"content" : pet_text,
+																		"img" : upimgpath,
+																		"from" : api.deviceModel
+																	}
+																}
+															}, function(ret, err) {
+																api.toast({
+																	msg : ret
+																});
+																api.hideProgress();
+																if (ret && ret.retCode == 1) {
+																	H.$openWin("chat_msg_head", "chat_msg_head.html");
+																} else {
+																	api.toast({
+																		msg : ret.retDesc
+																	});
+																}
+															});
+														else if (ret.status == 'error')
+															api.toast({
+																msg : err.code
+															});
+													});
 												}
 											});
 										}
 									});
-//									api.ajax({
-//										url : window.serverUrl + '/inquiry_add/token/' + retobj.token + '/user_id/' + retobj.id,
-//										method : 'post',
-//										data : {
-//											values : {
-//												"doctorid" : doctorid.doctor_id.id,
-//												"pet_type" : $("#pet_type").attr("petid"),
-//												"pet_sex" : $("#pet_sex").attr("sex"),
-//												"pet_age" : pet_age,
-//												"is_vaccine" : $("#yimiao_name").attr("isym"),
-//												"content" : pet_text,
-//												"img" : upimgpath,
-//												"from" : api.deviceModel
-//											}
-//										}
-//									}, function(ret, err) {
-//										api.toast({
-//											msg : ret
-//										});
-//										api.hideProgress();
-//										if (ret && ret.retCode == 1) {
-//											H.$openWin("chat_msg_head", "chat_msg_head.html");
-//										} else {
-//											api.toast({
-//												msg : ret.retDesc
-//											});
-//										}
-//									});
 								} else {
 									api.toast({
 										msg : '抱歉，您还没有给您宠物的症状描述一下'
