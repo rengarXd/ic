@@ -49,8 +49,21 @@
 			.service {
 				background: #eec363;
 			}
-			.blue span{ font-size: 24px !important}
-			.blue p{ font-size: 12px !important}
+			.blue span {
+				font-size: 24px !important
+			}
+			.blue p {
+				font-size: 12px !important
+			}
+			.blue p:active {
+				color: #1786FF !important
+			}
+			.blue span:active {
+				color: #1786FF !important
+			}
+			.buy:active {
+				background: #00A4E2
+			}
 		</style>
 	</head>
 	<body>
@@ -63,26 +76,59 @@
 		</header>
 		<footer class="aui-nav" id="aui-footer">
 			<div class="aui-col-xs-4 buy" id="main" tapmode >
-				立即购买 <span class="aui-iconfont aui-icon-cart"></span>
+				立即购买
 			</div>
-			<div class="aui-col-xs-8">
+			<div class="aui-col-xs-4 buy" style="background: #FF8502" tapmode >
+				加入购物车
+			</div>
+			<div class="aui-col-xs-4">
 				<div class="aui-col-xs-6 blue" id="collection-btn" tapmode >
 					<span class="aui-iconfont aui-icon-favor"></span>
 					<p id="collection-title">
 						收藏
 					</p>
 				</div>
-				
-				<div class="aui-col-xs-6 blue" tapmode >
+				<div class="aui-col-xs-6 blue" tapmode id="pj" >
 					<span class="aui-iconfont aui-icon-comment"></span>
 					<p>
-						点评
+						评价
 					</p>
 				</div>
 			</div>
 		</footer>
 		<script type="text/javascript" src="../../script/api.js"></script>
+		<script type="text/javascript" src="../../script/AHelper.js"></script>
+		<script type="text/javascript" src="../../script/zepto.min.js"></script>
 		<script type="text/javascript">
+			Zepto(function($) {
+				//收藏商品的处理
+				$("#collection-btn").on("tap", function() {
+					api.getPrefs({
+						key : 'userinfo'
+					}, function(ret, err) {
+						var temps = eval('(' + ret.value + ')');
+						api.ajax({
+							url : window.serverUrl + '/favorite_add/token/' + temps.token + '/goods_id/' + api.pageParam.goodId + '/user_id/' + temps.id
+						}, function(ret, err) {
+							if (ret && ret.retCode == 1) {
+								api.toast({
+									msg : ret.retDesc
+								});
+							} else if (ret && ret.retCode == 0) {
+								api.toast({
+									msg : ret.retDesc
+								});
+							}
+						});
+					});
+				});
+				$("#pj").on("tap", function() {
+					api.execScript({
+						frameName : 'shop_show_body',
+						script : 'pj();'
+					});
+				});
+			});
 			apiready = function() {
 				api.parseTapmode();
 				var header = $api.byId('aui-header');

@@ -91,6 +91,11 @@
 			.swiper-container-horizontal > .swiper-pagination {
 				bottom: 2px;
 			}
+			.goods-basic-info p {
+				width: 100%;
+				display: block;
+				float: left;
+			}
 		</style>
 	</head>
 	<body>
@@ -118,25 +123,39 @@
 			</div>
 		</section>
 		<section class="aui-content goods-basic-info">
-			<div class="goods-title">
-				
-			</div>
+			<div class="goods-title"></div>
 			<p>
 				<span class="aui-pull-left">快递：0.00元</span>
-				<span class="aui-pull-right">北京海淀</span>
+				<span class="aui-pull-right" id="store_nums"></span>
+			</p>
+			<p>
+				<span class="aui-pull-left" id="visit"></span>
+				<span class="aui-pull-right" id="favorite"></span>
 			</p>
 		</section>
 		<section class="aui-tab">
-			<ul class="aui-tab-nav" id="demo1">
+			<ul class="aui-tab-nav" id="product">
 				<li class="active">
-					产品详情
+					详情
 				</li>
 				<li>
-					热门点评
+					评价
 				</li>
 			</ul>
 		</section>
-		<section class="aui-content info"></section>
+		<div id="content_show">
+			<section class="aui-content info">
+				<div style="width: 30px;height: 30px;margin: 20px auto">
+					<img src="../../image/loading_more.gif" width="30" />
+				</div>
+				
+			</section>
+			<section class="aui-content comment" style="display: none">
+				<center style=" padding-top: 20px; padding-bottom: 20px; color: #ddd">
+					暂无评价
+				</center>
+			</section>
+		</div>
 		<script type="text/javascript" src="../../script/AHelper.js"></script>
 		<script type="text/javascript" src="../../script/zepto.min.js"></script>
 		<script type="text/javascript" src="../../script/laytpl.js"></script>
@@ -145,6 +164,11 @@
 			//商品ID,token,用户ID
 			var goodId = null, token = null, uid = null;
 			Zepto(function($) {
+				$("#product li").click(function() {
+					$("#product li").eq($(this).index()).addClass("active").siblings().removeClass('active');
+					$("#content_show section").hide().eq($(this).index()).show();
+				});
+			
 			});
 			H.ready(function() {
 				//1、接收到传递过来的商品ID
@@ -174,6 +198,9 @@
 							$("#market_price").text('原价' + ret.retValue.market_price + '元');
 							$("#sale").text(ret.retValue.sale + '件已售');
 							$(".info").html(ret.retValue.content);
+							$("#store_nums").text('库存：' + ret.retValue.store_nums);
+							$("#favorite").text('收藏：' + ret.retValue.favorite);
+							$("#visit").text('查看：' + ret.retValue.visit);
 							var tpl = document.getElementById('index_addata').innerHTML;
 							laytpl(tpl).render(ret.retValue.photo, function(render) {
 								document.getElementById('index_addata_body').innerHTML = render;
@@ -191,5 +218,8 @@
 					});
 				});
 			});
+			function pj(){
+				$("#product li").eq(1).trigger("click") 
+			}
 		</script>
 </html>
