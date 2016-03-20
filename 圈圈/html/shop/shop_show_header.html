@@ -8,6 +8,7 @@
 		<title>商品详情header</title>
 		<!--引入aui框架-->
 		<link rel="stylesheet" href="../../css/aui-win.css" />
+
 		<style>
 			.aui-bar-1d9dd5 {
 				background: #1786FF;
@@ -64,6 +65,7 @@
 			.buy:active {
 				background: #00A4E2
 			}
+
 		</style>
 	</head>
 	<body>
@@ -75,10 +77,10 @@
 			</div>
 		</header>
 		<footer class="aui-nav" id="aui-footer">
-			<div class="aui-col-xs-4 buy" id="main" tapmode >
+			<div class="aui-col-xs-4 buy" id="buy" tapmode >
 				立即购买
 			</div>
-			<div class="aui-col-xs-4 buy" style="background: #FF8502" tapmode >
+			<div class="aui-col-xs-4 buy" id="joincat" style="background: #FF8502" tapmode >
 				加入购物车
 			</div>
 			<div class="aui-col-xs-4">
@@ -96,12 +98,15 @@
 				</div>
 			</div>
 		</footer>
+
 		<script type="text/javascript" src="../../script/api.js"></script>
 		<script type="text/javascript" src="../../script/AHelper.js"></script>
 		<script type="text/javascript" src="../../script/zepto.min.js"></script>
+		<script type="text/javascript" src="../../script/laytpl.js"></script>
 		<script type="text/javascript">
+			var haveSpec_array = null;
 			Zepto(function($) {
-				//收藏商品的处理
+				//1、收藏商品的处理
 				$("#collection-btn").on("tap", function() {
 					api.getPrefs({
 						key : 'userinfo'
@@ -122,11 +127,28 @@
 						});
 					});
 				});
+				//2、评论处理
 				$("#pj").on("tap", function() {
 					api.execScript({
 						frameName : 'shop_show_body',
 						script : 'pj();'
 					});
+				});
+				//3、加入购物车处理
+				$("#joincat").on("tap", function() {
+					//3.1、判断是否是有型号之类的
+					if (haveSpec_array) {
+						//alert(JSON.stringify(haveSpec_array));
+						H.$openFrame('shop_choice_body', 'shop_choice_body.html',haveSpec_array,{x:0,y:0})
+					}
+				});
+				//4、购买处理
+				$("#buy").on("tap", function() {
+					//3.1、判断是否是有型号之类的
+					if (haveSpec_array) {
+						alert(JSON.stringify(haveSpec_array));
+						H.$openFrame('shop_choice_body', 'shop_choice_body.html',haveSpec_array,{x:0,y:0})
+					}
 				});
 			});
 			apiready = function() {
@@ -150,10 +172,17 @@
 					},
 					pageParam : api.pageParam
 				});
+				//5.添加有型号的监听
+				api.addEventListener({
+					name : 'haveSpec_array'
+				}, function(ret, err) {
+					haveSpec_array = ret;
+				});
 			}
 			function closeWin() {
 				api.closeWin();
 			}
+
 		</script>
 	</body>
 </html>

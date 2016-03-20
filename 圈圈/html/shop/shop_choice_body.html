@@ -1,0 +1,175 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>商品有型号区分body</title>
+		<link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/font/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/winu-ui.css" />
+		<style>
+			html, body {
+				background: rgba(0,0,0,0.2);
+			}
+			.share-maim {
+				background: #fff;
+				animation: swiper 0.3s;
+				-webkit-animation: swiper 0.3s;
+				height: auto;
+				overflow: hidden;
+			}
+			@-webkit-keyframes swiper
+			{
+			from {
+				height: 0;
+			}
+			to {
+				height: 160px;
+			}
+			}
+			@-webkit-keyframes
+			swiperend {from {
+				height: 160px;
+			}
+			to {
+				height: 0;
+			}
+			}
+			.share-maim ul {
+			}
+			.share-maim ul li {
+				text-align: center;
+			}
+			.share-maim ul li span {
+				height: 3em;
+				width: 3em;
+				border-radius: 50%;
+				-webkit-border-radius: 50%;
+				background: #009944;
+				margin: 16px auto 15px auto;
+			}
+			.share-maim ul li span i {
+				color: #fff;
+				font-size: 24px;
+			}
+			.share-maim ul li p {
+				color: #a4a4a8;
+			}
+			.cancel-share {
+				margin: 16px auto 0 auto;
+				background: #FF7F2A;
+				height: 50px;
+				color: #FFF;
+				width: 100%;
+			}
+			.q_size span {
+				background: #f5f5f5;
+				padding: 6px 15px;
+				margin-right: 10px;
+				float: left;
+				margin-bottom: 7px;
+				font-size: 12px;
+				-moz-border-radius: 7px;
+				-khtml-border-radius: 7px;
+				-webkit-border-radius: 7px;
+			}
+			.q_size .active {
+				background: #FF7F2A;
+				color: #fff;
+			}
+			.q_puch1 {
+				float: left;
+				margin: 10px 0px;
+				width: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="share-container winu-flex-box-vertical">
+			<div class="share-space winu-flex-item q_sizes"></div>
+			<div class="share-maim">
+				<div class="aui-content-padded" id="shopdata_body"></div>
+				<div class="cancel-share winu-center-all" tapmode  onclick="closeShareFrame();">
+					确定购买
+				</div>
+			</div>
+		</div>
+		<script id="shopdata" type="text/html">
+			{{# for(var i = 0, len = d.length; i < len; i++){ }}
+			<h3 class="q_puch1" id="q_sizes">{{ d[i].name }}</h3>
+			<div class="q_size" id="specList{{ i+1 }}">
+			{{# var ds = d[i].value.split(','); }}
+			{{# for(var ii = 0;ii < ds.length; ii++){ }}
+			{{# if(ii==0){ }}
+			<span class="active">{{ ds[ii] }}</span>
+			{{# }else{ }}
+			<span>{{ ds[ii] }}</span>
+			{{# } }}
+			{{# } }}
+			</div>
+			{{# } }}
+		</script>
+	</body>
+	<script type="text/javascript" src="../../script/AHelper.js"></script>
+	<script type="text/javascript" src="../../script/zepto.min.js"></script>
+	<script type="text/javascript" src="../../script/laytpl.js"></script>
+	<script type="text/javascript">
+		var templis = [];
+		H.ready(function() {
+			//1、接收传递
+			var datas = eval('(' + api.pageParam.value.spec_array + ')');
+			//2、暂时写死，我也不想
+			if (datas["1"]) {
+				templis.push(datas["1"]);
+			}
+			if (datas["2"]) {
+				templis.push(datas["2"]);
+			}
+			if (datas["3"]) {
+				templis.push(datas["3"]);
+			}
+			if (datas["4"]) {
+				templis.push(datas["4"]);
+			}
+			var tpl = document.getElementById('shopdata').innerHTML;
+			//alert(templis.length);
+			//读取模版
+			laytpl(tpl).render(templis, function(render) {
+				document.getElementById('shopdata_body').innerHTML = render;
+			});
+			//1.处理规格参数
+			$("#specList1 span").click(function() {
+				$("#specList1 span").eq($(this).index()).addClass("active").siblings().removeClass('active');
+			});
+			$("#specList2 span").click(function() {
+				$("#specList2 span").eq($(this).index()).addClass("active").siblings().removeClass('active');
+			});
+			$("#specList3 span").click(function() {
+				$("#specList3 span").eq($(this).index()).addClass("active").siblings().removeClass('active');
+			});
+			$("#specList4 span").click(function() {
+				$("#specList4 span").eq($(this).index()).addClass("active").siblings().removeClass('active');
+			});
+		});
+		function closeShareFrame() {
+			$(".share-maim").css({
+				"animation" : "swiperend 0.3s",
+				"-webkit-animation" : "swiperend 0.3s",
+				"height" : "0"
+			});
+			setTimeout(function() {
+				H.$closeCurrentFrame();
+			}, 300);
+		}
+
+		Zepto(function($) {
+			$(".share-space").tap(function() {
+				closeShareFrame();
+			});
+			$(".share-maim li").on("tap", function() {
+				H.$toast($.trim($(this).find("p").text()));
+			});
+		});
+	</script>
+</html>

@@ -148,7 +148,6 @@
 				<div style="width: 30px;height: 30px;margin: 20px auto">
 					<img src="../../image/loading_more.gif" width="30" />
 				</div>
-				
 			</section>
 			<section class="aui-content comment" style="display: none">
 				<center style=" padding-top: 20px; padding-bottom: 20px; color: #ddd">
@@ -162,13 +161,12 @@
 		<script type="text/javascript" src="../../script/swiper/swiper.min.js"></script>
 		<script type="text/javascript">
 			//商品ID,token,用户ID
-			var goodId = null, token = null, uid = null;
+			var goodId = null, token = null, uid = null, haveSpec_array = false;
 			Zepto(function($) {
 				$("#product li").click(function() {
 					$("#product li").eq($(this).index()).addClass("active").siblings().removeClass('active');
 					$("#content_show section").hide().eq($(this).index()).show();
 				});
-			
 			});
 			H.ready(function() {
 				//1、接收到传递过来的商品ID
@@ -201,6 +199,12 @@
 							$("#store_nums").text('库存：' + ret.retValue.store_nums);
 							$("#favorite").text('收藏：' + ret.retValue.favorite);
 							$("#visit").text('查看：' + ret.retValue.visit);
+							if (ret.retValue.spec_array){
+								//2.4将型号数据传递出去有型号
+								H.$sendEvent('haveSpec_array', {
+									spec_array : ret.retValue.spec_array
+								});
+							}
 							var tpl = document.getElementById('index_addata').innerHTML;
 							laytpl(tpl).render(ret.retValue.photo, function(render) {
 								document.getElementById('index_addata_body').innerHTML = render;
@@ -218,8 +222,8 @@
 					});
 				});
 			});
-			function pj(){
-				$("#product li").eq(1).trigger("click") 
+			function pj() {
+				$("#product li").eq(1).trigger("click")
 			}
 		</script>
 </html>
