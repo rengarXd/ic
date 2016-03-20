@@ -1,0 +1,195 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>商品详情body</title>
+		<link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/fonts/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/swiper/swiper.min.css" />
+		<style type="text/css">
+			.aui-content, .aui-content-padded {
+				background: #ffffff;
+			}
+			.thumb {
+				position: relative;
+				max-height: 270px;
+				overflow: hidden;
+				margin-bottom: 0;
+			}
+			.thumb > img {
+				width: 100%;
+			}
+			.price-info {
+				width: 100%;
+				bottom: 0;
+				left: 0;
+				background: #1786FF;
+				height: 55px;
+			}
+			.price {
+				margin-left: 15px;
+				color: #ffffff;
+				font-size: 16px;
+				line-height: 55px;
+			}
+			.price strong {
+				font-size: 26px;
+				margin: 0 5px;
+				font-weight: 400;
+			}
+			.price-info .aui-pull-right {
+				height: 55px;
+				width: 35%;
+				background: #000000;
+				padding-top: 10px;
+				text-align: center;
+			}
+			.price-info .aui-pull-right p {
+				color: #FFFFFF;
+				font-size: 12px;
+				margin-bottom: 0px;
+			}
+			.goods-basic-info {
+				padding: 10px;
+				overflow: hidden;
+			}
+			.goods-title {
+				margin-bottom: 5px;
+			}
+			.aui-tab-nav li.active {
+				color: #1786FF;
+				border-bottom: 2px #1786FF solid;
+			}
+			.info {
+				padding: 10px;
+				overflow: hidden;
+				margin-bottom: 0;
+			}
+			.info img {
+				width: 100%;
+			}
+			.info p {
+				color: #666;
+			}
+			.swiper-container {
+				width: 100%;
+				height: 220px;
+			}
+			.swiper-container .swiper-slide {
+				background-position: center;
+				background-size: cover;
+				-webkit-background-size: cover;
+			}
+			.banner-container .swiper-pagination {
+				bottom: 0;
+			}
+			.swiper-pagination-bullet-active {
+				background: #fefb62
+			}
+			.swiper-container-horizontal > .swiper-pagination {
+				bottom: 2px;
+			}
+		</style>
+	</head>
+	<body>
+		<section class="aui-content thumb">
+			<!--首页广告幻灯开始-->
+			<div class="swiper-container">
+				<div class="swiper-wrapper" id="index_addata_body"></div>
+				<!-- 如果需要分页器 -->
+				<div class="swiper-pagination"></div>
+			</div>
+			<script id="index_addata" type="text/html">
+				{{# for(var i = 0, len = d.length; i < len; i++){ }}
+				<div class="swiper-slide" style="background-image:url(http://q.endzk.com/{{ d[i].img }})"></div>
+				{{# } }}
+			</script>
+			<!--首页广告幻灯结束-->
+		</section>
+		<section class="aui-content thumb">
+			<div class="price-info">
+				<span class="price">¥<strong id="price"></strong>元</span>
+				<div class="aui-pull-right">
+					<p style="text-decoration:line-through" id="market_price"></p>
+					<p id="sale"></p>
+				</div>
+			</div>
+		</section>
+		<section class="aui-content goods-basic-info">
+			<div class="goods-title">
+				
+			</div>
+			<p>
+				<span class="aui-pull-left">快递：0.00元</span>
+				<span class="aui-pull-right">北京海淀</span>
+			</p>
+		</section>
+		<section class="aui-tab">
+			<ul class="aui-tab-nav" id="demo1">
+				<li class="active">
+					产品详情
+				</li>
+				<li>
+					热门点评
+				</li>
+			</ul>
+		</section>
+		<section class="aui-content info"></section>
+		<script type="text/javascript" src="../../script/AHelper.js"></script>
+		<script type="text/javascript" src="../../script/zepto.min.js"></script>
+		<script type="text/javascript" src="../../script/laytpl.js"></script>
+		<script type="text/javascript" src="../../script/swiper/swiper.min.js"></script>
+		<script type="text/javascript">
+			//商品ID,token,用户ID
+			var goodId = null, token = null, uid = null;
+			Zepto(function($) {
+			});
+			H.ready(function() {
+				//1、接收到传递过来的商品ID
+				goodId = H.$getPageParam().goodId;
+				//2、获取用户id及token
+				api.getPrefs({
+					key : 'userinfo'
+				}, function(ret, err) {
+					var temp = eval('(' + ret.value + ')');
+					token = temp.token;
+					uid = temp.id;
+					//2.1数传递参数已经准备完毕，开始请求产品数据
+					api.showProgress({
+						title : '正在加载'
+					});
+					api.ajax({
+						url : window.serverUrl + '/products/user_id/' + uid + '/token/' + token + '/id/' + goodId,
+						cache : true
+					}, function(ret, err) {
+						//alert(JSON.stringify(ret));
+						//2.2如果请求数据成功
+						if (ret && ret.retCode == 1) {
+							api.hideProgress();
+							//2.3渲染
+							$(".goods-title").text(ret.retValue.name);
+							$("#price").text(ret.retValue.sell_price);
+							$("#market_price").text('原价' + ret.retValue.market_price + '元');
+							$("#sale").text(ret.retValue.sale + '件已售');
+							$(".info").html(ret.retValue.content);
+							var tpl = document.getElementById('index_addata').innerHTML;
+							laytpl(tpl).render(ret.retValue.photo, function(render) {
+								document.getElementById('index_addata_body').innerHTML = render;
+								var mySwiper = new Swiper('.swiper-container', {
+									loop : false,
+									// 如果需要分页器
+									pagination : '.swiper-pagination',
+								});
+							});
+						} else if (ret && ret.retCode == 0) {
+							alert("请求数据异常:" + ret.retDesc);
+						} else if (err) {
+							alert("请求错误触发:" + JSON.stringify(err));
+						}
+					});
+				});
+			});
+		</script>
+</html>

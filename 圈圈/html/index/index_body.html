@@ -286,7 +286,7 @@
 		</div>
 		<script id="index_shopdata" type="text/html">
 			{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
-			<li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode onclick="openGoods()">
+			<li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode onclick="openGoods({{ d.retValue[i].id }})">
 			<img class="aui-img-object" src="http://q.endzk.com/{{ d.retValue[i].img }}">
 			<div class="aui-img-body aui-text-left">
 			<div class="shop_title">{{ d.retValue[i].name }}</div>
@@ -310,7 +310,7 @@
 	<script type="text/javascript">
 		/*
 		 * 1、广告处理 (href_type) 0 广告跳转
-		 * 	  广告ids (ids)
+		 * 	 广告ids (ids)
 		 */
 		function ad_do(href_type, link, ids) {
 			switch(href_type) {
@@ -368,7 +368,8 @@
 				var retobj = eval('(' + ret.value + ')');
 				//请求首页广告数据
 				api.ajax({
-					url : window.serverUrl + '/app_index_manage/token/' + retobj.token
+					url : window.serverUrl + '/app_index_manage/token/' + retobj.token,
+					cache : true
 				}, function(ret, err) {
 					//如果请求有数据返回
 					if (ret && ret.retCode == 1) {
@@ -391,7 +392,8 @@
 				//请求I宠快报数据
 				api.ajax({
 					//请求首页三条数据
-					url : window.serverUrl + '/app_kuaibao/token/' + retobj.token + '/t/1'
+					url : window.serverUrl + '/app_kuaibao/token/' + retobj.token + '/t/1',
+					cache : true
 				}, function(ret, err) {
 					if (ret && ret.retValue) {
 						var tpl = document.getElementById('index_kbdata').innerHTML;
@@ -405,7 +407,8 @@
 				});
 				//请求首页精选数据
 				api.ajax({
-					url : window.serverUrl + '/app_index_commend/token/' + retobj.token
+					url : window.serverUrl + '/app_index_commend/token/' + retobj.token,
+					cache : true
 				}, function(ret, err) {
 					if (ret && ret.retCode == 1) {
 						// 获取模板内容，并加载数据
@@ -429,8 +432,11 @@
 				get_data();
 			});
 		});
-		function openGoods() {
-			H.$toast("商品内容");
+		/**
+		 * 首页今日精选商品 
+		 */
+		function openGoods(goodId) {
+			H.$openWin('shop_show_header','../shop/shop_show_header.html',{goodId:goodId});
 		}
 
 		function closeindex() {

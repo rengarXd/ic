@@ -68,14 +68,15 @@
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript" src="../../script/laytpl.js"></script>
 	<script>
-	
+		$("img").error(function() {
+			$(this).attr('src', "../../image/noavatar.gif");
+		});
 		var retabc = null;
 		//医生详情跳转
-		function to_doctor(id,rongid) {
-			
+		function to_doctor(id, rongid) {
 			H.$openWin("consulting_doctor_header", "consulting_doctor_header.html", {
 				id : id,
-				rongid:rongid
+				rongid : rongid
 			});
 		}
 
