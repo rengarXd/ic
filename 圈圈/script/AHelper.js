@@ -1097,7 +1097,7 @@
 		imageCache : {
 			url : '',
 			policy : 'default',
-			thumbnail : true
+			thumbnail : false
 		},
 		download : {
 			url : 'http://www.winu.net/a.jpg',
