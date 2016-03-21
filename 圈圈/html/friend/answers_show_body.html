@@ -32,11 +32,12 @@
 			.aui-ellipsis-1 {
 				white-space: inherit;
 			}
+			#answers_body img{ width: 35px !important; height:35px !important}
 		</style>
 	</head>
 	<body>
 		<div class="aui-content">
-			<ul class="aui-list-view" id="answers_body">
+			<ul class="aui-list-view">
 				<div class="aui-line-x"></div>
 				<li class="aui-list-view-cell" tapmode>
 					<div class="img-cont"><img class="aui-pull-left" src="../../image/friend/pic01.png" tapmode >
@@ -56,7 +57,7 @@
 						<div class="aui-col-xs-4"><img src="../../image/friend/20071120121953798_2.jpg" alt="" class="aui-img" />
 						</div>
 					</div>
-					<h6 id="answer_time">&nbsp;&nbsp;&nbsp;<span style="float: right" id="answer_askcount"></span></h6>
+					<h6><span id="answer_time"></span>&nbsp;&nbsp;&nbsp;<span style="float: right" id="answer_askcount"></span></h6>
 				</li>
 			</ul>
 		</div>
@@ -83,13 +84,13 @@
 			</ul>
 		</div>
 		<script type="text/html" id="answers_data">
-			{{# for(var i=0, a=d.length;i<a;i++){ }}
-			<li class="aui-user-view-cell aui-img" tapmode onclick="to_answers({{ d.[i].id }});">
-			<img class="aui-img-object aui-pull-left" src="http://q.endzk.com/{{ d[i].head_ico }}">
+			{{# for(var i=0, a=d.bbs_ask.length;i<a;i++){ }}
+			<li class="aui-user-view-cell aui-img">
+			<img class="aui-img-object aui-pull-left" src="http://q.endzk.com/{{ d.bbs_ask[i].head_ico }}">
 			<div class="aui-img-body">
-			<span>{{ d[i].username }}<em>{{ d[i].time }}</em></span>
+			<span>{{ d.bbs_ask[i].username }}<em>{{ d.bbs_ask[i].time }}</em></span>
 			<p class='aui-ellipsis-1'>
-			{{ d[i].content }}
+			{{ d.bbs_ask[i].content }}
 			</p>
 			</div>
 			</li>
@@ -137,12 +138,12 @@
 						$("#answer_from").html(ret.retValue.bbscontent[0].fromdevice);
 						$("#answer_content").html(ret.retValue.bbscontent[0].content);
 						$("#answer_time").html(ret.retValue.bbscontent[0].time);
-						$("#answer_askcount").html("回复" + "(" + ret.retValue.bbscontent[0].askcount + ")");
+						$("#answer_askcount").html("回复(" + ret.retValue.bbscontent[0].askcount + ")");
 //						对文档区域进行渲染
-						var inanswer = ret.retValue.bbs_ask;
-						alert(JSON.stringify(inanswer));
+//						var inanswer = ret.retValue.bbs_ask;
+						alert(ret.retValue.bbscontent[0].askcount);
 						var tpl = document.getElementById('answers_data').innerHTML;
-						laytpl(tpl).render(inanswer, function(render) {
+						laytpl(tpl).render(ret.retValue, function(render) {
 							document.getElementById('answers_body').innerHTML = render;
 						});
 					} else {
