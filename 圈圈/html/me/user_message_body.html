@@ -85,6 +85,16 @@
 				</li>
 			</ul>
 		</div>
+		<div class="aui-content">
+			<ul class="aui-list-view">
+				<li class="aui-list-view-cell" id="shopaddress" tapmode>
+					<div class="aui-arrow-right">
+						收货地址 <span id="address"></span>
+					</div>
+				</li>
+			</ul>
+		</div>
+		
 	</body>
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
@@ -330,6 +340,10 @@
 					type : 3,
 					sex:$("#sex").attr("sexvalue")
 				});
+			});
+			//1 商城收货地址
+			$("#shopaddress").on("tap",function(){
+				H.$openWin("user_shop_address_header","user_shop_address_header.html",{uid:retobj.id});
 			});
 		})
 		H.ready(function() {

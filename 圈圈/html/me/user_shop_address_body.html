@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>收货地址body</title>
+		<link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/fonts/iconfont.css" />
+		<style>
+			.q_address {
+				font-size: 19px;
+				/* font-weight: 800; */
+				color: #1786FF !important;
+			}
+			.q_addressd {
+				color: #1786FF;
+				font-size: 15px;
+			}
+			.aui-list-view-cell:active{ background:#f5f5f5}
+		</style>
+	</head>
+	<body>
+		<script id="addressData" type="text/html">
+			<ul class="aui-list-view">
+			{{# for(var i = 0, len = d.length; i < len; i++){ }}
+			<li class="aui-list-view-cell">
+			<h3>{{ d[i].accept_name }}<span class="aui-pull-right">{{ d[i].telphone }}</span></h3>
+			<p>
+			{{ d[i].address }}
+			</p>
+			</li>
+			{{# } }}
+			<li class="aui-list-view-cell">
+			<div class="aui-arrow-right q_addressd">
+			<span class="iconfont icon-14052229 q_address"></span>&nbsp;&nbsp;新增地址
+			</div>
+			</li>
+			</ul>
+		</script>
+		<div class="aui-content" id="addressData_body"></div>
+	</body>
+	<script type="text/javascript" src="../../script/AHelper.js"></script>
+	<script type="text/javascript" src="../../script/zepto.min.js"></script>
+	<script type="text/javascript" src="../../script/laytpl.js"></script>
+	<script type="text/javascript">
+		//1 共享用户对象
+		var userobj = null;
+		Zepto(function() {
+		});
+		H.ready(function() {
+			api.getPrefs({
+				key : 'userinfo'
+			}, function(ret, err) {
+				userobj = eval('(' + ret.value + ')');
+				api.showProgress({
+					title : "正在加载"
+				});
+				//2 请求自已的数据
+				api.ajax({
+					url : window.serverUrl + '/user_address/token/' + userobj.token + '/user_id/' + userobj.id,
+					cache : true
+				}, function(ret, err) {
+					api.hideProgress();
+					//2.1 判断返回状态
+					if (ret && ret.retCode == 1) {
+						//2.2  渲染
+						var tpl = document.getElementById('addressData').innerHTML;
+						laytpl(tpl).render(ret.retValue, function(render) {
+							document.getElementById('addressData_body').innerHTML = render;
+						});
+					} else if (ret && ret.retCode == 0) {
+						api.toast({
+							msg : '请求数据异常，请重试！'
+						});
+					} else {
+						alert(JSON.stringify(err));
+					}
+				});
+			});
+		});
+	
+	</script>
+</html>

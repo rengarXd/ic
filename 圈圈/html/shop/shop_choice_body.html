@@ -96,9 +96,9 @@
 					</div>
 					<div class="aui-col-xs-6">
 						<div class="aui-counter aui-danger aui-pull-right" style="margin: 20px;">
-							<div class="aui-counter-minus aui-disabled"></div>
-							<input class="aui-counter-input" type="text" value="1">
-							<div class="aui-counter-plus"></div>
+							<div class="aui-counter-minus aui-disabled" id="minus"></div>
+							<input class="aui-counter-input" type="number" value="1" id="member">
+							<div class="aui-counter-plus" id="plus"></div>
 						</div>
 					</div>
 				</div>
@@ -127,7 +127,9 @@
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript" src="../../script/laytpl.js"></script>
 	<script type="text/javascript">
+		//3、整合产品型号数据
 		var templis = [];
+		var retstatus = true;
 		H.ready(function() {
 			//1、接收传递
 			var datas = eval('(' + api.pageParam.value.spec_array + ')');
@@ -150,7 +152,7 @@
 			laytpl(tpl).render(templis, function(render) {
 				document.getElementById('shopdata_body').innerHTML = render;
 			});
-			//1.处理规格参数
+			//3、处理规格参数
 			$("#specList1 span").click(function() {
 				$("#specList1 span").eq($(this).index()).addClass("active").siblings().removeClass('active');
 			});
@@ -163,7 +165,33 @@
 			$("#specList4 span").click(function() {
 				$("#specList4 span").eq($(this).index()).addClass("active").siblings().removeClass('active');
 			});
+			//4、处理数量加
+			$("#plus").on("tap", function() {
+				//4.1 获取最新数量
+				var member = $("#member").val();
+				//4.2 转整型
+				var m = parseInt(member);
+				//4.2 数量+1
+				$("#member").val(m + 1);
+				//4.3 判断数量
+				if (m >= 1) {
+					$(".aui-counter-minus").removeClass('aui-disabled');
+				}
+			});
+			//5、处理数量减
+			$("#minus").on("tap", function() {
+				//5.1 获取最新的数量
+				var members = $("#member").val();
+				//5.2 字符串转换为整型
+				var ms = parseInt(members);
+				if (ms < 2) {
+					$(".aui-counter-minus").addClass('aui-disabled');
+				} else {
+					$("#member").val(ms - 1);
+				}
+			});
 		});
+		//4、关闭购买
 		function closeShareFrame() {
 			$(".share-maim").css({
 				"animation" : "swiperend 0.3s",
