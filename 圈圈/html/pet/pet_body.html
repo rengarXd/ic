@@ -27,6 +27,8 @@
 				text-align: center;
 				padding: 20px;
 				font-size: 14px;
+				animation: rond 2s infinite;
+				-webkit-animation: rond 2s infinite;
 			}
 			.func-menu {
 				height: 90px;
@@ -77,16 +79,60 @@
 			.item-func:active {
 				background: #f4f4f4;
 			}
-			.aui-list-view-cell:active{ background:#f4f4f4}
+			.aui-list-view-cell:active {
+				background: #f4f4f4
+			}
+			#test {
+				height: 47px;
+				width: 47px;
+				position: absolute;
+				background-color: #0099FF;
+				border-radius: 50%;
+				top: -36px;
+				left: -9px;
+			}
+			#rond {
+				height: 100px;
+				width: 100px;
+				border: 1px solid #fff;
+				border-radius: 50%;
+				position: absolute;
+				top: 20px;
+				left: 15px;
+				animation: rond 2s infinite;
+				-webkit-animation: rond 2s infinite;
+				background: #1c84f3;
+			}
+			.q_pb {
+				position: absolute;
+				/* z-index: 110; */
+				width: 186px;
+				/* height: 140px; */
+				color: #fff;
+				top: 55px;
+				/* left: 31px; */
+				text-align: center;
+			}
+			@keyframes rond {
+			0% {transform : rotate(0deg);}
+			100% {transform : rotate(360deg);}
+			}
+			@-webkit-keyframes rond {
+			0% {-webkit-transform : rotate(0deg);}
+			100% {-webkit-transform : rotate(360deg);}
+			}
 		</style>
 	</head>
 	<body>
 		<div class="aui-content" style="background: #0099ff;height:240px;margin-bottom: 0">
 			<div id="circle">
 				<div id="circle_small">
-					<span>2016/01/28</span>
-					<h1>溜宠步数</h1>
-					<h1 style="font-size: 35px">12983</h1>
+					<div id="test"></div>
+					<div class="q_pb">
+						<span>2016/01/28</span>
+						<h1>溜宠步数</h1>
+						<h1 style="font-size: 35px">12983</h1>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -140,7 +186,7 @@
 				</li>
 			</ul>
 		</div>
-		<script src="../../script/AHelper.js" type="text/javascript"></script>
+		</div></div> <script src="../../script/AHelper.js" type="text/javascript"></script>
 		<script src="../../script/zepto.min.js" type="text/javascript"></script>
 		<script>
 			H.ready(function() {
@@ -148,21 +194,19 @@
 				$("#position_header").on("click", function() {
 					H.$openWin("position_header", "position_header.html");
 				});
-				
 				$("#setting").on("click", function() {
 					H.$openWin("setting", "setting.html");
 				});
-				
-				$("#identity_header").on("click",function(){
+				$("#identity_header").on("click", function() {
 					var FNScanner = api.require('FNScanner');
 					FNScanner.openScanner({
-					    autorotation: true,
-					},function( ret, err ){        
-					    if( ret ){
-					        alert( JSON.stringify( ret ) );
-					    }else{
-					        alert( JSON.stringify( err ) );
-					    }
+						autorotation : true,
+					}, function(ret, err) {
+						if (ret) {
+							alert(JSON.stringify(ret));
+						} else {
+							alert(JSON.stringify(err));
+						}
 					});
 				});
 			});
