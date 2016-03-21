@@ -46,7 +46,7 @@
 	<body>
 		<div class="aui-content">
 			<ul class="aui-list-view">
-				<div class="aui-line-x"></div>
+				
 				<li class="aui-list-view-cell" tapmode>
 					<div class="img-cont"><img class="aui-pull-left" src="../../image/friend/pic01.png" tapmode >
 					</div>
@@ -69,7 +69,7 @@
 				</li>
 			</ul>
 		</div>
-		<div class="aui-content" style="display: none;margin-bottom: 65px;" id="noask">
+		<div class="aui-content" style="display: none;padding-bottom: 55px;" id="noask">
 			<ul class="aui-list-view">
 				<li class="aui-list-view-cell">
 					<div>
@@ -84,7 +84,7 @@
 				</li>
 			</ul>
 		</div>
-		<div class="aui-content" style="margin-bottom: 60px;"  id="answers_body"></div>
+		<div class="aui-content" style="padding-bottom: 55px;margin-bottom: 0;"  id="answers_body"></div>
 		<script type="text/html" id="answers_data">
 			<ul class="aui-user-view aui-in">
 			{{# for (var i = 0, len = d.bbs_ask.length; i < len; i++) { }}
@@ -163,10 +163,10 @@
 		H.ready(function() {
 			get_data();
 			/*下拉刷新*/
-			H.$dropdownToRefresh(function(ret, err) {
-				get_data();
-				H.$recoverDropdownToNormal();
-			});
+//			H.$dropdownToRefresh(function(ret, err) {
+//				get_data();
+//				H.$recoverDropdownToNormal();
+//			});
 			photoBrowser = api.require('photoBrowser');
 			var inputField = api.require('inputField');
 			inputField.open({

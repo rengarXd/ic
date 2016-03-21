@@ -224,7 +224,7 @@
 					H.$openFrameWithNav(headerId, {
 						url : frameName + "/" + frameName + "_body.html",
 						name : frameName,
-						bounces : false
+						bounces : true
 					}, 'aui-footer');
 				}
 			});
@@ -249,7 +249,7 @@
 			H.$openFrameWithNav('index-header', {
 				url : 'index/index' + "_body.html",
 				name : 'index',
-				bounces : true
+				bounces : false
 			}, 'aui-footer');
 			// 断开网络
 			H.$addEventListener(function(ret, err) {

@@ -8,35 +8,43 @@
 		<link rel="stylesheet" type="text/css" href="../../css/aui.css" />
 		<link rel="stylesheet" type="text/css" href="../../css/fonts/iconfont.css" />
 		<style>
-			.aui-input-addon{ padding-left:20px !important}
+			.aui-input-addon {
+				padding-left: 20px !important
+			}
+			.aui-btn-block {
+				width: 97%;
+				padding: 10px 0;
+				font-size: 14px;
+				margin: 10px auto;
+			}
 		</style>
 	</head>
 	<body>
 		<div class="aui-content" style="padding-top: 15px;">
 			<div class="aui-form">
 				<div class="aui-input-row">
-					<label class="aui-input-addon">收货人</label>
+					<label class="aui-input-addon" id="accept_name">收货人</label>
 					<input type="text" class="aui-input" placeholder="名字" />
-					
 				</div>
 				<div class="aui-input-row">
-					<label class="aui-input-addon">手机号</label>
+					<label class="aui-input-addon" id="mobile">手机号</label>
 					<input type="number" class="aui-input" placeholder="11位手机号"/>
-				
 				</div>
 				<div class="aui-input-row">
-					<span class="aui-input-addon">选择地区</span>
+					<span class="aui-input-addon" id="">选择地区</span>
 					<input type="password" class="aui-input" placeholder="地区信息"/>
 				</div>
 				<div class="aui-input-row">
-					<span class="aui-input-addon">详细信息</span>
+					<span class="aui-input-addon" id="address">详细信息</span>
 					<input type="password" class="aui-input" placeholder="街道门牌信息"/>
 				</div>
 				<div class="aui-input-row">
-					<span class="aui-input-addon">邮政编码</span>
+					<span class="aui-input-addon" id="zip">邮政编码</span>
 					<input type="password" class="aui-input" placeholder="邮政编码"/>
 				</div>
-
+				<div class="aui-btn aui-btn-block aui-btn-danger" onclick="save_a();">
+					保存
+				</div>
 			</div>
 		</div>
 	</body>
@@ -47,7 +55,6 @@
 		//1 共享用户对象
 		var userobj = null;
 		Zepto(function() {
-			
 		});
 		H.ready(function() {
 			api.getPrefs({
@@ -56,5 +63,21 @@
 				userobj = eval('(' + ret.value + ')');
 			});
 		});
+		//2 保存地址
+		function save_a() {
+			api.ajax({
+				url : window.serverUrl+'/user_address_add/token'+userobj.token+'/user_id/'+userobj.id,
+				cache : false,
+				data:{
+					values:{
+						accept_name:$("#accept_name").val(),
+						mobile:$("#mobile").val(),
+						address:$("#address").val(),
+						zip:$("#zip").val()
+					}
+				}
+			}, function(ret, err) {
+			});
+		}
 	</script>
 </html>
