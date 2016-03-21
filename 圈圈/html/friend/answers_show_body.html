@@ -71,7 +71,7 @@
 		</div>
 		<script type="text/html" id="answers_img_data">
 			{{# for (var i = 0, len = d.imgs.length; i < len; i++) { }}
-			<div class="aui-col-xs-4"><img src="http://q.endzk.com/{{ d.imgs[i].img }}" alt="" class="aui-img" />
+			<div class="aui-col-xs-4"><img src="http://q.endzk.com/{{ d.imgs[i].im }}" alt="" class="aui-img" />
 			</div>
 			{{# } }}
 		</script>
@@ -123,7 +123,7 @@
 				photoBrowser.open({
 					images : photoBrowserPath,
 					activeIndex : 0,
-					placeholderImg : 'widget://res/img/loading_more.gif',
+					//					placeholderImg : 'widget://res/img/loading_more.gif',
 					bgColor : '#000'
 				}, function(ret) {
 					//					alert(JSON.stringify(ret));
@@ -154,12 +154,14 @@
 						$("#answer_content").html(ret.retValue.bbscontent[0].content);
 						$("#answer_time").html(ret.retValue.bbscontent[0].time);
 						$("#answer_askcount").html("回复(" + ret.retValue.bbscontent[0].askcount + ")");
-						alert(ret.retValue.bbscontent[0].imgs.length);
+						//alert();
 						//图片渲染
-						var tpl = document.getElementById('answers_img_data').innerHTML;
-						laytpl(tpl).render(ret.retValue.bbscontent[0], function(render) {
-							document.getElementById('answers_img_data_body').innerHTML = render;
-						});
+						if (ret.retValue.bbscontent[0].imgs.length > 0) {
+							var tpl = document.getElementById('answers_img_data').innerHTML;
+							laytpl(tpl).render(ret.retValue.bbscontent[0], function(render) {
+								document.getElementById('answers_img_data_body').innerHTML = render;
+							});
+						}
 						if (ret.retValue.bbs_ask.length < 1) {
 							$("#noask").show();
 						} else {
