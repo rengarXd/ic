@@ -1037,7 +1037,7 @@
 			url : '',
 			tag : $$com.newGuid(),
 			method : 'get',
-			cache : false,
+			cache : true,
 			timeout : 30,
 			dataType : 'json',
 			charset : 'utf-8',
@@ -1890,6 +1890,7 @@
 		$cancelAjax : function(tag) {
 			$$apicloud.cancelAjax(tag);
 		},
+		
 		// 快速ajax异步请求
 		// @callback：回调函数
 		// @url：请求地址
