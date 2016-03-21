@@ -195,7 +195,6 @@
 		Zepto(function($) {
 			$("#consulting").on("tap", function() {
 				var id = H.$getPageParam();
-				
 				H.$openWin("consulting_from_header", "consulting_from_header.html", {
 					doctor_id : id
 				});
@@ -207,8 +206,9 @@
 				key : 'userinfo'
 			}, function(ret, err) {
 				var userinfoobj = eval('(' + ret.value + ')');
-				H.$ajax(function(ret, err) {
-					//如果有值并且返回状态码为1
+				api.ajax({
+					url : window.serverUrl + '/doctors/token/' + userinfoobj.token + '/doctorid/' + doctorid.id
+				}, function(ret, err) {
 					if (ret && ret.retCode == 1) {
 						if (ret.retValue.doctor[0].isauthent == 1) {
 							$("#doctor_isauthent").show();
@@ -235,7 +235,7 @@
 						});
 					} else {
 					}
-				}, window.serverUrl + '/doctors/token/' + userinfoobj.token + '/doctorid/' + doctorid.id);
+				});
 			});
 		});
 	</script>
