@@ -43,7 +43,7 @@
 				border-radius: 50%;
 				margin-right: 11px;
 			}
-			#tiezi_data img{
+			.tiezi_data img{
 				width:35px !important;
 				height: 35px !important;
 			}
@@ -141,7 +141,7 @@
 		<script id="tiezi_data" type="text/html">
 			{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
 			<li class="aui-list-view-cell" tapmode onclick="to_answers({{ d.retValue[i].id }});">
-			<div class="img-cont">
+			<div class="img-cont tiezi_data">
 			{{#if (d.retValue[i].head_ico == null){}}
 			<img class="aui-pull-left" src="../../image/noavatar.gif">
 			{{#}else{}}
@@ -201,7 +201,7 @@
 		function to_answers(id) {
 			H.$openWin("answers_show_header", "answers_show_header.html", {
 				id : id,
-			});
+			},{});
 		}
 
 
