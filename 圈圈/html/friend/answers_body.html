@@ -174,7 +174,7 @@
 			</ul>
 		</div>
 		<!--热点问题-->
-		<div class="aui-btn aui-btn-block wenzhen_btn_wen" id="consulting">
+		<div class="aui-btn aui-btn-block wenzhen_btn_wen" id="answers_add" tapmode>
 			发布问答
 		</div>
 	</body>
@@ -182,7 +182,9 @@
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script>
 		Zepto(function($) {
-			
+			$("#answers_add").on("tap",function(){
+				H.$openWin("answers_add_header","answers_add_header.html");
+			});
 		});
 		H.ready(function() {
 			api.parseTapmode();
