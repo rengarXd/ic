@@ -45,9 +45,20 @@
 				width: 45px !important;
 				height: 45px !important
 			}
+			.loading {
+				text-align: center;
+				padding: 15px;
+				color: #ADB2BB;
+			}
 		</style>
 	</head>
 	<body>
+		<div class="aui-toast" id="loading" style="display: none">
+			<div class="aui-toast-loading"></div>
+			<div class="aui-toast-content">
+				回复中
+			</div>
+		</div>
 		<div class="aui-content">
 			<ul class="aui-list-view">
 				<li class="aui-list-view-cell" tapmode>
@@ -90,9 +101,15 @@
 				</li>
 			</ul>
 		</div>
-		<div class="aui-content" style="padding-bottom: 55px;margin-bottom: 0;"  id="answers_body"></div>
+		<div class="aui-content" style="padding-bottom: 55px;margin-bottom: 0;">
+			<ul class="aui-user-view aui-in" id="answers_body"></ul>
+			<li id="buttonload">
+				<div class="loading" style="display: none">
+					正在加载....
+				</div>
+			</li>
+		</div>
 		<script type="text/html" id="answers_data">
-			<ul class="aui-user-view aui-in">
 			{{# for (var i = 0, len = d.bbs_ask.length; i < len; i++) { }}
 			<li class="aui-user-view-cell aui-img">
 			<img class="aui-img-object aui-pull-left" src="http://q.endzk.com/{{ d.bbs_ask[i].head_ico }}">
@@ -104,15 +121,17 @@
 			</div>
 			</li>
 			{{# } }}
-			</ul>
 		</script>
+		<div class="aui-content">
+			<ul class="aui-list-text"></ul>
+		</div>
 	</body>
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript" src="../../script/laytpl.js"></script>
 	<script>
-		var photoBrowser;
-		Zepto(function($) {
+		var photoBrowser = null, answers = null, bbs = null, page = 1;
+		Zepto(function() {
 			$("#an_photo").on("tap", function() {
 				//记录路径
 				var photoBrowserPath = [];
@@ -123,7 +142,6 @@
 				photoBrowser.open({
 					images : photoBrowserPath,
 					activeIndex : 0,
-					//					placeholderImg : 'widget://res/img/loading_more.gif',
 					bgColor : '#000'
 				}, function(ret) {
 					//					alert(JSON.stringify(ret));
@@ -134,59 +152,90 @@
 				});
 			});
 		});
-		function get_data() {
-			var bbs = H.$getPageParam();
+		//1、获取数据 isshow为false则不显示  评论page 页数
+		function get_data(isshow,isbutton) {
+			//1.2 接收要获取的问答ID
+			bbs = H.$getPageParam();
 			api.getPrefs({
 				key : 'userinfo'
 			}, function(ret, err) {
-				var answers = eval('(' + ret.value + ')');
-				api.showProgress({
-					title : "正在加载"
-				});
+				// 1.3 获取用户信息对象
+				answers = eval('(' + ret.value + ')');
+				//1.4 如果是回复则不显示这个阻塞
+				if (isshow) {
+					api.showProgress({
+						title : "正在加载"
+					});
+				}
+				// 1.5 请求问答数据【新增分页】
 				api.ajax({
-					url : window.serverUrl + '/ask_list/token/' + answers.token + '/bbsid/' + bbs.id
+					url : window.serverUrl + '/ask_list/token/' + answers.token + '/bbsid/' + bbs.id + '/page/' + page
 				}, function(ret, err) {
-					api.hideProgress();
+					//1.4 如果是回复则不显示这个阻塞
+					if (isshow) {
+						api.hideProgress();
+					}
 					if (ret && ret.retCode == 1) {
-						$("#answer_headico").attr('src', window.serverUrlPath + ret.retValue.bbscontent[0].head_ico);
-						$("#answer_name").html(ret.retValue.bbscontent[0].username);
-						$("#answer_from").html("来自：" + ret.retValue.bbscontent[0].fromdevice);
-						$("#answer_content").html(ret.retValue.bbscontent[0].content);
-						$("#answer_time").html(ret.retValue.bbscontent[0].time);
-						$("#answer_askcount").html("回复(" + ret.retValue.bbscontent[0].askcount + ")");
-						//alert();
-						//图片渲染
-						if (ret.retValue.bbscontent[0].imgs.length > 0) {
-							var tpl = document.getElementById('answers_img_data').innerHTML;
-							laytpl(tpl).render(ret.retValue.bbscontent[0], function(render) {
-								document.getElementById('answers_img_data_body').innerHTML = render;
-							});
+						// 1.5 如果是回复则不再渲染(只渲染一次，优化加载)
+						if (isshow) {
+							$("#answer_headico").attr('src', window.serverUrlPath + ret.retValue.bbscontent[0].head_ico);
+							$("#answer_name").html(ret.retValue.bbscontent[0].username);
+							$("#answer_from").html("来自：" + ret.retValue.bbscontent[0].fromdevice);
+							$("#answer_content").html(ret.retValue.bbscontent[0].content);
+							$("#answer_time").html(ret.retValue.bbscontent[0].time);
+							$("#answer_askcount").html("回复(" + ret.retValue.bbscontent[0].askcount + ")");
+							//图片渲染
+							if (ret.retValue.bbscontent[0].imgs.length > 0) {
+								var tpl = document.getElementById('answers_img_data').innerHTML;
+								laytpl(tpl).render(ret.retValue.bbscontent[0], function(render) {
+									document.getElementById('answers_img_data_body').innerHTML = render;
+								});
+							}
 						}
-						if (ret.retValue.bbs_ask.length < 1) {
+						if (ret.retValue.bbs_ask.length < 1 && page <= 1) {
 							$("#noask").show();
 						} else {
-							//						对文档区域进行渲染
-							var tpl = document.getElementById('answers_data').innerHTML;
-							laytpl(tpl).render(ret.retValue, function(render) {
-								document.getElementById('answers_body').innerHTML = render;
-							});
+							// 1.6 对文档区域进行渲染
+							if (ret.retValue.bbs_ask.length == 10) {
+								//1.6.1 判断如果有第二页数据page+1
+								page = page + 1;
+							}
+							$(".loading").hide();
+							// 1.7 如果是回复滚动到网页底部
+							if (!isshow && isbutton) {
+								H.$com.scrollToDocButton();
+							}
+							// 1.8 如果是底部加载
+							if (page >= 2) {
+								var tpl = document.getElementById('answers_data').innerHTML;
+								laytpl(tpl).render(ret.retValue, function(render) {
+									$('#answers_body').append(render);
+									//H.$com.scrollToDocButton();
+								});
+							} else {
+								alert(page);
+								var tpl = document.getElementById('answers_data').innerHTML;
+								laytpl(tpl).render(ret.retValue, function(render) {
+									document.getElementById('answers_body').innerHTML = render;
+								});
+							}
 						}
+						//alert();
 					} else {
-						alert(JSON.stringify(err));
+						api.toast({
+							msg : err.body,
+							location : 'center'
+						});
 					}
 				});
 			});
 		}
 
-
+		//2、获取更多的分页数据
 		H.ready(function() {
-			get_data();
-			/*下拉刷新*/
-			//			H.$dropdownToRefresh(function(ret, err) {
-			//				get_data();
-			//				H.$recoverDropdownToNormal();
-			//			});
+			get_data(true,true);
 			photoBrowser = api.require('photoBrowser');
+			//6 回复框
 			var inputField = api.require('inputField');
 			inputField.open({
 				bgColor : '#e5e5e5',
@@ -197,12 +246,50 @@
 				maxLines : 3,
 				fixedOn : api.frameName
 			}, function(ret) {
-				api.toast({
-					msg : ret.msg
-				});
+				if (H.$com.trim(ret.msg)) {
+					inputField.resignFirstResponder();
+					H.$api.css(H.$api.byId("loading"), "display:block");
+					api.ajax({
+						url : window.serverUrl + '/ask_add/token/' + answers.token + '/user_id/' + answers.id + '/bbsid/' + bbs.id,
+						cache : false,
+						data : {
+							values : {
+								content : ret.msg,
+								fromdevice : api.deviceModel
+							}
+						}
+					}, function(ret, err) {
+						H.$api.css(H.$api.byId("loading"), "display:none");
+						if (ret && ret.retCode == 1) {
+							api.toast({
+								msg : ret.retDesc,
+							});
+							get_data(false,true);
+						} else if (ret && ret.retCode == 0) {
+							api.toast({
+								msg : ret.retDesc,
+							});
+						} else {
+							api.toast({
+								msg : err.body,
+								location : 'center'
+							});
+						}
+					});
+				} else {
+					api.toast({
+						msg : "总得说点什么吧"
+					});
+				}
 			});
 			inputField.setPlaceholder({
 				placeholder : '相信你的评论可以一针见血'
+			});
+			//7 滚动到底部
+			H.$scrolltobottom(function(ret, err) {
+				$(".loading").show();
+				//8 滚动底部重新加载
+				get_data(false,false);
 			});
 		});
 	</script>
