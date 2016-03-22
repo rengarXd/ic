@@ -7,28 +7,311 @@
 		<title>发布问答body</title>
 		<link rel="stylesheet" type="text/css" href="../../css/aui.css" />
 		<link rel="stylesheet" type="text/css" href="../../css/fonts/iconfont.css" />
+		<style>
+			.username {
+				position: relative !important;
+				float: right !important;
+			}
+			.wenzhen_btn_wen {
+				color: #fff;
+				position: fixed;
+				bottom: 0;
+				border-radius: 0;
+				margin: 0;
+				border: 0;
+				z-index: 4;
+				background: -webkit-gradient(linear, left top, left bottom, from(#ff7f27), to(#ff6001));
+			}
+			.wenzhen_btn_wen:active {
+				background: -webkit-gradient(linear, left top, left bottom, from(#ff6001), to(#ff9001));
+			}
+		</style>
 	</head>
 	<body>
 		<div class="aui-content" style="padding-top: 15px;">
 			<div class="aui-form">
-				 <div class="aui-input-row" style="width: 100%">
-		            <input type="text" class="aui-input" placeholder="问答标题（必填）"/>
-		           
-		        </div>
+				<ul class="aui-list-view">
+					<li class="aui-list-view-cell" id="yonghu">
+						<a>用户名 <span class="username" id="user_id"></span> </a>
+					</li>
+				</ul>
+				<!--<div class="aui-input-row" style="width: 100%">
+				<input type="text" class="aui-input" placeholder="问答标题（必填）"/>
+				</div>-->
 				<div class="aui-input-row" style="width: 100%">
-					<textarea class="aui-input" rows="5" id="textarea" onpropertychange='this.style.posHeight=this.scrollHeight' onfocus='textarea.style.posHeight=this.scrollHeight'></textarea>
+					<textarea name="" id="answers_text" cols="30" rows="10" class="aui-input" placeholder="请输入你要发的内容："></textarea>
 				</div>
 			</div>
+		</div>
+		<div class="aui-content">
+			<div class=" aui-grid-view"  style="left: 30px;" id="imgslist">
+				<img class="aui-col-xs-4 aui-img-object" id="addpic" src="../../image/add.jpg">
+			</div>
+		</div>
+		<div class="aui-btn aui-btn-block wenzhen_btn_wen" id="consulting">
+			发布！
 		</div>
 	</body>
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript">
+		var userobj = null, uiMediaScanner = null, imageFilter = null, imageBrowser = null;
+		var upimgpath = "";
+		// 图片压缩
+		// imgsrc：源图片的路径
+		// quality：图片压缩质量，一般建议0.5
+		// scale：图片压缩比例，也是建议0.5
+		// ext：源图片拓展名
+		// callback：转换成功之后回调函数
+		function imgCompress(imgsrc, quality, scale, ext, callback) {
+			// 压缩文件的保存目录
+			var savePath = api.cacheDir + "/" + getNowFormatDate() + "/";
+			// 压缩文件生成的随机文件名称
+			var savename = NewGuid() + "." + ext;
+			imageFilter.compress({
+				img : imgsrc,
+				quality : quality,
+				scale : quality,
+				save : {
+					album : false,
+					imgPath : savePath,
+					imgName : savename
+				}
+			}, function(ret, err) {
+				if (ret) {
+					callback(savePath + savename);
+				} else {
+					alert(JSON.stringify(err));
+				}
+			});
+		}
+
+		//		打开图片预览
+		function openImageBrowser(imgs) {
+			imageBrowser.openImages({
+				imageUrls : imgs,
+				showList : false,
+				activeIndex : 0
+			});
+		}
+
+		//			添加长按方法
+		function addPress(obj, index) {
+			// 获取目前长按的对象
+			var hammertime = new Hammer(obj[0]);
+			// 绑定长按对象
+			hammertime.on("press", function(e) {
+				api.confirm({
+					title : '温馨提示',
+					msg : '您确定要删除该图片吗？',
+					buttons : ['确定', '取消']
+				}, function(ret, err) {
+					if (ret.buttonIndex == 1) {
+						// 移除自己
+						$(obj).remove();
+						api.toast({
+							msg : '删除成功！'
+						});
+					}
+				});
+			});
+		}
+
+		// 上传图片
+		// url：上传的url地址
+		// data：上传的文件
+		// callback：上传成功返回地址
+		function uploadFile(url, data, callback) {
+			api.ajax({
+				url : url,
+				method : 'post',
+				timeout : 30,
+				dataType : 'json',
+				returnAll : false,
+				data : {
+					files : {
+						"goods" : data
+					}
+				}
+			}, function(ret, err) {
+				if (ret) {
+					if (ret.retCode == 1) {
+						callback(ret.retValue);
+					} else if (ret.retCode == 0) {
+						alert("上传失败");
+					}
+				} else {
+					api.alert({
+						msg : ('错误码：' + err.code + '；错误信息：' + err.msg + '；网络状态码：' + err.statusCode)
+					});
+				}
+			});
+		}
+
 		Zepto(function($) {
-		
+			var normalW = $("#addpic img").width();
+			// ###############################################################
+			// 为图片添加点击预览功能,排除添加按钮
+			$("#imgslist").on("tap", "li:not(#addpic)", function() {
+				// 定义一个数组，存储需要预览的图片
+				var browerImgs = [];
+				$("#imgslist li:not(#addpic)").each(function() {
+					// 将图片追加到数组中
+					browerImgs.push($(this).find("img").attr("src"));
+				});
+				// 调用图片预览函数
+				openImageBrowser(browerImgs);
+			});
+			$("#imgslist").on("tap", "#addpic", function() {
+				api.actionSheet({
+					title : '请选择图片来源',
+					cancelTitle : '取消',
+					buttons : ['拍照', '相册']
+				}, function(ret, err) {
+					var index = ret.buttonIndex;
+					switch(index) {
+						// 拍照
+						case 1:
+							// 打开拍照
+							api.getPicture({
+								sourceType : "camera",
+								encodingType : "jpg",
+								destinationType : "url",
+								mediaValue : "pic",
+								quality : 50,
+								saveToPhotoAlbum : true
+							}, function(ret, err) {
+								if (ret && ret.data) {
+									// 拍照返回的本地路径
+									var returnUrl = ret.data;
+									// 图片压缩
+									imgCompress(returnUrl, 0.5, 0.5, getExt(returnUrl), function(compressImg) {
+										var showImgHtml = '<li class="aui-list-view-cell aui-img aui-col-xs-4"><img class="aui-img-object" src="' + compressImg + '" style="width:' + normalW + 'px;height:' + normalW + 'px;"></li>';
+										// 追加图片
+										$("#addpic").before(showImgHtml);
+										// ########################################  绑定长按事件 ########################
+										addPress($("#imgslist img[src='" + compressImg + "']").parent("li"));
+										// ########################################
+										// ################### 上传图片 #########################
+										uploadFile(window.serverUrl + '/img_upload/token/' + userobj.token + '/user_id/' + userobj.id, compressImg, function(serverImg) {
+											upimgpath += serverImg.img + ',';
+										});
+									});
+								} else {
+									api.toast({
+										msg : '没有选择，或者选择出错'
+									});
+								}
+							});
+							break;
+						// 打开图片选择器
+						case 2:
+							uiMediaScanner.open({
+								type : 'picture',
+								column : 4,
+								classify : true,
+								max : 6,
+								sort : {
+									key : 'time',
+									order : 'desc'
+								},
+								texts : {
+									stateText : '已选*项',
+									cancelText : '取消',
+									finishText : '完成'
+								},
+								styles : {
+									bg : '#fff',
+									mark : {
+										icon : '',
+										position : 'bottom_left',
+										size : 20
+									},
+									nav : {
+										bg : '#b23e4b',
+										stateColor : '#fff',
+										stateSize : 18,
+										cancelBg : 'rgba(0,0,0,0)',
+										cancelColor : '#fff',
+										cancelSize : 18,
+										finishBg : 'rgba(0,0,0,0)',
+										finishColor : '#fff',
+										finishSize : 18
+									}
+								}
+							}, function(ret) {
+								if (ret) {
+									for (var i = 0; i < ret.list.length; i++) {
+										var selectImg = ret.list[i];
+										// 获取图片的路径c
+										var selectimgPath = selectImg.path;
+										var selectimgThumbPath = selectImg.thumbPath;
+										// 图片压缩
+										imgCompress(selectimgPath, 0.5, 0.5, selectImg.suffix, function(compressImg) {
+											// 追加图片
+											$("#addpic").before('<li class="aui-list-view-cell aui-img aui-col-xs-4"><img class="aui-img-object" src="' + compressImg + '" style="width:' + normalW + 'px;height:' + normalW + 'px;"></li>');
+											// ########################################  绑定长按事件 ########################
+											addPress($("#imgslist img[src='" + compressImg + "']").parent("li"));
+											// ########################################
+											// ################### 上传图片 #########################
+											uploadFile(window.serverUrl + '/img_upload/token/' + userobj.token + '/user_id/' + userobj.id, compressImg, function(serverImg) {
+												upimgpath += serverImg.img + ',';
+											});
+										});
+									}
+								}
+							});
+							break;
+					}
+				});
+			});
+			$("#consulting").on("tap", function() {
+				var answers_text = $("#answers_text").val();
+				if (answers_text) {
+					api.showProgress({
+						title : '请稍等。。'
+					});
+					api.ajax({
+						url : window.serverUrl + 'bbs_add/token/' + userobj.token + 'user_id' + userobj.id,
+						method : 'post',
+						data : {
+							value : {
+								"content" : answers_text,
+								"from" : api.deviceModel,
+								"img" : upimgpath			
+							}
+						}
+					}, function(ret, err) {
+						api.hideProgress();
+						if (ret && ret.retCode == 1) {
+							H.$openWin("answers_header", "answers_header.html");
+							H.$closeCurrentWin();
+						} else {
+							api.toast({
+								msg : ret.retDesc
+							});
+						}
+					});
+				} else {
+					api.toast({
+						msg : '抱歉，您还没写提问详情'
+					});
+				}
+			});
 		});
-		H.ready(function(){
-			
+		H.ready(function() {
+			api.getPrefs({
+				key : 'userinfo'
+			}, function(ret, err) {
+				userobj = eval('(' + ret.value + ')');
+				$("#user_id").text(userobj.username);
+			});
+			// 引入多选模块
+			uiMediaScanner = api.require('UIMediaScanner');
+			// 引入过滤压缩模块
+			imageFilter = api.require("imageFilter");
+			// 引入图片浏览模块
+			imageBrowser = api.require('imageBrowser');
 		});
 	</script>
 </html>
