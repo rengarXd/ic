@@ -57,6 +57,18 @@
 	<script type="text/javascript">
 		var userobj = null, uiMediaScanner = null, imageFilter = null, imageBrowser = null;
 		var upimgpath = "";
+		//生成随机文件名
+		function NewGuid() {
+			function S4() {
+				return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+			}
+
+			return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
+		}
+		// 获取文件拓展名
+		function getExt(fileName) {
+			return fileName.substring(fileName.lastIndexOf('.') + 1);
+		}
 		// 图片压缩
 		// imgsrc：源图片的路径
 		// quality：图片压缩质量，一般建议0.5
