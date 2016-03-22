@@ -61,12 +61,34 @@
 				margin-right: 20px;
 				color: #B3B3B3;
 			}
+			.aui-content {
+				margin-bottom: 10px !important;
+			}
+			.aui-content > .aui-list-view:last-child {
+				margin-bottom: 10px !important;
+			}
+			.aui-list-view {
+				margin-bottom: 10px !important;
+			}
+			.aui-list-view i.aui-iconfont {
+				padding: 5px;
+				border-radius: 50%;
+				-moz-border-radius: 50%;
+				-khtml-border-radius: 50%;
+				-webkit-border-radius: 50%;
+				margin-right: 10px;
+				color: #ffffff;
+				font-size: 1.1em;
+			}
+			.aui-bg-blue {
+				background-color: #4875C5 !important;
+			}
 		</style>
 	</head>
 	<body>
-		<div class="usercenter_avatar" style=" margin-top: 15px">
+		<div class="usercenter_avatar" style=" padding-top: 10px">
 			<ul class="aui-list-view">
-				<li class="aui-list-view-cell" tapmode data-funcName="user_message_header">
+				<li class="aui-list-view-cell" data-funcName="user_message_header" tapmode>
 					<div class="aui-arrow-right">
 						<i style="float: left"><img src="../../image/noavatar.gif" class="avatar_pic" /></i>
 						<span style="float:left;margin-left: 10px;"><span id="username"></span>
