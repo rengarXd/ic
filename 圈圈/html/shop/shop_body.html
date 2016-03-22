@@ -53,7 +53,7 @@
 				height: 42px;
 				overflow: hidden;
 			}
-				p.goods-title {
+			p.goods-title {
 				font-size: 1em;
 				color: #333;
 			}
@@ -123,7 +123,6 @@
 	<script type="text/javascript" src="../../script/laytpl.js"></script>
 	<script type="text/javascript">
 		H.ready(function() {
-			api.parseTapmode();
 			api.getPrefs({
 				key : 'userinfo'
 			}, function(ret, err) {
@@ -140,9 +139,6 @@
 							document.getElementById('shopdata_body').innerHTML = render;
 						});
 					} else {
-						api.$toast({
-							msg : '非法请求！'
-						});
 					}
 				});
 			});

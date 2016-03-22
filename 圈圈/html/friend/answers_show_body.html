@@ -114,7 +114,7 @@
 			<li class="aui-user-view-cell aui-img">
 			<img class="aui-img-object aui-pull-left" src="http://q.endzk.com/{{ d.bbs_ask[i].head_ico }}">
 			<div class="aui-img-body">
-			<span>{{ d.bbs_ask[i].username }}<em>{{ d.bbs_ask[i].time }}</em></span>
+			<span>{{ d.bbs_ask[i].username }}<em>{{ H.$com.jsDateDiff(d.bbs_ask[i].time) }}</em></span>
 			<p class='aui-ellipsis-1'>
 			{{ d.bbs_ask[i].content }}
 			</p>
@@ -153,7 +153,7 @@
 			});
 		});
 		//1、获取数据 isshow为false则不显示  评论page 页数
-		function get_data(isshow,isbutton) {
+		function get_data(isshow, isbutton) {
 			//1.2 接收要获取的问答ID
 			bbs = H.$getPageParam();
 			api.getPrefs({
@@ -182,7 +182,7 @@
 							$("#answer_name").html(ret.retValue.bbscontent[0].username);
 							$("#answer_from").html("来自：" + ret.retValue.bbscontent[0].fromdevice);
 							$("#answer_content").html(ret.retValue.bbscontent[0].content);
-							$("#answer_time").html(ret.retValue.bbscontent[0].time);
+							$("#answer_time").html(H.$com.jsDateDiff(ret.retValue.bbscontent[0].time));
 							$("#answer_askcount").html("回复(" + ret.retValue.bbscontent[0].askcount + ")");
 							//图片渲染
 							if (ret.retValue.bbscontent[0].imgs.length > 0) {
@@ -213,7 +213,6 @@
 									//H.$com.scrollToDocButton();
 								});
 							} else {
-								alert(page);
 								var tpl = document.getElementById('answers_data').innerHTML;
 								laytpl(tpl).render(ret.retValue, function(render) {
 									document.getElementById('answers_body').innerHTML = render;
@@ -233,7 +232,7 @@
 
 		//2、获取更多的分页数据
 		H.ready(function() {
-			get_data(true,true);
+			get_data(true, true);
 			photoBrowser = api.require('photoBrowser');
 			//6 回复框
 			var inputField = api.require('inputField');
@@ -264,7 +263,7 @@
 							api.toast({
 								msg : ret.retDesc,
 							});
-							get_data(false,true);
+							get_data(false, true);
 						} else if (ret && ret.retCode == 0) {
 							api.toast({
 								msg : ret.retDesc,
@@ -289,7 +288,7 @@
 			H.$scrolltobottom(function(ret, err) {
 				$(".loading").show();
 				//8 滚动底部重新加载
-				get_data(false,false);
+				get_data(false, false);
 			});
 		});
 	</script>

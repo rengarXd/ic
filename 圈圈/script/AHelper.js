@@ -15,12 +15,12 @@
 
 	// 全局模块
 	var modules = {};
-	
+
 	//常规api请求地址
 	window.serverUrl = "http://q.endzk.com/apis";
 	//设备访问api请求地址
 	window.deviceserverUrl = "http://q.endzk.com/deviceapi";
-	
+
 	//常规静态资源请求地址
 	window.serverUrlPath = "http://q.endzk.com/";
 
@@ -137,6 +137,29 @@
 		// @func：方法句柄
 		isFunction : function(func) {
 			return ( typeof func == "function");
+		},
+		// 时间转转个性化时间
+		// time 时间 2015-12-34 12:23:12
+		jsDateDiff : function(publishTime) {
+			var d_minutes, d_hours, d_days;
+			var timeNow = parseInt(new Date().getTime() / 1000);
+			var d;
+			d = timeNow - publishTime;
+			d_days = parseInt(d / 86400);
+			d_hours = parseInt(d / 3600);
+			d_minutes = parseInt(d / 60);
+			if (d_days > 0 && d_days < 4) {
+				return d_days + "天前";
+			} else if (d_days <= 0 && d_hours > 0) {
+				return d_hours + "小时前";
+			} else if (d_hours <= 0 && d_minutes > 0) {
+				return d_minutes + "分钟前";
+			} else {
+//				var s = new Date(publishTime * 1000);
+				// s.getFullYear()+"年";
+				return "刚刚发表";
+
+			}
 		},
 		// 判断是否是json对象
 		// @obj：对象
@@ -1748,7 +1771,7 @@
 		// @isHidden：是否隐藏
 		// @isHidden：是否隐藏
 		$setFrameGroupStatus : function(groupName, isHidden) {
-			$$apicloud.setFrameGroupStatus(groupName,isHidden);
+			$$apicloud.setFrameGroupStatus(groupName, isHidden);
 		},
 		// 设置窗口组的显示索引
 		// @options：配置对象或者显示索引
@@ -1890,7 +1913,7 @@
 		$cancelAjax : function(tag) {
 			$$apicloud.cancelAjax(tag);
 		},
-		
+
 		// 快速ajax异步请求
 		// @callback：回调函数
 		// @url：请求地址
@@ -2105,7 +2128,7 @@
 					mkeyTime = new Date().getTime();
 					$$apicloud.toast(function() {
 					}, {
-						msg : '再按一次退出'+api.appName,
+						msg : '再按一次退出' + api.appName,
 						duration : 2000
 					});
 				} else {
