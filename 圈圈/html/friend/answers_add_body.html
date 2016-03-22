@@ -284,13 +284,13 @@
 						title : '请稍等。。'
 					});
 					api.ajax({
-						url : window.serverUrl + 'bbs_add/token/' + userobj.token + 'user_id' + userobj.id,
+						url : window.serverUrl + 'bbs_add/token/' + userobj.token + '/user_id/' + userobj.id,
 						method : 'post',
 						data : {
-							value : {
+							values : {
 								"content" : answers_text,
-								"from" : api.deviceModel,
-								"img" : upimgpath			
+								"fromdevice" : api.deviceModel,
+								"imgs" : upimgpath			
 							}
 						}
 					}, function(ret, err) {
