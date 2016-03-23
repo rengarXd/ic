@@ -9,24 +9,21 @@
 		<link rel="stylesheet" type="text/css" href="../../css/fonts/iconfont.css" />
 		<style>
 			.username {
-			position: relative !important;
-			float: right !important;
+				position: relative !important;
+				float: right !important;
 			}
 			.wenzhen_btn_wen {
-			color: #fff;
-			position: fixed;
-			bottom: 0;
-			border-radius: 0;
-			margin: 0;
-			border: 0;
-			z-index: 4;
-			background: -webkit-gradient(linear, left top, left bottom, from(#ff7f27), to(#ff6001));
+				color: #fff;
+				position: fixed;
+				bottom: 0;
+				border-radius: 0;
+				margin: 0;
+				border: 0;
+				z-index: 4;
+				background: -webkit-gradient(linear, left top, left bottom, from(#ff7f27), to(#ff6001));
 			}
 			.wenzhen_btn_wen:active {
-			background: -webkit-gradient(linear, left top, left bottom, from(#ff6001), to(#ff9001));
-			}
-			.addimg{
-			width:
+				background: -webkit-gradient(linear, left top, left bottom, from(#ff6001), to(#ff9001));
 			}
 		</style>
 	</head>
@@ -62,7 +59,7 @@
 	<script type="text/javascript" src="../../script/hammer.min.js"></script>
 	<script type="text/javascript">
 		var userobj = null, uiMediaScanner = null, imageFilter = null, imageBrowser = null;
-		var upimgpath = "",zipnum = 0 upnum = 0;
+		var upimgpath = "", zipnum = 0, upnum = 0;
 		//生成随机文件名
 		function NewGuid() {
 			function S4() {
@@ -174,7 +171,6 @@
 			}, function(ret, err) {
 				if (ret) {
 					if (ret.retCode == 1) {
-						
 						upimgpath += ret.retValue.img + ',';
 						upnum = upnum + 1;
 						callback(ret.retValue);
@@ -240,7 +236,6 @@
 										// ########################################
 										// ################### 上传图片 #########################
 										uploadFile(window.serverUrl + '/img_upload/token/' + userobj.token + '/user_id/' + userobj.id, compressImg, function(serverImg) {
-											
 										});
 									});
 								} else {
@@ -301,7 +296,6 @@
 											// ########################################
 											// ################### 上传图片 #########################
 											uploadFile(window.serverUrl + '/img_upload/token/' + userobj.token + '/user_id/' + userobj.id, compressImg, function(serverImg) {
-											
 											});
 										});
 									}
@@ -313,10 +307,32 @@
 			});
 			$("#consulting").on("tap", function() {
 				api.showProgress({
-					title:"图片上传中"
-                });
-				if (isPicOver(zipnum,upnum)){	
-					api.hideProgress();				
+					title : "图片上传中"
+				});
+				isPicOver();
+			});
+		});
+		H.ready(function() {
+			api.getPrefs({
+				key : 'userinfo'
+			}, function(ret, err) {
+				userobj = eval('(' + ret.value + ')');
+				$("#user_id").text(userobj.username);
+			});
+			// 引入多选模块
+			uiMediaScanner = api.require('UIMediaScanner');
+			// 引入过滤压缩模块
+			imageFilter = api.require("imageFilter");
+			// 引入图片浏览模块
+			imageBrowser = api.require('imageBrowser');
+		});
+		function isPicOver() {
+			var timer = setInterval('callbacks();', 50);
+		}
+
+		function callbacks() {
+			if (picn == upn) {
+				api.hideProgress();
 				var answers_text = $("#answers_text").val();
 				if (answers_text) {
 					api.showProgress({
@@ -351,39 +367,7 @@
 						msg : '抱歉，您还没写提问详情'
 					});
 				}
-			});
-			} else {
-				api.toast({
-	                msg:'请稍等图片正在上传。。'
-                });
 			}
-		});
-		H.ready(function() {
-			api.getPrefs({
-				key : 'userinfo'
-			}, function(ret, err) {
-				userobj = eval('(' + ret.value + ')');
-				$("#user_id").text(userobj.username);
-			});
-			// 引入多选模块
-			uiMediaScanner = api.require('UIMediaScanner');
-			// 引入过滤压缩模块
-			imageFilter = api.require("imageFilter");
-			// 引入图片浏览模块
-			imageBrowser = api.require('imageBrowser');
-		});
-		
-		function isPicOver(picn,upn){
-			var timer = setInterval(
-				if(picn==upn){
-					clearInterval(timer);
-					callbacks();	
-				}
-			,50);
-		}
-		
-		function callbacks(){
-			return true;
 		}
 	</script>
 </html>
