@@ -25,6 +25,9 @@
 			.wenzhen_btn_wen:active {
 				background: -webkit-gradient(linear, left top, left bottom, from(#ff6001), to(#ff9001));
 			}
+			.addimg{
+				width:
+			}
 		</style>
 	</head>
 	<body>
@@ -44,9 +47,9 @@
 			</div>
 		</div>
 		<div class="aui-content" style="margin-bottom: 68px;">
-			<ul class="aui-list-view " id="imgslist">
-				<li class="aui-list-view-cell aui-img aui-col-xs-4" id="addpic">
-					<img class="aui-img-object" src="../../image/add.jpg">
+			<ul class="aui-list-view aui-grid-view" id="imgslist">
+				<li class="aui-list-view-cell aui-img aui-col-xs-3" id="addpic">
+					<img class="aui-img-object addimg" style="margin-right: 5px;" src="../../image/add.jpg">
 				</li>
 			</ul>
 		</div>
@@ -226,7 +229,7 @@
 									var returnUrl = ret.data;
 									// 图片压缩
 									imgCompress(returnUrl, 0.5, 0.5, getExt(returnUrl), function(compressImg) {
-										var showImgHtml = '<li class="aui-list-view-cell aui-img aui-col-xs-4"><img class="aui-img-object" src="' + compressImg + '" style="width:' + normalW + 'px;height:' + normalW + 'px;"></li>';
+										var showImgHtml = '<li class="aui-list-view-cell aui-img aui-col-xs-3"><img class="aui-img-object" src="' + compressImg + '" style="width:' + normalW + 'px;height:' + normalW + 'px;"></li>';
 										// 追加图片
 										$("#addpic").before(showImgHtml);
 										// ########################################  绑定长按事件 ########################
@@ -289,7 +292,7 @@
 										// 图片压缩
 										imgCompress(selectimgPath, 0.5, 0.5, selectImg.suffix, function(compressImg) {
 											// 追加图片
-											$("#addpic").before('<li class="aui-list-view-cell aui-img aui-col-xs-4"><img class="aui-img-object" src="' + compressImg + '" style="width:' + normalW + 'px;height:' + normalW + 'px;"></li>');
+											$("#addpic").before('<li class="aui-list-view-cell aui-img aui-col-xs-3"><img class="aui-img-object" src="' + compressImg + '" style="width:' + normalW + 'px;height:' + normalW + 'px;"></li>');
 											// ########################################  绑定长按事件 ########################
 											addPress($("#imgslist img[src='" + compressImg + "']").parent("li"));
 											// ########################################
