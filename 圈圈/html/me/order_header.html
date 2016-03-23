@@ -1,0 +1,104 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>我的订单头部</title>
+		<link rel="stylesheet" type="text/css" href="../../css/aui-win.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/winu-ui.css" />
+		<style type="text/css">
+			.aui-bar-1d9dd5 {
+				background: #1786FF;
+			}
+			.aui-bar-b23e4b {
+				background: #b23e4b;
+			}
+			#nav-list {
+				margin-top: 45px;
+				background: #fff;
+			}
+			#nav-list ul {
+				width: 100%;
+				height: 44px;
+				border-bottom: 1px solid #e2e2e2;
+			}
+			#nav-list ul li a {
+				color: #8A8888;
+				display: block;
+				width: 100%;
+				height: 43px;
+				text-align: center;
+				line-height: 43px;
+				border-bottom: 2px solid #fff;
+				font-size: 14px;
+			}
+			#nav-list ul li a.on {
+				color: #4385f6;
+				border-bottom: 3px solid #4385f6;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="aui-bar aui-bar-nav aui-bar-1d9dd5" id='aui-header'>
+			<a class="aui-pull-left" tapmode  onclick="H.$closeCurrentWin();"> <span class="aui-iconfont aui-icon-left"></span>返回 </a>
+			<div class="aui-title">
+				我的订单
+			</div>
+			<nav id="nav-list">
+				<ul class="winu-flex-box-horizontal">
+					<li class="winu-flex-item" tapmode >
+						<a class="on">全部</a>
+					</li>
+					<li class="winu-flex-item winu-center-all" tapmode >
+						<a>待付款</a>
+					</li>
+					<li class="winu-flex-item winu-center-all" tapmode >
+						<a>待发货</a>
+					</li>
+					<li class="winu-flex-item winu-center-all" tapmode >
+						<a>待收货</a>
+					</li>
+				</ul>
+			</nav>
+		</header>
+	</body>
+	<script type="text/javascript" src="../../script/AHelper.js"></script>
+	<script type="text/javascript" src="../../script/zepto.min.js"></script>
+	<script type="text/javascript">
+		function setStyle(index) {
+			var that = $("#nav-list li").eq(index);
+			that.children("a").addClass("on").parent().siblings().children("a").removeClass("on");
+		}
+
+		Zepto(function($) {
+			$("#nav-list").on("tap", "li", function() {
+				var that = $(this);
+				var index = that.index();
+				setStyle(index);
+				// 设置索引
+				H.$setFrameGroupIndex('groups', index);
+			});
+		});
+		H.ready(function() {
+			H.$openFrameGroupWithNav(function(ret, err) {
+				setStyle(ret.index);
+			}, 'aui-header', {
+				name : 'groups',
+				frames : [{
+					url : 'order_all_body.html',
+					name : 'order_all_body'
+				}, {
+					url : 'order_payment_body.html',
+					name : 'order_payment_body'
+				}, {
+					url : 'order_deliver_body.html',
+					name : 'order_deliver_body'
+				}, {
+					url : 'order_receipt_body.html',
+					name : 'order_receipt_body'
+				}]
+			});
+		});
+	</script>
+</html>
