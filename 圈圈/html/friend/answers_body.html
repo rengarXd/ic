@@ -53,9 +53,9 @@
 				border: 0;
 				color: #fff;
 				border-radius: 0;
-				position:fixed;
-				bottom:0px;
-				left:0px;
+				position: fixed;
+				bottom: 0px;
+				left: 0px;
 				background: -webkit-gradient(linear, left top, left bottom, from(#ff7f27), to(#ff6001));
 			}
 			.wenzhen_btn_wen:active {
@@ -113,10 +113,9 @@
 			<div class="aui-content-title">
 				最新问题
 			</div>
-			<div class="aui-line-x" id="answer_body"></div>
-	
+			<div class="aui-line-x"></div>
+			<div id="answer_body"></div>
 		</div>
-		
 		<script id="answer_data" type="text/html">
 			<ul class="aui-list-view" >
 			{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
@@ -143,9 +142,9 @@
 			</ul>
 		</script>
 		<!--最新问题-->
-				<!--撑开下部层页面-->
-			<div style="height:50px;"></div>
-			<!--撑开下部层页面-->
+		<!--撑开下部层页面-->
+		<div style="height:50px;"></div>
+		<!--撑开下部层页面-->
 		<div class="aui-btn aui-btn-block wenzhen_btn_wen" id="answers_add" tapmode>
 			发布问答
 		</div>
@@ -160,12 +159,12 @@
 				H.$openWin("answers_add_header", "answers_add_header.html");
 			});
 		});
-		
 		function to_answers(id) {
 			H.$openWin("answers_show_header", "answers_show_header.html", {
 				id : id,
 			});
 		}
+
 		function answer_main() {
 			bbs = H.$getPageParam();
 			api.getPrefs({
@@ -188,18 +187,16 @@
 						});
 					} else {
 						api.toast({
-	                        msg:err.body
-                        });
+							msg : err.body
+						});
 					}
 				});
 				// 1、 最新问题
-				
 				api.ajax({
 					url : window.serverUrl + '/bbs_list/token/' + userobj.token,
 					cache : true
 				}, function(ret, err) {
 					if (ret && ret.retCode == 1) {
-						
 						//alert(JSON.stringify(ret.retValue));
 						var tpl = document.getElementById('answer_data').innerHTML;
 						//读取模版
