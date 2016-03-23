@@ -62,7 +62,7 @@
 	<script type="text/javascript" src="../../script/hammer.min.js"></script>
 	<script type="text/javascript">
 		var userobj = null, uiMediaScanner = null, imageFilter = null, imageBrowser = null;
-		var upimgpath = "", picnember = 0;
+		var upimgpath = "";
 		//生成随机文件名
 		function NewGuid() {
 			function S4() {
@@ -173,14 +173,10 @@
 			}, function(ret, err) {
 				if (ret) {
 					if (ret.retCode == 1) {
-						picnember = picnember + 1;
-						if (picnember >= 8) {
-							api.toast({
-								msg : '抱歉最多发布8张图片'
-							});
-						} else {
-							callback(ret.retValue);
-						}
+						
+						upimgpath += ret.retValue.img + ',';
+						alert(upimgpath);
+						callback(ret.retValue);
 					} else if (ret.retCode == 0) {
 						alert("上传失败");
 					}
@@ -243,7 +239,7 @@
 										// ########################################
 										// ################### 上传图片 #########################
 										uploadFile(window.serverUrl + '/img_upload/token/' + userobj.token + '/user_id/' + userobj.id, compressImg, function(serverImg) {
-											upimgpath += serverImg.img + ',';
+											
 										});
 									});
 								} else {
@@ -259,7 +255,7 @@
 								type : 'picture',
 								column : 4,
 								classify : true,
-								max : 6,
+								max : 3,
 								sort : {
 									key : 'time',
 									order : 'desc'
@@ -304,7 +300,7 @@
 											// ########################################
 											// ################### 上传图片 #########################
 											uploadFile(window.serverUrl + '/img_upload/token/' + userobj.token + '/user_id/' + userobj.id, compressImg, function(serverImg) {
-												upimgpath += serverImg.img + ',';
+											
 											});
 										});
 									}
