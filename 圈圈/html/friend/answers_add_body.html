@@ -43,17 +43,21 @@
 				</div>
 			</div>
 		</div>
-		<div class="aui-content">
-			<div class=" aui-grid-view"  style="left: 30px;" id="imgslist">
-				<img class="aui-col-xs-4 aui-img-object" id="addpic" src="../../image/add.jpg">
-			</div>
+		<div class="aui-content" style="margin-bottom: 68px;">
+			<ul class="aui-list-view " id="imgslist">
+				<li class="aui-list-view-cell aui-img aui-col-xs-4" id="addpic">
+					<img class="aui-img-object" src="../../image/add.jpg">
+				</li>
+			</ul>
 		</div>
 		<div class="aui-btn aui-btn-block wenzhen_btn_wen" id="consulting">
-			发布！
-		</div>
+		发布！
+	</div>
 	</body>
+	
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
+	<script type="text/javascript" src="../../script/hammer.min.js"></script>
 	<script type="text/javascript">
 		var userobj = null, uiMediaScanner = null, imageFilter = null, imageBrowser = null;
 		var upimgpath = "";
@@ -65,10 +69,29 @@
 
 			return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
 		}
+
 		// 获取文件拓展名
 		function getExt(fileName) {
 			return fileName.substring(fileName.lastIndexOf('.') + 1);
 		}
+
+		//				获取当前时间
+		function getNowFormatDate() {
+			var date = new Date();
+			var seperator1 = "-";
+			var year = date.getFullYear();
+			var month = date.getMonth() + 1;
+			var strDate = date.getDate();
+			if (month >= 1 && month <= 9) {
+				month = "0" + month;
+			}
+			if (strDate >= 0 && strDate <= 9) {
+				strDate = "0" + strDate;
+			}
+			var currentdate = year + seperator1 + month + seperator1 + strDate
+			return currentdate;
+		}
+
 		// 图片压缩
 		// imgsrc：源图片的路径
 		// quality：图片压缩质量，一般建议0.5
@@ -161,6 +184,11 @@
 		}
 
 		Zepto(function($) {
+			$("#yonghu").on("tap", function() {
+				api.toast({
+					msg : '用户名不能在这里更改哦'
+				});
+			});
 			var normalW = $("#addpic img").width();
 			// ###############################################################
 			// 为图片添加点击预览功能,排除添加按钮
@@ -290,14 +318,15 @@
 							values : {
 								"content" : answers_text,
 								"fromdevice" : api.deviceModel,
-								"imgs" : upimgpath			
+								"imgs" : upimgpath
 							}
 						}
 					}, function(ret, err) {
 						api.hideProgress();
 						if (ret && ret.retCode == 1) {
 							H.$openWin("answers_header", "answers_header.html");
-							H.$closeCurrentWin();
+							api.closeWin({
+                            });
 						} else {
 							api.toast({
 								msg : ret.retDesc
