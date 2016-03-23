@@ -47,6 +47,13 @@
 				width: 35px !important;
 				height: 35px !important;
 			}
+			.aui-col-xs-3 {
+				padding-right: 5px;
+			}
+			.aui-col-xs-3 img {
+				height: 80px !important;
+				width: 100% !important;
+			}
 		</style>
 	</head>
 	<body>
@@ -112,6 +119,14 @@
 			</div>
 			<p style="margin-top: 5px; margin-bottom: 5px;">
 			{{ d.retValue[i].inter}}
+			{{# if(d.retValue[i].imgs.length>0){ }}
+			<div class="aui-content" style="display: inline-block;" id="an_photo">
+			{{# for (var ii = 0, lens = d.retValue[i].imgs.length; ii < lens; ii ++) { }}
+			<div class="aui-col-xs-3"><img src="http://q.endzk.com/{{ d.retValue[i].imgs[ii].im }}" alt="" class="aui-img" />
+			</div>
+			</div>
+			{{# } }}
+			{{# } }}
 			</p>
 			<h6>{{ H.$com.jsDateDiff(d.retValue[i].time) }}<span style="float: right">回复（{{ d.retValue[i].askcount}}）</span></h6>
 			</li>
