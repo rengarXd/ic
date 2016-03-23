@@ -42,7 +42,7 @@
 				<input type="text" class="aui-input" placeholder="问答标题（必填）"/>
 				</div>-->
 				<div class="aui-input-row" style="width: 100%">
-					<textarea name="" id="answers_text" cols="30" rows="10" class="aui-input" placeholder="请输入你要发的内容："></textarea>
+					<textarea name="" id="answers_text" cols="30" rows="10" maxlength="30" class="aui-input" placeholder="请输入你要发的内容："></textarea>
 				</div>
 			</div>
 		</div>
@@ -62,7 +62,7 @@
 	<script type="text/javascript" src="../../script/hammer.min.js"></script>
 	<script type="text/javascript">
 		var userobj = null, uiMediaScanner = null, imageFilter = null, imageBrowser = null;
-		var upimgpath = "";
+		var upimgpath = "",zipnum = 0 upnum = 0;
 		//生成随机文件名
 		function NewGuid() {
 			function S4() {
@@ -116,6 +116,7 @@
 				}
 			}, function(ret, err) {
 				if (ret) {
+					zipnum = zipnum + 1;
 					callback(savePath + savename);
 				} else {
 					alert(JSON.stringify(err));
@@ -175,7 +176,7 @@
 					if (ret.retCode == 1) {
 						
 						upimgpath += ret.retValue.img + ',';
-						alert(upimgpath);
+						upnum = upnum + 1;
 						callback(ret.retValue);
 					} else if (ret.retCode == 0) {
 						alert("上传失败");
@@ -311,6 +312,11 @@
 				});
 			});
 			$("#consulting").on("tap", function() {
+				api.showProgress({
+					title:"图片上传中"
+                });
+				if (isPicOver(zipnum,upnum)){	
+					api.hideProgress();				
 				var answers_text = $("#answers_text").val();
 				if (answers_text) {
 					api.showProgress({
@@ -346,6 +352,11 @@
 					});
 				}
 			});
+			} else {
+				api.toast({
+	                msg:'请稍等图片正在上传。。'
+                });
+			}
 		});
 		H.ready(function() {
 			api.getPrefs({
@@ -361,5 +372,18 @@
 			// 引入图片浏览模块
 			imageBrowser = api.require('imageBrowser');
 		});
+		
+		function isPicOver(picn,upn){
+			var timer = setInterval(
+				if(picn==upn){
+					clearInterval(timer);
+					callbacks();	
+				}
+			,50);
+		}
+		
+		function callbacks(){
+			return true;
+		}
 	</script>
 </html>
