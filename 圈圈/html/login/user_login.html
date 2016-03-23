@@ -377,6 +377,9 @@
 													//存储用户信息
 													H.$setPrefs(function(ret, err) {
 														H.$openWin('main', '../main.html');
+														api.sendEvent({
+															name : 'pagereload',
+														});
 													}, 'userinfo', JSON.stringify(ret.retValue[0]));
 												} else {
 													H.$hideProgress();
@@ -456,8 +459,8 @@
 			//所有的代码都写在H.ready(function(){})
 			H.ready(function() {
 				var types = H.$getPageParam();
-				if(types.type == 1){
-					H.$execScript('main','index','closeindex();');
+				if (types.type == 1) {
+					H.$execScript('main', 'index', 'closeindex();');
 				}
 				H.$dblclickToCloseApp(function() {
 				});

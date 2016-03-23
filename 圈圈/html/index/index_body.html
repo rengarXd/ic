@@ -203,7 +203,6 @@
 		</style>
 	</head>
 	<body>
-	
 		<!--首页广告幻灯开始-->
 		<div class="swiper-container">
 			<div class="swiper-wrapper" id="index_addata_body"></div>
@@ -274,7 +273,7 @@
 		</div>
 		<script id="index_kbdata" type="text/html">
 			{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
-			<li>
+			<li style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
 			<span class="dian_{{ i }}"></span><a href="#">{{ d.retValue[i].title }}</a>
 			</li>
 			{{# } }}
@@ -431,12 +430,23 @@
 			H.$dropdownToRefresh(function(ret, err) {
 				get_data();
 			});
+			//添加页刷新的监听
+			api.addEventListener({
+				name : 'pagereload'
+			}, function(ret, err) {
+				if (ret) {
+					location.reload();
+				} else {
+				}
+			});
 		});
 		/**
-		 * 首页今日精选商品 
+		 * 首页今日精选商品
 		 */
 		function openGoods(goodId) {
-			H.$openWin('shop_show_header','../shop/shop_show_header.html',{goodId:goodId});
+			H.$openWin('shop_show_header', '../shop/shop_show_header.html', {
+				goodId : goodId
+			});
 		}
 
 		function closeindex() {
