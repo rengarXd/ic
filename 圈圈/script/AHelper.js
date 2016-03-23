@@ -139,7 +139,7 @@
 			return ( typeof func == "function");
 		},
 		// 时间转转个性化时间
-		// time 时间 2015-12-34 12:23:12
+		// time 时间 
 		jsDateDiff : function(publishTime) {
 			var d_minutes, d_hours, d_days;
 			var timeNow = parseInt(new Date().getTime() / 1000);
@@ -157,7 +157,7 @@
 			} else {
 //				var s = new Date(publishTime * 1000);
 				// s.getFullYear()+"年";
-				return "刚刚发表";
+				return "刚刚";
 
 			}
 		},
