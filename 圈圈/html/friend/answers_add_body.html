@@ -9,24 +9,24 @@
 		<link rel="stylesheet" type="text/css" href="../../css/fonts/iconfont.css" />
 		<style>
 			.username {
-				position: relative !important;
-				float: right !important;
+			position: relative !important;
+			float: right !important;
 			}
 			.wenzhen_btn_wen {
-				color: #fff;
-				position: fixed;
-				bottom: 0;
-				border-radius: 0;
-				margin: 0;
-				border: 0;
-				z-index: 4;
-				background: -webkit-gradient(linear, left top, left bottom, from(#ff7f27), to(#ff6001));
+			color: #fff;
+			position: fixed;
+			bottom: 0;
+			border-radius: 0;
+			margin: 0;
+			border: 0;
+			z-index: 4;
+			background: -webkit-gradient(linear, left top, left bottom, from(#ff7f27), to(#ff6001));
 			}
 			.wenzhen_btn_wen:active {
-				background: -webkit-gradient(linear, left top, left bottom, from(#ff6001), to(#ff9001));
+			background: -webkit-gradient(linear, left top, left bottom, from(#ff6001), to(#ff9001));
 			}
 			.addimg{
-				width:
+			width:
 			}
 		</style>
 	</head>
@@ -54,16 +54,15 @@
 			</ul>
 		</div>
 		<div class="aui-btn aui-btn-block wenzhen_btn_wen" id="consulting">
-		发布！
-	</div>
+			确认发布
+		</div>
 	</body>
-	
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript" src="../../script/hammer.min.js"></script>
 	<script type="text/javascript">
 		var userobj = null, uiMediaScanner = null, imageFilter = null, imageBrowser = null;
-		var upimgpath = "";
+		var upimgpath = "", picnember = 0;
 		//生成随机文件名
 		function NewGuid() {
 			function S4() {
@@ -174,7 +173,14 @@
 			}, function(ret, err) {
 				if (ret) {
 					if (ret.retCode == 1) {
-						callback(ret.retValue);
+						picnember = picnember + 1;
+						if (picnember >= 8) {
+							api.toast({
+								msg : '抱歉最多发布8张图片'
+							});
+						} else {
+							callback(ret.retValue);
+						}
 					} else if (ret.retCode == 0) {
 						alert("上传失败");
 					}
@@ -312,7 +318,7 @@
 				var answers_text = $("#answers_text").val();
 				if (answers_text) {
 					api.showProgress({
-						title : '请稍等。。'
+						title : '正在发布'
 					});
 					api.ajax({
 						url : window.serverUrl + '/bbs_add/token/' + userobj.token + '/user_id/' + userobj.id,
@@ -327,9 +333,11 @@
 					}, function(ret, err) {
 						api.hideProgress();
 						if (ret && ret.retCode == 1) {
-							H.$openWin("answers_header", "answers_header.html");
+							api.sendEvent({
+								name : 'answers_pagereload',
+							});
 							api.closeWin({
-                            });
+							});
 						} else {
 							api.toast({
 								msg : ret.retDesc

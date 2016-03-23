@@ -73,7 +73,7 @@
 		<!--添加图片-->
 		<div class="aui-content" style="margin-bottom: 68px;">
 			<ul class="aui-list-view aui-grid-view" id="imgslist">
-				<li class="aui-list-view-cell aui-img aui-col-xs-4" id="addpic">
+				<li class="aui-list-view-cell aui-img aui-col-xs-3" id="addpic">
 					<img class="aui-img-object" src="../../image/add.jpg">
 				</li>
 			</ul>
@@ -94,7 +94,7 @@
 	<script type="text/javascript" src="../../script/hammer.min.js"></script>
 	<script type="text/javascript">
 		var uiMediaScanner = null, imageFilter = null, imageBrowser = null, bMap = null, retobj = null;
-		var temps_html = "";
+		var temps_html = "", picnumber = 0;
 		//组装最后的图片路径
 		var upimgpath = "";
 		function exec() {
@@ -217,6 +217,7 @@
 			}, function(ret, err) {
 				if (ret) {
 					if (ret.retCode == 1) {
+						picnumber = picnumber + 1
 						callback(ret.retValue);
 					} else if (ret.retCode == 0) {
 						alert("上传失败");
@@ -343,93 +344,37 @@
 				openImageBrowser(browerImgs);
 			});
 			$("#imgslist").on("tap", "#addpic", function() {
-				api.actionSheet({
-					title : '请选择图片来源',
-					cancelTitle : '取消',
-					buttons : ['拍照', '相册']
-				}, function(ret, err) {
-					var index = ret.buttonIndex;
-					switch(index) {
-						// 拍照
-						case 1:
-							// 打开拍照
-							api.getPicture({
-								sourceType : "camera",
-								encodingType : "jpg",
-								destinationType : "url",
-								mediaValue : "pic",
-								quality : 50,
-								saveToPhotoAlbum : true
-							}, function(ret, err) {
-								if (ret && ret.data) {
-									// 拍照返回的本地路径
-									var returnUrl = ret.data;
-									// 图片压缩
-									imgCompress(returnUrl, 0.5, 0.5, getExt(returnUrl), function(compressImg) {
-										var showImgHtml = '<li class="aui-list-view-cell aui-img aui-col-xs-4"><img class="aui-img-object" src="' + compressImg + '" style="width:' + normalW + 'px;height:' + normalW + 'px;"></li>';
-										// 追加图片
-										$("#addpic").before(showImgHtml);
-										// ########################################  绑定长按事件 ########################
-										addPress($("#imgslist img[src='" + compressImg + "']").parent("li"));
-										// ########################################
-										// ################### 上传图片 #########################
-										uploadFile(window.serverUrl + '/img_upload/token/' + retobj.token + '/user_id/' + retobj.id, compressImg, function(serverImg) {
-											upimgpath += serverImg.img + ',';
-										});
-									});
-								} else {
-									api.toast({
-										msg : '没有选择，或者选择出错'
-									});
-								}
-							});
-							break;
-						// 打开图片选择器
-						case 2:
-							uiMediaScanner.open({
-								type : 'picture',
-								column : 4,
-								classify : true,
-								max : 6,
-								sort : {
-									key : 'time',
-									order : 'desc'
-								},
-								texts : {
-									stateText : '已选*项',
-									cancelText : '取消',
-									finishText : '完成'
-								},
-								styles : {
-									bg : '#fff',
-									mark : {
-										icon : '',
-										position : 'bottom_left',
-										size : 20
-									},
-									nav : {
-										bg : '#b23e4b',
-										stateColor : '#fff',
-										stateSize : 18,
-										cancelBg : 'rgba(0,0,0,0)',
-										cancelColor : '#fff',
-										cancelSize : 18,
-										finishBg : 'rgba(0,0,0,0)',
-										finishColor : '#fff',
-										finishSize : 18
-									}
-								}
-							}, function(ret) {
-								if (ret) {
-									for (var i = 0; i < ret.list.length; i++) {
-										var selectImg = ret.list[i];
-										// 获取图片的路径c
-										var selectimgPath = selectImg.path;
-										var selectimgThumbPath = selectImg.thumbPath;
+				if (picnumber >= 8) {
+					api.toast({
+						msg : '抱歉，最多发布8张图片'
+					});
+				} else {
+					api.actionSheet({
+						title : '请选择图片来源',
+						cancelTitle : '取消',
+						buttons : ['拍照', '相册']
+					}, function(ret, err) {
+						var index = ret.buttonIndex;
+						switch(index) {
+							// 拍照
+							case 1:
+								// 打开拍照
+								api.getPicture({
+									sourceType : "camera",
+									encodingType : "jpg",
+									destinationType : "url",
+									mediaValue : "pic",
+									quality : 50,
+									saveToPhotoAlbum : true
+								}, function(ret, err) {
+									if (ret && ret.data) {
+										// 拍照返回的本地路径
+										var returnUrl = ret.data;
 										// 图片压缩
-										imgCompress(selectimgPath, 0.5, 0.5, selectImg.suffix, function(compressImg) {
+										imgCompress(returnUrl, 0.5, 0.5, getExt(returnUrl), function(compressImg) {
+											var showImgHtml = '<li class="aui-list-view-cell aui-img aui-col-xs-3"><img class="aui-img-object" src="' + compressImg + '" style="width:' + normalW + 'px;height:' + normalW + 'px;"></li>';
 											// 追加图片
-											$("#addpic").before('<li class="aui-list-view-cell aui-img aui-col-xs-4"><img class="aui-img-object" src="' + compressImg + '" style="width:' + normalW + 'px;height:' + normalW + 'px;"></li>');
+											$("#addpic").before(showImgHtml);
 											// ########################################  绑定长按事件 ########################
 											addPress($("#imgslist img[src='" + compressImg + "']").parent("li"));
 											// ########################################
@@ -438,12 +383,74 @@
 												upimgpath += serverImg.img + ',';
 											});
 										});
+									} else {
+										api.toast({
+											msg : '没有选择，或者选择出错'
+										});
 									}
-								}
-							});
-							break;
-					}
-				});
+								});
+								break;
+							// 打开图片选择器
+							case 2:
+								uiMediaScanner.open({
+									type : 'picture',
+									column : 4,
+									classify : true,
+									max : 6,
+									sort : {
+										key : 'time',
+										order : 'desc'
+									},
+									texts : {
+										stateText : '已选*项',
+										cancelText : '取消',
+										finishText : '完成'
+									},
+									styles : {
+										bg : '#fff',
+										mark : {
+											icon : '',
+											position : 'bottom_left',
+											size : 20
+										},
+										nav : {
+											bg : '#b23e4b',
+											stateColor : '#fff',
+											stateSize : 18,
+											cancelBg : 'rgba(0,0,0,0)',
+											cancelColor : '#fff',
+											cancelSize : 18,
+											finishBg : 'rgba(0,0,0,0)',
+											finishColor : '#fff',
+											finishSize : 18
+										}
+									}
+								}, function(ret) {
+									if (ret) {
+										for (var i = 0; i < ret.list.length; i++) {
+											var selectImg = ret.list[i];
+											// 获取图片的路径c
+											var selectimgPath = selectImg.path;
+											var selectimgThumbPath = selectImg.thumbPath;
+											// 图片压缩
+											imgCompress(selectimgPath, 0.5, 0.5, selectImg.suffix, function(compressImg) {
+												// 追加图片
+												$("#addpic").before('<li class="aui-list-view-cell aui-img aui-col-xs-3"><img class="aui-img-object" src="' + compressImg + '" style="width:' + normalW + 'px;height:' + normalW + 'px;"></li>');
+												// ########################################  绑定长按事件 ########################
+												addPress($("#imgslist img[src='" + compressImg + "']").parent("li"));
+												// ########################################
+												// ################### 上传图片 #########################
+												uploadFile(window.serverUrl + '/img_upload/token/' + retobj.token + '/user_id/' + retobj.id, compressImg, function(serverImg) {
+													upimgpath += serverImg.img + ',';
+												});
+											});
+										}
+									}
+								});
+								break;
+						}
+					});
+				}
 			});
 			//1.发起问诊
 			$("#consulting").on("tap", function() {

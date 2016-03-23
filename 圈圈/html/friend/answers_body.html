@@ -135,6 +135,14 @@
 			</div>
 			<p style="margin-top: 5px; margin-bottom: 5px;">
 			{{ d.retValue[i].inter}}
+			{{# if(d.retValue[i].imgs.length>0){ }}
+			<div class="aui-content" style="display: inline-block;" id="an_photo">
+			{{# for (var ii = 0, lens = d.retValue[i].imgs.length; ii < lens; ii ++) { }}
+			<div class="aui-col-xs-3"><img src="http://q.endzk.com/{{ d.retValue[i].imgs[ii].im }}" alt="" class="aui-img" />
+			</div>
+			</div>
+			{{# } }}
+			{{# } }}
 			</p>
 			<h6>{{ H.$com.jsDateDiff(d.retValue[i].time)}}<span style="float: right">回复（{{ d.retValue[i].askcount}}）</span></h6>
 			</li>
@@ -215,6 +223,15 @@
 		H.ready(function() {
 			api.parseTapmode();
 			answer_main();
+			//添加页刷新的监听
+			api.addEventListener({
+				name : 'answers_pagereload'
+			}, function(ret, err) {
+				if (ret) {
+					location.reload();
+				} else {
+				}
+			});
 			/*下拉刷新*/
 			//			H.$dropdownToRefresh(function(ret, err) {
 			//				answer_main();

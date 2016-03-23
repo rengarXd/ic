@@ -163,6 +163,14 @@
 
 
 		H.ready(function() {
+			api.addEventListener({
+				name : 'answers_pagereload'
+			}, function(ret, err) {
+				if (ret) {
+					location.reload();
+				} else {
+				}
+			});
 			get_data();
 			/*下拉刷新*/
 			H.$dropdownToRefresh(function(ret, err) {

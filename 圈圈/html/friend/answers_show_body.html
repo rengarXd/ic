@@ -26,7 +26,13 @@
 			.aui-img {
 				width: 100%
 			}
-			.aui-col-xs-4 {
+			.aui-col-xs-3 {
+				padding-right: 5px;
+			}
+			.aui-col-xs-3 img{
+				height:80px !important;
+			}
+			.aui-col-xs-6 {
 				padding-right: 5px;
 			}
 			.aui-ellipsis-1 {
@@ -82,7 +88,7 @@
 		</div>
 		<script type="text/html" id="answers_img_data">
 			{{# for (var i = 0, len = d.imgs.length; i < len; i++) { }}
-			<div class="aui-col-xs-4"><img src="http://q.endzk.com/{{ d.imgs[i].im }}" alt="" class="aui-img" />
+			<div class="aui-col-xs-3"><img src="http://q.endzk.com/{{ d.imgs[i].im }}" alt="" class="aui-img" />
 			</div>
 			{{# } }}
 		</script>
