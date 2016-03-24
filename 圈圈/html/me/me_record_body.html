@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>资金记录body</title>
+		<link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/fonts/iconfont.css" />
+		<style>
+			.icon_jian {
+				color: #8D8D8D;
+				font-size: 40px;
+			}
+			.icon_jia {
+				color: #f40;
+				font-size: 40px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="aui-content" style="padding-top: 10px;">
+			<ul class="aui-list-view">
+				<li class="aui-list-view-cell">
+					<div class="aui-col-xs-2">
+						<span class="iconfont icon-jianqudisc icon_jian"></span>
+					</div>
+					<div class="aui-col-xs-10">
+						<h1 style="font-size: 25px">-359.00<span class="aui-pull-right" style="font-size: 12px;
+						color: #A2A2A2;">2016-03-24 09:43:16</span></h1>
+						<p>
+							用户[1]最后的色彩使用余额支付购买，订单[20160323083508100921]，金额：-359元
+						</p>
+					</div>
+				</li>
+				<li class="aui-list-view-cell">
+					<div class="aui-col-xs-2">
+						<span class="iconfont icon-zengjia icon_jia"></span>
+					</div>
+					<div class="aui-col-xs-10">
+						<h1 style="font-size: 25px">+100.00<span class="aui-pull-right" style="font-size: 12px;
+						color: #A2A2A2;">2016-03-24 09:43:16</span></h1>
+						<p>
+							管理员[1]给用户[1]最后的色彩充值，金额：100元
+						</p>
+					</div>
+				</li>
+				<li class="aui-list-view-cell">
+					<div class="aui-col-xs-2">
+						<span class="iconfont icon-jianqudisc icon_jian"></span>
+					</div>
+					<div class="aui-col-xs-10">
+						<h1 style="font-size: 25px">-359.00<span class="aui-pull-right" style="font-size: 12px;
+						color: #A2A2A2;">2016-03-24 09:43:16</span></h1>
+						<p>
+							用户[1]最后的色彩使用余额支付购买，订单[20160323083508100921]，金额：-359元
+						</p>
+					</div>
+				</li>
+				<li class="aui-list-view-cell">
+					<div class="aui-col-xs-2">
+						<span class="iconfont icon-zengjia icon_jia"></span>
+					</div>
+					<div class="aui-col-xs-10">
+						<h1 style="font-size: 25px">+100.00<span class="aui-pull-right" style="font-size: 12px;
+						color: #A2A2A2;">2016-03-24 09:43:16</span></h1>
+						<p>
+							管理员[1]给用户[1]最后的色彩充值，金额：100元
+						</p>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</body>
+	<script type="text/javascript" src="../../script/AHelper.js"></script>
+	<script type="text/javascript" src="../../script/zepto.min.js"></script>
+	<script type="text/javascript">
+		Zepto(function($) {
+		});
+		H.ready(function() {
+			api.getPrefs({
+	            key:'userinfo'
+            },function(ret,err){
+            	var userobj = eval('('+ret.value+')');
+            	api.ajax({
+	                url:window.serverUrl+'/me_credit/token/'+userobj.token+'/user_id/'+userobj.id
+                },function(ret,err){
+                	alert(JSON.stringify(ret));
+                });
+            });
+		});
+	</script>
+</html>
