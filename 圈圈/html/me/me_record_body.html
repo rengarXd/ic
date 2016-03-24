@@ -19,9 +19,9 @@
 		</style>
 	</head>
 	<body>
-		<div class="aui-content" style="padding-top: 10px;">
+		<div class="aui-content" style="padding-top: 10px;" id="record_body">
 			<ul class="aui-list-view">
-				<li class="aui-list-view-cell">
+				<!--<li class="aui-list-view-cell">
 					<div class="aui-col-xs-2">
 						<span class="iconfont icon-jianqudisc icon_jian"></span>
 					</div>
@@ -68,12 +68,33 @@
 							管理员[1]给用户[1]最后的色彩充值，金额：100元
 						</p>
 					</div>
-				</li>
+				</li>-->
 			</ul>
 		</div>
+		<script id="record_data" type="text/html">
+			{{# for(var i = 0, len = d.retValue.length; i < len; i++) { }}
+				<li class="aui-list-view-cell">					
+					<div class="aui-col-xs-2">
+					{{# if ( d.retValue[i].type == 0 ) { }}
+						<span class="iconfont icon-zengjia icon_jia"></span>
+						{{# } else { }}
+						<span class="iconfont icon-jianqudisc icon_jian"></span>
+						{{# } }}
+					</div>
+					<div class="aui-col-xs-10">
+						<h1 style="font-size: 25px">{{ d.retValue[i].amount }}<span class="aui-pull-right" style="font-size: 12px;color: #A2A2A2;">{{ d.retValue[i].time }}</span></h1>
+					</div>
+					<p>
+							{{ d.retValue[i].note }}
+					</p>
+					</div>
+				</li>
+			{{# } }}
+		</script>
 	</body>
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
+		<script type="text/javascript" src="../../script/laytpl.js"></script>
 	<script type="text/javascript">
 		Zepto(function($) {
 		});
@@ -86,6 +107,10 @@
 	                url:window.serverUrl+'/me_credit/token/'+userobj.token+'/user_id/'+userobj.id
                 },function(ret,err){
                 	alert(JSON.stringify(ret));
+                	var tpl = document.getElementById('record_data').innerHTML;
+						laytpl(tpl).render(ret, function(render) {
+							document.getElementById('record_body').innerHTML = render;
+						});
                 });
             });
 		});
