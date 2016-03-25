@@ -121,6 +121,18 @@
 			0% {-webkit-transform : rotate(0deg);}
 			100% {-webkit-transform : rotate(360deg);}
 			}
+			#nodevice {
+				height: 86px;
+				background: #fff;
+			}
+			.ic_bj {
+				background: #86d855;
+				color: #fff;
+			}
+			.ic_buy {
+				background: #21bdfe;
+				color: #fff;
+			}
 		</style>
 	</head>
 	<body>
@@ -130,13 +142,14 @@
 					<div id="test"></div>
 				</div>
 				<div class="q_pb">
-					<span>2016/01/28</span>
-					<h1>溜宠步数</h1>
-					<h1 style="font-size: 35px">12983</h1>
+					<span>---</span>
+					<h1 id="stup">溜宠步数</h1>
+					<h1 style="font-size: 35px">00000</h1>
 				</div>
 			</div>
 		</div>
-		<div class="func-menu">
+		<!--有设备-->
+		<div class="func-menu" id="havedevice">
 			<div class="item-func" tapmode>
 				<div class="content-area">
 					<p class="aui-bg-info">
@@ -170,6 +183,21 @@
 				</div>
 			</div>
 		</div>
+		<!--有设备-->
+		<!--无设备-->
+		<div id="nodevice" style="display: none">
+			<div class="aui-col-xs-6" style="padding: 14px;">
+				<div class="aui-btn aui-btn-block ic_bj" style="background: #86d855">
+					绑定设备
+				</div>
+			</div>
+			<div class="aui-col-xs-6" style="padding: 14px;">
+				<div class="aui-btn aui-btn-block ic_buy" style="background: #21bdfe">
+					购买设备
+				</div>
+			</div>
+		</div>
+		<!--无设备-->
 		<div class="aui-content">
 			<ul class="aui-list-view">
 				<li class="aui-list-view-cell">
@@ -189,7 +217,24 @@
 		</div></div> <script src="../../script/AHelper.js" type="text/javascript"></script>
 		<script src="../../script/zepto.min.js" type="text/javascript"></script>
 		<script>
+			Zepto(function($) {
+			});
 			H.ready(function() {
+				api.getPrefs({
+					key : 'userinfo'
+				}, function(ret, err) {
+					var userobj = eval('(' + ret.value + ')');
+					//1、如果没有设备
+					if (userobj.ishavedevice == 0) {
+						$("#nodevice").show();
+						$('#stup').text("步数无法更新");
+						//1、2 隐藏功能菜单，提示
+						$("#havedevice").hide();
+						api.sendEvent({
+							name : 'changepettitle',
+						});
+					}
+				});
 				/*窗口打开处理 ok*/
 				$("#position_header").on("click", function() {
 					H.$openWin("position_header", "position_header.html");

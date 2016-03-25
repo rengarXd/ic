@@ -319,7 +319,7 @@ h4 small,h5 small,h6 small {
 /*基本容器*/
 .aui-content {
 	-webkit-overflow-scrolling: touch;
-	margin-bottom: 15px;
+	margin-bottom: 10px;
 }
 .aui-content-title {
 	position: relative;
@@ -933,7 +933,7 @@ input[type="time"] {
 }
 /*列表*/
 .aui-content > .aui-list-view:last-child {
-  	margin-bottom: 15px;
+  	margin-bottom: 10px;
 }
 .aui-list-view {
 	position: relative;
