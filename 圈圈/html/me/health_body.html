@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<link rel="stylesheet" type="text/css" href="../css/aui.css" />
 		<meta charset="utf-8">
 		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
-		<title>title</title>
+		<title>健康body</title>
 		<link rel="stylesheet" type="text/css" href="../../css/aui.css"/>
 		<link rel="stylesheet" type="text/css" href="../../css/aui_win.css"/>
 		<style>
@@ -26,7 +25,13 @@
 				position: fixed;
 				bottom: 0;
 				text-align: center;
-				color: #fff
+				color: #fff;
+			}
+			.health_btn_wen {
+				border-radius: 0;
+				margin: 0;
+				border: 0;
+				background: -webkit-gradient(linear, left top, left bottom, from(#ff7f27), to(#ff6001));
 			}
 			.aui_btn_dangan:active {
 				background: #bbb;
@@ -34,9 +39,14 @@
 		</style>
 	</head>
 	<body>
-		<div class="aui-content" style="padding-top: 10px;">
-			<div class="aui-content-padded">
-				<p class="health">
+			<div class="aui-content-padded"style="padding-top: 10px;" id="health_body">
+			<!--页面加载中-->
+			<div style="text-align: center" id="ic_loading"><img src="../../image/loading.png" width="70" height="70" />
+				<br />
+				<span>加载中...</span>
+			</div>
+			<!--页面加载中-->
+				<!--<p class="health">
 					笨笨的健康档案
 				</p>
 				<ul class="aui-list-view file_view">
@@ -87,16 +97,70 @@
 							免疫 <span>八联疫苗</span>
 						</p>
 					</li>
-				</ul>
+				</ul>-->
 			</div>
-		</div>
-		<div class="aui-btn aui-btn-block aui_btn_dangan">
+		<div class="aui-btn aui-btn-block aui_btn_dangan health_btn_wen" id="new_files" tapmode>
 			新建档案
 		</div>
+		<script type="text/html" id="health_data">
+			{{# for (var i = 0, len = d.retValue.length; i < len; i++) { }}
+				<p class="health">
+					笨笨的健康档案
+				</p>
+				<ul class="aui-list-view file_view">
+					<li class="aui-list-view-cell">
+						<p>
+							 时间<span>{{d.retValue[i].time }}</span>
+						</p>
+					</li>
+					<li class="aui-list-view-cell">
+						<p>
+							地点 <span>{{d.retValue[i].address }}</span>
+						</p>
+					</li>
+					<li class="aui-list-view-cell">
+						<p>
+							机构 <span>{{d.retValue[i].org }}</span>
+						</p>
+					</li>
+					<li class="aui-list-view-cell">
+						<p>
+							免疫 <span>{{d.retValue[i].vaccine }}</span>
+						</p>
+					</li>
+				</ul>
+				{{# } }}
+		</script>
 	</body>
-	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../../script/AHelper.js"></script>
+	<script type="text/javascript" src="../../script/zepto.min.js"></script>
+	<script type="text/javascript" src="../../script/laytpl.js"></script>
 	<script type="text/javascript">
-		apiready = function() {
-		};
+	Zepto(function($){
+		$("#new_files").on("tap",function(){
+			H.$openWin("health_header_new","health_header_new.html");
+		});
+	});
+		H.ready(function() {
+			api.getPrefs({
+	            key:'userinfo'
+            },function(ret,err){
+            	var userobj = eval('(' + ret.value + ')');
+            	api.ajax({
+	                url:window.serverUrl + '/healthrecord_list/token/' + userobj.token + '/user_id/' + userobj.id
+                },function(ret,err){
+//              alert(JSON.stringify(ret));
+                	if(ret && ret.retCode == 1){
+                	
+                		var tpl = document.getElementById('health_data').innerHTML;
+						laytpl(tpl).render(ret, function(render) {
+							document.getElementById('health_body').innerHTML = render;
+						});
+                	}else{
+                		alert(JSON.stringify(err));
+                	}
+                });
+            });
+		});
 	</script>
 </html>
