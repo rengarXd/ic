@@ -254,6 +254,14 @@
 						}
 					});
 				});
+				api.addEventListener({
+					name : 'pagereload'
+				}, function(ret, err) {
+					if (ret) {
+						location.reload();
+					} else {
+					}
+				});
 			});
 		</script>
 	</body>
