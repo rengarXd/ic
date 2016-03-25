@@ -16,17 +16,34 @@
 				font-size: 30px;
 				text-align: center;
 			}
-			.aui-list-view-cell .iconfont{ font-size:22px;color: #009944 }
+			.aui-list-view-cell .iconfont {
+				font-size: 22px;
+				color: #009944
+			}
+			.ic_jf_h1 {
+				height: 50px;
+				background: #4694EB;
+				line-height: 50px;
+			}
+			.ic_jf_h1:active {
+				background: #1786FF;
+			}
 		</style>
 	</head>
 	<body>
-		<div class="aui-content aui-text-center" style="background: #1786FF;color: #fff;padding-bottom: 20px">
-			<span id="point" style="font-size: 40px"></span>
-			<h1>&nbsp;</h1>
+		<div class="aui-content aui-text-center" id="exchange" style="background: #1786FF;color: #fff;">
+			<span id="point" style="font-size: 86px">---</span>
+			<h1 class="ic_jf_h1">积分兑换</h1>
 		</div>
-		
 		<div class="aui-content" >
-			 <div class="aui-content-padded" id="point_body"></div>
+			<div class="aui-content-padded" id="point_body">
+				<!--页面加载中-->
+				<div style="text-align: center" id="ic_loading"><img src="../../image/loading.png" width="70" height="70" />
+					<br />
+					<span>加载中...</span>
+				</div>
+				<!--页面加载中-->
+			</div>
 			<!--<ul class="aui-list-view">
 			<li class="aui-list-view-cell">
 			<div class="aui-col-xs-2">
@@ -66,6 +83,9 @@
 	<script type="text/javascript" src="../../script/laytpl.js"></script>
 	<script type="text/javascript">
 		Zepto(function($) {
+			$("#exchange").on('tap', function() {
+				H.$openWin('me_exchange_header', 'me_exchange_header.html');
+			});
 		});
 		H.ready(function() {
 			api.getPrefs({
