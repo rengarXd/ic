@@ -56,6 +56,19 @@
 			.aui-list-view li:active {
 				background: #f5f5f5
 			}
+			.aui-list-view .aui-col-xs-6:active {
+				background: #f5f5f5
+			}
+			.aui-list-view .aui-col-xs-6 {
+				padding: 12px 15px;
+			}
+			.aui-list-view .aui-col-xs-9 h2 {
+				color: #585858;
+			}
+			.aui-list-view .aui-col-xs-9 span {
+				font-size: 19px;
+				color: #000000;
+			}
 			.userds span {
 				float: right;
 				margin-right: 20px;
@@ -86,7 +99,7 @@
 		</style>
 	</head>
 	<body>
-		<div class="usercenter_avatar" style=" padding-top: 10px">
+		<div class="usercenter_avatar" style="padding-top: 10px;">
 			<ul class="aui-list-view">
 				<li class="aui-list-view-cell" data-funcName="user_message_header" tapmode>
 					<div class="aui-arrow-right">
@@ -101,19 +114,32 @@
 		</div>
 		<div class="aui-content">
 			<ul class="aui-list-view">
-				<li class="aui-list-view-cell userds" data-funcName="me_point_header" tapmode>
-					<div class="aui-arrow-right">
-						<i class="aui-iconfont iconfont icon-jifen aui-bg-blue"></i> 我的积分 <span id="ujf"></span>
+				<div class="aui-list-view-cell" style="padding:0 !important;">
+					<div class="aui-col-xs-6 aui-border-r" data-funcName="me_credit_header" tapmode>
+						<div class="aui-col-xs-4">
+							<i class="aui-iconfont iconfont icon-jifen aui-bg-blue"></i>
+						</div>
+						<div class="aui-col-xs-8">
+							<h2>余额</h2><span id="yue">--</span>
+						</div>
 					</div>
-				</li>
-				<li class="aui-list-view-cell userds" data-funcName="me_credit_header" tapmode>
-					<div class="aui-arrow-right">
-						<i class="aui-iconfont iconfont icon-liquan aui-bg-danger"></i> 我的余额 <span id="yue"></span>
+					<div class="aui-col-xs-6" data-funcName="me_point_header" tapmode>
+						<div class="aui-col-xs-4">
+							<i class="aui-iconfont iconfont icon-liquan aui-bg-danger"></i>
+						</div>
+						<div class="aui-col-xs-8">
+							<h2>积分</h2><span id="ujf">--</span>
+						</div>
 					</div>
-				</li>
+				</div>
 				<li class="aui-list-view-cell userds" data-funcName="order_header" tapmode>
 					<div class="aui-arrow-right">
 						<i class="aui-iconfont iconfont icon-dingdan aui-bg-success"></i> 我的订单 <span id="order"></span>
+					</div>
+				</li>
+				<li class="aui-list-view-cell userds" data-funcName="shop_collect_header" tapmode>
+					<div class="aui-arrow-right">
+						<i class="aui-iconfont iconfont icon-xingxing aui-bg-success"></i> 我的商品收藏 <span id="order"></span>
 					</div>
 				</li>
 			</ul>
@@ -164,6 +190,12 @@
 						H.$openWin(funcName, funcName + '.html');
 					}
 				});
+				$(".aui-list-view").on("tap", ".aui-col-xs-6", function() {
+					var funcName = $(this).attr("data-funcName");
+					if (funcName) {
+						H.$openWin(funcName, funcName + '.html');
+					}
+				});
 			});
 			H.ready(function() {
 				api.parseTapmode();
@@ -182,7 +214,7 @@
 						$("#tel").html(userinfoobj.tel);
 						$(".avatar_pic").attr('src', window.serverUrlPath + userinfoobj.head_ico);
 						$("#ujf").text(userinfoobj.point);
-						$("#yue").text(userinfoobj.balance);
+						$("#yue").text('￥' + userinfoobj.balance);
 					} else {
 						alert(JSON.stringify(err));
 					}

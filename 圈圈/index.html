@@ -5,7 +5,7 @@
 		<!--确保绘制和缩放的效果需要在<head>标签中添加 viewport 元数据标签-->
 		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
 		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-		<title>圈圈APP</title>
+		<title>I宠应用首页分发index</title>
 		<!--引入aui框架win-->
 		<link rel="stylesheet" href="./css/aui-win.css" />
 	</head>
@@ -13,9 +13,9 @@
 		<!--引入AHelper.js框架-->
 		<script src="./script/AHelper.js" type="text/javascript"></script>
 		<script>
+			//1、设备准备完毕后
 			H.ready(function() {
-				//H.$toast("报告，设备已经准备好！");
-				//获取偏好设置（launch）
+				//1.1、获取偏好设置（launch）
 				H.$getPrefs(function(ret, err) {
 					if (ret && ret.value) {
 						//如果有了（launch）偏好设置
