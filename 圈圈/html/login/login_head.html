@@ -25,7 +25,8 @@
 			// 快速打开窗口
 			H.$openFrameWithNav('aui-header', {
 				url : 'user_login.html',
-				name : 'user_login'
+				name : 'user_login',
+				pageParam : H.$getPageParam()
 			});
 			H.$dblclickToCloseApp(function() {
 				

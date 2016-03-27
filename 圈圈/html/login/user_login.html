@@ -455,15 +455,25 @@
 						}
 					});
 				});
-				$('#register').on("tap",function(){
-					H.$openWin('register_agreement_header','register_agreement_header.html');
+				$('#register').on("tap", function() {
+					H.$openWin('register_agreement_header', 'register_agreement_header.html');
 				})
 			});
 			//所有的代码都写在H.ready(function(){})
 			H.ready(function() {
 				var types = H.$getPageParam();
-				if (types.type == 1) {
-					H.$execScript('main', 'index', 'closeindex();');
+				//1.(type=1)退出登录的处理（type=2）登录失效的处理
+				switch (types.type) {
+					case 1 :
+						api.closeWin({
+							name : 'main'
+						});
+						break;
+					case 2:
+						api.closeWin({
+							name : 'main'
+						});
+						break;
 				}
 				H.$dblclickToCloseApp(function() {
 				});

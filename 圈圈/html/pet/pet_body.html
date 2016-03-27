@@ -223,6 +223,7 @@
 				api.getPrefs({
 					key : 'userinfo'
 				}, function(ret, err) {
+					//alert(JSON.stringify(ret));
 					var userobj = eval('(' + ret.value + ')');
 					//1、如果没有设备
 					if (userobj.ishavedevice == 0) {

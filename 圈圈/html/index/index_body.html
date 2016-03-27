@@ -464,16 +464,22 @@
 			H.$closeCurrentFrame();
 		}
 
+		/**
+		 * 登录失效处理
+		 */
 		function loginguoqi() {
+			//1、弹出失效提示
 			api.alert({
 				title : '温馨提示',
 				msg : '抱歉您的登录信息失效，需要点击确定重新认证',
 				buttons : ['确定']
 			}, function(ret, err) {
 				if (ret) {
+					//1.2 隐藏下拉刷新
 					H.$recoverDropdownToNormal();
+					//1.3 跳转到登录页面
 					H.$openWin('login_head', '../login/login_head.html', {
-						type : 1
+						type : 2
 					});
 				} else {
 					api.toast({
