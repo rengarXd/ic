@@ -376,10 +376,10 @@
 													}, 'islogin', 'ok');
 													//存储用户信息
 													H.$setPrefs(function(ret, err) {
-														H.$openWin('main', '../main.html');
 														api.sendEvent({
 															name : 'pagereload',
 														});
+														H.$closeCurrentToWin();
 													}, 'userinfo', JSON.stringify(ret.retValue[0]));
 												} else {
 													H.$hideProgress();
