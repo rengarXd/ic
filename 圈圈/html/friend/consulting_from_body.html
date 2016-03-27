@@ -94,9 +94,8 @@
 	<script type="text/javascript" src="../../script/hammer.min.js"></script>
 	<script type="text/javascript">
 		var uiMediaScanner = null, imageFilter = null, imageBrowser = null, bMap = null, retobj = null;
-		var temps_html = "", picnumber = 0;
+		var temps_html = "", picnumber = 0, isIOS = false, upimgpath = "";
 		//组装最后的图片路径
-		var upimgpath = "";
 		function exec() {
 			api.getPrefs({
 				key : 'pet_type'
@@ -217,7 +216,8 @@
 			}, function(ret, err) {
 				if (ret) {
 					if (ret.retCode == 1) {
-						picnumber = picnumber + 1
+						picnumber = picnumber + 1;
+						upimgpath += ret.retValue.img + ',';
 						callback(ret.retValue);
 					} else if (ret.retCode == 0) {
 						alert("上传失败");
@@ -372,15 +372,14 @@
 										var returnUrl = ret.data;
 										// 图片压缩
 										imgCompress(returnUrl, 0.5, 0.5, getExt(returnUrl), function(compressImg) {
-											var showImgHtml = '<li class="aui-list-view-cell aui-img aui-col-xs-3"><img class="aui-img-object" src="' + compressImg + '" style="width:' + normalW + 'px;height:' + normalW + 'px;"></li>';
-											// 追加图片
-											$("#addpic").before(showImgHtml);
-											// ########################################  绑定长按事件 ########################
-											addPress($("#imgslist img[src='" + compressImg + "']").parent("li"));
 											// ########################################
 											// ################### 上传图片 #########################
 											uploadFile(window.serverUrl + '/img_upload/token/' + retobj.token + '/user_id/' + retobj.id, compressImg, function(serverImg) {
-												upimgpath += serverImg.img + ',';
+												var showImgHtml = '<li class="aui-list-view-cell aui-img aui-col-xs-3"><img class="aui-img-object" src="' + compressImg + '" style="width:' + normalW + 'px;height:' + normalW + 'px;"></li>';
+												// 追加图片
+												$("#addpic").before(showImgHtml);
+												// ########################################  绑定长按事件 ########################
+												addPress($("#imgslist img[src='" + compressImg + "']").parent("li"));
 											});
 										});
 									} else {
@@ -432,18 +431,32 @@
 											// 获取图片的路径c
 											var selectimgPath = selectImg.path;
 											var selectimgThumbPath = selectImg.thumbPath;
-											// 图片压缩
-											imgCompress(selectimgPath, 0.5, 0.5, selectImg.suffix, function(compressImg) {
-												// 追加图片
-												$("#addpic").before('<li class="aui-list-view-cell aui-img aui-col-xs-3"><img class="aui-img-object" src="' + compressImg + '" style="width:' + normalW + 'px;height:' + normalW + 'px;"></li>');
-												// ########################################  绑定长按事件 ########################
-												addPress($("#imgslist img[src='" + compressImg + "']").parent("li"));
-												// ########################################
-												// ################### 上传图片 #########################
-												uploadFile(window.serverUrl + '/img_upload/token/' + retobj.token + '/user_id/' + retobj.id, compressImg, function(serverImg) {
-													upimgpath += serverImg.img + ',';
+											// IOS需要将虚拟路径转换为本地路径才可以压缩
+											if (isIOS) {
+												// 转换为真实路径
+												uiMediaScanner.transPath({
+													path : selectimgPath
+												}, function(transObj) {
+													// 图片压缩
+													imgCompress(transObj.path, 0.5, 0.5, selectImg.suffix, function(compressImg) {
+														uploadFile(window.serverUrl + '/img_upload/token/' + retobj.token + '/user_id/' + retobj.id, compressImg, function(serverImg) {
+															$("#addpic").before('<li class="aui-list-view-cell aui-img aui-col-xs-3"><img class="aui-img-object" src="' + compressImg + '" style="width:' + normalW + 'px;height:' + normalW + 'px;"></li>');
+														});
+													});
 												});
-											});
+											} else {
+												// 图片压缩
+												imgCompress(selectimgPath, 0.5, 0.5, selectImg.suffix, function(compressImg) {
+													// ########################################
+													// ################### 上传图片 #########################
+													uploadFile(window.serverUrl + '/img_upload/token/' + retobj.token + '/user_id/' + retobj.id, compressImg, function(serverImg) {
+														// 追加图片
+														$("#addpic").before('<li class="aui-list-view-cell aui-img aui-col-xs-3"><img class="aui-img-object" src="' + compressImg + '" style="width:' + normalW + 'px;height:' + normalW + 'px;"></li>');
+														// ########################################  绑定长按事件 ########################
+														addPress($("#imgslist img[src='" + compressImg + "']").parent("li"));
+													});
+												});
+											}
 										}
 									}
 								});

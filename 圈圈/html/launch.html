@@ -58,30 +58,6 @@
 				background-size: cover;
 				-webkit-background-size: cover;
 			}
-			#loginApp {
-				position: absolute;
-				top: 10px;
-				right: 10px;
-				width: 30px;
-				height: 30px;
-				display: -webkit-box;
-				-webkit-box-orient: horizontal;
-				-webkit-box-pack: center;
-				-webkit-box-align: center;
-				display: box;
-				box-orient: horizontal;
-				box-pack: center;
-				box-align: center;
-				z-index: 10000000;
-				background: #fff;
-				border-radius: 50%;
-				-webkit-border-radius: 50%;
-			}
-			#loginApp i {
-				font-size: 22px;
-				color: #1d9dd5;
-				line-height: normal;
-			}
 		</style>
 	</head>
 	<body>
@@ -89,11 +65,7 @@
 			<div class="swiper-wrapper">
 				<div class="swiper-slide"></div>
 				<div class="swiper-slide"></div>
-				<div class="swiper-slide">
-					<p id="loginApp">
-						<i class="iconfont icon-login"></i>
-					</p>
-				</div>
+				<div class="swiper-slide" id="loginApp"></div>
 			</div>
 			<div class="swiper-pagination"></div>
 		</div>
@@ -120,7 +92,6 @@
 						//打开APP首页
 						H.$openWin('main', 'main.html', {});
 					} else {
-						H.$toast("进入登录页面");
 						//打开用户登录页面
 						H.$openWin('login_head', 'login/login_head.html', {});
 					}
@@ -128,6 +99,10 @@
 			});
 		});
 		H.ready(function() {
+			api.setStatusBarStyle({
+				style : 'light',
+				color : '#000000'
+			});
 			//双击退出APP
 			H.$dblclickToCloseApp(function() {
 			});
