@@ -249,6 +249,22 @@
 					}, function(ret, err) {
 						if (ret) {
 							alert(JSON.stringify(ret));
+							FNScanner.closeView();
+						} else {
+							alert(JSON.stringify(err));
+							FNScanner.closeView();
+						}
+					});
+				});
+
+				//1、绑定设备的处理
+				$(".ic_bj").on("click", function() {
+					var FNScanner = api.require('FNScanner');
+					FNScanner.openScanner({
+						autorotation : true,
+					}, function(ret, err) {
+						if (ret) {
+							alert(JSON.stringify(ret));
 						} else {
 							alert(JSON.stringify(err));
 						}
