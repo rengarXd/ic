@@ -966,7 +966,7 @@
 		},
 		showProgress : {
 			style : 'default',
-			animationType : 'zoom',
+			animationType : 'fade',
 			title : '努力加载中...',
 			//text : '先喝杯茶...',
 			modal : true
