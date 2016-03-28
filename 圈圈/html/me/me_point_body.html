@@ -89,7 +89,9 @@
 	<script type="text/javascript">
 		Zepto(function($) {
 			$("#exchange").on('tap', function() {
-				H.$openWin('me_exchange_header', 'me_exchange_header.html',{value : $("#point").text()});
+				H.$openWin('me_exchange_header', 'me_exchange_header.html', {
+					value : $("#point").text()
+				});
 			});
 		});
 		H.ready(function() {
@@ -124,6 +126,5 @@
 				}
 			});
 		});
-		
 	</script>
 </html>

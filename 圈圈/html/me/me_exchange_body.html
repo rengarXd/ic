@@ -55,7 +55,6 @@
 			}
 			.ic_quan_boxs {
 				background: #f50000;
-			
 			}
 		</style>
 	</head>
@@ -141,30 +140,42 @@
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript" src="../../script/laytpl.js"></script>
 	<script type="text/javascript">
-		var total = null,retobj = null;
+		var total = null, retobj = null;
 		Zepto(function() {
 		});
-		
-		function duihuan(ticket){
+		function duihuan(ticket) {
+			api.showProgress({
+				title : '兑换中'
+			});
 			api.ajax({
-	                url: window.serverUrl + '/trade_ticket/token/' + retobj.token +'/user_id/'+retobj.id+ '/ticket_id/' + ticket
-                },function(ret,err){
-                	if(ret && ret.retCode == 1){
-                		api.toast({
-	                        msg:ret.retDesc
-                        });
-                		api.sendEvent({
-							name : 'pointreload',
-						});
-						location.reload();
-                	}else{
-                		api.toast({
-	                        msg:ret.retDesc
-                        });
-                	}
-                });
+				url : window.serverUrl + '/trade_ticket/token/' + retobj.token + '/user_id/' + retobj.id + '/ticket_id/' + ticket
+			}, function(ret, err) {
+				if (ret && ret.retCode == 1) {
+					api.toast({
+						msg : ret.retDesc
+					});
+					api.ajax({
+						url : window.serverUrl + '/userinfo/token/' + retobj.token + '/user_id/' + retobj.id
+					}, function(ret, err) {
+						if (ret && ret.retCode == 1) {
+							api.hideProgress();
+							H.$setPrefs(function(ret, err) {
+								api.sendEvent({
+									name : 'pointreload',
+								});
+							}, 'userinfo', JSON.stringify(ret.retValue[0]));
+							location.reload();
+						}
+					});
+				} else {
+					api.toast({
+						msg : ret.retDesc
+					});
+				}
+			});
 		}
-		
+
+
 		H.ready(function() {
 			total = H.$getPageParam();
 			api.getPrefs({
