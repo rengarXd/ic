@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
 		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-		<title></title>
+		<title>代金卷body</title>
 		<link rel="stylesheet" type="text/css" href="../../css/aui.css" />
 		<link rel="stylesheet" href="../../css/me/lanren.css" />
 		<style>
@@ -27,7 +27,6 @@
 				background: #38B321;
 				margin: 0 7px;
 				color: #fff;
-	
 				display: -webkit-box;
 			}
 			.ic_quan_box:before {
@@ -63,18 +62,13 @@
 		<!--我的代金券-->
 		<div class="aui-content" style="padding-top:10px">
 			<h3 class="ic_me_djq">我的代金券</h3>
-			<div class="ic_quan ic_quans">
-				<div class="ic_quan_box ic_quan_boxs">
-					<div class="aui-col-xs-8">
-						<h1>编号:T7b3df8c3</h1>
-						<sub class="sign">￥</sub><span style="font-size: 35px;">30.00</span>
-					</div>
-					<div class="aui-col-xs-4 ic_quan_time">
-						<h6 style="color:#fff">有效时间</h6>
-						<span>2016-09-02</span>
-						<h4 style="font-size:16px">可使用</h4>
-					</div>
+			<div class="ic_quan ic_quans" id="Voucher_body">
+				<!--页面加载中-->
+				<div style="text-align: center; background-color: #f4f4f4 !important;" id="ic_loading"><img src="../../image/loading.png" width="70" height="70" />
+					<br />
+					<span>加载中...</span>
 				</div>
+				<!--页面加载中-->
 			</div>
 		</div>
 		<div class="aui-line-x"></div>
@@ -82,34 +76,126 @@
 		<div class="aui-content" style="padding-top:10px">
 			<h3 class="ic_me_djq">可兑换代金券</h3>
 			<!--代金券-->
-			<div class="ic_quan">
-				<div class="ic_quan_box">
+			<div id="Voucher_body1"></div>
+			
+				<!--<div class="ic_quan_box">
 					<div class="aui-col-xs-7">
 						<h1>代金券测试</h1>
-						<sub class="sign">￥</sub><span style="font-size: 35px;">50.00</span>
+						<sub class="sign">￥</sub><span style="font-size: 35px;" id="total_point">50.00</span>
 						<h4 style="font-size:11px">兑换需要300积分</h4>
 					</div>
 					<div class="aui-col-xs-5 ic_quan_time">
 						<h6 style="color:#fff">兑换有效期至</h6>
-						<span>2016-03-25 09:32:52</span><br />
+						<span>2016-03-25 09:32:52</span>
+						<br />
 						<span>2016-03-25 09:32:52</span>
 						<div>
-							<div class="aui-btn aui-btn-primary aui-btn-block aui-btn-outlined ic_quan_button">
+							<div class="aui-btn aui-btn-primary aui-btn-block aui-btn-outlined ic_quan_button" style="display: none;">
 								立即兑换
 							</div>
 						</div>
 					</div>
-				</div>
-			</div>
+				</div>-->
+			
 			<!--代金券-->
 		</div>
+		<script type="text/html" id="Voucher_data">
+			{{# for(var i = 0, len = d.retValue.length; i < len; i++) { }}
+			<!--我的代金卷-->
+			<div class="ic_quan_box ic_quan_boxs">
+			<div class="aui-col-xs-8">
+			<h1>编号:{{d.retValue[i].card_name }}</h1>
+			<sub class="sign">￥</sub><span style="font-size: 35px;">{{d.retValue[i].value }}</span>
+			</div>
+			<div class="aui-col-xs-4 ic_quan_time">
+			<h6 style="color:#fff">有效时间</h6>
+			<span>{{d.retValue[i].end_time }}</span>
+			{{# if (d.retValue[i].is_close == 0) { }}
+			<h4 style="font-size:16px">可使用</h4>
+			{{# }else{ }}
+			<h4 style="font-size:16px">不可使用</h4>
+			{{# } }}
+			</div>
+			{{# }　}}
+		</script>
+		<script type="text/html" id="Voucher_data1">
+		{{# for(var i = 0, len = d.retValue.length; i < len; i++) { }}
+		<div class="ic_quan" >
+			<div class="ic_quan_box">
+					<div class="aui-col-xs-7">
+						<h1>{{ d.retValue[i].name }}</h1>
+						<sub class="sign">￥</sub><span style="font-size: 35px;" id="total_point">{{d.retValue[i].value }}</span>
+						<h4 style="font-size:11px">兑换需要{{d.retValue[i].point }}积分</h4>
+					</div>
+					<div class="aui-col-xs-5 ic_quan_time">
+						<h6 style="color:#fff">兑换有效期至</h6>
+						<span>{{ d.retValue[i].start_time }}</span>
+						<br />
+						<span>{{ d.retValue[i].end_time }}</span>
+						
+						{{# if (d.retValue[i].point > total.value) { }}
+							<span style="text-align: center;">积分不够，不可兑换</span>
+						{{# }else{ }}
+							<div class="aui-btn aui-btn-primary aui-btn-block aui-btn-outlined ic_quan_button" id="duihuan" tapmode>
+								立即兑换
+							</div>
+						{{# } }}	
+						
+					</div>
+				</div>
+				</div>
+				{{# }　}}
+		</script>
 	</body>
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
+	<script type="text/javascript" src="../../script/laytpl.js"></script>
 	<script type="text/javascript">
-		Zepto(function($) {
+	var total =null,pot = null;
+		Zepto(function() {
+			$("#duihuan").on("tap", function(){
+				
+			});
 		});
 		H.ready(function() {
+		total = H.$getPageParam();
+			api.getPrefs({
+				key : 'userinfo'
+			}, function(ret, err) {
+				var retobj = eval('(' + ret.value + ')');
+				//1.1 获取上页数据
+				
+				//          $("#total_point").text(total.value + ".00");
+				//1.2 我的代金卷
+				api.ajax({
+					url : window.serverUrl + '/my_redpacket/token/' + retobj.token + '/user_id/' + retobj.id
+				}, function(ret, err) {
+					if (ret) {
+						//					alert(JSON.stringify(ret));
+						var tpl = document.getElementById('Voucher_data').innerHTML;
+						laytpl(tpl).render(ret, function(render) {
+							document.getElementById('Voucher_body').innerHTML = render;
+						});
+					} else {
+						alert(JSON.stringify(err));
+					}
+				});
+//				//1.3可用代金卷
+				api.ajax({
+	                url:window.serverUrl + '/ticket_list/token/' + retobj.token
+                },function(ret,err){
+                	if (ret) {
+//						alert(JSON.stringify(ret));
+						pot = ret.retValue[0].id;
+						var tpl = document.getElementById('Voucher_data1').innerHTML;
+						laytpl(tpl).render(ret, function(render) {
+							document.getElementById('Voucher_body1').innerHTML = render;
+						});
+					} else {
+						alert(JSON.stringify(err));
+					}
+                });
+			});
 		});
 	</script>
 </html>
