@@ -28,7 +28,7 @@
 			.ic_jf_h1:active {
 				background: #1786FF;
 			}
-			.forhead{
+			.forhead {
 				background: -webkit-gradient(linear, left top, left bottom, from(#1786FF), to(#81bbfb));
 				color: #fff;
 				padding-bottom: 20px;
@@ -36,11 +36,9 @@
 		</style>
 	</head>
 	<body>
-
 		<div class="aui-content aui-text-center" id="exchange" style="background: #1786FF;color: #fff;">
 			<span id="point" style="font-size: 86px">---</span>
 			<h1 class="ic_jf_h1">积分兑换</h1>
-
 		</div>
 		<div class="aui-content" >
 			<div class="aui-content-padded" id="point_body">
@@ -91,7 +89,7 @@
 	<script type="text/javascript">
 		Zepto(function($) {
 			$("#exchange").on('tap', function() {
-				H.$openWin('me_exchange_header', 'me_exchange_header.html');
+				H.$openWin('me_exchange_header', 'me_exchange_header.html',{value : $("#point").text()});
 			});
 		});
 		H.ready(function() {
