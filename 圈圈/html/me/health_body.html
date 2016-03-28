@@ -46,86 +46,38 @@
 				<span>加载中...</span>
 			</div>
 			<!--页面加载中-->
-			<!--<p class="health">
-			笨笨的健康档案
-			</p>
-			<ul class="aui-list-view file_view">
-			<li class="aui-list-view-cell">
-			<p>
-			时间 <span>2016-3-7</span>
-			</p>
-			</li>
-			<li class="aui-list-view-cell">
-			<p>
-			地点 <span>郑州    二七区</span>
-			</p>
-			</li>
-			<li class="aui-list-view-cell">
-			<p>
-			机构 <span>康旭宠物医院</span>
-			</p>
-			</li>
-			<li class="aui-list-view-cell">
-			<p>
-			免疫 <span>八联疫苗</span>
-			</p>
-			</li>
-			</ul>
-			</div>
-			<div class="aui-content-padded">
-			<p class="health">
-			笨笨的健康档案
-			</p>
-			<ul class="aui-list-view file_view">
-			<li class="aui-list-view-cell">
-			<p>
-			时间 <span>2016-3-7</span>
-			</p>
-			</li>
-			<li class="aui-list-view-cell">
-			<p>
-			地点 <span>郑州    二七区</span>
-			</p>
-			</li>
-			<li class="aui-list-view-cell">
-			<p>
-			机构 <span>康旭宠物医院</span>
-			</p>
-			</li>
-			<li class="aui-list-view-cell">
-			<p>
-			免疫 <span>八联疫苗</span>
-			</p>
-			</li>
-			</ul>-->
+			
 		</div>
+		<!--撑开下部层页面-->
+			<div style="height:50px;"></div>
+			<!--撑开下部层页面-->
 		<div class="aui-btn aui-btn-block aui_btn_dangan health_btn_wen" id="new_files" tapmode>
 			新建档案
 		</div>
 		<script type="text/html" id="health_data">
 			{{# for (var i = 0, len = d.retValue.length; i < len; i++) { }}
-			<p class="health">
+			<!--<p class="health">
 			笨笨的健康档案
-			</p>
+			</p>-->
 			<ul class="aui-list-view file_view">
 			<li class="aui-list-view-cell">
 			<p>
-			时间<span>{{d.retValue[i].time }}</span>
+			时间<span>{{ d.retValue[i].time }}</span>
 			</p>
 			</li>
 			<li class="aui-list-view-cell">
 			<p>
-			地点 <span>{{d.retValue[i].address }}</span>
+			地点 <span>{{ d.retValue[i].address }}</span>
 			</p>
 			</li>
 			<li class="aui-list-view-cell">
 			<p>
-			机构 <span>{{d.retValue[i].org }}</span>
+			机构 <span>{{ d.retValue[i].org }}</span>
 			</p>
 			</li>
 			<li class="aui-list-view-cell">
 			<p>
-			免疫 <span>{{d.retValue[i].vaccine }}</span>
+			免疫 <span>{{ d.retValue[i].vaccine }}</span>
 			</p>
 			</li>
 			</ul>
@@ -160,6 +112,15 @@
 					}
 				});
 			});
+			//添加页刷新的监听
+				api.addEventListener({
+					name : 'healthreload'
+				}, function(ret, err) {
+					if (ret) {
+						location.reload();
+					} else {
+					}
+				});
 		});
 	</script>
 </html>

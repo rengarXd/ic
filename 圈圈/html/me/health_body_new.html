@@ -56,7 +56,7 @@
 		</div>
 		<!--</div>-->
 		<div class="aui-btn aui-btn-block aui_btn_dangan health_btn_wen" id="add_files" tapmode>
-			提交修改
+			提交档案
 		</div>
 	</body>
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
@@ -80,7 +80,7 @@
 					url : window.serverUrl + '/healthrecord_add/token/' + healthobj.token + '/user_id/' + healthobj.id,
 					method : 'post',
 					data : {
-						value : {
+						values : {
 							"time" : $("#ad_date").val(),
 							"address" : $("#ad_address").val(),
 							"org" : $("#ad_org").val(),
@@ -89,15 +89,18 @@
 					}
 				}, function(ret, err) {
 					api.hideProgress();
-					alert(JSON.stringify(ret))
-//					if (ret && ret.retCode == 1) {
-//						H.$openWin("health_header", "health_header.html");
-//						H.$closeCurrentWin();
-//					} else {
-//						api.toast({
-//	                        msg:ret
-//                      });
-//					}
+//					alert(JSON.stringify(ret))
+					if (ret && ret.retCode == 1) {
+						api.sendEvent({
+							name : 'healthreload'
+						});
+						H.$openWin("health_header", "health_header.html");
+						H.$closeCurrentWin();
+					} else {
+						api.toast({
+	                        msg:ret
+                        });
+					}
 				});
 			});
 		});

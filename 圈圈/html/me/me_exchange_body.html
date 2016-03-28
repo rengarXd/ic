@@ -154,11 +154,13 @@
 					api.toast({
 						msg : ret.retDesc
 					});
+					//获取用户的ajax并更改用户信息表的偏好值
 					api.ajax({
 						url : window.serverUrl + '/userinfo/token/' + retobj.token + '/user_id/' + retobj.id
 					}, function(ret, err) {
 						if (ret && ret.retCode == 1) {
 							api.hideProgress();
+							//设置用户偏好
 							H.$setPrefs(function(ret, err) {
 								api.sendEvent({
 									name : 'pointreload',
@@ -182,9 +184,7 @@
 				key : 'userinfo'
 			}, function(ret, err) {
 				retobj = eval('(' + ret.value + ')');
-				//1.1 获取上页数据
-				//          $("#total_point").text(total.value + ".00");
-				//1.2 我的代金卷
+				//1.1 我的代金卷
 				api.ajax({
 					url : window.serverUrl + '/my_redpacket/token/' + retobj.token + '/user_id/' + retobj.id
 				}, function(ret, err) {
@@ -198,7 +198,7 @@
 						alert(JSON.stringify(err));
 					}
 				});
-				//				//1.3可用代金卷
+				//				//1.2可用代金卷
 				api.ajax({
 					url : window.serverUrl + '/ticket_list/token/' + retobj.token
 				}, function(ret, err) {
