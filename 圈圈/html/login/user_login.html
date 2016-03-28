@@ -380,6 +380,18 @@
 															name : 'pagereload',
 														});
 														H.$openWin('main', '../main.html');
+														//绑定用户推送
+														var push = api.require('push');
+															push.bind({
+															    userName:ret.retValue[0].tel,
+															    userId:ret.retValue[0].id
+															},function(ret,err){
+															    if(ret.status){
+															        api.alert({msg:'绑定成功'});
+															    }else{
+															        api.alert({msg:err.msg});
+															    }
+															});
 													}, 'userinfo', JSON.stringify(ret.retValue[0]));
 												} else {
 													H.$hideProgress();

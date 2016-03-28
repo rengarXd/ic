@@ -15,8 +15,8 @@
 	// 全局模块
 	var modules = {};
 	//常规api请求地址
-	window.serverUrl = "http://q.endzk.com/apis";
-	//window.serverUrl = "http://192.168.10.129/iwebshop/apis";
+	//window.serverUrl = "http://q.endzk.com/apis";
+	window.serverUrl = "http://192.168.10.129/iwebshop/apis";
 	//设备访问api请求地址
 	window.deviceserverUrl = "http://q.endzk.com/deviceapi";
 	//常规静态资源请求地址
@@ -116,11 +116,14 @@
 		},
 		// 将PHP时间戳转换为时间格式
 		// @timestamp：PHP格式时间戳
-		// @isShowTime：是否显示时间
-		transPHPTimestamp : function(timestamp, isShowTime) {
-			isShowTime = ( typeof arguments[1] != 'boolean') ? true : arguments[1];
-			var datetime = new Date(timestamp * 1000);
-			$$com.getNowDateFormat('-', ':', isShowTime, datetime);
+		transPHPTimestamp : function(timestamp) {
+			if (timestamp > 0) {
+				var dateStr = new Date(timestamp * 1000);
+				return dateStr.getFullYear() + '-' + dateStr.getMonth() + 1 + '-' + dateStr.getDate() + ' ' + dateStr.getHours() + ':' + dateStr.getMinutes() + ':' + dateStr.getSeconds();
+			} else {
+				return '末知时间';
+			}
+
 		},
 		// 将Javascript时间戳转换为时间格式
 		// @timestamp：时间戳
