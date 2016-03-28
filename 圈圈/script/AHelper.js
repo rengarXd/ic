@@ -12,20 +12,15 @@
  */
 
 ;! function(win) {"use strict";
-
 	// 全局模块
 	var modules = {};
-
 	//常规api请求地址
-			window.serverUrl = "http://q.endzk.com/apis";
-//	window.serverUrl = "http://192.168.10.129/iwebshop/apis";
-
+	window.serverUrl = "http://q.endzk.com/apis";
+	//window.serverUrl = "http://192.168.10.129/iwebshop/apis";
 	//设备访问api请求地址
 	window.deviceserverUrl = "http://q.endzk.com/deviceapi";
-
 	//常规静态资源请求地址
 	window.serverUrlPath = "http://q.endzk.com/";
-
 	// 公共类库
 	var $$com = {
 		// 去掉前后空格
@@ -195,6 +190,26 @@
 				}
 			}
 			return result;
+		},
+		// 检测是否为网址
+		// @str 要检测的字符串
+		isUrl : function(str) {
+			var strRegex = "^((https|http|ftp|rtsp|mms)?://)" + "?(([0-9a-z_!~*'().&=+$%-]+: )?[0-9a-z_!~*'().&=+$%-]+@)?"//ftp的user@
+			+ "(([0-9]{1,3}\.){3}[0-9]{1,3}"// IP形式的URL- 199.194.52.184
+			+ "|"// 允许IP和DOMAIN（域名）
+			+ "([0-9a-z_!~*'()-]+\.)*"// 域名- www.
+			+ "([0-9a-z][0-9a-z-]{0,61})?[0-9a-z]\."// 二级域名
+			+ "[a-z]{2,6})"// first level domain- .com or .museum
+			+ "(:[0-9]{1,4})?"// 端口- :80
+			+ "((/?)|"// a slash isn't required if there is no file name
+			+ "(/[0-9a-z_!~*'().;?:@&=+$,%#-]+)+/?)$";
+			var re = new RegExp(strRegex);
+			//re.test()
+			if (re.test(str)) {
+				return (true);
+			} else {
+				return (false);
+			}
 		}
 	};
 	// ######################################## 完美分割线 #############################################
