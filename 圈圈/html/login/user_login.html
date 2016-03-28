@@ -379,7 +379,7 @@
 														api.sendEvent({
 															name : 'pagereload',
 														});
-														H.$closeCurrentToWin();
+														H.$openWin('main', '../main.html');
 													}, 'userinfo', JSON.stringify(ret.retValue[0]));
 												} else {
 													H.$hideProgress();
