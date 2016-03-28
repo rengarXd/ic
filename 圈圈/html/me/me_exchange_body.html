@@ -89,8 +89,8 @@
 		</div>
 		<script type="text/html" id="Voucher_data">
 			{{# for(var i = 0, len = d.retValue.length; i < len; i++) { }}
-			<div class="ic_quan ic_quans">
 			<!--我的代金卷-->
+			<div class="ic_quan ic_quans">
 			<div class="ic_quan_box ic_quan_boxs">
 			<div class="aui-col-xs-8">
 			<h1>编号:{{d.retValue[i].card_name }}</h1>
@@ -123,10 +123,11 @@
 			<span>{{ d.retValue[i].start_time }}</span>
 			<br />
 			<span>{{ d.retValue[i].end_time }}</span>
+			<br />
 			{{# if (d.retValue[i].point > total.value) { }}
-			<span style="text-align: center;">积分不够，不可兑换</span>
+			<span style="text-align: center;">积分不足，不可兑换</span>
 			{{# }else{ }}
-			<div class="aui-btn aui-btn-primary aui-btn-block aui-btn-outlined ic_quan_button" id="duihuan" tapmode>
+			<div class="aui-btn aui-btn-primary aui-btn-block aui-btn-outlined ic_quan_button" onclick="duihuan({{d.retValue[i].id }})" tapmode>
 			立即兑换
 			</div>
 			{{# } }}
@@ -140,17 +141,36 @@
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript" src="../../script/laytpl.js"></script>
 	<script type="text/javascript">
-		var total = null, pot = null;
+		var total = null,retobj = null;
 		Zepto(function() {
-			$("#duihuan").on("tap", function() {
-			});
 		});
+		
+		function duihuan(ticket){
+			api.ajax({
+	                url: window.serverUrl + '/trade_ticket/token/' + retobj.token +'/user_id/'+retobj.id+ '/ticket_id/' + ticket
+                },function(ret,err){
+                	if(ret && ret.retCode == 1){
+                		api.toast({
+	                        msg:ret.retDesc
+                        });
+                		api.sendEvent({
+							name : 'pointreload',
+						});
+						location.reload();
+                	}else{
+                		api.toast({
+	                        msg:ret.retDesc
+                        });
+                	}
+                });
+		}
+		
 		H.ready(function() {
 			total = H.$getPageParam();
 			api.getPrefs({
 				key : 'userinfo'
 			}, function(ret, err) {
-				var retobj = eval('(' + ret.value + ')');
+				retobj = eval('(' + ret.value + ')');
 				//1.1 获取上页数据
 				//          $("#total_point").text(total.value + ".00");
 				//1.2 我的代金卷
@@ -173,7 +193,6 @@
 				}, function(ret, err) {
 					if (ret) {
 						//						alert(JSON.stringify(ret));
-						pot = ret.retValue[0].id;
 						var tpl = document.getElementById('Voucher_data1').innerHTML;
 						laytpl(tpl).render(ret, function(render) {
 							document.getElementById('Voucher_body1').innerHTML = render;
