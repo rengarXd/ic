@@ -6,7 +6,6 @@
 		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
 		<title>用户信息body</title>
 		<link rel="stylesheet" type="text/css" href="../../css/aui.css" />
-		<link rel="stylesheet" type="text/css" href="../../css/font/iconfont.css" />
 		<style>
 			.content-usermessage {
 				padding: 0;
@@ -57,33 +56,34 @@
 				</li>
 			</ul>
 		</div>
+		<!--头像-->
+		<ul class="aui-list-view">
+			<li class="aui-list-view-cell">
+				登录名 <span id="username"></span>
+			</li>
+			<li class="aui-list-view-cell userds" id="usernamechange" tapmode>
+				<div class="aui-arrow-right">
+					昵称 <span id="usern"></span>
+				</div>
+			</li>
+			<li class="aui-list-view-cell userds" id="firstnamechange">
+				<div class="aui-arrow-right">
+					姓名 <span id="name"></span>
+				</div>
+			</li>
+			<li class="aui-list-view-cell userds" id="sexnamechange" tapmode>
+				<div class="aui-arrow-right">
+					性别 <span id="sex" sexvalue=""></span>
+				</div>
+			</li>
+			<li class="aui-list-view-cell userds" id="addressname" tapmode>
+				<div class="aui-arrow-right">
+					所在地 <span id="ads_span"></span>
+				</div>
+			</li>
+		</ul>
+		</div>
 		<div class="aui-content">
-			<!--头像-->
-			<ul class="aui-list-view">
-				<li class="aui-list-view-cell">
-					登录名 <span id="username"></span>
-				</li>
-				<li class="aui-list-view-cell userds" id="usernamechange" tapmode>
-					<div class="aui-arrow-right">
-						昵称 <span id="usern"></span>
-					</div>
-				</li>
-				<li class="aui-list-view-cell userds" id="firstnamechange">
-					<div class="aui-arrow-right">
-						姓名 <span id="name"></span>
-					</div>
-				</li>
-				<li class="aui-list-view-cell userds" id="sexnamechange" tapmode>
-					<div class="aui-arrow-right">
-						性别 <span id="sex" sexvalue=""></span>
-					</div>
-				</li>
-				<li class="aui-list-view-cell userds" id="addressname" tapmode>
-					<div class="aui-arrow-right">
-						所在地 <span id="ads_span"></span>
-					</div>
-				</li>
-			</ul>
 			<ul class="aui-list-view">
 				<li class="aui-list-view-cell" id="shopaddress" tapmode>
 					<div class="aui-arrow-right">
@@ -92,7 +92,6 @@
 				</li>
 			</ul>
 		</div>
-		
 	</body>
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
@@ -307,12 +306,12 @@
 			//所在地
 			$("#addressname").on("tap", function() {
 				citySelector.open({
-					y : api.frameHeight / 1.7,
-					fixedOn : api.frameName,
+					//y : api.frameHeight / 1.7,
+					//fixedOn : api.frameName,
 					selectedColor : "#1786FF",
 					anim : true,
 					titleImg : "widget://image/me/catetitle_bg.png",
-					bgImg : "widget://image/blank.gif",
+					//bgImg : "widget://image/blank.gif",
 					cancelImg : "widget://image/me/cancelImg.png",
 					enterImg : "widget://image/me/enterImg.png",
 					fontColor : "#727171"
@@ -336,12 +335,14 @@
 			$("#sexnamechange").on("tap", function() {
 				H.$openWin("me_userinfo_change_header", "me_userinfo_change_header.html", {
 					type : 3,
-					sex:$("#sex").attr("sexvalue")
+					sex : $("#sex").attr("sexvalue")
 				});
 			});
 			//1 商城收货地址
-			$("#shopaddress").on("tap",function(){
-				H.$openWin("user_shop_address_header","user_shop_address_header.html",{uid:retobj.id});
+			$("#shopaddress").on("tap", function() {
+				H.$openWin("user_shop_address_header", "user_shop_address_header.html", {
+					uid : retobj.id
+				});
 			});
 		})
 		H.ready(function() {
@@ -354,19 +355,18 @@
 				$("#usern").text(retobj.username);
 				$("#name").text(retobj.true_name);
 				$("#ads_span").text(retobj.area);
-			
 				switch(retobj.sex) {
 					case "0":
 						$("#sex").text("保密");
-						$("#sex").attr("sexvalue",0);
+						$("#sex").attr("sexvalue", 0);
 						break;
 					case "1":
 						$("#sex").text("男");
-						$("#sex").attr("sexvalue",1);
+						$("#sex").attr("sexvalue", 1);
 						break;
 					case "2":
 						$("#sex").text("女");
-						$("#sex").attr("sexvalue",2);
+						$("#sex").attr("sexvalue", 2);
 						break;
 				}
 				if (retobj.head_ico == null) {
