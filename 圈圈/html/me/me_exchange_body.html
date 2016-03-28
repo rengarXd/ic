@@ -122,9 +122,9 @@
 			<h6 style="color:#fff">兑换有效期至</h6>
 			<span>{{ d.retValue[i].start_time }}</span>
 			<br />
-			<span>{{ d.retValue[i].end_time }}</span>
+			<span>{{ d.retValue[i].end_time }}{{ d.retValue[i].point }}||{{ total.value }}</span>
 			<br />
-			{{# if (d.retValue[i].point > total.value) { }}
+			{{# if (parseInt(d.retValue[i].point) > parseInt(total.value)) { }}
 			<span style="text-align: center;">积分不足，不可兑换</span>
 			{{# }else{ }}
 			<div class="aui-btn aui-btn-primary aui-btn-block aui-btn-outlined ic_quan_button" onclick="duihuan({{d.retValue[i].id }})" tapmode>
