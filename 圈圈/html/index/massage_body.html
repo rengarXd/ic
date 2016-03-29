@@ -119,6 +119,17 @@
 					H.$recoverDropdownToNormal();
 				}, 1000);
 			});
+			
+			
+				var sql = 'SELECT * from Push_Massage';
+						db.executeSql({
+							name : 'ichong',
+							sql : sql
+						}, function(ret, err) {
+							if (ret.status) {
+								alert(JSON.stringify(ret));
+							};
+						});
 		});
 	</script>
 </html>
