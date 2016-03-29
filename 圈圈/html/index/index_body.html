@@ -318,6 +318,8 @@
 	<!--<script type="text/javascript" src="../../script/echo.min.js"></script>-->
 	<script type="text/javascript" src="../../script/laytpl.js"></script>
 	<script type="text/javascript">
+		//sqlite数据库对象
+		var db = null, isopendb = false;
 		/*
 		 * 1、广告处理 (href_type) 0 广告跳转
 		 * 	 广告ids (ids)
@@ -449,6 +451,37 @@
 
 
 		H.ready(function() {
+			//1.实例化本地数据库
+			db = api.require('db');
+			//1.1打开ichong数据库
+			db.openDatabase({
+				name : 'ichong'
+			}, function(ret, err) {
+				// 如果打开成功
+				if (ret.status) {
+					isopendb = true;
+					api.getPrefs({
+						key : 'isdbmassage'
+					}, function(ret, err) {
+						if (ret) {
+							var sql = "CREATE TABLE Push_Massage(id integer PRIMARY KEY autoincrement,status int,content varchar(255),title varchar(255),time int,type int)";
+							db.executeSql({
+								name : 'ichong',
+								sql : sql
+							}, function(ret, err) {
+								if (ret) {
+									api.setPrefs({
+										key : 'isdbmassage',
+										value : true
+									});
+								}
+							});
+						}
+					});
+				} else {
+					//api.alert({msg:err.msg});
+				}
+			});
 			get_data();
 			/*下拉刷新*/
 			H.$dropdownToRefresh(function(ret, err) {
@@ -466,10 +499,20 @@
 			//添加消息推送监听
 			var push = api.require('push');
 			push.setListener(function(ret, err) {
+				//1.1如果接受到了推送的消息
 				if (ret) {
-					api.alert({
-						msg : JSON.stringify(ret)
-					});
+					//1.2如数据库已经打开完毕
+					if (isopendb) {
+						var sql = 'INSERT INTO Push_Massage VALUSE(0,' + ret.data + ',' + ret.data + ',' + 242 + ',0)';
+						db.executeSql({
+							name : 'ichong',
+							sql : sql
+						}, function(ret, err) {
+							if (ret.status) {
+								alert("插入成功！");
+							});
+						});
+					}
 				}
 			});
 		});
