@@ -463,12 +463,12 @@
 				} else {
 				}
 			});
-			//添加消息推送监听	
+			//添加消息推送监听
 			var push = api.require('push');
 			push.setListener(function(ret, err) {
 				if (ret) {
 					api.alert({
-						msg : ret.data
+						msg : JSON.stringify(ret)
 					});
 				}
 			});
@@ -482,6 +482,9 @@
 			});
 		}
 
+		/**
+		 *关闭页面的回调
+		 */
 		function closeindex() {
 			H.$closeCurrentFrame();
 		}
