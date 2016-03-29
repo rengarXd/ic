@@ -112,6 +112,7 @@
 			});
 		});
 		H.ready(function() {
+			var db = api.require('db');
 			/*下拉刷新*/
 			H.$dropdownToRefresh(function(ret, err) {
 				setTimeout(function() {
@@ -119,17 +120,15 @@
 					H.$recoverDropdownToNormal();
 				}, 1000);
 			});
-			
-			
-				var sql = 'SELECT * from Push_Massage';
-						db.executeSql({
-							name : 'ichong',
-							sql : sql
-						}, function(ret, err) {
-							if (ret.status) {
-								alert(JSON.stringify(ret));
-							};
-						});
+			var sql = 'SELECT * from Push_Massage';
+			db.executeSql({
+				name : 'ichong',
+				sql : sql
+			}, function(ret, err) {
+				if (ret.status) {
+					alert(JSON.stringify(ret));
+				};
+			});
 		});
 	</script>
 </html>
