@@ -42,24 +42,164 @@
 			.icon_sosuo_1:active {
 				background: #BBBBBB;
 			}
+			p.goods-title {
+				font-size: 1em;
+				color: #333;
+			}
+			p.goods-info {
+				font-size: 12px;
+				color: #999;
+			}
+			.aui-line-x {
+				margin: 5px 0;
+			}
+			.aui-line-x:after {
+				border-color: #ddd;
+			}
+			.goods-price {
+				font-size: 0.875em;
+			}
+			.goods-price strong {
+				margin: 0 5px;
+				font-size: 16px;
+			}
+			.shop_title {
+				height: 42px;
+				overflow: hidden;
+			}
+			.goodss-info {
+				font-size: 10px !important;
+				line-height: 31px !important;
+			}
 		</style>
 	</head>
 	<body>
-		<div class="aui-content list_view">
+		<div class="aui-content list_view" id="list_body">
 			<ul class="aui-list-view">
 				<li class="aui-list-view-cell">
 					<span class="iconfont icon-sousuo icon_sosuo_min" ></span> 看看大家都在搜索什么
 				</li>
-				<li class="aui-content-title" style="padding-top: 9px;">
-					<span class="icon_sosuo_1">发热</span><span class="icon_sosuo_1">发热</span><span class="icon_sosuo_1">发热</span><span class="icon_sosuo_1">热</span>
-					<span class="icon_sosuo_1">发热</span><span class="icon_sosuo_1">发热</span><span class="icon_sosuo_1">发热</span><span class="icon_sosuo_1">热</span>
-				</li>
+				<div id="keyword_body">
+					<li class="aui-content-title" style="padding-top: 9px;" >
+						<!--页面加载中-->
+						<div style="text-align: center" id="ic_loading"><img src="../../image/loading.png" width="70" height="70" />
+							<br />
+							加载中...
+						</div>
+						<!--页面加载中-->
+					</li>
+				</div>
 			</ul>
 		</div>
+		<script type="text/html" id="keyword_data">
+			<li class="aui-content-title" style="padding-top: 9px;">
+			{{# for(var i = 0, ll = d.retValue.length; i < ll; i++) { }}
+			<span class="icon_sosuo_1" onclick="word_add('{{ d.retValue[i].word }}')" tapmode>{{ d.retValue[i].word }}</span>
+			{{# } }}
+			</li>
+		</script>
+		<script id="list_data" type="text/html">
+			<ul class="aui-list-view aui-grid-view" >
+			{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
+			<li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode onclick="openGoods({{ d.retValue[i].id }})">
+			<img class="aui-img-object" src="http://q.endzk.com/{{ d.retValue[i].img }}">
+			<div class="aui-img-body aui-text-left">
+			<div class="shop_title">{{ d.retValue[i].name }}</div>
+			<p>
+			<span class="goods-price aui-text-danger">¥<strong>{{ d.retValue[i].sell_price }}</strong>元</span>
+			<span class=" aui-pull-right goodss-info">
+			<span class="aui-text-danger">{{ d.retValue[i].favorite }}</span>人收藏
+			</span>
+			</p>
+			</div>
+			</li>
+			{{# } }}
+			</ul>
+		</script>
 	</body>
-	<script type="text/javascript" src="../../script/api.js"></script>
+	<script type="text/javascript" src="../../script/AHelper.js"></script>
+	<script type="text/javascript" src="../../script/zepto.min.js"></script>
+	<script type="text/javascript" src="../../script/laytpl.js"></script>
 	<script type="text/javascript">
-		apiready = function() {
-		};
+		var retobj = null, keywords;
+		function get_data() {
+			//请求首页广告数据			
+			api.ajax({
+				url : window.serverUrl + '/goods_list/token/' + retobj.token + '/user_id/' + retobj.id,
+				cache : true
+			}, function(ret, err) {
+				//如果请求有数据返回
+				if (ret && ret.retCode == 1) {
+					var tpl = document.getElementById('list_data').innerHTML;
+					laytpl(tpl).render(ret, function(render) {
+						H.$recoverDropdownToNormal();
+						document.getElementById('list_body').innerHTML = render;
+						api.hideProgress();
+					});
+				} else {
+					//						if (ret && ret.retCode == 0) {
+					//						}
+					alert(JSON.stringify(err));
+				}
+			});
+		}
+
+		function key_words() {
+			api.ajax({
+				url : window.serverUrl + '/app_index_search/token/' + retobj.token,
+				cache : true
+			}, function(ret, err) {
+				//如果请求有数据返回
+				if (ret && ret.retCode == 1) {
+					//					alert(JSON.stringify(ret));
+					var tpl = document.getElementById('keyword_data').innerHTML;
+					laytpl(tpl).render(ret, function(render) {
+						H.$recoverDropdownToNormal();
+						document.getElementById('keyword_body').innerHTML = render;
+					});
+				} else {
+					//						if (ret && ret.retCode == 0) {
+					//						}
+					alert(JSON.stringify(err));
+				}
+			});
+		}
+
+		//向搜索框中添加关键字
+		function word_add(word) {
+			//			api.toast({
+			//				msg : word
+			//			});
+			api.sendEvent({
+				name : 'keyword',
+				extra : word
+			});
+		}
+
+		Zepto(function() {
+		});
+		H.ready(function() {
+			//获取个人认证token
+			api.getPrefs({
+				key : 'userinfo'
+			}, function(ret, err) {
+				//字符串转为json对象
+				retobj = eval('(' + ret.value + ')');
+				key_words();
+			});
+			//			/*下拉刷新*/
+			//			H.$dropdownToRefresh(function(ret, err) {
+			//				get_data();
+			//			});
+			//添加页刷新的监听
+			api.addEventListener({
+				name : 'searchreload'
+			}, function(ret, err) {
+				if (ret) {
+					get_data();
+				} else {
+				}
+			});
+		});
 	</script>
 </html>
