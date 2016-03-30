@@ -86,13 +86,16 @@
 				-khtml-border-radius: 50%;
 				-webkit-border-radius: 50%;
 			}
+			.aui-img-object{
+				height :48px !important;
+			}
 		</style>
 	</head>
 	<body>
 		<div class="aui-content">
 			<ul class="aui-user-view">
 				<li class="aui-user-view-cell aui-img">
-					<img class="aui-img-object aui-pull-left" id="doctor_pic" src="../../image/friend/pic04.png">
+					<img class="aui-img-object aui-pull-left" id="doctor_pic" src="">
 					<div class="aui-img-body">
 						<span><span id="doctor_name">&nbsp;&nbsp;&nbsp;</span><i id="doctor_fen">&nbsp;&nbsp;&nbsp;</i><em><img id="doctor_isauthent" style="display:none" src="../../image/friend/rzys.png"/></em></span>
 						<p class='aui-ellipsis-1' id="doctor_jobname">
@@ -156,7 +159,7 @@
 			<p style="margin-top: 5px; margin-bottom: 5px;">
 			{{ d[i].content }}
 			</p>
-			<h6>{{ d[i].time }}<span style="float: right">回复（{{ d[i].answer_nums }}）</span></h6>
+			<h6>{{ H.$com.jsDateDiff(d[i].time) }}<span style="float: right">回复（{{ d[i].answer_nums }}）</span></h6>
 			</li>
 			{{# } }}
 		</script>
@@ -215,7 +218,7 @@
 						}
 						$("#doctor_name").html(ret.retValue.doctor[0].name);
 						$("#doctor_fen").html(ret.retValue.doctor[0].stars + "分");
-						$("#doctor_pic").src = window.serverUrlPath + ret.retValue.doctor[0].pic;
+						$("#doctor_pic").attr('src', window.serverUrlPath + ret.retValue.doctor[0].pic);
 						$("#doctor_jobname").html(ret.retValue.doctor[0].jobname);
 						$("#doctor_from").html(ret.retValue.doctor[0].from);
 						$("#doctor_answer").html(ret.retValue.doctor[0].answer);
