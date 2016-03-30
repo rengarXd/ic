@@ -76,8 +76,10 @@
 						</p>
 					</div>
 				</li>
-				<li class="aui-user-view-cell aui-img">
+				<!--系统消息-->
+				<li class="aui-user-view-cell aui-img" data-funcName="system_massage_header" tapmode>
 					<div class="img-cont"><img class="aui-img-object aui-pull-left" src="../../image/massage/mssage_02.png" tapmode >
+						<span class="gender man" id="systemnum"></span>
 					</div>
 					<div class="aui-img-body">
 						<span>系统消息</span><i class="massage_time">2016-1-22  15:23:58</i>
@@ -86,6 +88,7 @@
 						</p>
 					</div>
 				</li>
+				<!--系统消息-->
 				<li class="aui-user-view-cell aui-img">
 					<div class="img-cont"><img class="aui-img-object aui-pull-left" src="../../image/massage/mssage_03.png" tapmode >
 						<span class="gender man">10</span>
@@ -103,11 +106,11 @@
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript">
-		Zepto(function() {
-			$(".aui-list-view").on("tap", "li", function() {
+		Zepto(function($) {
+			$(".aui-user-view").on("tap", "li", function() {
 				var funcName = $(this).attr("data-funcName");
 				if (funcName) {
-					H.$openWin(funcName, funcName + '.html');
+					H.$openWin(funcName, 'massage/' + funcName + '.html');
 				}
 			});
 		});
@@ -120,14 +123,59 @@
 					H.$recoverDropdownToNormal();
 				}, 1000);
 			});
-			var sql = 'SELECT * from Push_Massage';
-			db.executeSql({
-				name : 'ichong',
-				sql : sql
+			db.openDatabase({
+				name : 'ichong'
 			}, function(ret, err) {
 				if (ret.status) {
-					alert(JSON.stringify(ret));
-				};
+//					var sql = 'CREATE TABLE Persons(Id_P int, LastName varchar(255), FirstName varchar(255), Address varchar(255), City varchar(255))';
+//					db.executeSql({
+//						name : 'ichong',
+//						sql : sql
+//					}, function(ret, err) {
+						if (ret.status) {
+						
+						
+						
+							var sql = 'INSERT INTO Persons(Id_P,LastName,FirstName,Address,City) VALUES (1,"陈","亚磊","河南","郑州")';
+							db.executeSql({
+								name : 'ichong',
+								sql : sql
+							}, function(ret, err) {
+								if (ret.status) {
+									var sql = 'SELECT * from Persons';
+									db.selectSql({
+										name : 'ichong',
+										sql : sql
+									}, function(ret, err) {
+										if (ret.status) {
+											if (ret.data.length > 0) {
+												$("#systemnum").text(ret.data.length);
+											} else {
+												$("#systemnum").hide();
+											}
+										} else {
+											api.alert({
+												msg : err.msg
+											});
+										}
+									});
+								} else {
+									api.alert({
+										msg : err.msg
+									});
+								}
+							});
+						} else {
+							api.alert({
+								msg : err.msg
+							});
+						}
+//					});
+				} else {
+					api.alert({
+						msg : err.msg
+					});
+				}
 			});
 		});
 	</script>
