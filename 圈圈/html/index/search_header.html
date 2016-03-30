@@ -4,12 +4,10 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
 		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-		<title>title</title>
+		<title>首页搜索处理header</title>
 		<link rel="stylesheet" type="text/css" href="../../css/aui.css"/>
 		<link rel="stylesheet" type="text/css" href="../../css/fonts/iconfont.css"/>
 		<style>
-			body {
-			}
 			.aui-bar-1d9dd5 {
 				background: #1786FF;
 			}
@@ -19,12 +17,12 @@
 				-khtml-border-radius: 4px;
 				-webkit-border-radius: 4px;
 				height: 31px;
-				margin-top: 8px;
-				margin-left: 6px;
+				margin-top: 6px;
+				margin-left: 8px;
 				font-size: 13px;
 				color: #bbb;
-				line-height: 31px;
-				padding-left: 6px !important;
+				line-height: 29px;
+				padding-left: 7px !important;
 				margin-bottom: 0 !important;
 				border: 0 !important;
 			}
@@ -44,7 +42,7 @@
 						<input class="serach_in" type="search" placeholder="大家都在搜：犬类腹泻" id="search-input">
 					</form>
 				</div>
-				<!--				<span class="iconfont icon-sousuo sousuo_btn" style="display: none;" id="icon_btn"></span>-->
+				<span class="iconfont icon-sousuo sousuo_btn" id="icon_btn"></span>
 			</div>
 			<div class="aui-col-xs-2">
 				<a class="aui-pull-right" onclick="H.$closeCurrentWin();"> <span class="aui-iconfont "></span>取消 </a>
@@ -79,8 +77,8 @@
 			var content = H.$api.val(H.$api.byId("search-input"));
 			if (content) {
 				api.showProgress({
-				title : '搜索中'
-			});
+					title : '搜索中'
+				});
 //				api.getPrefs({
 //					key : 'userinfo'
 //				}, function(ret, err) {
@@ -114,13 +112,14 @@
 					msg : '您没有输入任何内容'
 				});
 			}
-						cancelSearch();
+			cancelSearch();
 		}
-				//取消搜索
-				function cancelSearch() {
-					H.$api.removeCls(H.$api.dom(".aui-searchbar-input.focus"), "focus");
-		//			H.$api.val(H.$api.byId("search-input"), '');
-					H.$api.dom('.aui-searchbar-input input').blur();
-				}
+
+		//取消搜索
+		function cancelSearch() {
+			H.$api.removeCls(H.$api.dom(".aui-searchbar-input.focus"), "focus");
+			//			H.$api.val(H.$api.byId("search-input"), '');
+			H.$api.dom('.aui-searchbar-input input').blur();
+		}
 	</script>
 </html>
