@@ -123,7 +123,11 @@
 	<script type="text/javascript">
 		var retobj = null, keywords,swd = null;
 		function get_data() {
-			//请求首页广告数据			
+			//请求搜索结果
+			api.showProgress({
+				title : '搜索中',
+				modal : false
+			});	
 			api.ajax({
 				url : window.serverUrl + '/goods_list/token/' + retobj.token + '/user_id/' + retobj.id + '/word/' + swd,
 				cache : true

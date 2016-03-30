@@ -76,39 +76,14 @@
 		function search() {
 			var content = H.$api.val(H.$api.byId("search-input"));
 			if (content) {
-				api.showProgress({
-					title : '搜索中'
+				api.sendEvent({
+					name : 'searchreload',
+					extra : content
 				});
-//				api.getPrefs({
-//					key : 'userinfo'
-//				}, function(ret, err) {
-//					//字符串转为json对象
-//					var retobj = eval('(' + ret.value + ')');
-//					//发送搜索数据
-//					api.ajax({
-//						url : window.serverUrl + '/goods_list/token/' + retobj.token + '/word/' + content
-//					}, function(ret, err) {
-//						//如果请求有数据返回
-//						if (ret && ret.retCode == 1) {
-							//						alert(JSON.stringify(ret));
-							api.sendEvent({
-								name : 'searchreload',
-								extra : content
-							});
-							//							api.execScript({
-							//								frameName : 'consulting_from_body',
-							//								script : 'get_data();'
-							//							});
-//						} else {
-							//						if (ret && ret.retCode == 0) {
-							//						}
-//							alert(JSON.stringify(err));
-//						}
-//					});
-//				});
+
 			} else {
-				api.alert({
-					title : '搜索提示',
+				api.toast({
+//					title : '搜索提示',
 					msg : '您没有输入任何内容'
 				});
 			}
