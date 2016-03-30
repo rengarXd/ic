@@ -16,7 +16,7 @@
 	var modules = {};
 	//常规api请求地址
 	window.serverUrl = "http://q.endzk.com/apis";
-//	window.serverUrl = "http://192.168.10.129/iwebshop/apis";
+	//	window.serverUrl = "http://192.168.10.129/iwebshop/apis";
 	//设备访问api请求地址
 	window.deviceserverUrl = "http://q.endzk.com/deviceapi";
 	//常规静态资源请求地址
@@ -213,6 +213,16 @@
 			} else {
 				return (false);
 			}
+		},
+		// 打印对象
+		// @obj 要打印的对象
+		writeObj : function(obj) {
+			var description = "";
+			for (var i in obj) {
+				var property = obj[i];
+				description += i + " = " + property + "\n";
+			}
+			alert(description);
 		}
 	};
 	// ######################################## 完美分割线 #############################################

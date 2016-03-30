@@ -6,7 +6,6 @@
 		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no,text=no">
 		<title>个人资料更改body</title>
 		<link rel="stylesheet" type="text/css" href="../../css/aui.css" />
-		<link rel="stylesheet" type="text/css" href="../../css/font/iconfont.css" />
 		<style>
 			.aui-input-addon {
 				padding-left: 20px !important;
@@ -20,7 +19,6 @@
 		</style>
 	</head>
 	<body>
-
 		<!--昵称-->
 		<div class="aui-content" style="padding-top: 15px;">
 			<div class="aui-form" id="username" style="display: none">
@@ -65,13 +63,23 @@
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript">
-		var retobj = null;
+		//用户对象
+		var retobj = null, temp = null;
+		//1.0 更改昵称
 		function save() {
 			var usernamevalue = $("#usernamevalue").val();
+			if(temp == usernamevalue){
+				return api.toast({
+	                msg:"抱歉您未做任何修改"
+                });
+			}
 			api.showProgress({
-				title : "正在更改..."
+				title : "正在更改...",
+				modal : false
 			});
-			H.$ajax(function(ret, err) {
+			api.ajax({
+				url : window.serverUrl + '/userinfo_edit/token/' + retobj.token + '/user_id/' + retobj.id + '/type/1' + '/username/' + encodeURI(usernamevalue)
+			}, function(ret, err) {
 				if (ret && ret.retCode == 1) {
 					H.$setPrefs(function(ret, err) {
 						api.hideProgress();
@@ -83,16 +91,24 @@
 						});
 					}, 'userinfo', JSON.stringify(ret.retValue));
 				}
-			}, window.serverUrl + '/userinfo_edit/token/' + retobj.token + '/user_id/' + retobj.id + '/type/1' + '/username/' + encodeURI(usernamevalue));
+			});
 		}
 
-		//更改用户姓名
+		//2.0 更改用户真实姓名
 		function save_a() {
 			var firstnm = $("#firstnamevalue").val();
+			if(temp == firstnm){
+				return api.toast({
+	                msg:"抱歉您未做任何修改"
+                });
+			}
 			api.showProgress({
-				title : "正在更改..."
+				title : "正在更改...",
+				modal : false
 			});
-			H.$ajax(function(ret, err) {
+			api.ajax({
+				url : window.serverUrl + '/userinfo_edit/token/' + retobj.token + '/user_id/' + retobj.id + '/type/2' + '/truename/' + encodeURI(firstnm)
+			}, function(ret, err) {
 				if (ret && ret.retCode == 1) {
 					H.$setPrefs(function(ret, err) {
 						api.hideProgress();
@@ -104,15 +120,24 @@
 						});
 					}, 'userinfo', JSON.stringify(ret.retValue));
 				}
-			}, window.serverUrl + '/userinfo_edit/token/' + retobj.token + '/user_id/' + retobj.id + '/type/2' + '/truename/' + encodeURI(firstnm));
+			});
 		}
 
+		//3.0 更改性别
 		function save_b() {
 			var sexid = $("#sexname input[type='radio']:checked").val();
+			if(temp == sexid){
+				return api.toast({
+	                msg:"抱歉您未做任何修改"
+                });
+			}
 			api.showProgress({
-				title : "正在更改..."
+				title : "正在更改...",
+				modal : false
 			});
-			H.$ajax(function(ret, err) {
+			api.ajax({
+				url : window.serverUrl + '/userinfo_edit/token/' + retobj.token + '/user_id/' + retobj.id + '/type/2' + '/sex/' + sexid
+			}, function(ret, err) {
 				if (ret && ret.retCode == 1) {
 					H.$setPrefs(function(ret, err) {
 						api.hideProgress();
@@ -124,10 +149,11 @@
 						});
 					}, 'userinfo', JSON.stringify(ret.retValue));
 				}
-			}, window.serverUrl + '/userinfo_edit/token/' + retobj.token + '/user_id/' + retobj.id + '/type/2' + '/sex/' + sexid);
+			});
 		}
 
-		Zepto(function() {
+		
+		Zepto(function($) {
 		});
 		H.ready(function() {
 			api.getPrefs({
@@ -142,10 +168,12 @@
 				case 1:
 					$("#username").show();
 					$("#usernamevalue").val(types.username);
+					temp = types.username;
 					break;
 				case 2:
 					$("#firstname").show();
 					$("#firstnamevalue").val(types.truename);
+					temp = types.truename;
 					break;
 				case 3:
 					$("#sexname").show();
@@ -156,16 +184,9 @@
 							$("#sexname input[name='sex']").get(1).checked = true;
 						}
 					}
+					temp = types.sex;
 					break;
 			}
 		});
-		function writeObj(obj) {
-			var description = "";
-			for (var i in obj) {
-				var property = obj[i];
-				description += i + " = " + property + "\n";
-			}
-			alert(description);
-		}
 	</script>
 </html>
