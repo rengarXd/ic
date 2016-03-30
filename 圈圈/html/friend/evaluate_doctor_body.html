@@ -41,6 +41,10 @@
 				font-size: 13px;
 				padding-left: 20px;
 			}
+			.aui-pull-right {
+				padding-top: 5px;
+				padding-right: 9px;
+			}
 		</style>
 	</head>
 	<body>
@@ -48,22 +52,23 @@
 			<span class="bsy">满意度</span>
 			<div class="aui-input-row">
 				<label class="aui-input-addon">非常满意</label>
-				<input class="aui-pull-right aui-radio" type="radio" name="demo" checked>
+				<input class="aui-pull-right aui-radio" type="radio" issf="1" name="demo" checked>
 			</div>
 			<div class="aui-input-row">
 				<label class="aui-input-addon">满意</label>
-				<input class="aui-pull-right aui-radio aui-radio-info" type="radio" name="demo">
+				<input class="aui-pull-right aui-radio aui-radio-info" type="radio" issf="2" name="demo">
 			</div>
 			<div class="aui-input-row">
 				<label class="aui-input-addon">不满意</label>
-				<input class="aui-pull-right aui-radio aui-radio-success" type="radio" name="demo" >
+				<input class="aui-pull-right aui-radio aui-radio-success" type="radio" issf="3" name="demo" >
 			</div>
 		</div>
 		<div class="aui-content" style="background: #fff">
-			<span class="pj">评价</span>
+			<span class="pj">评价<div class="aui-pull-right" id="jRate"></div></span>
+			<div id="demo-onchange-value"></div>
 			<div class="aui-form">
 				<div class="aui-input-row aui-input-rows">
-					<textarea class="aui-input" placeholder="请给您的宠物的症状做一个详细的描述" style="height: 140px;"></textarea>
+					<textarea class="aui-input" placeholder="请给您的給此次的問診做一个详细的評價" style="height: 140px;"></textarea>
 				</div>
 			</div>
 		</div>
@@ -77,30 +82,31 @@
 		<!--我要问诊-->
 	</body>
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
-	<script type="text/javascript" src="../../script/zepto.min.js"></script>
+	<script type="text/javascript" src="../../script/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="../../script/jRate.js"></script>
 	<script>
-		Zepto(function($) {
-			$("#wenzhen").on("tap", function() {
-				api.actionSheet({
-					title : '请选择您要问诊的宠物',
-					cancelTitle : '取消',
-					destructiveTitle : '',
-					buttons : ['可可']
-				}, function(ret, err) {
-					if (ret) {
-						//						alert(JSON.stringify(ret));
-					} else {
-						//						alert(JSON.stringify(err));
-					}
-				});
-			});
-			$("#consulting").on("tap", function() {
-				api.parseTapmode();
-				H.$openWin("chat_msg_head", "chat_msg_head.html");
-			});
-			;
-		});
+		var retobj = null, result = null, doctorid = null;
 		H.ready(function() {
+			doctorid = H.$getPageParam();
+			api.getPrefs({
+				key : 'userinfo'
+			}, function(ret, err) {
+				retobj = eval('(' + ret.value + ')');
+			});
+			$("#jRate").jRate({
+				backgroundColor : 'white',
+				startColor : '#ff7f27',
+				endColor : '#ff7f27',
+				strokeColor : 'black',
+				opacity : 0.3,
+				precision : 0.1,
+				onChange : function(rating) {
+					//					$('#demo-onchange-value').text("Your Rating: " + rating);
+					result = rating;
+				}
+			});
+			$("#consulting").on("click", function() {
+			});
 		});
 	</script>
 </html>
