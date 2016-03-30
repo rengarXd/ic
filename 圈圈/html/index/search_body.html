@@ -121,11 +121,11 @@
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript" src="../../script/laytpl.js"></script>
 	<script type="text/javascript">
-		var retobj = null, keywords;
+		var retobj = null, keywords,swd = null;
 		function get_data() {
 			//请求首页广告数据			
 			api.ajax({
-				url : window.serverUrl + '/goods_list/token/' + retobj.token + '/user_id/' + retobj.id,
+				url : window.serverUrl + '/goods_list/token/' + retobj.token + '/user_id/' + retobj.id + '/word/' + swd,
 				cache : true
 			}, function(ret, err) {
 				//如果请求有数据返回
@@ -139,7 +139,8 @@
 				} else {
 					//						if (ret && ret.retCode == 0) {
 					//						}
-					alert(JSON.stringify(err));
+					alert("没有找到相关信息");
+					api.hideProgress();
 				}
 			});
 		}
@@ -196,6 +197,8 @@
 				name : 'searchreload'
 			}, function(ret, err) {
 				if (ret) {
+//				alert(JSON.stringify(ret));
+				swd = ret.value;
 					get_data();
 				} else {
 				}
