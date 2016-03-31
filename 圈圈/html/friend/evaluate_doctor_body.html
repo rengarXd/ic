@@ -45,6 +45,87 @@
 				padding-top: 5px;
 				padding-right: 9px;
 			}
+			/*容器*/
+			#xzw_starSys {
+				width: 400px;
+				border: 1px solid #ccc;
+				padding: 50px;
+				margin: 100px auto
+			}
+			#xzw_starBox {
+				position: relative;
+				width: 120px;
+				float: left
+			}
+			/**/
+			#xzw_starSys .description {
+				clear: both;
+				padding: 10px 0px
+			}
+			#xzw_starSys .star {
+				height: 20px;
+				width: 120px;
+				position: relative;
+				background: url(../../images/friend/123.png) repeat-x;
+				cursor: pointer
+			}
+			#xzw_starSys .star li {
+				float: left;
+				padding: 0px;
+				margin: 0px
+			}
+			#xzw_starSys .star li a {
+				display: block;
+				width: 24px;
+				height: 20px;
+				overflow: hidden;
+				text-indent: -9999px;
+				position: absolute;
+				z-index: 5
+			}
+			#xzw_starSys .star li a:hover {
+				background: url(../../images/friend/123.png) 0 -25px repeat-x;
+				z-index: 3;
+				left: 0
+			}
+			#xzw_starSys .star a.one-star {
+				left: 0
+			}
+			#xzw_starSys .star a.one-star:hover {
+				width: 24px
+			}
+			#xzw_starSys .star a.two-stars {
+				left: 24px
+			}
+			#xzw_starSys .star a.two-stars:hover {
+				width: 48px
+			}
+			#xzw_starSys .star a.three-stars {
+				left: 48px
+			}
+			#xzw_starSys .star a.three-stars:hover {
+				width: 72px
+			}
+			#xzw_starSys .star a.four-stars {
+				left: 72px
+			}
+			#xzw_starSys .star a.four-stars:hover {
+				width: 96px
+			}
+			#xzw_starSys .star a.five-stars {
+				left: 96px
+			}
+			#xzw_starSys .star a.five-stars:hover {
+				width: 120px
+			}
+			#xzw_starSys .current-rating {
+				background: url(../../images/friend/123.png) 0 -25px repeat-x;
+				position: absolute;
+				height: 20px;
+				z-index: 1;
+				top: 0;
+				left: 0
+			}
 		</style>
 	</head>
 	<body>
@@ -64,11 +145,33 @@
 			</div>
 		</div>
 		<div class="aui-content" style="background: #fff">
-			<span class="pj">评价<div class="aui-pull-right" id="jRate"></div></span>
-			<div id="demo-onchange-value"></div>
+			<span class="pj">评价
+				<div id="xzw_starSys">
+					<div id="xzw_starBox">
+						<ul class="star" id="star">
+							<li>
+								<a href="javascript:void(0)" title="1" class="one-star">1</a>
+							</li>
+							<li>
+								<a href="javascript:void(0)" title="2" class="two-stars">2</a>
+							</li>
+							<li>
+								<a href="javascript:void(0)" title="3" class="three-stars">3</a>
+							</li>
+							<li>
+								<a href="javascript:void(0)" title="4" class="four-stars">4</a>
+							</li>
+							<li>
+								<a href="javascript:void(0)" title="5" class="five-stars">5</a>
+							</li>
+						</ul>
+						<div class="current-rating" id="showb"></div>
+					</div>
+					<div class="description"></div>
+				</div></span>
 			<div class="aui-form">
 				<div class="aui-input-row aui-input-rows">
-					<textarea class="aui-input" placeholder="请给您的給此次的問診做一个详细的評價" style="height: 140px;"></textarea>
+					<textarea class="aui-input" placeholder="请您给此次的问诊做一个详细的评价" style="height: 140px;"></textarea>
 				</div>
 			</div>
 		</div>
@@ -81,32 +184,13 @@
 		</div>
 		<!--我要问诊-->
 	</body>
+	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
-	<script type="text/javascript" src="../../script/jquery-1.11.1.min.js"></script>
-	<script type="text/javascript" src="../../script/jRate.js"></script>
 	<script>
-		var retobj = null, result = null, doctorid = null;
+		Zepto(function($) {
+		});
 		H.ready(function() {
-			doctorid = H.$getPageParam();
-			api.getPrefs({
-				key : 'userinfo'
-			}, function(ret, err) {
-				retobj = eval('(' + ret.value + ')');
-			});
-			$("#jRate").jRate({
-				backgroundColor : 'white',
-				startColor : '#ff7f27',
-				endColor : '#ff7f27',
-				strokeColor : 'black',
-				opacity : 0.3,
-				precision : 0.1,
-				onChange : function(rating) {
-					//					$('#demo-onchange-value').text("Your Rating: " + rating);
-					result = rating;
-				}
-			});
-			$("#consulting").on("click", function() {
-			});
+			
 		});
 	</script>
 </html>
