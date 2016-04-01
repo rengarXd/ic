@@ -243,90 +243,129 @@
 		<script type="text/javascript" src="../../script/zepto.min.js"></script>
 		<script type="text/javascript">
 			//初始化计时器
-			var times;
-			//验证手机号是否正确的方法 回调isTel方法
+			var times, smsVerify = null, push = null;
+			/**
+			 * 通过 ok
+			 * 1.1 验证手机号是否正确的方法方法封装 回调isTel方法 pass
+			 */
 			function verifyTel(tel) {
-				//手机号的正则
+				//1.2 手机号的正则
 				var a = /^((\(\d{3}\))|(\d{3}\-))?13\d{9}|14[57]\d{8}|15\d{9}|18\d{9}$/;
-				//判断手机号
+				//1.3 判断手机号
 				if (tel.length != 11 || !tel.match(a)) {
+					//1.4 如果不是正确的手机号
 					H.$toast("请输入正确的手机号！");
-					//$("#tel").focus();
 					//回调出去，进行具体操作（不是正常的手机号）
 					isTel(false, tel);
 				} else {
+					//1.4 如果是正确的手机号
 					//回调出去，进行具体操作（不是正常的手机号）
 					isTel(true, tel);
 				}
 			}
 
-			//如果验证成功进行验证码发送
+			/**
+			 * 通过 ok
+			 * 2.1 如果验证成功进行验证码发送
+			 */
 			function isTel(is, tel) {
-				//获取发送验证码对象
+				// 2.2 获取发送验证码对象
 				var sendVerify = H.$api.byId('sendVerify');
-				//获取状态字段（阻断发送多次发送短信）
+				//2.3 获取状态字段（阻断发送多次发送短信）
 				var status = H.$api.attr(sendVerify, 'status');
 				if (status != 1) {
 					return;
 				}
+				//2.4 如果手机号通过
 				if (is) {
-					var smsVerify = api.require('smsVerify');
+					// 2.6 进行短信的注册
 					smsVerify.register(function(ret, err) {
+						// 2.7 如果注册成功
 						if (ret.status) {
 							//api.alert({msg: '注册成功'});
 						} else {
 							//api.alert({msg: err.code+' 注册失败'});
 						}
 					});
+					// 2.7 发送短信
 					smsVerify.sms({
 						phone : tel,
 						country : "86"
 					}, function(ret, err) {
+						// 2.8 如果发送成功
 						if (ret.status) {
-							if (ret.smart == true) {// 安卓版特有功能 智能验证
-								H.$toast("已智能验证成功");
-								H.$showProgress();
-								H.$ajax(function(ret, err) {
+							// 2.9 如果安卓手机智能验证成功
+							if (ret.smart == true) {
+								// 2.10 提示智能验证成功
+								H.$toast("您的手机在此设备曾经登陆过，已智能验证成功！");
+								// 2.11 显示阻塞页面
+								H.$showProgress({
+									title : '登录中'
+								});
+								// 2.12 获取用户信息
+								api.ajax({
+									url : window.serverUrl + '/user_login/tel/' + tel + '/code/0000',
+								}, function(ret, err) {
 									H.$hideProgress();
-									if (ret.retCode == 1) {
-										//设置偏好值islogin
+									// 2.13 如果返回信息成功
+									if (ret && ret.retCode == 1) {
+										// 2.14 标识用户登录成功下次直接进入
 										H.$setPrefs(function(ret, err) {
 										}, 'islogin', 'ok');
-										//存储用户信息
+										// 2.15 存储用户信息（userinfo 全局共享）
 										H.$setPrefs(function(ret, err) {
+											// 2.16 发送全局加载事件更新刷新页面
+											api.sendEvent({
+												name : 'pagereload'
+											});
+											// 2.17 跳转到main页面
 											H.$openWin('main', '../main.html');
-										}, 'userinfo', JSON.stringify(ret.retValue[0]));
+										}, 'userinfo', JSON.stringify(ret.retValue));
 									} else {
-										H.$toast("抱歉，手机号信息错误，请核对！");
+										// 2.18 如果返回状态码错误
+										if (ret && ret.retCode == 0) {
+											// 2.19 显示服务器返回的错误信息
+											H.$toast(ret.retDesc);
+										} else {
+											// 2.20 隐藏阻塞页面
+											H.$hideProgress();
+											// 2.21 提示网络错误信息
+											H.$toast(err.body);
+										}
 									}
-								}, window.serverUrl + '/user_login/tel/' + tel + '/code/0000');
+								});
 							} else {
 								H.$toast("验证短信发送成功，请注意查收！");
 							}
 						} else {
-							//api.alert({
-							//	msg : err.code + ' ' + err.msg
-							//});
+							// 2.22 提示验证码错误失败原因
 							H.$toast("验证码发送失败原因：" + err.msg);
+							// 2.23 重置发送状态
 							H.$api.attr(sendVerify, 'status', '1');
 						}
 					});
 					H.$api.attr(sendVerify, 'status', '0');
 					H.$api.removeAttr(sendVerify, 'onclick');
-					api.parseTapmode();
 					H.$api.html(sendVerify, '<span id="getVerify">60</span>S');
 					times = 59;
 					isinerval = setInterval("CountDown()", 1000);
 				} else {
+					// 2.25 上面已有处理
 				}
 			}
 
-			//获取验证码方法
+			/**
+			 * 通过 ok
+			 * 3.1 获取验证码方法（获取当前输入的手机号的值，执行验证方法）
+			 */
 			function getVerify() {
 				verifyTel(H.$api.val(H.$api.byId('tel')));
 			}
 
-			//计时器
+			/**
+			 * 通过 ok
+			 * 计时器
+			 */
 			function CountDown() {
 				if (times < 1) {
 					var sendVerify = H.$api.byId('sendVerify');
@@ -343,24 +382,28 @@
 			}
 
 			Zepto(function($) {
-				// 登录按钮被点击
-				$("#app_login_btn").on("click", function() {
-					//获取手机号
+				// 3.1 登录按钮被点击
+				$("#app_login_btn").on("tap", function() {
+					// 3.2 获取手机号
 					var tel = H.$api.val(H.$api.byId('tel'));
-					//获取验证码
+					// 3.3 获取验证码
 					var code = H.$api.val(H.$api.byId('code'));
-					//手机号的正则
+					//3.4 手机号的正则
 					var a = /^((\(\d{3}\))|(\d{3}\-))?13\d{9}|14[57]\d{8}|15\d{9}|18\d{9}$/;
 					if (tel.length != 11 || !tel.match(a)) {
 						H.$toast("请输入正确的手机号！");
+						return;
 					} else {
 						if (code.length != 4) {
 							H.$toast("验证码格式错误！");
+							return;
 						} else {
-							var smsVerify = api.require('smsVerify');
+							// 3.5 注册验证
 							smsVerify.register(function(ret, err) {
 								if (ret.status) {
-									H.$showProgress();
+									api.showProgress({
+										title : '登录中'
+									});
 									//校验验证码
 									smsVerify.verify({
 										phone : tel,
@@ -370,42 +413,44 @@
 										if (ret.status) {
 											H.$ajax(function(ret, err) {
 												H.$hideProgress();
-												if (ret.retCode == 1) {
+												if (ret && ret.retCode == 1) {
 													//设置偏好值islogin
 													H.$setPrefs(function(ret, err) {
 													}, 'islogin', 'ok');
 													//存储用户信息
 													H.$setPrefs(function(ret, err) {
-														api.sendEvent({
-															name : 'pagereload',
-														});
-														H.$openWin('main', '../main.html');
-														//绑定用户推送
-														var push = api.require('push');
-															push.bind({
-															    userName:ret.retValue[0].tel,
-															    userId:ret.retValue[0].id
-															},function(ret,err){
-															    if(ret.status){
-															        api.alert({msg:'绑定成功'});
-															    }else{
-															        api.alert({msg:err.msg});
-															    }
-															});
-													}, 'userinfo', JSON.stringify(ret.retValue[0]));
+													}, 'userinfo', JSON.stringify(ret.retValue));
+													api.sendEvent({
+														name : 'pagereload',
+													});
+													H.$openWin('main', '../main.html');
+													//绑定用户推送
+													push.bind({
+														userName : ret.retValue[0].tel,
+														userId : ret.retValue[0].id
+													}, function(ret, err) {
+														if (ret.status) {
+															//api.alert({msg:'绑定成功'});
+														} else {
+															//api.alert({msg:err.msg});
+														}
+													});
 												} else {
 													H.$hideProgress();
 													H.$toast("抱歉，手机号信息错误，请核对！");
+													return;
 												}
 											}, window.serverUrl + '/user_login/tel/' + tel + '/code/' + code);
 										} else {
 											H.$hideProgress();
 											H.$toast("抱歉" + err.msg);
+											return;
 										}
 									});
 								} else {
 									H.$hideProgress();
 									H.$tosat("抱歉，登录异常，请稍后再试！");
+									return;
 								}
 							});
 						}
@@ -473,6 +518,12 @@
 			});
 			//所有的代码都写在H.ready(function(){})
 			H.ready(function() {
+				// 3.1 初始化短信模块
+				smsVerify = api.require('smsVerify');
+				// 4.1 初始化push对象
+				push = api.require('push');
+				// 3.2 优化点击
+				api.parseTapmode();
 				var types = H.$getPageParam();
 				//1.(type=1)退出登录的处理（type=2）登录失效的处理
 				switch (types.type) {
