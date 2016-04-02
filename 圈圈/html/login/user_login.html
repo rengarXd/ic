@@ -426,8 +426,8 @@
 													H.$openWin('main', '../main.html');
 													//绑定用户推送
 													push.bind({
-														userName : ret.retValue[0].tel,
-														userId : ret.retValue[0].id
+														userName : ret.retValue.tel,
+														userId : ret.retValue.id
 													}, function(ret, err) {
 														if (ret.status) {
 															//api.alert({msg:'绑定成功'});
