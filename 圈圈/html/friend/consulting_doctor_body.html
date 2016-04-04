@@ -197,9 +197,9 @@
 	<script>
 		Zepto(function($) {
 			$("#consulting").on("tap", function() {
-				var id = H.$getPageParam();
 				H.$openWin("consulting_from_header", "consulting_from_header.html", {
-					doctor_id : id
+					doctor_id : H.$getPageParam(),
+					
 				});
 			});
 		});

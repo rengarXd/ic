@@ -11,166 +11,51 @@
 			.aui-bar-1d9dd5 {
 				background: #1786FF;
 			}
-		
 		</style>
 	</head>
 	<body>
 		<header class="aui-bar aui-bar-nav aui-bar-1d9dd5" id='aui-header'>
 			<a class="aui-pull-left" tapmode onclick="H.$closeCurrentWin();"> <span class="aui-iconfont aui-icon-left"></span>返回 </a>
-			<div class="aui-title">
-				问诊详情
+			<div class="aui-title" id="nickname">
+				
 			</div>
 			<a class="aui-pull-right" > <span class="aui-iconfont iconfont icon-user_set"></span> </a>
 		</header>
 	</body>
-	<script type="text/javascript" src="../../script/AHelper.js"></script>
-	<script type="text/javascript" src="../../script/zepto.min.js"></script>
+	<script type="text/javascript" src="../../script/api.js" ></script>
 	<script type="text/javascript">
-		var UIChatBox = null;
-		// 重置frame高度
-		function resetFrameHeight(inputBarHeight, panelHeight) {
-			H.$fixStatusBar(function(offset) {
-				H.setFrameAttr({
-					name : 'chat_msg_body',
-					rect : {
-						x : 0,
-						y : offset.h,
-						w : api.winWidth,
-						h : api.winHeight - offset.h - inputBarHeight - panelHeight
-					},
-					bounces : false,
-					vScrollBarEnabled : false,
-					hScrollBarEnabled : false
-				});
-			}, 'aui-header');
-			setTimeout(function() {
-				H.$execScript(null, 'chat_msg_body', 'H.$com.scrollToDocButton();');
-			}, 200);
-		}
-
-
-		H.ready(function() {
-			// 引入模块
-			H.$require("UIChatBox");
-			UIChatBox = H.$module.UIChatBox;
-			// 打开窗口
-			H.$fixStatusBar(function(offset) {
-				H.$openFrame('chat_msg_body', 'chat_msg_body.html', {}, {
-					x : 0,
-					y : offset.h,
-					w : api.winWidth,
-					h : api.winHeight - offset.h - (H.isIOS() ? 50 : 34)
-				})
-			}, 'aui-header');
-			// ####################### 聊天组件
-			UIChatBox.open({
-				placeholder : '',
-				maxRows : 5,
-				emotionPath : 'widget://res/chatBox/emotion',
-				texts : {
-					recordBtn : {
-						normalTitle : '按住 说话',
-						activeTitle : '松开 结束'
-					},
-					sendBtn : {
-						title : "发送",
-						bg : "#ffffff",
-						activeBg : "#ffffff"
-					}
-				},
-				styles : {
-					inputBar : {
-						borderColor : '#d9d9d9',
-						bgColor : '#f2f2f2'
-					},
-					inputBox : {
-						borderColor : '#B3B3B3',
-						bgColor : '#FFFFFF'
-					},
-					emotionBtn : {
-						normalImg : 'widget://res/chatBox/chatBox_face1.png'
-					},
-					extrasBtn : {
-						normalImg : 'widget://res/chatBox/chatBox_add1.png'
-					},
-					keyboardBtn : {
-						normalImg : 'widget://res/chatBox/chatBox_key1.png'
-					},
-					speechBtn : {
-						normalImg : 'widget://res/chatBox/chatBox_key1.png'
-					},
-					recordBtn : {
-						normalBg : '#c4c4c4',
-						activeBg : '#999999',
-						color : '#000',
-						size : 14
-					},
-					indicator : {
-						target : 'both',
-						color : '#c4c4c4',
-						activeColor : '#9e9e9e'
-					},
-					sendBtn : {
-						titleColor : '#4cc518',
-						bg : '#ffffff',
-						activeBg : '#46a91e',
-						titleSize : 14
-					}
-				},
-				extras : {
-					titleSize : 10,
-					titleColor : '#a3a3a3',
-					btns : [{
-						title : '图片',
-						normalImg : 'widget://res/chatBox/chatBox_album1.png',
-						activeImg : 'widget://res/chatBox/chatBox_album2.png'
-					}, {
-						title : '拍照',
-						normalImg : 'widget://res/chatBox/chatBox_cam1.png',
-						activeImg : 'widget://res/chatBox/chatBox_cam2.png'
-					}]
-				}
-			}, function(ret, err) {
-				if (ret) {
-				} else {
-				}
-			});
-			// 监听输入框的变化，动态调整frame高度
-			//1.0 输入框所在区域弹动事件
-			UIChatBox.addEventListener({
-				target : 'inputBar',
-				name : 'move'
-			}, function(ret, err) {
-				if (ret) {
-					//输入框及左右按钮整体区域的高度
-					var inputBarHeight = ret.inputBarHeight;
-					// 输入框下边缘距离屏幕底部的高度
-					var panelHeight = ret.panelHeight;
-					resetFrameHeight(inputBarHeight, panelHeight);
-				}
-			});
-			//2.0 输入框所在区域高度改变
-			UIChatBox.addEventListener({
-				target : 'inputBar',
-				name : 'change'
-			}, function(ret, err) {
-				if (ret) {
-					//输入框及左右按钮整体区域的高度
-					var inputBarHeight = ret.inputBarHeight;
-					// 输入框下边缘距离屏幕底部的高度
-					var panelHeight = ret.panelHeight;
-					resetFrameHeight(inputBarHeight, panelHeight);
-				}
-			});
-			//退出时候进行评价
-			api.addEventListener({
-				name : 'keyback'
-			}, function(ret, err) {
-				//			    api.toast({
-				//	                msg:'返回评价啦，暂时点击屏幕返回'
-				//              });
-				H.$openWin("evaluate_doctor_header", "evaluate_doctor_header.html");
-			});
-		});
+	 apiready = function(){
+        $api.text($api.byId('nickname'),api.pageParam.targetNickname);
+        var header = $api.byId('aui-header');
+        var headerPos = $api.offset(header);
+        var body_h = $api.offset($api.dom('body')).h;
+        api.openFrame({
+            name: 'chat_msg_body',
+            url: 'chat_msg_body.html',
+            bounces: true,
+            rect: {
+                x: 0,
+                y: headerPos.h,
+                w: 'auto',
+                h: api.winHeight-headerPos.h-45
+            },
+            pageParam:{
+                targetId:api.pageParam.targetId,
+                targetAvatar:api.pageParam.targetAvatar,
+                targetNickname:api.pageParam.targetNickname
+            }
+        });
+        api.addEventListener({
+            name:'keyback'
+        },function(ret,err){
+            closeWin();
+        });
+    };
+    function closeWin(){
+        api.sendEvent({
+            name:'closeChat'
+        })
+        api.closeWin();
+    }
 	</script>
 </html>

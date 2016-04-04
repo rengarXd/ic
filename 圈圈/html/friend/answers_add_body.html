@@ -71,7 +71,7 @@
 			return fileName.substring(fileName.lastIndexOf('.') + 1);
 		}
 
-		//				获取当前时间
+		// 获取当前时间
 		function getNowFormatDate() {
 			var date = new Date();
 			var seperator1 = "-";
@@ -117,7 +117,7 @@
 			});
 		}
 
-		//		打开图片预览
+		// 打开图片预览
 		function openImageBrowser(imgs) {
 			imageBrowser.openImages({
 				imageUrls : imgs,
@@ -126,7 +126,7 @@
 			});
 		}
 
-		//			添加长按方法
+		// 添加长按方法
 		function addPress(obj, index) {
 			// 获取目前长按的对象
 			var hammertime = new Hammer(obj[0]);
