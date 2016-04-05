@@ -33,8 +33,12 @@
 			.aui-content {
 				margin-bottom: 0;
 			}
-			.aui-user-view{margin-bottom: 0;}
-			.aui-user-view:after{border-top:0}
+			.aui-user-view {
+				margin-bottom: 0;
+			}
+			.aui-user-view:after {
+				border-top: 0
+			}
 		</style>
 	</head>
 	<body>
@@ -94,7 +98,7 @@
 			loadLock = true;
 			//请求ajax数据
 			api.ajax({
-				url : window.serverUrl + '/doctor_list/token/' + retabc.token + '/page/' + page+'/pagesize/5'
+				url : window.serverUrl + '/doctor_list/token/' + retabc.token + '/page/' + page + '/pagesize/10'
 			}, function(ret, err) {
 				if (ret && ret.retCode == 1) {
 					var t = document.getElementById('doctor_list_data').innerHTML;
@@ -104,8 +108,12 @@
 						H.$recoverDropdownToNormal();
 						H.$api.css(H.$api.byId("loading"), "display:none");
 					});
-					page++;
-					loadLock = false;
+					if (ret.retValue.length < 10) {
+						loadLock = true;
+					} else {
+						page++;
+						loadLock = false;
+					}
 				} else {
 					//					H.$api.css(H.$api.byId("loading"), "display:none");
 					//					H.$openFrame('noNetwork', 'widget://res/noNetwork_body.html', {}, {
