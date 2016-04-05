@@ -99,13 +99,8 @@
 				if (ret && ret.retCode == 1) {
 					var t = document.getElementById('doctor_list_data').innerHTML;
 					laytpl(t).render(ret, function(render) {
-						api.setPrefs({
-							key : 'doctor_list',
-							value : JSON.stringify(ret)
-						});
 						H.$api.append(H.$api.byId("doctor_list_html"), render);
 						api.parseTapmode();
-						//document.getElementById('doctor_list_html').innerHTML = render;
 						H.$recoverDropdownToNormal();
 						H.$api.css(H.$api.byId("loading"), "display:none");
 					});
@@ -129,22 +124,7 @@
 				key : 'userinfo'
 			}, function(ret, err) {
 				retabc = eval("(" + ret.value + ")");
-				api.getPrefs({
-					key : 'doctor_list'
-				}, function(ret, err) {
-					//如果有缓存数据
-					if (ret && ret.value) {
-						var t = document.getElementById('doctor_list_data').innerHTML;
-						laytpl(t).render(eval('(' + ret.value + ')'), function(render) {
-							document.getElementById('doctor_list_html').innerHTML = render;
-							H.$api.css(H.$api.byId("loading"), "display:none");
-							H.$recoverDropdownToNormal();
-						});
-					} else {
-						//如果没有缓存数据
-						get_data();
-					}
-				});
+				get_data();
 			});
 			/*下拉刷新*/
 			H.$dropdownToRefresh(function(ret, err) {
