@@ -12,6 +12,14 @@
 			margin: 0 10px;
 			padding: 10px 0;
 		}
+		.aui-chat-receiver .aui-chat-receiver-avatar img {
+			width: 40px;
+			height: 40px;
+		}
+		.aui-chat-sender .aui-chat-sender-avatar img{
+			width: 40px;
+			height: 40px;
+		}
 	</style>
 	<body>
 		<div class="aui-content-padded" id="messageList"></div>
@@ -52,7 +60,7 @@
 					if (ret.value.message.targetId == targetId) {
 						var html = '';
 						html += '<div class="aui-chat-receiver" id="message-' + ret.value.message.messageId + '">';
-						html += '<div class="aui-chat-receiver-avatar"><img src="' + targetAvatar + '"></div>';
+						html += '<div class="aui-chat-receiver-avatar"><img src="http://q.endzk.com/' + targetAvatar + '"></div>';
 						html += '<div class="aui-chat-receiver-cont">';
 						html += '<div class="aui-chat-left-triangle"></div>';
 						switch(ret.value.message.objectName) {
@@ -193,7 +201,7 @@
 						api.sendEvent({
 							name : 'sendMessage',
 							extra : {
-								targetId : targetId+'',
+								targetId : targetId + '',
 								objectName : 'RC:VcMsg',
 								conversationType : 'PRIVATE',
 								message : ret
@@ -210,7 +218,7 @@
 			api.sendEvent({
 				name : 'getHistoryMessages',
 				extra : {
-					targetId : targetId+'',
+					targetId : targetId + '',
 					type : 'PRIVATE'
 				}
 			});
@@ -233,7 +241,7 @@
 								html += '<div class="aui-chat-right-triangle"></div>';
 							} else {
 								html += '<div class="aui-chat-receiver" id="message-' + messageList[i].messageId + '">';
-								html += '<div class="aui-chat-receiver-avatar"><img src="' + targetAvatar + '"></div>';
+								html += '<div class="aui-chat-receiver-avatar"><img src="http://q.endzk.com/' + targetAvatar + '"></div>';
 								html += '<div class="aui-chat-receiver-cont">';
 								html += '<div class="aui-chat-left-triangle"></div>';
 							}
@@ -378,11 +386,11 @@
 						normalImg : 'widget://image/chatBox/cam1.png',
 						activeImg : 'widget://image/chatBox/cam2.png'
 					}
-//					, {
-//						title : '位置',
-//						normalImg : 'widget://image/chatBox/loc1.png',
-//						activeImg : 'widget://image/chatBox/loc2.png'
-//					}
+					//					, {
+					//						title : '位置',
+					//						normalImg : 'widget://image/chatBox/loc1.png',
+					//						activeImg : 'widget://image/chatBox/loc2.png'
+					//					}
 					]
 				}
 			}, function(ret) {
@@ -405,7 +413,7 @@
 								api.sendEvent({
 									name : 'sendMessage',
 									extra : {
-										targetId : targetId+'',
+										targetId : targetId + '',
 										objectName : 'RC:ImgMsg',
 										conversationType : 'PRIVATE',
 										message : ret.data
@@ -429,7 +437,7 @@
 								api.sendEvent({
 									name : 'sendMessage',
 									extra : {
-										targetId : targetId+'',
+										targetId : targetId + '',
 										objectName : 'RC:ImgMsg',
 										conversationType : 'PRIVATE',
 										message : ret.data
@@ -444,7 +452,7 @@
 							url : 'bmap_add_win.html',
 							delay : 300,
 							pageParam : {
-								targetId : targetId+''
+								targetId : targetId + ''
 							},
 							animation : {
 								type : 'fade'
@@ -459,7 +467,7 @@
 					api.sendEvent({
 						name : 'sendMessage',
 						extra : {
-							targetId : targetId+'',
+							targetId : targetId + '',
 							objectName : 'RC:TxtMsg',
 							conversationType : 'PRIVATE',
 							message : ret.msg
