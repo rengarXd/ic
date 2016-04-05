@@ -15,48 +15,57 @@
 	</head>
 	<body>
 		<header class="aui-bar aui-bar-nav aui-bar-1d9dd5" id='aui-header'>
-			<a class="aui-pull-left" tapmode onclick="H.$closeCurrentWin();"> <span class="aui-iconfont aui-icon-left"></span>返回 </a>
-			<div class="aui-title" id="nickname">
-				
-			</div>
+			<a class="aui-pull-left" tapmode onclick="closeWin();"> <span class="aui-iconfont aui-icon-left"></span>返回 </a>
+			<div class="aui-title" id="nickname"></div>
 			<a class="aui-pull-right" > <span class="aui-iconfont iconfont icon-user_set"></span> </a>
 		</header>
 	</body>
 	<script type="text/javascript" src="../../script/api.js" ></script>
 	<script type="text/javascript">
-	 apiready = function(){
-        $api.text($api.byId('nickname'),api.pageParam.targetNickname);
-        var header = $api.byId('aui-header');
-        $api.fixStatusBar(header);
-        var headerPos = $api.offset(header);
-        var body_h = $api.offset($api.dom('body')).h;
-        api.openFrame({
-            name: 'chat_msg_body',
-            url: 'chat_msg_body.html',
-            bounces: true,
-            rect: {
-                x: 0,
-                y: headerPos.h,
-                w: 'auto',
-                h: api.winHeight-headerPos.h-45
-            },
-            pageParam:{
-                targetId:api.pageParam.targetId,
-                targetAvatar:api.pageParam.targetAvatar,
-                targetNickname:api.pageParam.targetNickname
-            }
-        });
-        api.addEventListener({
-            name:'keyback'
-        },function(ret,err){
-            closeWin();
-        });
-    };
-    function closeWin(){
-        api.sendEvent({
-            name:'closeChat'
-        })
-        api.closeWin();
-    }
+		apiready = function() {
+			$api.text($api.byId('nickname'), api.pageParam.targetNickname);
+			var header = $api.byId('aui-header');
+			$api.fixStatusBar(header);
+			var headerPos = $api.offset(header);
+			var body_h = $api.offset($api.dom('body')).h;
+			api.openFrame({
+				name : 'chat_msg_body',
+				url : 'chat_msg_body.html',
+				bounces : true,
+				rect : {
+					x : 0,
+					y : headerPos.h,
+					w : 'auto',
+					h : api.winHeight - headerPos.h - 45
+				},
+				pageParam : {
+					targetId : api.pageParam.targetId,
+					targetAvatar : api.pageParam.targetAvatar,
+					targetNickname : api.pageParam.targetNickname
+				}
+			});
+			api.addEventListener({
+				name : 'keyback'
+			}, function(ret, err) {
+				api.openWin({
+					name : 'evaluate_doctor_header',
+					url : 'evaluate_doctor_header.html',
+					pageParam : {
+						doctorid : api.pageParam.doctor_id
+					}
+				});
+			});
+			api.addEventListener({
+				name : 'closeChat'
+			}, function(ret, err) {
+				api.closeWin();
+			});
+		};
+		function closeWin() {
+			api.sendEvent({
+				name : 'closeChat'
+			});
+			api.closeWin();
+		}
 	</script>
 </html>

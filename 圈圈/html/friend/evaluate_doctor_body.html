@@ -68,7 +68,8 @@
 			<div id="demo-onchange-value"></div>
 			<div class="aui-form">
 				<div class="aui-input-row aui-input-rows">
-					<textarea class="aui-input" placeholder="请给您的給此次的問診做一个详细的評價" id="content" style="height: 140px;"></textarea>
+					<textarea class="aui-input" placeholder="请您给此次医生问诊做一个评价，有助于我们更好的服务" id="content" style="height: 140px;"></textarea>
+
 				</div>
 			</div>
 		</div>
@@ -85,7 +86,6 @@
 	<script type="text/javascript" src="../../script/star/jquery-1.11.1.min.js"></script>
 	<script type="text/javascript" src="../../script/star/jRate.js"></script>
 	<script type="text/javascript">
-
 		var retobj = null, result = null, doctorid = null;
 		$("#jRate").jRate({
 			backgroundColor : 'white',
@@ -100,67 +100,53 @@
 			}
 		});
 		$("#consulting").on("click", function() {
-			try {
-				var content = $("#content").text();
-				var isSatisfied = $("input").attr("issy");
-				if (result) {
-					result = 5;
-				}
-				if (content) {
-					api.ajax({
-						url : window.serverUrl + '/doctor_evaluate_add/token/' + retobj.token + '/user_id/' + retobj.id,
-						method : 'post',
-						data : {
-							values : {
-								"doctorid" : doctorid.doctor_id.id,
-								"content" : content,
-								"isSatisfied" : isSatisfied,
-								"star" : result
-							}
+			var content = $("#content").val();
+			var isSatisfied = $("input").attr("issf");
+			if (result) {
+				result = 5;
+			}
+			if (content) {
+				api.showProgress({
+					title : '正在提交'
+				});
+				api.ajax({
+					url : window.serverUrl + '/doctor_evaluate_add/token/' + retobj.token + '/user_id/' + retobj.id,
+					method : 'post',
+					cache : false,
+					data : {
+						values : {
+							"doctorid" : doctorid.doctorid,
+							"content" : content,
+							"isSatisfied" : isSatisfied,
+							"star" : result
 						}
+					}
+				}, function(ret, err) {
+					api.alert({
+						title : '温馨提示',
+						msg : '我们已经收到您的评价，I宠有您更精彩！',
+						buttons : ['确定']
 					}, function(ret, err) {
-						api.toast({
-							msg : ret.retDesc
+						api.sendEvent({
+							name : 'closeChat'
 						});
-						api.hideProgress();
-						//					if (ret && ret.retCode == 1) {
-						//						H.$openWin("consulting_doctor_header", "consulting_doctor_header.html");
-						//					} else {
-						//						api.toast({
-						//							msg : ret.retDesc
-						//						});
-						//					}
 					});
-				} else {
-					api.toast({
-						msg : '未添加文本'
-					});
-				}
-			} catch(err) {
-				alert(err.message);
+					api.hideProgress();
+				});
+			} else {
+				api.toast({
+					msg : '提交前，请添加评价'
+				});
 			}
 		});
 		H.ready(function() {
-
 			doctorid = H.$getPageParam();
+			console.log(JSON.stringify(doctorid));
 			api.getPrefs({
 				key : 'userinfo'
 			}, function(ret, err) {
 				retobj = eval('(' + ret.value + ')');
 			});
-			$("#jRate").jRate({
-				backgroundColor : 'white',
-				startColor : '#ff7f27',
-				endColor : '#ff7f27',
-				strokeColor : 'black',
-				opacity : 0.3,
-				precision : 0.1,
-				onChange : function(rating) {
-					//					$('#demo-onchange-value').text("Your Rating: " + rating);
-					result = rating;
-				}
-			});
-		
 		});
 	</script>
 </html>

@@ -502,7 +502,7 @@
 										api.hideProgress();
 										if (ret && ret.retCode == 1) {
 											// 记录成功开发发起会话
-											openChat(doctorid.doctor_id.rongid);
+											openChat(doctorid.doctor_id.rongid,doctorid.doctor_id.id);
 										} else {
 											api.toast({
 												msg : ret.retDesc
@@ -694,7 +694,7 @@
 		 * 1.5打开会话窗口
 		 *传入目标id，及会话类型
 		 */
-		function openChat(targetId) {
+		function openChat(targetId,doctor_id) {
 			//当前正在会话的targetId
 			targetIdIng = targetId;
 			var targetAvatar = doctorid.doctor_id.headico;
@@ -706,7 +706,8 @@
 				pageParam : {
 					targetId : targetId,
 					targetAvatar : targetAvatar,
-					targetNickname : targetNickname
+					targetNickname : targetNickname,
+					doctor_id:doctor_id
 				}
 			})
 		}
@@ -770,7 +771,7 @@
 								}
 							} else {
 								var message = "我：[图片]";
-								firstSendMessage(targetId, message);
+								//firstSendMessage(targetId, message);
 							}
 						} else if (ret.status == 'progress') {
 							//广播图片的进度
@@ -812,7 +813,7 @@
 								}
 							} else {
 								var message = "我：[语音]";
-								firstSendMessage(targetId, message);
+								//firstSendMessage(targetId, message);
 							}
 						} else if (ret.status == 'success') {
 							api.toast({
@@ -854,7 +855,7 @@
 								}
 							} else {
 								var message = "我：[位置]";
-								firstSendMessage(targetId, message);
+								//firstSendMessage(targetId, message);
 							}
 						} else if (ret.status == 'progress') {
 							api.toast({

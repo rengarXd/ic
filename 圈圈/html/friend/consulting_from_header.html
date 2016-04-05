@@ -25,13 +25,17 @@
 		<script type="text/javascript" src="../../script/AHelper.js"></script>
 		<script type="text/javascript">
 			H.ready(function() {
+				api.addEventListener({
+					name : 'closeChat'
+				}, function(ret, err) {
+					api.closeWin();
+				});
 				// 快速打开窗口
 				H.$openFrameWithNav('aui-header', {
 					url : 'consulting_from_body.html',
 					name : 'consulting_from_body',
 					pageParam : H.$getPageParam()
 				});
-				
 			});
 		</script>
 	</body>
