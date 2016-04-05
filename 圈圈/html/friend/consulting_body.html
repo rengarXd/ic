@@ -30,6 +30,11 @@
 			.aui-user-view-cell:active {
 				background: #f5f5f5
 			}
+			.aui-content {
+				margin-bottom: 0;
+			}
+			.aui-user-view{margin-bottom: 0;}
+			.aui-user-view:after{border-top:0}
 		</style>
 	</head>
 	<body>
@@ -53,7 +58,7 @@
 			{{ d.retValue[i].jobname}}
 			</p>
 			<p class="aui-ellipsis-pp">
-			{{ d.retValue[i].from }}
+			{{ d.retValue[i].froms }}
 			</p>
 			</div>
 			<div class="aui-line-x"></div>
@@ -68,6 +73,8 @@
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript" src="../../script/laytpl.js"></script>
 	<script>
+		// 1.1 加载处理
+		var page = 1, loadLock = false;
 		$("img").error(function() {
 			$(this).attr('src', "../../image/noavatar.gif");
 		});
@@ -84,9 +91,10 @@
 
 		//获取数据并渲染
 		function get_data() {
+			loadLock = true;
 			//请求ajax数据
 			api.ajax({
-				url : window.serverUrl + '/doctor_list/token/' + retabc.token
+				url : window.serverUrl + '/doctor_list/token/' + retabc.token + '/page/' + page+'/pagesize/5'
 			}, function(ret, err) {
 				if (ret && ret.retCode == 1) {
 					var t = document.getElementById('doctor_list_data').innerHTML;
@@ -95,23 +103,27 @@
 							key : 'doctor_list',
 							value : JSON.stringify(ret)
 						});
-						document.getElementById('doctor_list_html').innerHTML = render;
+						H.$api.append(H.$api.byId("doctor_list_html"), render);
+						api.parseTapmode();
+						//document.getElementById('doctor_list_html').innerHTML = render;
 						H.$recoverDropdownToNormal();
 						H.$api.css(H.$api.byId("loading"), "display:none");
 					});
+					page++;
+					loadLock = false;
 				} else {
-					H.$api.css(H.$api.byId("loading"), "display:none");
-					H.$openFrame('noNetwork', 'widget://res/noNetwork_body.html', {}, {
-						x : 0,
-						y : 55
-					})
+					//					H.$api.css(H.$api.byId("loading"), "display:none");
+					//					H.$openFrame('noNetwork', 'widget://res/noNetwork_body.html', {}, {
+					//						x : 0,
+					//						y : 55
+					//					})
 				}
 			});
 		}
 
 
 		H.ready(function() {
-			
+			api.parseTapmode();
 			api.refreshHeaderLoading();
 			api.getPrefs({
 				key : 'userinfo'
@@ -137,6 +149,16 @@
 			/*下拉刷新*/
 			H.$dropdownToRefresh(function(ret, err) {
 				get_data();
+			});
+			api.addEventListener({
+				name : 'scrolltobottom',
+				extra : {
+					threshold : 200
+				}
+			}, function(ret, err) {
+				if (loadLock == false) {
+					get_data();
+				}
 			});
 		});
 		Zepto(function($) {
