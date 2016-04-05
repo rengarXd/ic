@@ -80,7 +80,7 @@
 					</p>
 				</li>
 				<li class="aui-col-xs-3 aui-text-center">
-					<span class="aui-iconfont aui-icon-creativefill aui-bg-warning"></span>
+					<span class="aui-iconfont aui-icon-creativefill aui-bg-warning" onclick="openPoints()"></span>
 					<p>
 						积分兑换
 					</p>
@@ -160,6 +160,9 @@
 				});
 			});
 		});
+		function openPoints(){
+			H.$openWin('me_exchange_header', '../me/me_exchange_header.html');
+		}
 		function openGoods(goodId) {
 			H.$openWin('shop_show_header', '../shop/shop_show_header.html', {
 				goodId : goodId
