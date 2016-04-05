@@ -42,7 +42,7 @@
 						<input class="serach_in" type="search" placeholder="大家都在搜：犬类腹泻" id="search-input">
 					</form>
 				</div>
-				<span class="iconfont icon-sousuo sousuo_btn" id="icon_btn"></span>
+				<span class="iconfont icon-sousuo sousuo_btn"></span>
 			</div>
 			<div class="aui-col-xs-2">
 				<a class="aui-pull-right" tapmode onclick="H.$closeCurrentWin();"> <span class="aui-iconfont "></span>取消 </a>
@@ -81,11 +81,6 @@
 					name : 'searchreload',
 					extra : content
 				});
-				api.sendEvent({
-					name : 'searchreload',
-					extra : content
-				});
-
 			} else {
 				api.toast({
 //					title : '搜索提示',
