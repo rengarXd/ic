@@ -41,7 +41,7 @@
 	</head>
 	<body>
 		<header class="aui-bar aui-bar-nav aui-bar-1d9dd5" id='aui-header'>
-			<a class="aui-pull-left" tapmode  onclick="H.$closeCurrentWin();"> <span class="aui-iconfont aui-icon-left"></span>返回 </a>
+			<a class="aui-pull-left" tapmode onclick="H.$closeCurrentWin();"> <span class="aui-iconfont aui-icon-left"></span>返回 </a>
 			<div class="aui-title">
 				我的订单
 			</div>
@@ -81,6 +81,7 @@
 			});
 		});
 		H.ready(function() {
+			api.parseTapmode();
 			H.$openFrameGroupWithNav(function(ret, err) {
 				setStyle(ret.index);
 			}, 'aui-header', {

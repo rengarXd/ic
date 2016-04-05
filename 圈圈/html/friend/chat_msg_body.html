@@ -193,7 +193,7 @@
 						api.sendEvent({
 							name : 'sendMessage',
 							extra : {
-								targetId : targetId,
+								targetId : targetId+'',
 								objectName : 'RC:VcMsg',
 								conversationType : 'PRIVATE',
 								message : ret
@@ -210,7 +210,7 @@
 			api.sendEvent({
 				name : 'getHistoryMessages',
 				extra : {
-					targetId : targetId,
+					targetId : targetId+'',
 					type : 'PRIVATE'
 				}
 			});
@@ -405,7 +405,7 @@
 								api.sendEvent({
 									name : 'sendMessage',
 									extra : {
-										targetId : targetId,
+										targetId : targetId+'',
 										objectName : 'RC:ImgMsg',
 										conversationType : 'PRIVATE',
 										message : ret.data
@@ -429,7 +429,7 @@
 								api.sendEvent({
 									name : 'sendMessage',
 									extra : {
-										targetId : targetId,
+										targetId : targetId+'',
 										objectName : 'RC:ImgMsg',
 										conversationType : 'PRIVATE',
 										message : ret.data
@@ -444,7 +444,7 @@
 							url : 'bmap_add_win.html',
 							delay : 300,
 							pageParam : {
-								targetId : targetId
+								targetId : targetId+''
 							},
 							animation : {
 								type : 'fade'
@@ -459,7 +459,7 @@
 					api.sendEvent({
 						name : 'sendMessage',
 						extra : {
-							targetId : targetId,
+							targetId : targetId+'',
 							objectName : 'RC:TxtMsg',
 							conversationType : 'PRIVATE',
 							message : ret.msg

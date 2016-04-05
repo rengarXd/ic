@@ -27,6 +27,7 @@
 	 apiready = function(){
         $api.text($api.byId('nickname'),api.pageParam.targetNickname);
         var header = $api.byId('aui-header');
+        $api.fixStatusBar(header);
         var headerPos = $api.offset(header);
         var body_h = $api.offset($api.dom('body')).h;
         api.openFrame({

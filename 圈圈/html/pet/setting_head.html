@@ -18,7 +18,7 @@
 	</head>
 	<body>
 		<header class="aui-bar aui-bar-nav aui-bar-1d9dd5" id='aui-header'>
-			<a class="aui-pull-left" onclick="H.$closeCurrentWin();"> <span class="aui-iconfont aui-icon-left"></span>返回 </a>
+			<a class="aui-pull-left" tapmode onclick="H.$closeCurrentWin();"> <span class="aui-iconfont aui-icon-left"></span>返回 </a>
 			<div class="aui-title">
 				设置
 			</div>
@@ -50,6 +50,7 @@
 
 
 		H.ready(function() {
+			api.parseTapmode();
 			// 快速调整当前frame到最前面
 			H.$bringFrameToFront();
 			H.$fixStatusBar(function(offset) {

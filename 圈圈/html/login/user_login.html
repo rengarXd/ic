@@ -181,14 +181,14 @@
 						<span class="aui-input-addon" style="color: #000">验证码</span>
 						<input type="tel" id="code" style="background-color: #fff;color: #000" class="aui-input" placeholder="******"/>
 						<span class="aui-input-addon">
-							<div class="aui-btn qq_code_button" id="sendVerify" status="1" tapmode onclick="getVerify()">
+							<div class="aui-btn qq_code_button" tapmode id="sendVerify" status="1" tapmode onclick="getVerify()">
 								获取验证码
 							</div> </span>
 					</div>
 				</div>
 			</div>
 			<div>
-				<button class="aui-btn aui-btn-block qq_login_button" id="app_login_btn">
+				<button class="aui-btn aui-btn-block qq_login_button" tapmode id="app_login_btn">
 					登录
 				</button>
 			</div>
@@ -215,13 +215,13 @@
 				</div>
 			</div>
 			<div class="qq_dsf">
-				<div class="aui-col-xs-4 qq_login_text" id="qq">
+				<div class="aui-col-xs-4 qq_login_text" id="qq" tapmode>
 					<span class="iconfont icon-qq qq_login_icon_qq"></span>
 				</div>
-				<div class="aui-col-xs-4 qq_login_text" id="weixin">
+				<div class="aui-col-xs-4 qq_login_text" id="weixin" tapmode>
 					<span class="iconfont icon-iconfontweixin qq_login_icon_weixin"></span>
 				</div>
-				<div class="aui-col-xs-4 qq_login_text" id="weibo">
+				<div class="aui-col-xs-4 qq_login_text" id="weibo" tapmode>
 					<span class="iconfont icon-iconfontweibo qq_login_icon_weibo"></span>
 				</div>
 			</div>
@@ -518,6 +518,7 @@
 			});
 			//所有的代码都写在H.ready(function(){})
 			H.ready(function() {
+				api.parseTapmode();
 				// 3.1 初始化短信模块
 				smsVerify = api.require('smsVerify');
 				// 4.1 初始化push对象

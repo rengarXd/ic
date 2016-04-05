@@ -14,7 +14,7 @@
 	</head>
 <body>
 	<header class="aui-bar aui-bar-nav aui-bar-1d9dd5 header" id='aui-header'>
-			<a class="aui-pull-left" onclick="H.$closeCurrentWin();"> <span class="aui-iconfont aui-icon-left"></span>返回</a>
+			<a class="aui-pull-left" tapmode onclick="H.$closeCurrentWin();"> <span class="aui-iconfont aui-icon-left"></span>返回</a>
 			<div class="aui-title">
 				我的积分
 			</div>
@@ -24,6 +24,7 @@
 <script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript">
 		H.ready(function() {
+			api.parseTapmode();
 			H.$openFrameWithNav('aui-header', {
 				url : 'me_point_body.html',
 				name : 'me_point_body',

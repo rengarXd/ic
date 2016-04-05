@@ -12,7 +12,7 @@
 	<body>
 		<!--标题栏 start-->
 		<header class="aui-bar aui-bar-nav aui-bar-dark header" id='aui-header'>
-			<a class="aui-pull-left" onclick="H.$closeCurrentWin();"> <span class="aui-iconfont aui-icon-left"></span>返回</a>
+			<a class="aui-pull-left" tapmode onclick="H.$closeCurrentWin();"> <span class="aui-iconfont aui-icon-left"></span>返回</a>
 			<div class="aui-title">
 				宠物
 			</div>
@@ -20,6 +20,7 @@
 		<script type="text/javascript" src="../../script/AHelper.js"></script>
 		<script type="text/javascript">
 			H.ready(function() {
+				api.parseTapmode();
 				// 快速打开窗口 用户注册页面
 				H.$openFrameWithNav('aui-header', {
 					url : 'pet_body.html',

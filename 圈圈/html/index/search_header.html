@@ -45,7 +45,7 @@
 				<span class="iconfont icon-sousuo sousuo_btn" id="icon_btn"></span>
 			</div>
 			<div class="aui-col-xs-2">
-				<a class="aui-pull-right" onclick="H.$closeCurrentWin();"> <span class="aui-iconfont "></span>取消 </a>
+				<a class="aui-pull-right" tapmode onclick="H.$closeCurrentWin();"> <span class="aui-iconfont "></span>取消 </a>
 			</div>
 		</header>
 	</body>
@@ -53,6 +53,7 @@
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript">
 		H.ready(function() {
+			api.parseTapmode();
 			//1.1 快速打开窗口 用户注册页面
 			H.$openFrameWithNav('search-header', {
 				url : 'search_body.html',

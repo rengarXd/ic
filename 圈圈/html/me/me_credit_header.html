@@ -17,7 +17,7 @@
 	<body>
 		<!--标题栏 start-->
 		<header class="aui-bar aui-bar-nav aui-bar-1d9dd5 header" id='aui-header'>
-			<a class="aui-pull-left" onclick="H.$closeCurrentWin();"> <span class="aui-iconfont aui-icon-left"></span>返回 </a>
+			<a class="aui-pull-left" tapmode onclick="H.$closeCurrentWin();"> <span class="aui-iconfont aui-icon-left"></span>返回 </a>
 			<div class="aui-title">
 				我的余额
 			</div>
@@ -32,6 +32,7 @@
 				});
 			});
 			H.ready(function() {
+				api.parseTapmode();
 				// 快速打开窗口
 				H.$openFrameWithNav('aui-header', {
 					url : 'me_credit_body.html',
