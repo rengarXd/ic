@@ -246,13 +246,12 @@
 			});
 			frames.push('contact');
 			api.getPrefs({
-	            key:'userinfo'
-            },function(ret,err){
-            	userobj= eval('('+ret.value+')');
-            	if(userobj.ishavedevice==0){
-            		
-            	}
-            });
+				key : 'userinfo'
+			}, function(ret, err) {
+				userobj = eval('(' + ret.value + ')');
+				if (userobj.ishavedevice == 0) {
+				}
+			});
 			// 打开新的frame
 			H.$openFrameWithNav('index-header', {
 				url : 'index/index' + "_body.html",
@@ -261,21 +260,22 @@
 			}, 'aui-footer');
 			// 断开网络
 			H.$addEventListener(function(ret, err) {
-				H.$toast('已断开网络');
+				H.$toast('抱歉，检测到您已断开网络');
 			}, 'offline');
 			// 连接网络
 			H.$addEventListener(function(ret, err) {
 				H.$toast('已连接上网络');
+				api.sendEvent({
+					name : 'pagereload'
+				});
 			}, 'online');
 			H.$dblclickToCloseApp(function() {
 				//双击退出的时候执行的操作
 			});
 			//更改标题
-			H.$addEventListener(function(ret,err){
+			H.$addEventListener(function(ret, err) {
 				$("#pet-header .aui-title").text("未绑定硬件");
-			},'changepettitle');
-			
-			
+			}, 'changepettitle');
 		});
 	</script>
 </html>

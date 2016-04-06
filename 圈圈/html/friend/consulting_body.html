@@ -6,7 +6,7 @@
 		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
 		<title>诊疗body</title>
 		<link rel="stylesheet" type="text/css" href="../../css/aui.css"/>
-		<link rel="stylesheet" type="text/css" href="../../css/fonts/iconfont.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/tools/loading.css"/>
 		<style>
 			.aui-ellipsis-pp {
 				font-size: 10px;
@@ -42,13 +42,33 @@
 		</style>
 	</head>
 	<body>
-		<div class="aui-toast" id="loading">
-			<div class="aui-toast-loading"></div>
-			<div class="aui-toast-content">
-				加载中
+		
+		<div class="aui-content" id="doctor_list_html">
+				<div id="ic_loading">
+				<img src="../../image/loading.png" />
+				<h6>
+				<div class="spinner">
+					<div class="spinner-container container1">
+						<div class="circle1"></div>
+						<div class="circle2"></div>
+						<div class="circle3"></div>
+						<div class="circle4"></div>
+					</div>
+					<div class="spinner-container container2">
+						<div class="circle1"></div>
+						<div class="circle2"></div>
+						<div class="circle3"></div>
+						<div class="circle4"></div>
+					</div>
+					<div class="spinner-container container3">
+						<div class="circle1"></div>
+						<div class="circle2"></div>
+						<div class="circle3"></div>
+						<div class="circle4"></div>
+					</div>
+				</div></h6>
 			</div>
 		</div>
-		<div class="aui-content" id="doctor_list_html"></div>
 		<script id="doctor_list_data" type="text/html">
 			<ul class="aui-user-view">
 			<!--加载医师信息的循环-->
@@ -153,7 +173,7 @@
 
 		H.ready(function() {
 			api.parseTapmode();
-			api.refreshHeaderLoading();
+			//api.refreshHeaderLoading();
 			api.getPrefs({
 				key : 'userinfo'
 			}, function(ret, err) {
