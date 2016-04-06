@@ -5,6 +5,7 @@
 		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
 		<title>title</title>
 		<link rel="stylesheet" type="text/css" href="../../css/aui.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/tools/loading.css" />
 		<style>
 			.activay {
 				background: #fff;
@@ -56,10 +57,36 @@
 				margin-right: 6px;
 				border-radius: 3px;
 			}
+	
 		</style>
 	</head>
 	<body>
-		<div id="index_kbdata_body"></div>
+		<div id="index_kbdata_body">
+			<div id="ic_loading">
+				<img src="../../image/loading.png" />
+				<h6>
+				<div class="spinner">
+					<div class="spinner-container container1">
+						<div class="circle1"></div>
+						<div class="circle2"></div>
+						<div class="circle3"></div>
+						<div class="circle4"></div>
+					</div>
+					<div class="spinner-container container2">
+						<div class="circle1"></div>
+						<div class="circle2"></div>
+						<div class="circle3"></div>
+						<div class="circle4"></div>
+					</div>
+					<div class="spinner-container container3">
+						<div class="circle1"></div>
+						<div class="circle2"></div>
+						<div class="circle3"></div>
+						<div class="circle4"></div>
+					</div>
+				</div></h6>
+			</div>
+		</div>
 		<script id="index_kbdata" type="text/html">
 			{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
 			<div class="aui-content activay aui-border-b" onclick="openNews({{ d.retValue[i].id }});">

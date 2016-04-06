@@ -5,6 +5,7 @@
 		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
 		<title>I宠快报body</title>
 		<link rel="stylesheet" type="text/css" href="../../css/aui.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/tools/loading.css" />
 		<style>
 			body {
 				background-color: #fff;
@@ -26,20 +27,40 @@
 				font-size: 17px;
 				line-height: 30px;
 			}
-			.ic_conetnt img{
-				display:block;max-width:100%;height:auto
+			.ic_conetnt img {
+				display: block;
+				max-width: 100%;
+				height: auto
 			}
 		</style>
 	</head>
 	<body>
-		<!--<img src="../../image/mckb.png" style="padding-bottom: 15px;"/>-->
-		<div class="aui-toast" id="loading">
-			<div class="aui-toast-loading"></div>
-			<div class="aui-toast-content">
-				加载中
+		<div class="aui-content" id="news_html">
+			<div id="ic_loading">
+				<img src="../../image/loading.png" />
+				<h6>
+				<div class="spinner">
+					<div class="spinner-container container1">
+						<div class="circle1"></div>
+						<div class="circle2"></div>
+						<div class="circle3"></div>
+						<div class="circle4"></div>
+					</div>
+					<div class="spinner-container container2">
+						<div class="circle1"></div>
+						<div class="circle2"></div>
+						<div class="circle3"></div>
+						<div class="circle4"></div>
+					</div>
+					<div class="spinner-container container3">
+						<div class="circle1"></div>
+						<div class="circle2"></div>
+						<div class="circle3"></div>
+						<div class="circle4"></div>
+					</div>
+				</div></h6>
 			</div>
 		</div>
-		<div class="aui-content" id="news_html"></div>
 	</body>
 	<script type="text/html" id="news_data">
 		<h1 class="news_title">{{ d.retValue.title }}</h1>
@@ -60,12 +81,13 @@
 				if (ret && ret.retCode == 1) {
 					var t = document.getElementById('news_data').innerHTML;
 					laytpl(t).render(ret, function(render) {
-						H.$api.append(H.$api.byId("news_html"), render);
+						document.getElementById('news_html').innerHTML = render;
 						api.parseTapmode();
-						H.$api.css(H.$api.byId("loading"), "display:none");
 					});
 				} else {
-					alert(JSON.stringify(err));
+					api.toast({
+						msg : JSON.stringify(err)
+					});
 				}
 			});
 		}

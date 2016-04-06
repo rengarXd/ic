@@ -112,7 +112,33 @@
 			.index_hb a {
 				color: #555555
 			}
-			
+			.dian_0 {
+				width: 9px;
+				height: 9px;
+				background: #ff5b1c;
+				float: left;
+				margin-top: 8px;
+				margin-right: 6px;
+				border-radius: 3px;
+			}
+			.dian_1 {
+				width: 9px;
+				height: 9px;
+				background: #ffc80a;
+				float: left;
+				margin-top: 8px;
+				margin-right: 6px;
+				border-radius: 3px;
+			}
+			.dian_2 {
+				width: 9px;
+				height: 9px;
+				background: #5acace;
+				float: left;
+				margin-top: 8px;
+				margin-right: 6px;
+				border-radius: 3px;
+			}
 			.twkb2 {
 				padding-top: 11px;
 				padding-left: 5px;
@@ -173,13 +199,18 @@
 				font-size: 10px !important;
 				line-height: 31px !important;
 			}
+			.ic_shop_ad {
+				width: 80px;
+				margin-top: 10px;
+			}
 		</style>
 	</head>
 	<body>
 		<!--首页广告幻灯开始-->
-		<div class="swiper-container">
+		<div class="swiper-container aui-border-b" style="background: #fff">
 			<div class="swiper-wrapper" id="index_addata_body">
-				<div class="swiper-slide" style="background-image: url(../../image/index/ad_pic.png)"></div>
+				<div class="swiper-slide aui-text-center"><img src="../../image/loading.png" class="ic_shop_ad" />
+				</div>
 			</div>
 			<!-- 如果需要分页器 -->
 			<div class="swiper-pagination"></div>
@@ -258,11 +289,11 @@
 			</div>
 			<ul class="aui-list-view aui-grid-view" id="index_shopdata_body">
 				<li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode="" onclick="openGoods(1)">
-					<img class="aui-img-object" src="../../image/shop/shop_nppic.png">
+					<img src="../../image/loading.png" class="ic_shop_ad" />
 					<div class="aui-img-body aui-text-left"></div>
 				</li>
 				<li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode="" onclick="openGoods(1)">
-					<img class="aui-img-object" src="../../image/shop/shop_nppic.png">
+					<img src="../../image/loading.png" class="ic_shop_ad" />
 					<div class="aui-img-body aui-text-left"></div>
 				</li>
 			</ul>
