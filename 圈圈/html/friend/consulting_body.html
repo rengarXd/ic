@@ -55,7 +55,7 @@
 			{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
 			<!--医师信息-->
 			<li class="aui-user-view-cell aui-img" tapmode onclick="to_doctor({{ d.retValue[i].id }},'{{ d.retValue[i].rongid }}','{{ d.retValue[i].name }}','{{ d.retValue[i].pic }}');">
-			<img class="aui-img-object aui-pull-left" src="http://q.endzk.com/{{ d.retValue[i].pic }}">
+			<img class="aui-img-object aui-pull-left" src="http://116.255.190.248/{{ d.retValue[i].pic }}">
 			<div class="aui-img-body">
 			<span>{{ d.retValue[i].name }}<i>{{ d.retValue[i].stars }}</i>{{# if (d.retValue[i].isauthent == 1){ }}<em><img src="../../image/friend/rzys.png" style="width: 80px;"/></em>{{# }}}</span>
 			<p class='aui-ellipsis-1'>

@@ -878,7 +878,7 @@
 		// 1.8获取单个用户信息
 		function getUserInfo(userid) {
 			api.ajax({
-				url : 'http://q.endzk.com/apis/rong_getuserinfos/',
+				url : 'http://116.255.190.248/apis/rong_getuserinfos/',
 				method : 'post',
 				timeout : 30,
 				dataType : 'json',
@@ -890,7 +890,7 @@
 				}
 			}, function(ret, err) {
 				if (ret) {
-					$api.attr($api.byId("avatar-" + ret.retValue[0].id), 'src', 'http://q.endzk.com/' + ret.retValue[0].head_ico);
+					$api.attr($api.byId("avatar-" + ret.retValue[0].id), 'src', 'http://116.255.190.248/' + ret.retValue[0].head_ico);
 					$api.text($api.byId("nickname-" + ret.retValue[0].id), ret.retValue[0].username);
 					api.imageCache({
 						url : ret.retValue.head_ico
@@ -913,7 +913,7 @@
 					console.log('ret.result.message.content.targetId===' + ret.result.message.targetId);
 					//2.4 增加回复数
 					api.ajax({
-						url : 'http://q.endzk.com/apis/answernum_update/userId/' + ret.result.message.targetId + '/token/' + retobj.token
+						url : 'http://116.255.190.248/apis/answernum_update/userId/' + ret.result.message.targetId + '/token/' + retobj.token
 					}, function(ret, err) {
 						
 					});
@@ -1019,7 +1019,7 @@
 				$api.setStorage('userid', '' + retobj.rongid + '');
 				$api.setStorage('token', '' + retobj.token + '');
 				$api.setStorage('nickname', '' + retobj.name + '');
-				$api.setStorage('avatar', 'http://q.endzk.com/' + retobj.head_ico + '');
+				$api.setStorage('avatar', 'http://116.255.190.248/' + retobj.head_ico + '');
 				api.ajax({
 					url : window.serverUrl + '/rong_chat/token/' + retobj.token + '/user_id/' + retobj.id
 				}, function(ret, err) {
