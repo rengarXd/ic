@@ -502,7 +502,7 @@
 										api.hideProgress();
 										if (ret && ret.retCode == 1) {
 											// 记录成功开发发起会话
-											openChat(doctorid.doctor_id.rongid,doctorid.doctor_id.id);
+											openChat(doctorid.doctor_id.rongid, doctorid.doctor_id.id);
 										} else {
 											api.toast({
 												msg : ret.retDesc
@@ -694,7 +694,7 @@
 		 * 1.5打开会话窗口
 		 *传入目标id，及会话类型
 		 */
-		function openChat(targetId,doctor_id) {
+		function openChat(targetId, doctor_id) {
 			//当前正在会话的targetId
 			targetIdIng = targetId;
 			var targetAvatar = doctorid.doctor_id.headico;
@@ -707,7 +707,7 @@
 					targetId : targetId,
 					targetAvatar : targetAvatar,
 					targetNickname : targetNickname,
-					doctor_id:doctor_id
+					doctor_id : doctor_id
 				}
 			})
 		}
@@ -911,6 +911,12 @@
 				if (ret.result.message.sentStatus == 'SENT') {
 					console.log('targetIdIng===' + targetIdIng);
 					console.log('ret.result.message.content.targetId===' + ret.result.message.targetId);
+					//2.4 增加回复数
+					api.ajax({
+						url : 'http://q.endzk.com/apis/answernum_update/userId/' + ret.result.message.targetId + '/token/' + retobj.token
+					}, function(ret, err) {
+						//coding...
+					});
 					if (targetIdIng != ret.result.message.targetId) {
 						//                  api.notification({
 						//                      sound:'default'
