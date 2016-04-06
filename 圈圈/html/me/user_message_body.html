@@ -42,14 +42,17 @@
 				margin-right: 20px;
 				color: #B3B3B3;
 			}
+			.userpic {
+				border-radius: 50%
+			}
 		</style>
 	</head>
 	<body>
-		<div class="aui-content" style="padding-top: 15px;">
-			<!--头像-->
+		<!--头像-->
+		<div class="aui-content" style="padding-top: 10px;">
 			<ul class="aui-user-view">
 				<li class="aui-user-view-cell" id="userpic">
-					<img class="aui-img-object aui-pull-right userpic" width="45" height="45" src="" id="nopic">
+					<img class="aui-pull-right userpic" src="" id="nopic">
 					<div class="aui-img-body userpictext">
 						<span>头像</span>
 					</div>
@@ -57,32 +60,46 @@
 			</ul>
 		</div>
 		<!--头像-->
-		<ul class="aui-list-view">
-			<li class="aui-list-view-cell">
-				登录名 <span id="username"></span>
-			</li>
-			<li class="aui-list-view-cell userds" id="usernamechange" tapmode>
-				<div class="aui-arrow-right">
-					昵称 <span id="usern"></span>
-				</div>
-			</li>
-			<li class="aui-list-view-cell userds" id="firstnamechange">
-				<div class="aui-arrow-right">
-					姓名 <span id="name"></span>
-				</div>
-			</li>
-			<li class="aui-list-view-cell userds" id="sexnamechange" tapmode>
-				<div class="aui-arrow-right">
-					性别 <span id="sex" sexvalue=""></span>
-				</div>
-			</li>
-			<li class="aui-list-view-cell userds" id="addressname" tapmode>
-				<div class="aui-arrow-right">
-					所在地 <span id="ads_span"></span>
-				</div>
-			</li>
-		</ul>
+		<!--中间-->
+		<div class="aui-content">
+			<ul class="aui-list-view">
+				<!--登录名-->
+				<li class="aui-list-view-cell">
+					登录名 <span id="username"></span>
+				</li>
+				<!--登录名-->
+				<!--昵称-->
+				<li class="aui-list-view-cell userds" id="usernamechange" tapmode>
+					<div class="aui-arrow-right">
+						昵称 <span id="usern"></span>
+					</div>
+				</li>
+				<!--昵称-->
+				<!--姓名-->
+				<li class="aui-list-view-cell userds" id="firstnamechange">
+					<div class="aui-arrow-right">
+						姓名 <span id="name"></span>
+					</div>
+				</li>
+				<!--姓名-->
+				<!--性别-->
+				<li class="aui-list-view-cell userds" id="sexnamechange" tapmode>
+					<div class="aui-arrow-right">
+						性别 <span id="sex" sexvalue=""></span>
+					</div>
+				</li>
+				<!--性别-->
+				<!--所在地-->
+				<li class="aui-list-view-cell userds" id="addressname" tapmode>
+					<div class="aui-arrow-right">
+						所在地 <span id="ads_span"></span>
+					</div>
+				</li>
+				<!--所在地-->
+			</ul>
 		</div>
+		<!--中间-->
+		<!--收货地址-->
 		<div class="aui-content">
 			<ul class="aui-list-view">
 				<li class="aui-list-view-cell" id="shopaddress" tapmode>
@@ -92,6 +109,7 @@
 				</li>
 			</ul>
 		</div>
+		<!--收货地址-->
 	</body>
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>

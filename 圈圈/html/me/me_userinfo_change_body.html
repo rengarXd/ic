@@ -78,7 +78,8 @@
 				modal : false
 			});
 			api.ajax({
-				url : window.serverUrl + '/userinfo_edit/token/' + retobj.token + '/user_id/' + retobj.id + '/type/1' + '/username/' + encodeURI(usernamevalue)
+				url : window.serverUrl + '/userinfo_edit/token/' + retobj.token + '/user_id/' + retobj.id + '/type/1' + '/username/' + encodeURI(usernamevalue),
+				
 			}, function(ret, err) {
 				if (ret && ret.retCode == 1) {
 					H.$setPrefs(function(ret, err) {

@@ -124,7 +124,7 @@ pre {
 	height: 1px;
 }
 .aui-line-x:after {
-	border-bottom: 1px solid #c8c7cc;
+	border-bottom: 1px solid #e7e7e7;
 	display: block;
 	content: '';
 	position: absolute;
@@ -319,7 +319,7 @@ h4 small,h5 small,h6 small {
 /*基本容器*/
 .aui-content {
 	-webkit-overflow-scrolling: touch;
-	margin-bottom: 10px;
+	/* margin-bottom: 10px; */
 }
 .aui-content-title {
 	position: relative;
@@ -356,7 +356,7 @@ h4 small,h5 small,h6 small {
 	-webkit-transform-origin: 0 0;
 	-webkit-transform: scale(1);
 	pointer-events: none;
-	border: 1px solid #c8c7cc;
+	border: 1px solid #e7e7e7;
 	border-radius: 6px;
 	overflow: hidden;
 }
@@ -662,7 +662,7 @@ input[type="time"] {
     padding: 6px 0;
 }
 .aui-input-row:after {
-	border-bottom: 1px solid #c8c7cc;
+	border-bottom: 1px solid #e7e7e7;
 	display: block;
 	content: '';
 	position: absolute;
@@ -675,7 +675,7 @@ input[type="time"] {
 	pointer-events: none;
 }
 .aui-input-row:first-child:after {
-  	border-top: 1px solid #c8c7cc;
+  	border-top: 1px solid #e7e7e7;
 	display: block;
 	content: '';
 	position: absolute;
@@ -688,7 +688,7 @@ input[type="time"] {
 	pointer-events: none;
 }
 .aui-input-row:last-child:after {
-	border-bottom: 1px solid #c8c7cc;
+	border-bottom: 1px solid #e7e7e7;
 }
 .aui-input-row .aui-input-addon {
     font-size: 14px;
@@ -721,7 +721,7 @@ input[type="time"] {
 	padding: 15px;
 }
 .aui-btn-row:after {
-	border-bottom: 1px solid #c8c7cc;
+	border-bottom: 1px solid #e7e7e7;
 	display: block;
 	content: '';
 	position: absolute;
@@ -944,7 +944,7 @@ input[type="time"] {
 	background-color: #fff;
 }
 .aui-list-view:after {
-  	border-top: 1px solid #c8c7cc;
+  	border-top: 1px solid #e7e7e7;
 	display: block;
 	content: '';
 	position: absolute;
@@ -965,7 +965,7 @@ input[type="time"] {
 	-webkit-touch-callout: none;
 }
 .aui-list-view-cell:after {
-	border-bottom: 1px solid #c8c7cc;
+	border-bottom: 1px solid #e7e7e7;
 	display: block;
 	content: '';
 	position: absolute;
@@ -979,7 +979,7 @@ input[type="time"] {
 }
 
 .aui-list-view-cell:last-child:after {
-  	border-bottom: 1px solid #c8c7cc;
+  	border-bottom: 1px solid #e7e7e7;
 }
 .aui-list-view-cell > a{
   	position: relative;
@@ -1060,12 +1060,12 @@ input[type="time"] {
 	position: relative;
 	padding-left: 0;
 	margin-top: 0;
-	margin-bottom: 15px;
+	margin-bottom: 10px;
 	list-style: none;
 	background-color: #fff;
 }
 .aui-user-view:after {
-  	border-top: 1px solid #c8c7cc;
+  	border-top: 1px solid #e7e7e7;
 	display: block;
 	content: '';
 	position: absolute;
@@ -1083,7 +1083,7 @@ input[type="time"] {
 	overflow: hidden;
 }
 .aui-user-view-cell:after {
-	border-bottom: 1px solid #c8c7cc;
+	border-bottom: 1px solid #e7e7e7;
 	display: block;
 	content: '';
 	position: absolute;
@@ -1097,7 +1097,7 @@ input[type="time"] {
 }
 
 .aui-user-view-cell:last-child:after {
-  	border-bottom: 1px solid #c8c7cc;
+  	border-bottom: 1px solid #e7e7e7;
 }
 .aui-user-view-cell:active {
 	background: #f4f4f4;
@@ -1278,8 +1278,8 @@ input[type="time"] {
 	-webkit-transform-origin: 0 0;
 	-webkit-transform: scale(1);
 	pointer-events: none;
-	border-top: 1px solid #c8c7cc;
-	border-right: 1px solid #c8c7cc;
+	border-top: 1px solid #e7e7e7;
+	border-right: 1px solid #e7e7e7;
 }
 .aui-grid-nine li {
 	float: left;
@@ -1296,8 +1296,8 @@ input[type="time"] {
 	left: 0;
 	-webkit-transform-origin: 0 0;
 	-webkit-transform: scale(1);
-	border-left: 1px solid #c8c7cc;
-	border-bottom: 1px solid #c8c7cc;
+	border-left: 1px solid #e7e7e7;
+	border-bottom: 1px solid #e7e7e7;
 
 }
 .aui-grid-nine li:nth-last-of-type(1),.aui-grid-nine li:nth-last-of-type(4),.aui-grid-nine li:nth-last-of-type(7){
@@ -1332,8 +1332,8 @@ input[type="time"] {
 	-webkit-transform-origin: 0 0;
 	-webkit-transform: scale(1);
 	pointer-events: none;
-	border-top: 1px solid #c8c7cc;
-	border-right: 1px solid #c8c7cc;
+	border-top: 1px solid #e7e7e7;
+	border-right: 1px solid #e7e7e7;
 }
 .aui-grid-sixteen li {
 	float: left;
@@ -1350,8 +1350,8 @@ input[type="time"] {
 	left: 0;
 	-webkit-transform-origin: 0 0;
 	-webkit-transform: scale(1);
-	border-left: 1px solid #c8c7cc;
-	border-bottom: 1px solid #c8c7cc;
+	border-left: 1px solid #e7e7e7;
+	border-bottom: 1px solid #e7e7e7;
 }
 .aui-grid-sixteen li:nth-last-of-type(1),.aui-grid-sixteen li:nth-last-of-type(5),.aui-grid-sixteen li:nth-last-of-type(9),.aui-grid-sixteen li:nth-last-of-type(13){
 	border-right: 0px;
@@ -2080,7 +2080,7 @@ input.aui-counter-input {
 }
 .aui-timeline > li > .aui-timeline-item:after {
     border-radius: 6px;
-    border: 1px solid #c8c7cc;
+    border: 1px solid #e7e7e7;
     display: block;
     content: '';
     position: absolute;
@@ -2178,7 +2178,7 @@ input.aui-counter-input {
     margin: 18px 0;
     border: 0;
     border-radius: 2px;
-    background-color: #c8c7cc;
+    background-color: #e7e7e7;
     position: relative;
     -webkit-appearance: none !important;
 }
@@ -2249,7 +2249,7 @@ input.aui-counter-input {
 	-webkit-transform-origin: 0 0;
 	-webkit-transform: scale(1);
 	pointer-events: none;
-	border: 1px solid #c8c7cc;
+	border: 1px solid #e7e7e7;
 }
 .aui-waterfall .aui-waterfall-header img{
     width: 100%;
@@ -2286,7 +2286,7 @@ input.aui-counter-input {
     border-radius: 5px;
     height: 32px;
     line-height: 32px;
-    color: #c8c7cc;
+    color: #e7e7e7;
     font-size: 14px;
 	width: 100%;
     position: relative;
@@ -2607,23 +2607,23 @@ input.aui-counter-input {
     pointer-events: none;
 }
 .aui-border-l:after {
-    border-left: 1px solid #c8c7cc;
+    border-left: 1px solid #e7e7e7;
 }
 .aui-border-r:after {
-    border-right: 1px solid #c8c7cc;
+    border-right: 1px solid #e7e7e7;
 }
 .aui-border-t:after {
-    border-top: 1px solid #c8c7cc;
+    border-top: 1px solid #e7e7e7;
 }
 .aui-border-b:after {
-    border-bottom: 1px solid #c8c7cc;
+    border-bottom: 1px solid #e7e7e7;
 }
 .aui-border-tb:after {
-	border-top: 1px solid #c8c7cc;
-    border-bottom: 1px solid #c8c7cc;
+	border-top: 1px solid #e7e7e7;
+    border-bottom: 1px solid #e7e7e7;
 }
 .aui-border:after {
-    border:1px solid #c8c7cc;
+    border:1px solid #e7e7e7;
 }
 .aui-border.aui-border-radius:after {
     border-radius: 6px;
