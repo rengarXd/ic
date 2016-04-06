@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>I宠快报body</title>
+		<link rel="stylesheet" type="text/css" href="../../css/aui.css"/>
+		<style>
+			body {
+				background-color: #fff;
+			}
+			.news_time {
+				padding: 0 10px 10px 10px;
+			}
+			.news_title {
+				font-size: 20px;
+				padding: 10px 9px;
+			}
+			.news_img {
+				padding-left: 9px;
+				height: 15px;
+			}
+			.aui-content p {
+				margin: 8px 15px 8px;
+				text-indent: 2em
+			}
+		</style>
+	</head>
+	<body>
+		<!--<img src="../../image/mckb.png" style="padding-bottom: 15px;"/>-->
+		<div class="aui-toast" id="loading">
+			<div class="aui-toast-loading"></div>
+			<div class="aui-toast-content">
+				加载中
+			</div>
+		</div>
+		<div class="aui-content" id="news_html"></div>
+	</body>
+	<script type="text/html" id="news_data">
+		<h1 class="news_title">{{ d.retValue.title }}</h1>
+		<h6 class="news_time">{{ d.retValue.time }}<img src="../../image/mckb.png" class="news_img" /></h6>
+		<div class="aui-line-x"></div>
+		<p>
+		{{ d.retValue.content }}
+		</p>
+	</script>
+	<script type="text/javascript" src="../../script/AHelper.js"></script>
+	<script type="text/javascript" src="../../script/laytpl.js"></script>
+	<script type="text/javascript">
+		var retabc = null, newsId = null;
+		function get_data() {
+			//请求ajax数据
+			api.ajax({
+				url : window.serverUrl + '/notice_detail/token/' + retabc.token + '/id/' + newsId,
+				cache : true
+			}, function(ret, err) {
+				if (ret && ret.retCode == 1) {
+					var t = document.getElementById('news_data').innerHTML;
+					laytpl(t).render(ret, function(render) {
+						H.$api.append(H.$api.byId("news_html"), render);
+						api.parseTapmode();
+						H.$api.css(H.$api.byId("loading"), "display:none");
+					});
+				} else {
+					alert(JSON.stringify(err));
+				}
+			});
+		}
+
+
+		H.ready(function() {
+			newsId = H.$getPageParam().newsId;
+			api.getPrefs({
+				key : 'userinfo'
+			}, function(ret, err) {
+				retabc = eval("(" + ret.value + ")");
+				get_data();
+			});
+		});
+		//		Zepto(function(){
+		//
+		//		});
+	</script>
+</html>
