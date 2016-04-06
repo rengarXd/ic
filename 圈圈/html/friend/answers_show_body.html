@@ -192,7 +192,7 @@
 						if (isshow) {
 							$("#answer_headico").attr('src', window.serverUrlPath + ret.retValue.bbscontent[0].head_ico);
 							$("#answer_name").html(ret.retValue.bbscontent[0].username);
-							$("#answer_from").html("来自：" + ret.retValue.bbscontent[0].fromdevice);
+							$("#answer_from").html("来自：" + ret.retValue.bbscontent[0].comedevice);
 							$("#answer_content").html(ret.retValue.bbscontent[0].content);
 							$("#answer_time").html(H.$com.jsDateDiff(ret.retValue.bbscontent[0].time));
 							$("#answer_askcount").html("回复(" + ret.retValue.bbscontent[0].askcount + ")");

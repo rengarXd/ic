@@ -7,8 +7,7 @@
 		<link rel="stylesheet" type="text/css" href="../../css/aui.css"/>
 		<style>
 			.activay {
-				border-bottom: 1px solid #ddd;
-				
+				background: #fff;
 				padding: 10px;
 				margin-bottom: 0
 			}
@@ -18,39 +17,97 @@
 			.activay p {
 				font-size: 12px;
 			}
-			.activay:active{background:#fff}
+			.activay:active {
+				background: #e7e7e7
+			}
+			.dian_0 {
+				width: 9px;
+				height: 9px;
+				background: #ff5b1c;
+				float: left;
+				margin-top: 8px;
+				margin-right: 6px;
+				border-radius: 3px;
+			}
+			.dian_1 {
+				width: 9px;
+				height: 9px;
+				background: #ffc80a;
+				float: left;
+				margin-top: 8px;
+				margin-right: 6px;
+				border-radius: 3px;
+			}
+			.dian_2 {
+				width: 9px;
+				height: 9px;
+				background: #5acace;
+				float: left;
+				margin-top: 8px;
+				margin-right: 6px;
+				border-radius: 3px;
+			}
+			.dian_3 .dian_4 .dian_5 .dian_6 .dian_7 .dian_8 .dian_9 {
+				width: 9px;
+				height: 9px;
+				background: #e9e9e9e;
+				float: left;
+				margin-top: 8px;
+				margin-right: 6px;
+				border-radius: 3px;
+			}
 		</style>
 	</head>
 	<body>
-		<div class="aui-content activay">
-			<img src="../../image/index/activey_01.png" />
-			<h4>包邮围栏公母狗狗厕所泰迪比熊尿便盆树脂宠物用品</h4>
+		<div id="index_kbdata_body"></div>
+		<script id="index_kbdata" type="text/html">
+			{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
+			<div class="aui-content activay aui-border-b" onclick="openNews({{ d.retValue[i].id }});">
+			<!--<img src="../../image/index/activey_01.png" />-->
+			<h4><span class="dian_{{ i }}"></span> {{ d.retValue[i].title }}</h4>
 			<p>
-				已有<span style="color:red">1345</span>人参与&nbsp;&nbsp;&nbsp;活动时间：2016-02-08 至 2016-03-08
+			{{ d.retValue[i].time }}
 			</p>
-		</div>
-		<div class="aui-content activay">
-			<img src="../../image/index/activey_02.png" />
-			<h4>新用户注册免费赠送狗绳</h4>
-			<p>
-				已有<span style="color:red">1345</span>人参与&nbsp;&nbsp;&nbsp;活动时间：2016-02-08 至 2016-03-08
-			</p>
-		</div>
-		<div class="aui-content activay">
-			<img src="../../image/index/activey_03.png" />
-			<h4>包邮围栏公母狗狗厕所泰迪比熊尿便盆树脂宠物用品</h4>
-			<p>
-				已有<span style="color:red">1345</span>人参与&nbsp;&nbsp;&nbsp;活动时间：2016-02-08 至 2016-03-08
-			</p>
-		</div>
+			</div>
+			{{# } }}
+		</script>
 	</body>
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
-	<script type="text/javascript" src="../../script/Zepto.js"></script>
+	<script type="text/javascript" src="../../script/zepto.min.js"></script>
+	<script type="text/javascript" src="../../script/laytpl.js"></script>
 	<script type="text/javascript">
-		Zepto(function($){
-			
+		var retobj = null;
+		Zepto(function($) {
 		});
 		H.ready(function() {
+			api.getPrefs({
+				key : 'userinfo'
+			}, function(ret, err) {
+				retobj = eval('(' + ret.value + ')');
+				//1.0 获取快报所有数据 t=2 代表所有数据
+				api.ajax({
+					//请求首页三条数据
+					url : window.serverUrl + '/app_kuaibao/token/' + retobj.token + '/t/2',
+					cache : true
+				}, function(ret, err) {
+					if (ret && ret.retValue) {
+						var tpl = document.getElementById('index_kbdata').innerHTML;
+						//读取模版
+						laytpl(tpl).render(ret, function(render) {
+							document.getElementById('index_kbdata_body').innerHTML = render;
+						});
+					} else {
+					}
+				});
+			});
 		});
+		/**
+		 * 首页i宠快报
+		 */
+		function openNews(newsId) {
+			H.$openWin('ic_news_header', 'ic_news_header.html', {
+				newsId : newsId
+			});
+		}
 	</script>
 </html>
