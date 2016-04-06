@@ -22,7 +22,12 @@
 			}
 			.aui-content p {
 				margin: 8px 15px 8px;
-				text-indent: 2em
+				text-indent: 2em;
+				font-size: 17px;
+				line-height: 30px;
+			}
+			.ic_conetnt img{
+				display:block;max-width:100%;height:auto
 			}
 		</style>
 	</head>
@@ -40,9 +45,7 @@
 		<h1 class="news_title">{{ d.retValue.title }}</h1>
 		<h6 class="news_time">{{ d.retValue.time }}<img src="../../image/mckb.png" class="news_img" /></h6>
 		<div class="aui-line-x"></div>
-		<p>
-		{{ d.retValue.content }}
-		</p>
+		<div class="ic_conetnt">{{ d.retValue.content }}</div>
 	</script>
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript" src="../../script/laytpl.js"></script>
