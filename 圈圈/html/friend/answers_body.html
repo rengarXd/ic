@@ -126,7 +126,7 @@
 		<script id="answer_data" type="text/html">
 			<ul class="aui-list-view" >
 			{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
-			<li class="aui-list-view-cell answer_data" tapmode onclick="to_answers({{ d.retValue[i].id }});">
+			<li class="aui-list-view-cell answer_data">
 			<div class="img-cont tiezi_data">
 			{{#if (d.retValue[i].head_ico == null){}}
 			<img class="aui-pull-left" src="../../image/noavatar.gif">
@@ -135,7 +135,7 @@
 			{{# }}}
 			</div>
 			<div class="aui-img-body">
-			<span>{{ d.retValue[i].username }}</span><i class="iconfont icon-iconfontunfold" style="float: right"></i>
+			<span>{{ d.retValue[i].username }}</span><i class="iconfont icon-huida" style="float: right;color: #E78066;font-size: 14px;" tapmode onclick="to_answers({{ d.retValue[i].id }});"> 去回答</i> 
 			<p class='aui-ellipsis-1'>
 			来自 {{ d.retValue[i].comedevice}}
 			</p>
@@ -143,7 +143,7 @@
 			<p style="margin-top: 5px; margin-bottom: 5px;">
 			{{ d.retValue[i].inter}}
 			{{# if(d.retValue[i].imgs.length>0){ }}
-			<div class="aui-content" style="display: inline-block;" id="an_photo">
+			<div class="aui-content" style="display: inline-block;" id="an_photo" tapmode onclick="to_answers({{ d.retValue[i].id }});">
 			{{# for (var ii = 0, lens = d.retValue[i].imgs.length; ii < lens; ii ++) { }}
 			<div class="aui-col-xs-3"><img src="http://116.255.190.248/{{ d.retValue[i].imgs[ii].im }}" alt="" class="aui-img" />
 			</div>
@@ -152,7 +152,7 @@
 			
 			{{# } }}
 			</p>
-			<h6>{{ H.$com.jsDateDiff(d.retValue[i].time)}}<span style="float: right">回复（{{ d.retValue[i].askcount}}）</span></h6>
+			<h6>{{ H.$com.jsDateDiff(d.retValue[i].time)}}<span class="iconfont icon-iconxiaoxi" style="float: right;font-size: 12px;"> {{ d.retValue[i].askcount}}</span></h6>
 			</li>
 			{{# } }}
 			</ul>

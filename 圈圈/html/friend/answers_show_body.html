@@ -61,6 +61,16 @@
 				background: url('../../image/friend/firend_nopic.png') no-repeat center center;
 				background-color: rgb(0, 0, 0);
 			}
+			.ic_cnsj {
+				position: absolute;
+				top: 0;
+				/* line-height: 36px; */
+				width: 100%;
+				left: 0;
+				padding: 0 15px;
+				color: #66A75A;
+				line-height: 40px;
+			}
 		</style>
 	</head>
 	<body>
@@ -113,7 +123,7 @@
 			</ul>
 		</div>
 		<div class="aui-content" style="padding-bottom: 55px;margin-bottom: 0;">
-			<ul class="aui-user-view aui-in" id="answers_body"></ul>
+			<div id="answers_body"></div>
 			<li id="buttonload">
 				<div class="loading" style="display: none">
 					正在加载....
@@ -121,7 +131,24 @@
 			</li>
 		</div>
 		<script type="text/html" id="answers_data">
+			<ul class="aui-user-view aui-in">
 			{{# for (var i = 0, len = d.bbs_ask.length; i < len; i++) { }}
+			{{# if(d.bbs_ask[i].isright==1){ }}
+			<li class="aui-user-view-cell aui-img" style="background: #f3ffec">
+			<div class="ic_cnsj">
+			<img style="width: 40px !important;" src="../../image/friend/ic_ask_daan.png" /> <span class="aui-pull-right">提问者采纳</span><!--<span class="aui-pull-right">采纳日期：{{ d.bbs_ask[i].righttime }}</span>-->
+			</div>
+			<div style="margin-top: 34px;">
+			<img class="aui-img-object aui-pull-left" src="http://116.255.190.248/{{ d.bbs_ask[i].head_ico }}">
+			<div class="aui-img-body">
+			<span>{{ d.bbs_ask[i].username }}<em>{{ H.$com.jsDateDiff(d.bbs_ask[i].time) }}</em></span>
+			<p class='aui-ellipsis-1'>
+			{{ d.bbs_ask[i].content }}
+			</p>
+			</div>
+			</div>
+			</li>
+			{{# }else{ }}
 			<li class="aui-user-view-cell aui-img">
 			<img class="aui-img-object aui-pull-left" src="http://116.255.190.248/{{ d.bbs_ask[i].head_ico }}">
 			<div class="aui-img-body">
@@ -132,10 +159,9 @@
 			</div>
 			</li>
 			{{# } }}
+			{{# } }}
+			</ul>
 		</script>
-		<div class="aui-content">
-			<ul class="aui-list-text"></ul>
-		</div>
 	</body>
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
@@ -232,6 +258,7 @@
 								var tpl = document.getElementById('answers_data').innerHTML;
 								laytpl(tpl).render(ret.retValue, function(render) {
 									document.getElementById('answers_body').innerHTML = render;
+									$("#noask").hide();
 								});
 							}
 						}
