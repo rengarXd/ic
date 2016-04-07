@@ -195,7 +195,7 @@
 	<script type="text/javascript" src="../script/AHelper.js"></script>
 	<script type="text/javascript" src="../script/zepto.min.js"></script>
 	<script type="text/javascript">
-		var userobj = null;
+		var userobj = null, db = null;
 		//设置数组
 		var frames = [];
 		// 显示指定frame
@@ -276,6 +276,87 @@
 			H.$addEventListener(function(ret, err) {
 				$("#pet-header .aui-title").text("未绑定硬件");
 			}, 'changepettitle');
+			// 10 初始化DB模块
+			db = api.require('db');
+			var SerachWordStatus = H.$api.getStorage('SerachWordStatus');
+			// 10.8 如果 SerachWord表没有创建则初始化表
+			// 10.1 打开ichong数据库
+			db.openDatabase({
+				name : 'ichong'
+			}, function(ret, err) {
+				if (!SerachWordStatus) {
+					// 10.3 初始化(搜索表) id 自增主键ID  word 关键词
+					var serachWordSql = 'CREATE TABLE SerachWord(id integer primary key autoincrement, word varchar(100))';
+					db.executeSql({
+						name : 'ichong',
+						sql : serachWordSql
+					}, function(ret, err) {
+						// 10.4 如果创建表成功
+						if (ret.status) {
+							alert('创建SerachWordStatus成功');
+							// 10.5 存储创建状态
+							H.$api.setStorage('SerachWordStatus', true);
+						}
+					});
+				}
+			});
+			// 10.2 添加关键词添加监听
+			api.addEventListener({
+				name : 'addSerachWord'
+			}, function(ret, err) {
+				var ds = ret;
+				var sql = "SELECT word FROM SerachWord where word='" + ret.value.word + "'";
+				db.selectSql({
+					name : 'ichong',
+					sql : sql
+				}, function(ret, err) {
+					//如果有数据
+					if (ret.data.length > 0) {
+					} else {
+						// 回调
+						addSerachWord(ds.value.word);
+					}
+				});
+			});
+			// 11.2 获取关键词数据
+			api.addEventListener({
+				name : 'getSerachWord'
+			}, function(ret, err) {
+				var sql = "SELECT * FROM SerachWord";
+				db.selectSql({
+					name : 'ichong',
+					sql : sql
+				}, function(ret, err) {
+					api.sendEvent({
+						name : 'serachwordpage',
+						extra : {
+							data : ret.data
+						}
+					})
+				});
+			});
+			// 11.3 删除搜索关键词数据
+			api.addEventListener({
+				name : 'delSerachWord'
+			}, function(ret, err) {
+				var sql = "delete from SerachWord;";
+				db.executeSql({
+					name : 'ichong',
+					sql : sql
+				}, function(ret, err) {
+					
+				});
+			});
 		});
+		// 10.2 添加
+		function addSerachWord(aword) {
+			var addSerachWordSql = "INSERT INTO SerachWord(word) VALUES ('" + aword + "')";
+			db.executeSql({
+				name : 'ichong',
+				sql : addSerachWordSql
+			}, function(ret, err) {
+				//alert(JSON.stringify(ret));
+			});
+		}
 	</script>
 </html>

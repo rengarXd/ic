@@ -96,26 +96,20 @@
 					</li>
 				</div>
 				<li class="aui-list-view-cell">
-					<span class="iconfont icon-iconfuzhi icon_sosuo_min" style="background: #A8A8A8" ></span> 历史记录<span class="aui-pull-right aui-badge aui-badge-danger" id="clear_data">清除</span>
+					<span class="iconfont icon-iconfuzhi icon_sosuo_min" style="background: #A8A8A8" ></span> 历史记录<span class="aui-pull-right aui-badge aui-badge-danger" onclick="clear_data();">清除</span>
 				</li>
 				<!--循环体-->
-				<div class="aui-content-padded ic_serach_li">
-					<li class="aui-list-view-cell" tapmode onclick="">
-						宠物吹风机
-					</li>
-					<li class="aui-list-view-cell" tapmode onclick="">
-						宠物吹风机
-					</li>
-					<li class="aui-list-view-cell" tapmode onclick="">
-						宠物吹风机
-					</li>
-					<li class="aui-list-view-cell" tapmode onclick="">
-						宠物吹风机
-					</li>
-				</div>
+				<div class="aui-content-padded ic_serach_li" id="serach_list_body"></div>
 				<!--循环体-->
 			</ul>
 		</div>
+		<script type="text/html" id="serach_list">
+			{{# for(var i = 0, ll = d.data.length; i < ll; i++) { }}
+			<li class="aui-list-view-cell" tapmode onclick="">
+			{{ d.data[i].word }}
+			</li>
+			{{# } }}
+		</script>
 		<script type="text/html" id="keyword_data">
 			<li class="aui-content-title" style="padding-top: 9px;">
 			{{# for(var i = 0, ll = d.retValue.length; i < ll; i++) { }}
@@ -254,7 +248,17 @@
 				goodId : goodId
 			});
 		}
-
+		/**
+		 * 清除历史记录 
+		 */
+		function clear_data(){
+			api.sendEvent({
+				name:'delSerachWord'
+			});
+			document.getElementById('serach_list_body').innerHTML = "";
+		}
+		
+		
 		Zepto(function() {
 		});
 		H.ready(function() {
@@ -272,10 +276,29 @@
 			}, function(ret, err) {
 				if (ret) {
 					//				alert(JSON.stringify(ret));
+					// 执行搜索词的本地持久化
+					api.sendEvent({
+						name : 'addSerachWord',
+						extra : {
+							word : ret.value
+						}
+					});
 					swd = ret.value;
 					get_data();
 				} else {
 				}
+			});
+			api.sendEvent({
+				name : 'getSerachWord',
+			});
+			// 拿到数据库的数据
+			api.addEventListener({
+				name : 'serachwordpage'
+			}, function(ret, err) {
+				var tpl = document.getElementById('serach_list').innerHTML;
+				laytpl(tpl).render(ret.value, function(render) {
+					document.getElementById('serach_list_body').innerHTML = render;
+				});
 			});
 		});
 	</script>
