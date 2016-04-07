@@ -9,6 +9,7 @@
 		<!--引入aui框架-->
 		<link rel="stylesheet" href="../../css/aui.css" />
 		<link rel="stylesheet" href="../../css/fonts/iconfont.css" />
+		<link rel="stylesheet" href="../../css/tools/animate.min.css" />
 		<style>
 			.aui-arrow-right {
 				line-height: 26px;
@@ -110,7 +111,7 @@
 			
 		</div>
 		<script id="tiezi_data" type="text/html">
-			<ul class="aui-list-view" >
+			<ul class="aui-list-view animated bounceIn" >
 			{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
 			<li class="aui-list-view-cell tiezi_data" tapmode onclick="to_answers({{ d.retValue[i].id }});">
 			<div class="img-cont tiezi_data">
@@ -160,6 +161,7 @@
 			});
 		});
 		function get_data() {
+			api.parseTapmode();
 			api.getPrefs({
 				key : 'userinfo'
 			}, function(ret, err) {

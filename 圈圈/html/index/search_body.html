@@ -121,15 +121,15 @@
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript" src="../../script/laytpl.js"></script>
 	<script type="text/javascript">
-		var retobj = null, keywords,swd = null;
+		var retobj = null, keywords, swd = null;
 		function get_data() {
 			//请求搜索结果
 			api.showProgress({
 				title : '搜索中',
 				modal : false
-			});	
+			});
 			api.ajax({
-				url : window.serverUrl + '/goods_list/token/' + retobj.token + '/user_id/' + retobj.id + '/word/' + swd,
+				url : window.serverUrl + '/goods_list/token/' + retobj.token + '/user_id/' + retobj.id + '/word/' + encodeURI(encodeURI(swd)),
 				cache : true
 			}, function(ret, err) {
 				//如果请求有数据返回
@@ -144,7 +144,7 @@
 					//						if (ret && ret.retCode == 0) {
 					//						}
 					api.hideProgress();
-					alert("没有找到相关信息");					
+					alert("没有找到相关信息");
 				}
 			});
 		}
@@ -181,6 +181,15 @@
 			});
 		}
 
+		/**
+		 * 首页今日精选商品
+		 */
+		function openGoods(goodId) {
+			H.$openWin('shop_show_header', '../shop/shop_show_header.html', {
+				goodId : goodId
+			});
+		}
+
 		Zepto(function() {
 		});
 		H.ready(function() {
@@ -201,8 +210,8 @@
 				name : 'searchreload'
 			}, function(ret, err) {
 				if (ret) {
-//				alert(JSON.stringify(ret));
-				swd = ret.value;
+					//				alert(JSON.stringify(ret));
+					swd = ret.value;
 					get_data();
 				} else {
 				}
