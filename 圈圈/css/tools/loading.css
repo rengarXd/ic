@@ -16,6 +16,7 @@
 	height: 20px;
 	position: relative;
 }
+#ic_loading span{color:#dddddd !important}
 .container1 > div, .container2 > div, .container3 > div {
 	width: 6px;
 	height: 6px;
