@@ -342,7 +342,7 @@
 								H.$setPrefs(function(ret, err) {
 								}, 'userinfo', JSON.stringify(ret.retValue));
 							}
-						}, window.serverUrl + '/userinfo_edit/token/' + retobj.token + '/user_id/' + retobj.id + '/type/2' + '/area/' + encodeURI(ret.province + ret.city + ret.county));
+						}, window.serverUrl + '/userinfo_edit/token/' + retobj.token + '/user_id/' + retobj.id + '/type/2' + '/area/' + encodeURI(encodeURI(ret.province + ret.city + ret.county)));
 						$("#ads_span").html(ret.province + ' ' + ret.city + ' ' + ret.county);
 					} else {
 						api.toast({
