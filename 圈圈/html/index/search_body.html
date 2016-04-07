@@ -71,6 +71,12 @@
 				font-size: 10px !important;
 				line-height: 31px !important;
 			}
+			.ic_serach_li li:active {
+				background: #fff !important;
+			}
+			.ic_serach_li li{
+				color: #B1B1B1 !important
+			}
 		</style>
 	</head>
 	<body>
@@ -89,6 +95,25 @@
 						<!--页面加载中-->
 					</li>
 				</div>
+				<li class="aui-list-view-cell">
+					<span class="iconfont icon-iconfuzhi icon_sosuo_min" style="background: #A8A8A8" ></span> 历史记录<span class="aui-pull-right aui-badge aui-badge-danger" id="clear_data">清除</span>
+				</li>
+				<!--循环体-->
+				<div class="aui-content-padded ic_serach_li">
+					<li class="aui-list-view-cell" tapmode onclick="">
+						宠物吹风机
+					</li>
+					<li class="aui-list-view-cell" tapmode onclick="">
+						宠物吹风机
+					</li>
+					<li class="aui-list-view-cell" tapmode onclick="">
+						宠物吹风机
+					</li>
+					<li class="aui-list-view-cell" tapmode onclick="">
+						宠物吹风机
+					</li>
+				</div>
+				<!--循环体-->
 			</ul>
 		</div>
 		<script type="text/html" id="keyword_data">
