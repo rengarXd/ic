@@ -74,7 +74,7 @@
 			.ic_serach_li li:active {
 				background: #fff !important;
 			}
-			.ic_serach_li li{
+			.ic_serach_li li {
 				color: #B1B1B1 !important
 			}
 		</style>
@@ -188,6 +188,10 @@
 						path : 'fs://serach_word.json',
 						data : JSON.stringify(ret)
 					}, function(ret, err) {
+						api.setPrefs({
+							key : 'serach_word',
+							value : false
+						});
 					});
 					var tpl = document.getElementById('keyword_data').innerHTML;
 					laytpl(tpl).render(ret, function(render) {
@@ -202,23 +206,33 @@
 			});
 		}
 
+		// 1.1 获取缓存数据并且回调最新数据
 		function key_words() {
-			api.readFile({
-				path : 'fs://serach_word.json',
-			}, function(ret, err) {
-				//1.2 取出成功
-				if (ret) {
-					var temp = eval('(' + ret.data + ')');
-					var tpl = document.getElementById('keyword_data').innerHTML;
-					laytpl(tpl).render(temp, function(render) {
-						H.$recoverDropdownToNormal();
-						document.getElementById('keyword_body').innerHTML = render;
-					});
+			// 1.2 获取是否是第一次写入
+			H.$getPrefs(function(ret, err) {
+				// 1.3 如果是第一写入
+				if (!ret.value) {
 					get_serach_word();
 				} else {
-					get_serach_word();
+					// 1.4 如果不是第一次写入则取出缓存数据
+					api.readFile({
+						path : 'fs://serach_word.json',
+					}, function(ret, err) {
+						//1.2 取出成功
+						if (ret) {
+							var temp = eval('(' + ret.data + ')');
+							var tpl = document.getElementById('keyword_data').innerHTML;
+							laytpl(tpl).render(temp, function(render) {
+								H.$recoverDropdownToNormal();
+								document.getElementById('keyword_body').innerHTML = render;
+							});
+							get_serach_word();
+						} else {
+							get_serach_word();
+						}
+					});
 				}
-			});
+			}, 'serach_word');
 		}
 
 		//向搜索框中添加关键字
@@ -252,10 +266,6 @@
 				retobj = eval('(' + ret.value + ')');
 				key_words();
 			});
-			//			/*下拉刷新*/
-			//			H.$dropdownToRefresh(function(ret, err) {
-			//				get_data();
-			//			});
 			//添加页刷新的监听
 			api.addEventListener({
 				name : 'searchreload'

@@ -7,6 +7,7 @@
 		<title>问答body</title>
 		<link rel="stylesheet" type="text/css" href="../../css/aui.css"/>
 		<link rel="stylesheet" type="text/css" href="../../css/fonts/iconfont.css"/>
+		<link rel="stylesheet" href="../../css/tools/loading.css" />
 		<style>
 			.a_keyword span {
 				background: #e3e3e3;
@@ -31,8 +32,10 @@
 				color: #888888;
 			}
 			.a_rm {
+				width: 100%;
 				background: #fff;
-				height: 124px;
+				min-height: 110px;
+				display: inline-block;
 			}
 			.img-cont img {
 				max-width: 45px;
@@ -101,12 +104,26 @@
 				<div class="aui-line-x"></div>
 			</div>
 			<div class="a_keyword" id="hot_body">
-				<!--<span class="a_key">发热</span>
-				<span class="a_key">褪毛</span>
-				<span class="a_key">呕吐</span>
-				<span class="a_key">发情</span>
-				<span class="a_key">美容</span>
-				<span class="a_key">萌宠项圈</span>-->
+				<div class="spinner" style="margin-top:50px">
+					<div class="spinner-container container1">
+						<div class="circle1"></div>
+						<div class="circle2"></div>
+						<div class="circle3"></div>
+						<div class="circle4"></div>
+					</div>
+					<div class="spinner-container container2">
+						<div class="circle1"></div>
+						<div class="circle2"></div>
+						<div class="circle3"></div>
+						<div class="circle4"></div>
+					</div>
+					<div class="spinner-container container3">
+						<div class="circle1"></div>
+						<div class="circle2"></div>
+						<div class="circle3"></div>
+						<div class="circle4"></div>
+					</div>
+				</div>
 			</div>
 		</div>
 		<script type="text/html" id="hot_data">
@@ -126,7 +143,7 @@
 		<script id="answer_data" type="text/html">
 			<ul class="aui-list-view" >
 			{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
-			<li class="aui-list-view-cell answer_data">
+			<li class="aui-list-view-cell answer_data" tapmode onclick="to_answers({{ d.retValue[i].id }});">
 			<div class="img-cont tiezi_data">
 			{{#if (d.retValue[i].head_ico == null){}}
 			<img class="aui-pull-left" src="../../image/noavatar.gif">
@@ -135,7 +152,7 @@
 			{{# }}}
 			</div>
 			<div class="aui-img-body">
-			<span>{{ d.retValue[i].username }}</span><i class="iconfont icon-huida" style="float: right;color: #E78066;font-size: 14px;" tapmode onclick="to_answers({{ d.retValue[i].id }});"> 去回答</i> 
+			<span>{{ d.retValue[i].username }}</span><i class="iconfont icon-huida" style="float: right;color: #E78066;font-size: 14px;" tapmode onclick="to_answers({{ d.retValue[i].id }});"> 去回答</i>
 			<p class='aui-ellipsis-1'>
 			来自 {{ d.retValue[i].comedevice}}
 			</p>
@@ -143,13 +160,12 @@
 			<p style="margin-top: 5px; margin-bottom: 5px;">
 			{{ d.retValue[i].inter}}
 			{{# if(d.retValue[i].imgs.length>0){ }}
-			<div class="aui-content" style="display: inline-block;" id="an_photo" tapmode onclick="to_answers({{ d.retValue[i].id }});">
+			<div class="aui-content" style="display: inline-block;" id="an_photo">
 			{{# for (var ii = 0, lens = d.retValue[i].imgs.length; ii < lens; ii ++) { }}
 			<div class="aui-col-xs-3"><img src="http://116.255.190.248/{{ d.retValue[i].imgs[ii].im }}" alt="" class="aui-img" />
 			</div>
 			{{# } }}
 			</div>
-			
 			{{# } }}
 			</p>
 			<h6>{{ H.$com.jsDateDiff(d.retValue[i].time)}}<span class="iconfont icon-iconxiaoxi" style="float: right;font-size: 12px;"> {{ d.retValue[i].askcount}}</span></h6>

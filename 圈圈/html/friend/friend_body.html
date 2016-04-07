@@ -66,7 +66,7 @@
 	<body>
 		<div class="aui-content">
 			<ul class="aui-list-view">
-				<li class="aui-list-view-cell" tapmode id="consulting_header">
+				<li class="aui-list-view-cell" id="consulting_header" tapmode>
 					<div class="aui-arrow-right">
 						<div class="f_pic">
 							<span class="iconfont icon-shenfenrenzheng"></span>
@@ -113,7 +113,7 @@
 		<script id="tiezi_data" type="text/html">
 			<ul class="aui-list-view animated bounceIn" >
 			{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
-			<li class="aui-list-view-cell tiezi_data">
+			<li class="aui-list-view-cell tiezi_data" tapmode onclick="to_answers({{ d.retValue[i].id }});">
 			<div class="img-cont tiezi_data">
 			{{#if (d.retValue[i].head_ico == null){}}
 			<img class="aui-pull-left" src="../../image/noavatar.gif">
@@ -130,7 +130,7 @@
 			<p style="margin-top: 5px; margin-bottom: 5px;">
 			{{ d.retValue[i].inter}}
 			{{# if(d.retValue[i].imgs.length>0){ }}
-			<div class="aui-content" style="display: inline-block;" id="an_photo" tapmode onclick="to_answers({{ d.retValue[i].id }});">
+			<div class="aui-content" style="display: inline-block;" id="an_photo">
 			{{# for (var ii = 0, lens = d.retValue[i].imgs.length; ii < lens; ii ++) { }}
 			<div class="aui-col-xs-3"><img src="../../image/friend/firend_nopic.png" data-echo="http://116.255.190.248/{{ d.retValue[i].imgs[ii].im }}" class="aui-img loading" />
 			</div>
@@ -151,12 +151,10 @@
 	<script type="text/javascript">
 		Zepto(function($) {
 			$("#consulting_header").on("tap", function() {
-				api.parseTapmode();
 				H.$openWin("consulting_header", "consulting_header.html");
 			});
 			/*问答处理*/
 			$("#answers_header").on("tap", function() {
-				api.parseTapmode();
 				H.$openWin("answers_header", "answers_header.html");
 			});
 		});
