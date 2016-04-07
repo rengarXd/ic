@@ -33,15 +33,18 @@
 				color: #fff;
 				padding-bottom: 20px;
 			}
+			#ic_loading span{
+				color:#dddddd
+			}
 		</style>
 	</head>
 	<body>
 		<div class="aui-content aui-text-center" id="exchange" style="background: #1786FF;color: #fff;">
 			<span id="point" style="font-size: 86px">---</span>
-			<h1 class="ic_jf_h1">积分兑换</h1>
+			<h1 class="ic_jf_h1" tapmode>积分兑换</h1>
 		</div>
 		<div class="aui-content" >
-			<div class="aui-content-padded" id="point_body">
+			<div class="aui-content-padded" id="point_body" style="margin:10px">
 				<!--页面加载中-->
 				<div style="text-align: center" id="ic_loading"><img src="../../image/loading.png" width="70" height="70" />
 					<br />
@@ -49,19 +52,7 @@
 				</div>
 				<!--页面加载中-->
 			</div>
-			<!--<ul class="aui-list-view">
-			<li class="aui-list-view-cell">
-			<div class="aui-col-xs-2">
-			<span class="iconfont icon-jifen"></span>
-			</div>
-			<div class="aui-col-xs-10">
-			<h1 style="font-size: 23px;">积分<span class="aui-pull-right" style="font-size: 12px;color: #A2A2A2;">时间</span></h1>
-			<p>
-			描述详情
-			</p>
-			</div>
-			</li>
-			</ul>-->
+		
 		</div>
 		<script type="text/html" id="point_data">
 			<ul class="aui-list-view">
@@ -95,6 +86,7 @@
 			});
 		});
 		H.ready(function() {
+			api.parseTapmode();
 			api.getPrefs({
 				key : 'userinfo'
 			}, function(ret, err) {

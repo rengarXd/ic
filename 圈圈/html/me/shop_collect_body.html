@@ -7,6 +7,7 @@
 		<title></title>
 		<link rel="stylesheet" type="text/css" href="../../css/aui.css" />
 		<link rel="stylesheet" type="text/css" href="../../css/fonts/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/tools/loading.css" />
 		<style>
 			.goods-price {
 				font-size: 0.875em;
@@ -31,20 +32,22 @@
 				font-size: 10px !important;
 				line-height: 31px !important;
 			}
+			#ic_loading span {
+				color: #dddddd
+			}
 		</style>
 	</head>
 	<body>
-		<div class="aui-content">
-			<ul class="aui-list-view aui-grid-view" id="shopdata_body">
-				<!--页面加载中-->
-				<div style="text-align: center" id="ic_loading"><img src="../../image/loading.png" width="70" height="70" />
-					<br />
-					加载中...
-				</div>
-				<!--页面加载中-->
-			</ul>
+		<div class="aui-content" id="shopdata_body">
+			<!--页面加载中-->
+			<div style="text-align: center" id="ic_loading"><img src="../../image/loading.png" width="70" height="70" />
+				<br />
+				<span>加载中...</span
+			</div>
+			<!--页面加载中-->
 		</div>
 		<script id="shopdata" type="text/html">
+			<ul class="aui-list-view aui-grid-view" >
 			{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
 			<li class="aui-list-view-cell aui-img aui-col-xs-6">
 			<img class="aui-img-object" src="http://116.255.190.248/{{ d.retValue[i].img }}" onclick="openGoods({{ d.retValue[i].goods_id }})">
@@ -58,6 +61,7 @@
 			</div>
 			</li>
 			{{# } }}
+			</ul>
 		</script>
 	</body>
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
