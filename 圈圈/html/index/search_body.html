@@ -149,14 +149,21 @@
 			});
 		}
 
-		function key_words() {
+		// 获取搜索词
+		function get_serach_word() {
+			//1.3 无文件或取出失败
 			api.ajax({
 				url : window.serverUrl + '/app_index_search/token/' + retobj.token,
 				cache : true
 			}, function(ret, err) {
 				//如果请求有数据返回
 				if (ret && ret.retCode == 1) {
-					//					alert(JSON.stringify(ret));
+					//1.1 写入成功
+					api.writeFile({
+						path : 'fs://serach_word.json',
+						data : JSON.stringify(ret)
+					}, function(ret, err) {
+					});
 					var tpl = document.getElementById('keyword_data').innerHTML;
 					laytpl(tpl).render(ret, function(render) {
 						H.$recoverDropdownToNormal();
@@ -166,6 +173,25 @@
 					//						if (ret && ret.retCode == 0) {
 					//						}
 					alert(JSON.stringify(err));
+				}
+			});
+		}
+
+		function key_words() {
+			api.readFile({
+				path : 'fs://serach_word.json',
+			}, function(ret, err) {
+				//1.2 取出成功
+				if (ret) {
+					var temp = eval('(' + ret.data + ')');
+					var tpl = document.getElementById('keyword_data').innerHTML;
+					laytpl(tpl).render(temp, function(render) {
+						H.$recoverDropdownToNormal();
+						document.getElementById('keyword_body').innerHTML = render;
+					});
+					get_serach_word();
+				} else {
+					get_serach_word();
 				}
 			});
 		}
