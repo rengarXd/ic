@@ -71,6 +71,24 @@
 				color: #66A75A;
 				line-height: 40px;
 			}
+			.ic_cn {
+				float: right;
+				color: #B4B4B4 !important;
+				font-size: 14px;
+				font-style: normal;
+				background: #F3F3F3;
+				border: 1px solid #ddd;
+			}
+			.ic_cn span {
+				color: #BEBDBD !important;
+				font-size: 12px !important;
+			}
+			.ic_cn:active {
+				background: #dddddd !important;
+			}
+			.aui-user-view-cell:active {
+				background: #ffffff !important;
+			}
 		</style>
 	</head>
 	<body>
@@ -156,6 +174,7 @@
 			<p class='aui-ellipsis-1'>
 			{{ d.bbs_ask[i].content }}
 			</p>
+			<i class="aui-badge ic_cn" tapmode onclick="ic_cn({{ d.bbs_ask[i].id }});"><span class="iconfont icon-z077"></span> 采纳</i>
 			</div>
 			</li>
 			{{# } }}
@@ -169,6 +188,7 @@
 	<script type="text/javascript" src="../../script/echo.min.js"></script>
 	<script>
 		var photoBrowser = null, answers = null, bbs = null, page = 1;
+		var ishaveright, userid;
 		Zepto(function() {
 			$("#an_photo").on("tap", function() {
 				//记录路径
@@ -190,6 +210,33 @@
 				});
 			});
 		});
+		function ic_cn(id) {
+			api.confirm({
+				title : '提示',
+				msg : '确定要采纳此答案吗？',
+				buttons : ['确定', '取消']
+			}, function(ret, err) {
+				if (ret) {
+					if (ret.buttonIndex == 1) {
+						api.ajax({
+							url : window.serverUrl + '/ask_isright/token/' + answers.token + '/ask_id/' + id + '/isright/1',
+							cache : false
+						}, function(ret, err) {
+							if (ret && ret.retCode == 1) {
+								api.toast({
+									msg : '采纳此答案成功！'
+								});
+								location.reload();
+							}
+						});
+					} else {
+					}
+				} else {
+					//alert(JSON.stringify(err));
+				}
+			});
+		}
+
 		//1、获取数据 isshow为false则不显示  评论page 页数
 		function get_data(isshow, isbutton) {
 			//1.2 接收要获取的问答ID
@@ -222,6 +269,8 @@
 							$("#answer_content").html(ret.retValue.bbscontent[0].content);
 							$("#answer_time").html(H.$com.jsDateDiff(ret.retValue.bbscontent[0].time));
 							$("#answer_askcount").html("回复(" + ret.retValue.bbscontent[0].askcount + ")");
+							ishaveright = ret.retValue.bbscontent[0].ishaveright;
+							userid = ret.retValue.bbscontent[0].id;
 							//图片渲染
 							if (ret.retValue.bbscontent[0].imgs.length > 0) {
 								var tpl = document.getElementById('answers_img_data').innerHTML;
@@ -232,6 +281,8 @@
 										throttle : 150,
 									});
 								});
+							} else {
+								$("#an_photo").hide();
 							}
 						}
 						if (ret.retValue.bbs_ask.length < 1 && page <= 1) {
@@ -252,12 +303,24 @@
 								var tpl = document.getElementById('answers_data').innerHTML;
 								laytpl(tpl).render(ret.retValue, function(render) {
 									$('#answers_body').append(render);
+									if (ishaveright == 1) {
+										$('.ic_cn').hide();
+									}
+									if (userid != answers.id) {
+										$('.ic_cn').hide();
+									}
 									//H.$com.scrollToDocButton();
 								});
 							} else {
 								var tpl = document.getElementById('answers_data').innerHTML;
 								laytpl(tpl).render(ret.retValue, function(render) {
 									document.getElementById('answers_body').innerHTML = render;
+									if (ishaveright == 1) {
+										$('.ic_cn').hide();
+									}
+									if (userid != answers.id) {
+										$('.ic_cn').hide();
+									}
 									$("#noask").hide();
 								});
 							}
