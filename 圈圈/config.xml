@@ -35,8 +35,8 @@
     <param name="ios_app_secret" value="653b06aa2add94981f0395162ccb4fc5"/> 
   </feature>  
   <feature name="qq"> 
-    <param name="urlScheme" value="tencent1105121449"/>  
-    <param name="apiKey" value="1105121449"/> 
+    <param name="urlScheme" value="tencent1105298312"/>  
+    <param name="apiKey" value="1105298312"/> 
   </feature>  
   <feature name="weibo"> 
     <param name="urlScheme" value="wb4002923785"/>  

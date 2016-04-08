@@ -279,11 +279,13 @@
 			// 10 初始化DB模块
 			db = api.require('db');
 			var SerachWordStatus = H.$api.getStorage('SerachWordStatus');
+			var SystemMassage = H.$api.getStorage('SystemMassage');
 			// 10.8 如果 SerachWord表没有创建则初始化表
 			// 10.1 打开ichong数据库
 			db.openDatabase({
 				name : 'ichong'
 			}, function(ret, err) {
+				// 10.2 搜索离线表
 				if (!SerachWordStatus) {
 					// 10.3 初始化(搜索表) id 自增主键ID  word 关键词
 					var serachWordSql = 'CREATE TABLE SerachWord(id integer primary key autoincrement, word varchar(100))';
@@ -299,7 +301,28 @@
 						}
 					});
 				}
+				
+				//10.3 系统消息表
+				if(!SystemMassage){
+					// 10.3 初始化(搜索表) id 自增主键ID  word 关键词
+					// id 系统消息ID [title] 消息标题 [content] 消息正文 [status] 是否查阅状态 [time] 接收时间 [type] 消息类型 1 兑换券 2 回复通知
+					var systemmassage = 'CREATE TABLE SystemMassage(id integer primary key autoincrement,title varchar(80),content varchar(200),status int,time varchar(50),type int)';
+					db.executeSql({
+						name : 'ichong',
+						sql : systemmassage
+					}, function(ret, err) {
+						// 10.4 如果创建表成功
+						if (ret.status) {
+							//alert('创建SystemMassage表成功');
+							// 10.5 存储创建状态
+							H.$api.setStorage('SystemMassage', true);
+						}
+					});
+				}
+				
+				
 			});
+			//关键词处理=========================
 			// 10.2 添加关键词添加监听
 			api.addEventListener({
 				name : 'addSerachWord'
@@ -347,6 +370,39 @@
 					
 				});
 			});
+			//关键词处理=========================
+			//系统消息处理========================
+			//12.0 系统消息监听
+			api.addEventListener({
+	            name:'systemmassage'
+            },function(ret,err){
+            	//12.1 查询
+            	var sql = 'select * from SystemMassage where status=0';
+            	db.selectSql({
+	                name:'ichong',
+	                sql:sql
+                },function(ret,err){
+                	api.sendEvent({
+                		name:'getsystemmsg',
+                		extra:ret
+                	},function(ret,err){
+                		
+                	});
+                });
+            });
+			//12.1 系统消息插入
+			api.addEventListener({
+	            name:'addsystemmsg'
+            },function(ret,err){
+            	var sql = "INSERT INTO SystemMassage(title,content,status,time,type) VALUES ('"+ret.value.data.title+"','"+ret.value.data.content+"',"+ret.value.data.status+","+ret.value.data.time+","+ret.value.data.type+",)";
+            	db.executeSql({
+	                name:'ichong',
+	                sql:sql
+                },function(ret,err){
+                	
+                });
+            });
+			//系统消息处理========================
 		});
 		// 10.2 添加
 		function addSerachWord(aword) {

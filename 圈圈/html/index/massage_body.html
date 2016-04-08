@@ -115,7 +115,6 @@
 			});
 		});
 		H.ready(function() {
-			var db = api.require('db');
 			/*下拉刷新*/
 			H.$dropdownToRefresh(function(ret, err) {
 				setTimeout(function() {
@@ -123,60 +122,21 @@
 					H.$recoverDropdownToNormal();
 				}, 1000);
 			});
-			db.openDatabase({
-				name : 'ichong'
-			}, function(ret, err) {
-				if (ret.status) {
-//					var sql = 'CREATE TABLE Persons(Id_P int, LastName varchar(255), FirstName varchar(255), Address varchar(255), City varchar(255))';
-//					db.executeSql({
-//						name : 'ichong',
-//						sql : sql
-//					}, function(ret, err) {
-						if (ret.status) {
-						
-						
-						
-							var sql = 'INSERT INTO Persons(Id_P,LastName,FirstName,Address,City) VALUES (1,"陈","亚磊","河南","郑州")';
-							db.executeSql({
-								name : 'ichong',
-								sql : sql
-							}, function(ret, err) {
-								if (ret.status) {
-									var sql = 'SELECT * from Persons';
-									db.selectSql({
-										name : 'ichong',
-										sql : sql
-									}, function(ret, err) {
-										if (ret.status) {
-											if (ret.data.length > 0) {
-												$("#systemnum").text(ret.data.length);
-											} else {
-												$("#systemnum").hide();
-											}
-										} else {
-											api.alert({
-												msg : err.msg
-											});
-										}
-									});
-								} else {
-									api.alert({
-										msg : err.msg
-									});
-								}
-							});
-						} else {
-							api.alert({
-								msg : err.msg
-							});
-						}
-//					});
-				} else {
-					api.alert({
-						msg : err.msg
-					});
-				}
+			//1.0 初始化获取系统消息
+			api.sendEvent({
+				name:'systemmassage'
+			},function(ret,err){
+				
 			});
+			//1.1 接收到系统消息
+			api.addEventListener({
+	            name:'getsystemmsg'
+            },function(ret,err){
+            	if(ret.value.status && ret.value.data==0){
+            		$("#systemnum").hide();
+            	}
+            });
+			
 		});
 	</script>
 </html>
