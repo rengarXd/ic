@@ -65,73 +65,101 @@
 	<script type="text/javascript">
 		//用户对象
 		var retobj = null, temp = null;
+		//		V.init({
+		//			area : ".aui-form", // 验证区域，支持标签，id，class，推荐使用id或者class
+		//			btn : ".aui-btn" // 触发验证的按钮或者元素，支持标签，id，class，推荐使用id或者class
+		//		});
 		//1.0 更改昵称
 		function save() {
 			var usernamevalue = $("#usernamevalue").val();
-			if(temp == usernamevalue){
+			var u = /^[\u4E00-\u9FA5\uf900-\ufa2d\w\.\s]{6,18}$/;
+			var un;
+			if (temp == usernamevalue) {
 				return api.toast({
-	                msg:"抱歉您未做任何修改"
-                });
+					msg : "抱歉您未做任何修改"
+				});
+			} else if (usernamevalue == "") {
+				api.toast({
+					msg : '抱歉，昵称不能为空！'
+				});
+				return;
+			} else if (un != usernamevalue.match(u)) {
+				api.toast({
+					msg : '抱歉，昵称不能超过5个字符！'
+				});
+				return;
+			} else {
+				api.showProgress({
+					title : "正在更改...",
+					modal : false
+				});
+				api.ajax({
+					url : window.serverUrl + '/userinfo_edit/token/' + retobj.token + '/user_id/' + retobj.id + '/type/1' + '/username/' + encodeURI(usernamevalue),
+				}, function(ret, err) {
+					if (ret && ret.retCode == 1) {
+						H.$setPrefs(function(ret, err) {
+							api.hideProgress();
+							//更新操作
+							api.sendEvent({
+								name : 'pagereload',
+							});
+							api.closeWin({
+							});
+						}, 'userinfo', JSON.stringify(ret.retValue));
+					}
+				});
 			}
-			api.showProgress({
-				title : "正在更改...",
-				modal : false
-			});
-			api.ajax({
-				url : window.serverUrl + '/userinfo_edit/token/' + retobj.token + '/user_id/' + retobj.id + '/type/1' + '/username/' + encodeURI(usernamevalue),
-				
-			}, function(ret, err) {
-				if (ret && ret.retCode == 1) {
-					H.$setPrefs(function(ret, err) {
-						api.hideProgress();
-						//更新操作
-						api.sendEvent({
-							name : 'pagereload',
-						});
-						api.closeWin({
-						});
-					}, 'userinfo', JSON.stringify(ret.retValue));
-				}
-			});
 		}
 
 		//2.0 更改用户真实姓名
 		function save_a() {
 			var firstnm = $("#firstnamevalue").val();
-			if(temp == firstnm){
+			var a = /^[\u4E00-\u9FA5\uf900-\ufa2d\w\.\s]{6,18}$/;
+			var b;
+			if (temp == firstnm) {
 				return api.toast({
-	                msg:"抱歉您未做任何修改"
-                });
+					msg : "抱歉您未做任何修改"
+				});
+			} else if (firstnm == "") {
+				api.toast({
+					msg : '抱歉，真实姓名不能为空！'
+				});
+				return;
+			} else if (b != firstnm.match(a)) {
+				api.toast({
+					msg : '抱歉，不能超过5个字符！'
+				});
+				return;
+			} else {
+				api.showProgress({
+					title : "正在更改...",
+					modal : false
+				});
+				api.ajax({
+					url : window.serverUrl + '/userinfo_edit/token/' + retobj.token + '/user_id/' + retobj.id + '/type/2/truename/' + encodeURI(encodeURI(firstnm))
+				}, function(ret, err) {
+					if (ret && ret.retCode == 1) {
+						H.$setPrefs(function(ret, err) {
+							api.hideProgress();
+							//更新操作
+							api.sendEvent({
+								name : 'pagereload',
+							});
+							api.closeWin({
+							});
+						}, 'userinfo', JSON.stringify(ret.retValue));
+					}
+				});
 			}
-			api.showProgress({
-				title : "正在更改...",
-				modal : false
-			});
-			api.ajax({
-				url : window.serverUrl + '/userinfo_edit/token/' + retobj.token + '/user_id/' + retobj.id + '/type/2/truename/'+encodeURI(encodeURI(firstnm))
-			}, function(ret, err) {
-				if (ret && ret.retCode == 1) {
-					
-					H.$setPrefs(function(ret, err) {
-						api.hideProgress();
-						//更新操作
-						api.sendEvent({
-							name : 'pagereload',
-						});
-						api.closeWin({
-						});
-					}, 'userinfo', JSON.stringify(ret.retValue));
-				}
-			});
 		}
 
 		//3.0 更改性别
 		function save_b() {
 			var sexid = $("#sexname input[type='radio']:checked").val();
-			if(temp == sexid){
+			if (temp == sexid) {
 				return api.toast({
-	                msg:"抱歉您未做任何修改"
-                });
+					msg : "抱歉您未做任何修改"
+				});
 			}
 			api.showProgress({
 				title : "正在更改...",
@@ -154,7 +182,6 @@
 			});
 		}
 
-		
 		Zepto(function($) {
 		});
 		H.ready(function() {
