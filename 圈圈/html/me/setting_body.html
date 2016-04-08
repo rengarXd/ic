@@ -85,6 +85,7 @@
 						obj.installed(function(ret, err) {
 							if (ret.status) {
 								obj.login(function(ret, err) {
+									var qqtoken = ret.accessToken;
 									H.$showProgress();
 									H.$getPrefs(function(ret, err) {
 										H.$ajax(function(ret, err) {
@@ -95,12 +96,12 @@
 											} else {
 												H.$toast(ret.retDesc);
 												$("#qq_bd").removeClass("display-none");
-												H.$alert(JSON.stringify(ret.retValue));
+												//H.$alert(JSON.stringify(ret.retValue));
 												//更新用户信息
 												H.$setPrefs(function(ret, err) {
 												}, 'userinfo', JSON.stringify(rtemp.retValue));
 											}
-										}, "http://116.255.190.248/apis/app_dsf_token/token/" + ret.token + "/qqToken/" + ret.accessToken);
+										}, "http://116.255.190.248/apis/app_dsf_token/token/" + retobj.token + "/qqToken/" + qqtoken);
 									}, 'userinfo');
 								});
 							} else {
@@ -120,6 +121,7 @@
 						var retobj = eval('(' + ret.value + ')');
 						var weibo = api.require('weibo');
 						weibo.auth(function(ret, err) {
+							alert(JSON.stringify(ret));
 							if (ret.status) {
 								H.$showProgress();
 								H.$ajax(function(ret, err) {
@@ -146,7 +148,7 @@
 		H.ready(function() {
 			api.parseTapmode();
 			H.$getPrefs(function(ret, err) {
-				var retobj = eval('(' + ret.value + ')');
+				retobj = eval('(' + ret.value + ')');
 				//H.$toast(retobj);
 				if (retobj.qqtoken) {
 					$("#qq_bd").removeClass("display-none");
