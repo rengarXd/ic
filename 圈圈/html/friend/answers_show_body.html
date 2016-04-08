@@ -222,7 +222,7 @@
 				if (ret) {
 					if (ret.buttonIndex == 1) {
 						api.ajax({
-							url : window.serverUrl + '/ask_isright/token/' + answers.token + '/ask_id/' + id + '/isright/1',
+							url : window.serverUrl + '/ask_isright/user_id/'+answers.id+'/token/' + answers.token + '/ask_id/' + id + '/isright/1',
 							cache : false
 						}, function(ret, err) {
 							if (ret && ret.retCode == 1) {
