@@ -128,7 +128,7 @@
 		</div>
 		<script type="text/html" id="hot_data">
 			{{# for (var i=0, a=d.retValue.length; i < a; i++) { }}
-			<span class="a_key">{{d.retValue[i].keyword}}</span>
+			<span class="a_key" onclick="word_add('{{ d.retValue[i].keyword }}')" tapmode>{{d.retValue[i].keyword}}</span>
 			{{# } }}
 		</script>
 		<!--热门搜索-->
@@ -256,12 +256,21 @@
 				} else {
 				}
 			});
-			/*下拉刷新*/
-			//			H.$dropdownToRefresh(function(ret, err) {
-			//				answer_main();
-			//				H.$recoverDropdownToNormal();
-			//			});
 		});
+		/*下拉刷新*/
+		//			H.$dropdownToRefresh(function(ret, err) {
+		//				answer_main();
+		//				H.$recoverDropdownToNormal();
+		//			});
+		//向搜索框中添加关键字
+		function word_add(word) {
+			//			api.toast({
+			//				msg : word
+			//			});
+			$("#search-input").val(word);
+			search();
+		}
+
 		function doSearch() {
 			H.$api.addCls(H.$api.dom(".aui-searchbar-wrap"), "focus");
 			H.$api.dom('.aui-searchbar-input input').focus();
@@ -280,7 +289,7 @@
 		function search() {
 			var content = H.$api.val(H.$api.byId("search-input"));
 			if (content) {
-				H.$openWin("", "", {
+				H.$openWin("answers_list_header", "answers_list_header.html", {
 					content : content
 				});
 			} else {
