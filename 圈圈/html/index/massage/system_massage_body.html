@@ -6,6 +6,7 @@
 		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
 		<title>系统消息推送body</title>
 		<link rel="stylesheet" type="text/css" href="../../../css/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../../../css/tools/loading.css" />
 		<style>
 			.ic_massage_title {
 				margin: 10px 0;
@@ -20,18 +21,27 @@
 		<li class="aui-list-view-cell">
 		<h2>{{ d.data[i].title }}</h2>
 		<p>
-		{{ d.data[i].content }}
+		{{ d.data[i].content }}<br />
+		详情请查看积分详情
 		</p>
 		</li>
 		</ul>
 		</div>
 		{{# } }}
 	</script>
-	<body style="padding-top: 12px;" id="massage_data_body"></body>
+	<body style="padding-top: 12px;" id="massage_data_body">
+		<!--页面加载中-->
+		<div style="text-align: center" id="ic_loading"><img src="../../../image/loading.png" width="70" height="70" />
+			<br />
+			<span>暂无系统消息</span>
+		</div>
+		<!--页面加载中-->
+	</body>
 	<script type="text/javascript" src="../../../script/AHelper.js"></script>
 	<script type="text/javascript" src="../../../script/laytpl.js"></script>
 	<script type="text/javascript">
 		H.ready(function() {
+			location.reload();
 			// 1.0 获取数据 type = 1 为详细页获取系统信息列表
 			api.sendEvent({
 				name : 'systemmassage',
@@ -40,13 +50,21 @@
 				}
 			}, function(ret, err) {
 			});
+			// 1.1 清零系统消息数据状态操作
+			api.sendEvent({
+				name : 'editSystemMsgaStatus'
+			}, function(ret, err) {
+			});
 			api.addEventListener({
 				name : 'getpagesystemmsg'
 			}, function(ret, err) {
-				var tpl = document.getElementById('massage_data').innerHTML;
-				laytpl(tpl).render(ret.value, function(render) {
-					document.getElementById('massage_data_body').innerHTML = render;
-				});
+				//				alert(JSON.stringify(ret));
+				if (ret.value.data.length > 0) {
+					var tpl = document.getElementById('massage_data').innerHTML;
+					laytpl(tpl).render(ret.value, function(render) {
+						document.getElementById('massage_data_body').innerHTML = render;
+					});
+				}
 			});
 		});
 	</script>

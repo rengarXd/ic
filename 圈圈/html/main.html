@@ -372,9 +372,9 @@
 			api.addEventListener({
 				name : 'systemmassage'
 			}, function(ret, err) {
-				//12.1 查询
-				var sql = 'select * from SystemMassage where status=0';
 				if (ret.value) {
+					//12.1 查询
+					var sql = 'select * from SystemMassage where status=1 order by id desc';
 					//12.2 给详情页发查询到的数据
 					db.selectSql({
 						name : 'ichong',
@@ -387,6 +387,7 @@
 						});
 					});
 				} else {
+					var sql = 'select * from SystemMassage where status=0';
 					//12.2 给消息列表页发数据
 					db.selectSql({
 						name : 'ichong',
@@ -404,13 +405,31 @@
 			api.addEventListener({
 				name : 'addsystemmsg'
 			}, function(ret, err) {
-				alert(JSON.stringify(ret));
+				//alert(JSON.stringify(ret));
 				var sql = "INSERT INTO SystemMassage(title,content,status,time,type) VALUES ('" + ret.value.title + "','" + ret.value.content + "'," + ret.value.status + "," + ret.value.time + "," + ret.value.type + ")";
 				db.executeSql({
 					name : 'ichong',
 					sql : sql
 				}, function(ret, err) {
-					alert(JSON.stringify(ret));
+					//alert(JSON.stringify(ret));
+				});
+			});
+			//12.2 系统消息阅读状态
+			api.addEventListener({
+				name : 'editSystemMsgaStatus'
+			}, function(ret, err) {
+				var sql = 'UPDATE SystemMassage SET status=1';
+				db.executeSql({
+					name : 'ichong',
+					sql : sql
+				}, function(ret, err) {
+//					alert(JSON.stringify(ret));
+					//更新系统消息数量
+					api.execScript({
+						name : 'massage_header',
+						frameName : 'massage_body',
+						script : 'changenum(1);'
+					});
 				});
 			});
 			//系统消息处理========================

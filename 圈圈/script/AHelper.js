@@ -16,7 +16,7 @@
 	var modules = {};
 	//常规api请求地址
 	window.serverUrl = "http://116.255.190.248/apis";
-//		window.serverUrl = "http://192.168.10.129/iwebshop/apis";
+	//		window.serverUrl = "http://192.168.10.129/iwebshop/apis";
 	//设备访问api请求地址
 	window.deviceserverUrl = "http://116.255.190.248/deviceapi";
 	//常规静态资源请求地址
@@ -129,7 +129,13 @@
 		// @timestamp：时间戳
 		// @isShowTime：是否显示时间
 		transJsTimestamp : function(timestamp) {
-			return new Date(parseInt(timestamp)).toLocaleString().replace(/:\d{1,2}$/,' ');
+			var date = new Date(parseInt(timestamp));
+			var Y = date.getFullYear() + '-';
+			var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+			var D = date.getDate() + ' ';
+			var h = date.getHours() + ':';
+			var m = date.getMinutes();
+			return Y + M + D + h + m;
 		},
 		// 判断是否是方法
 		// @func：方法句柄
