@@ -41,7 +41,10 @@
 	<script type="text/javascript" src="../../../script/laytpl.js"></script>
 	<script type="text/javascript">
 		H.ready(function() {
-			location.reload();
+			var isIOS = api.systemType == "ios" ? true : false;
+			if (isIOS) {
+				location.reload();
+			}
 			// 1.0 获取数据 type = 1 为详细页获取系统信息列表
 			api.sendEvent({
 				name : 'systemmassage',

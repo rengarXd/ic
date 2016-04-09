@@ -89,14 +89,14 @@
 					</div>
 				</li>
 				<!--系统消息-->
-				<li class="aui-user-view-cell aui-img">
+				<li class="aui-user-view-cell aui-img" data-funcName="tips_header" tapmode>
 					<div class="img-cont"><img class="aui-img-object aui-pull-left" src="../../image/massage/mssage_03.png" tapmode >
 						<!--<span class="gender man">10</span>-->
 					</div>
 					<div class="aui-img-body">
 						<span>I宠小贴士</span><i class="massage_time">2016-1-22  15:23:58</i>
 						<p class='aui-ellipsis-1'>
-							显示最新一条订阅消息的标题
+							暂无小贴士信息
 						</p>
 					</div>
 				</li>
@@ -153,7 +153,7 @@
 				name : 'getpagesystemmsg'
 			}, function(ret, err) {
 				//alert(JSON.stringify(ret));
-				if (ret.value.data.length>0) {
+				if (ret.value.data.length > 0) {
 					$("#systemtime").text(H.$com.transJsTimestamp(ret.value.data[0].time));
 					$("#systemmsg").text(ret.value.data[0].title);
 				}
