@@ -105,7 +105,7 @@
 		$("#consulting").on("click", function() {
 			var content = $("#content").val();
 			var isSatisfied = $("input").attr("issf");
-			if (result) {
+			if (result == null) {
 				result = 5;
 			}
 			if (content) {
@@ -126,14 +126,16 @@
 					}
 				}, function(ret, err) {
 					if (ret && ret.retCode == 1) {
+						api.hideProgress();
 						api.sendEvent({
 							name : 'closeChat'
 						});
 						$(".aui-form").hide();
 						$(".aui-content").hide();
 						$("#ic_over").show();
+					}else{
+						alert(JSON.stringify(ret.retDesc));
 					}
-					api.hideProgress();
 				});
 			} else {
 				api.toast({
