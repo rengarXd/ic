@@ -12,49 +12,42 @@
 			}
 		</style>
 	</head>
-	<body style="padding-top: 12px;">
-		<!--循环消息部分-->
-		<h6 class="aui-text-center ic_massage_title"> 2016年03月30日14:42:12 </h6>
+	<script id="massage_data" type="text/html">
+		{{# for(var i = 0, len = d.data.length; i < len; i++){ }}
+		<h6 class="aui-text-center ic_massage_title"> {{ H.$com.transJsTimestamp(d.data[i].time) }} </h6>
 		<div class="aui-card">
-			<ul class="aui-list-view">
-				<li class="aui-list-view-cell">
-					<h2>兑换代金券成功通知</h2>
-					<p>
-						您兑换了一张代金券，有效期至2016年03月30日14:35:54
-					</p>
-				</li>
-			</ul>
+		<ul class="aui-list-view">
+		<li class="aui-list-view-cell">
+		<h2>{{ d.data[i].title }}</h2>
+		<p>
+		{{ d.data[i].content }}
+		</p>
+		</li>
+		</ul>
 		</div>
-		<!--循环消息部分-->
-		<h6 class="aui-text-center ic_massage_title"> 2016年03月30日14:42:12 </h6>
-		<div class="aui-card">
-			<ul class="aui-list-view">
-				<li class="aui-list-view-cell">
-					<h2>兑换代金券成功通知</h2>
-					<p>
-						您兑换了一张代金券，有效期至2016年03月30日14:35:54
-					</p>
-				</li>
-			</ul>
-		</div>
-		<h6 class="aui-text-center ic_massage_title"> 2016年03月30日14:42:12 </h6>
-		<div class="aui-card">
-			<ul class="aui-list-view">
-				<li class="aui-list-view-cell">
-					<h2>兑换代金券成功通知</h2>
-					<p>
-						您兑换了一张代金券，有效期至2016年03月30日14:35:54
-					</p>
-				</li>
-			</ul>
-		</div>
-	</body>
+		{{# } }}
+	</script>
+	<body style="padding-top: 12px;" id="massage_data_body"></body>
 	<script type="text/javascript" src="../../../script/AHelper.js"></script>
-	<script type="text/javascript" src="../../../script/zepto.min.js"></script>
+	<script type="text/javascript" src="../../../script/laytpl.js"></script>
 	<script type="text/javascript">
-		Zepto(function($) {
-		});
 		H.ready(function() {
+			// 1.0 获取数据 type = 1 为详细页获取系统信息列表
+			api.sendEvent({
+				name : 'systemmassage',
+				extra : {
+					type : 1
+				}
+			}, function(ret, err) {
+			});
+			api.addEventListener({
+				name : 'getpagesystemmsg'
+			}, function(ret, err) {
+				var tpl = document.getElementById('massage_data').innerHTML;
+				laytpl(tpl).render(ret.value, function(render) {
+					document.getElementById('massage_data_body').innerHTML = render;
+				});
+			});
 		});
 	</script>
 </html>

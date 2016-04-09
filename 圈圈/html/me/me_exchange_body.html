@@ -155,9 +155,24 @@
 				url : window.serverUrl + '/trade_ticket/token/' + retobj.token + '/user_id/' + retobj.id + '/ticket_id/' + ticket
 			}, function(ret, err) {
 				if (ret && ret.retCode == 1) {
-					api.toast({
+					
+					// 2.0 插入系统消息
+					api.sendEvent({
+						name:'addsystemmsg',
+						extra:{
+							title:'兑换代金券成功通知',
+							content:ret.retValue[0].intro,
+							status:0,
+							time:Date.parse(new Date()),
+							type:1
+						}
+					},function(ret,err){
+						api.toast({
 						msg : ret.retDesc
 					});
+					});
+					
+					
 					//获取用户的ajax并更改用户信息表的偏好值
 					api.ajax({
 						url : window.serverUrl + '/userinfo/token/' + retobj.token + '/user_id/' + retobj.id

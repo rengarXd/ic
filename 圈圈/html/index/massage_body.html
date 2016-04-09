@@ -122,21 +122,25 @@
 					H.$recoverDropdownToNormal();
 				}, 1000);
 			});
+			
+			
+			
 			//1.0 初始化获取系统消息
 			api.sendEvent({
-				name:'systemmassage'
-			},function(ret,err){
-				
+				name : 'systemmassage'
+			}, function(ret, err) {
 			});
 			//1.1 接收到系统消息
 			api.addEventListener({
-	            name:'getsystemmsg'
-            },function(ret,err){
-            	if(ret.value.status && ret.value.data==0){
-            		$("#systemnum").hide();
-            	}
-            });
-			
+				name : 'getsystemmsg'
+			}, function(ret, err) {
+				if (ret.value.status && ret.value.data == 0) {
+					$("#systemnum").hide();
+				} else {
+					// 12.2 更改消息的数量
+					$("#systemnum").text(ret.value.data.length);
+				}
+			});
 		});
 	</script>
 </html>

@@ -52,15 +52,15 @@
 			<span class="bsy">满意度</span>
 			<div class="aui-input-row">
 				<label class="aui-input-addon">非常满意</label>
-				<input class="aui-pull-right aui-radio" type="radio" value="1" name="demo" checked>
+				<input class="aui-pull-right aui-radio" type="radio" issf="1" name="demo" checked>
 			</div>
 			<div class="aui-input-row">
 				<label class="aui-input-addon">满意</label>
-				<input class="aui-pull-right aui-radio" type="radio" value="2" name="demo">
+				<input class="aui-pull-right aui-radio aui-radio-info" type="radio" issf="2" name="demo">
 			</div>
 			<div class="aui-input-row">
 				<label class="aui-input-addon">不满意</label>
-				<input class="aui-pull-right aui-radio" type="radio" value="3" name="demo" >
+				<input class="aui-pull-right aui-radio aui-radio-success" type="radio" issf="3" name="demo" >
 			</div>
 		</div>
 		<div class="aui-content" style="background: #fff">
@@ -104,12 +104,11 @@
 		});
 		$("#consulting").on("click", function() {
 			var content = $("#content").val();
-			var isSatisfied = $('input[name="demo"]:checked').val();
-			if (result == null) {
+			var isSatisfied = $("input").attr("issf");
+			if (result) {
 				result = 5;
 			}
 			if (content) {
-//				console.log(isSatisfied);
 				api.showProgress({
 					title : '正在提交'
 				});
@@ -127,16 +126,14 @@
 					}
 				}, function(ret, err) {
 					if (ret && ret.retCode == 1) {
-						api.hideProgress();
 						api.sendEvent({
 							name : 'closeChat'
 						});
 						$(".aui-form").hide();
 						$(".aui-content").hide();
 						$("#ic_over").show();
-					}else{
-						alert(JSON.stringify(ret.retDesc));
 					}
+					api.hideProgress();
 				});
 			} else {
 				api.toast({
@@ -146,7 +143,7 @@
 		});
 		H.ready(function() {
 			doctorid = H.$getPageParam();
-//			console.log(JSON.stringify(doctorid));
+			console.log(JSON.stringify(doctorid));
 			api.getPrefs({
 				key : 'userinfo'
 			}, function(ret, err) {

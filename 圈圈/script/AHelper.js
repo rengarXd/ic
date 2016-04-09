@@ -128,10 +128,8 @@
 		// 将Javascript时间戳转换为时间格式
 		// @timestamp：时间戳
 		// @isShowTime：是否显示时间
-		transJsTimestamp : function(timestamp, isShowTime) {
-			isShowTime = ( typeof arguments[1] != 'boolean') ? true : arguments[1];
-			var datetime = new Date(timestamp);
-			$$com.getNowDateFormat('-', ':', isShowTime, datetime);
+		transJsTimestamp : function(timestamp) {
+			return new Date(parseInt(timestamp)).toLocaleString().replace(/:\d{1,2}$/,' ');
 		},
 		// 判断是否是方法
 		// @func：方法句柄
