@@ -104,9 +104,21 @@
 	<script type="text/javascript" src="../../../script/AHelper.js"></script>
 	<script type="text/javascript" src="../../../script/zepto.min.js"></script>
 	<script type="text/javascript">
+		var userobj = null;
 		Zepto(function($) {
 		});
 		H.ready(function() {
+			api.getPrefs({
+	            key:'userinfo'
+            },function(ret,err){
+            	userobj = eval('('+ret.value+')');
+            	api.ajax({
+	                url:window.serverUrl+'/get_tips/token/'+userobj.token+'/user_id/'+userobj.id
+                },function(ret,err){
+                	alert(JSON.stringify(ret));
+                });
+            	
+            });
 		});
 	</script>
 </html>
