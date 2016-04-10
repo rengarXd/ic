@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>I宠小贴士body</title>
+		<link rel="stylesheet" type="text/css" href="../../../css/aui.css"/>
+		<link rel="stylesheet" type="text/css" href="../../../css/tools/loading.css" />
+		<style>
+			body {
+				background-color: #fff;
+			}
+			.news_time {
+				padding: 0 10px 10px 10px;
+			}
+			.news_title {
+				font-size: 20px;
+				padding: 10px 9px;
+			}
+			.news_img {
+				padding-left: 9px;
+				height: 15px;
+			}
+			.aui-content p {
+				margin: 8px 15px 8px;
+				text-indent: 2em;
+				font-size: 17px;
+				line-height: 30px;
+			}
+			.ic_conetnt img {
+				display: block;
+				max-width: 100%;
+				height: auto
+			}
+		</style>
+	</head>
+	<body>
+		<div class="aui-content" id="news_html">
+			<div id="ic_loading">
+				<img src="../../../image/loading.png" />
+				<h6>
+				<div class="spinner">
+					<div class="spinner-container container1">
+						<div class="circle1"></div>
+						<div class="circle2"></div>
+						<div class="circle3"></div>
+						<div class="circle4"></div>
+					</div>
+					<div class="spinner-container container2">
+						<div class="circle1"></div>
+						<div class="circle2"></div>
+						<div class="circle3"></div>
+						<div class="circle4"></div>
+					</div>
+					<div class="spinner-container container3">
+						<div class="circle1"></div>
+						<div class="circle2"></div>
+						<div class="circle3"></div>
+						<div class="circle4"></div>
+					</div>
+				</div></h6>
+			</div>
+		</div>
+	</body>
+	<script type="text/html" id="news_data">
+		<h1 class="news_title">{{ d.retValue.title }}</h1>
+		<h6 class="news_time">{{ H.$com.jsDateDiff(d.retValue.time) }}<img src="../../../image/mckb.png" class="news_img" /></h6>
+		<div class="aui-line-x"></div>
+		<div class="ic_conetnt">{{ d.retValue.content }}</div>
+	</script>
+	<script type="text/javascript" src="../../../script/AHelper.js"></script>
+	<script type="text/javascript" src="../../../script/laytpl.js"></script>
+	<script type="text/javascript">
+		var retabc = null, newsId = null;
+		function get_data() {
+			//请求ajax数据
+			api.ajax({
+				url : window.serverUrl + '/get_tip_content/token/' + retabc.token + '/user_id/'+retabc.id+'/id/' + newsId,
+				cache : true
+			}, function(ret, err) {
+				if (ret && ret.retCode == 1) {
+					var t = document.getElementById('news_data').innerHTML;
+					laytpl(t).render(ret, function(render) {
+						document.getElementById('news_html').innerHTML = render;
+						api.parseTapmode();
+					});
+				} else {
+					api.toast({
+						msg : JSON.stringify(err)
+					});
+				}
+			});
+		}
+
+
+		H.ready(function() {
+			newsId = H.$getPageParam().id;
+			api.getPrefs({
+				key : 'userinfo'
+			}, function(ret, err) {
+				retabc = eval("(" + ret.value + ")");
+				get_data();
+			});
+		});
+		//		Zepto(function(){
+		//
+		//		});
+	</script>
+</html>

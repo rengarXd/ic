@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>I宠小贴士header</title>
+		<link rel="stylesheet" href="../../../css/aui-win.css" />
+	</head>
+	<style>
+		.aui-bar-1d9dd5 {
+			background: #1786FF;
+		}
+	</style>
+	<body>
+		<!--标题栏 start-->
+		<header class="aui-bar aui-bar-nav aui-bar-1d9dd5 header" id='aui-header'>
+			<a class="aui-pull-left" tapmode onclick="H.$closeCurrentWin();"> <span class="aui-iconfont aui-icon-left"></span>返回</a>
+			<div class="aui-title">
+				I宠小贴士
+			</div>
+		</header>
+	</body>
+	<script type="text/javascript" src="../../../script/AHelper.js"></script>
+	<script type="text/javascript">
+		H.ready(function() {
+				// 快速打开窗口
+				H.$openFrameWithNav('aui-header', {
+					url : 'tip_news_body.html',
+					name : 'tip_news_body',
+					pageParam : H.$getPageParam()
+				});
+			});
+	</script>
+</html>
