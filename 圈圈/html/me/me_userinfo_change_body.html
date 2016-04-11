@@ -145,6 +145,9 @@
 							api.sendEvent({
 								name : 'pagereload',
 							});
+							api.sendEvent({
+								name : 'pointreload',
+							});
 							api.closeWin({
 							});
 						}, 'userinfo', JSON.stringify(ret.retValue));

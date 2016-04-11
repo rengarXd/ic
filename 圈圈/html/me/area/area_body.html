@@ -1,0 +1,94 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>区域选择body</title>
+		<link rel="stylesheet" type="text/css" href="../../../css/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../../../css/font/iconfont.css" />
+		
+		<style>
+			.aui-list-view-cell:active {
+				background: #f5f5f5
+			}
+		</style>
+	</head>
+	<body>
+		<div class="aui-content" id="area_data_body"></div>
+		<script id="area_data" type="text/html">
+			<ul class="aui-list-view">
+			{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
+			<li class="aui-list-view-cell" areaid="{{ d.retValue[i].area_id }}" onclick="to_area({{ d.retValue[i].area_id }},'{{ d.retValue[i].area_name }}');">
+			{{ d.retValue[i].area_name }}
+			</li>
+			{{# } }}
+			</ul>
+		</script>
+	</body>
+	<script type="text/javascript" src="../../../script/AHelper.js"></script>
+	<script type="text/javascript" src="../../../script/zepto.min.js"></script>
+	<script type="text/javascript" src="../../../script/laytpl.js"></script>
+	<script type="text/javascript">
+		var userobj = null, areanum = 0;
+		Zepto(function($) {
+		});
+		H.ready(function() {
+			api.getPrefs({
+				key : 'userinfo'
+			}, function(ret, err) {
+				userobj = eval('(' + ret.value + ')');
+				//2.0 初始化区域数据
+				get_area(0);
+			});
+		});
+		//1.0获取区域数据
+		function get_area(aid, area_name) {
+			api.showProgress({
+				title : "正在加载"
+			});
+			api.ajax({
+				url : window.serverUrl + '/get_area/token/' + userobj.token + '/aid/' + aid
+			}, function(ret, err) {
+				if (ret.retCode != 0) {
+					if (areanum != 3) {
+						if (areanum != 0) {
+							api.sendEvent({
+								name : 'change_aera',
+								extra : {
+									area_name : area_name,
+									area_id : aid
+								}
+							});
+						}
+						areanum = areanum + 1;
+						api.hideProgress();
+						var tpl = document.getElementById('area_data').innerHTML;
+						//读取模版
+						laytpl(tpl).render(ret, function(render) {
+							document.getElementById('area_data_body').innerHTML = render;
+						});
+					} else {
+						api.sendEvent({
+							name : 'change_aera',
+							extra : {
+								area_name : area_name,
+								area_id : aid
+							}
+						});
+						api.closeWin({
+						});
+					}
+				} else {
+					api.closeWin({
+					});
+				}
+			});
+		}
+
+		//2.0 区域
+		function to_area(areaid, area_name) {
+			get_area(areaid, area_name);
+		}
+	</script>
+</html>
