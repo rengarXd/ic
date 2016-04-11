@@ -7,6 +7,11 @@
 		<link rel="stylesheet" type="text/css" href="../../../css/aui.css"/>
 		<link rel="stylesheet" type="text/css" href="../../../css/tools/loading.css" />
 		<style>
+			p {
+				color: #363636 !important
+			}
+		</style>
+		<style>
 			body {
 				background-color: #fff;
 			}
@@ -64,7 +69,7 @@
 	</body>
 	<script type="text/html" id="news_data">
 		<h1 class="news_title">{{ d.retValue.title }}</h1>
-		<h6 class="news_time">{{ H.$com.jsDateDiff(d.retValue.time) }}<img src="../../../image/mckb.png" class="news_img" /></h6>
+		<h6 class="news_time">{{ H.$com.jsDateDiff(d.retValue.time) }}</h6>
 		<div class="aui-line-x"></div>
 		<div class="ic_conetnt">{{ d.retValue.content }}</div>
 	</script>
@@ -75,7 +80,7 @@
 		function get_data() {
 			//请求ajax数据
 			api.ajax({
-				url : window.serverUrl + '/get_tip_content/token/' + retabc.token + '/user_id/'+retabc.id+'/id/' + newsId,
+				url : window.serverUrl + '/get_tip_content/token/' + retabc.token + '/user_id/' + retabc.id + '/id/' + newsId,
 				cache : true
 			}, function(ret, err) {
 				if (ret && ret.retCode == 1) {
