@@ -19,23 +19,26 @@
 				padding: 0 10px 10px 10px;
 			}
 			.news_title {
-				font-size: 20px;
-				padding: 10px 9px;
+				font-size: 21px;
+				padding: 7px 8px;
+				font-weight: 800;
 			}
 			.news_img {
 				padding-left: 9px;
 				height: 15px;
 			}
 			.aui-content p {
-				margin: 8px 15px 8px;
-				text-indent: 2em;
-				font-size: 17px;
-				line-height: 30px;
+				margin: 8px 15px -5px;
+				font-size: 16px;
+				line-height: 24px;
 			}
 			.ic_conetnt img {
 				display: block;
 				max-width: 100%;
 				height: auto
+			}
+			.ic_conetnt {
+				padding-bottom: 20px;
 			}
 		</style>
 	</head>
@@ -68,9 +71,10 @@
 		</div>
 	</body>
 	<script type="text/html" id="news_data">
-		<h1 class="news_title">{{ d.retValue.title }}</h1>
-		<h6 class="news_time">{{ H.$com.jsDateDiff(d.retValue.time) }}</h6>
+		<img src="../../../image/index/ms_h.png" style="width: 250px;margin-top: 8px;" />
 		<div class="aui-line-x"></div>
+		<h1 class="news_title">{{ d.retValue.title }}</h1>
+		<h6 class="news_time">{{ H.$com.jsDateDiff(d.retValue.time) }}&nbsp;&nbsp;&nbsp;{{ d.retValue.come }}</h6>
 		<div class="ic_conetnt">{{ d.retValue.content }}</div>
 	</script>
 	<script type="text/javascript" src="../../../script/AHelper.js"></script>

@@ -10,8 +10,8 @@
 		<link rel="stylesheet" href="../../../css/tools/loading.css" />
 		<style>
 			.ic_small img {
-				width: 40px;
-				height: 40px;
+				width: 45px;
+				height: 45px;
 				float: right
 			}
 			.aui-list-view-cell:active {
@@ -27,6 +27,27 @@
 				font-size: 12px;
 				padding: 3px 9px;
 			}
+			.ic_top_title {
+				position: absolute;
+				left: 0;
+				top: 161px;
+				color: #FFFFFF;
+				width: 100%;
+				opacity: 0.6;
+				height: 37px;
+				padding-left: 10px;
+				font-weight: 900;
+				background: #000000;
+				line-height: 37px;
+			}
+			.ic_top_img {
+				width: 100%;
+				height: 198px;
+				border-radius: 3px;
+				margin-bottom: 0;
+				padding-bottom: 0;
+				float: left;
+			}
 		</style>
 	</head>
 	<script id="massage_list" type="text/html">
@@ -35,10 +56,10 @@
 		<h4 class="aui-text-center ic_time"><span>{{ H.$com.jsDateDiff(d.retValue[i].time) }}</span></h4>
 		<div class="aui-card">
 		<ul class="aui-list-view">
-		{{# for(var ii = 0, len = d.retValue[i].tip_data.length; ii < len; ii++){ }}
+		{{# for(var ii = 0, lens = d.retValue[i].tip_data.length; ii < lens; ii++){ }}
 		{{# if(d.retValue[i].tip_data[ii].istop=="1"){ }}
-		<li class="aui-list-view-cell"  onclick="to_news({{ d.retValue[i].tip_data[ii].id }});">
-		<div class="aui-col-xs-12"><img src="http://116.255.190.248/{{ d.retValue[i].tip_data[ii].img }}" style="width: 100%;height: 180px"/><span>{{ d.retValue[i].tip_data[ii].title }}</span>
+		<li class="aui-list-view-cell" style="padding:0" onclick="to_news({{ d.retValue[i].tip_data[ii].id }});">
+		<div class="aui-col-xs-12"><img src="http://116.255.190.248/{{ d.retValue[i].tip_data[ii].img }}" class="ic_top_img"/><span class="ic_top_title">{{ d.retValue[i].tip_data[ii].title }}</span>
 		</div>
 		</li>
 		{{# }else{ }}
