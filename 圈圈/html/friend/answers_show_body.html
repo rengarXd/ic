@@ -290,6 +290,7 @@
 						}
 						if (ret.retValue.bbs_ask.length < 1 && page <= 1) {
 							$("#noask").show();
+							$(".loading").hide();
 						} else {
 							// 1.6 对文档区域进行渲染
 							if (ret.retValue.bbs_ask.length == 10) {
