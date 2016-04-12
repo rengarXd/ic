@@ -21,6 +21,8 @@
 	window.deviceserverUrl = "http://116.255.190.248/deviceapi";
 	//常规静态资源请求地址
 	window.serverUrlPath = "http://116.255.190.248/";
+	
+	var nowtime,secondNum;
 	// 公共类库
 	var $$com = {
 		// 去掉前后空格
@@ -145,25 +147,24 @@
 		// 时间转转个性化时间
 		// time 时间
 		jsDateDiff : function(publishTime) {
-			var d_minutes, d_hours, d_days;
-			var timeNow = parseInt(new Date().getTime() / 1000);
-			var d;
-			d = timeNow - publishTime;
-			d_days = parseInt(d / 86400);
-			d_hours = parseInt(d / 3600);
-			d_minutes = parseInt(d / 60);
-			if (d_days > 0 && d_days < 4) {
-				return d_days + "天前";
-			} else if (d_days <= 0 && d_hours > 0) {
-				return d_hours + "小时前";
-			} else if (d_hours <= 0 && d_minutes > 0) {
-				return d_minutes + "分钟前";
-			} else {
-				//				var s = new Date(publishTime * 1000);
-				// s.getFullYear()+"年";
-				return "刚刚";
+			 nowtime = (new Date).getTime();
+			/*当前时间戳*/
+			secondNum = parseInt((nowtime - publishTime * 1000) / 1000);
+			//计算时间戳差值
 
+			if (secondNum >= 0 && secondNum < 60) {
+				return secondNum + '秒前';
+			} else if (secondNum >= 60 && secondNum < 3600) {
+				var nTime = parseInt(secondNum / 60);
+				return nTime + '分钟前';
+			} else if (secondNum >= 3600 && secondNum < 3600 * 24) {
+				var nTime = parseInt(secondNum / 3600);
+				return nTime + '小时前';
+			} else {
+				var nTime = parseInt(secondNum / 86400);
+				return nTime + '天前';
 			}
+
 		},
 		// 判断是否是json对象
 		// @obj：对象
