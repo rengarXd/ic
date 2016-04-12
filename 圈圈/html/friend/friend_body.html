@@ -164,6 +164,7 @@
 		function get_data() {
 			api.parseTapmode();
 			loadLock = true;
+			$("#loading").show();
 			// 1、 最新问题
 			api.ajax({
 				url : window.serverUrl + '/bbs_list/token/' + userobj.token + '/page/' + page + '/pagesize/10',
@@ -176,6 +177,7 @@
 					laytpl(tpl).render(ret, function(render) {
 						H.$recoverDropdownToNormal();
 						H.$api.append(H.$api.byId("tiezi_body"), render);
+						$("#loading").hide();
 						echo.init({
 							offset : 0,
 							throttle : 0,
@@ -183,11 +185,9 @@
 						//$("#loading").hide();
 						if (ret.retValue.count == page) {
 							loadLock = true;
-							$("#loading").hide();
 						} else {
 							page++;
 							loadLock = false;
-							$("#loading").hide();
 						}
 					});
 				} else {
@@ -237,13 +237,9 @@
 					threshold : 0
 				}
 			}, function(ret, err) {
-				$("#loading").show();
 				if (loadLock == false) {
 					get_data();
-				} else {
-					//$("#loading").hide();
 				}
-
 			});
 		});
 	</script>

@@ -68,6 +68,11 @@
 				</div></h6>
 			</div>
 		</div>
+		<!--loading-->
+			<div class="aui-text-center" id="loading" style="padding: 20px;display: none;color: rgb(167, 167, 167);font-size: 14px;">
+				<img src="../../image/loading01.gif" style="width: 45px;" />&nbsp;&nbsp;加载中...
+			</div>
+			<!--loading-->
 		<script id="doctor_list_data" type="text/html">
 			<ul class="aui-user-view">
 			<!--加载医师信息的循环-->
@@ -114,6 +119,7 @@
 
 		//获取数据并渲染
 		function get_data() {
+			$("#loading").show();
 			loadLock = true;
 			//请求ajax数据
 			api.ajax({
@@ -127,13 +133,16 @@
 						api.parseTapmode();
 						H.$recoverDropdownToNormal();
 						H.$api.css(H.$api.byId("loading"), "display:none");
+						$("#loading").hide();
 					});
 					console.log(ret.retValue.length);
 					if (page == ret.retValue.page) {
 						loadLock = true;
+						
 					} else {
 						page++;
 						loadLock = false;
+					
 					}
 				} else {
 					//					H.$api.css(H.$api.byId("loading"), "display:none");
@@ -195,8 +204,7 @@
 			}, function(ret, err) {
 				if (loadLock == false) {
 					get_data();
-				}else{
-				
+				} else {
 				}
 			});
 		});

@@ -95,6 +95,7 @@
 		});
 		// 1.1 获取数据
 		function get_data() {
+			$("#loading").show();
 			loadLock = true;
 			api.ajax({
 				url : window.serverUrl + '/integral/token/' + userobj.token + '/user_id/' + userobj.id + '/page/' + page,
@@ -109,6 +110,7 @@
 					laytpl(tpl).render(ret.retValue, function(render) {
 						//document.getElementById('point_body').innerHTML = render;
 						H.$api.append(H.$api.byId("point_body"), render);
+						$("#loading").hide();
 					});
 					//					console.log("数据存在的行数" + ret.retValue.count);
 					//					console.log("当前的页数" + page);
@@ -155,18 +157,9 @@
 					threshold : -10
 				}
 			}, function(ret, err) {
-				$("#loading").show();
 				if (loadLock == false) {
 					get_data();
-					$("#loading").hide();
-				} else if (page == pagecount) {
-					$("#loading").hide();
-					api.toast({
-						msg : '没有更多了！'
-					});
 				}
-				//				console.log('page' + page);
-				//				console.log('pagecount' + pagecount);
 			});
 		});
 	</script>

@@ -140,7 +140,7 @@
 			<div class="aui-line-x"></div>
 			<div id="answer_body"></div>
 			<!--loading-->
-			<div class="aui-text-center" id="loading" style="height:50px;padding: 25px;display: none;color: rgb(167, 167, 167);font-size: 14px;padding-bottom: 10px;">
+			<div class="aui-text-center" id="loading" style="padding: 20px;display: none;color: rgb(167, 167, 167);font-size: 14px;">
 				<img src="../../image/loading01.gif" style="width: 45px;" />&nbsp;&nbsp;加载中...
 			</div>
 			<!--loading-->
@@ -221,11 +221,9 @@
 						laytpl(tpl).render(ret, function(render) {
 							H.$recoverDropdownToNormal();
 							document.getElementById('hot_body').innerHTML = render;
+						
 						});
 					} else {
-						//						api.toast({
-						//							msg : err.body
-						//						});
 					}
 					// 4.0 初始化数据
 					get_data();
@@ -253,24 +251,19 @@
 					threshold : 0
 				}
 			}, function(ret, err) {
-				$("#loading").show();
+				console.log('loadLock==' + loadLock);
 				if (loadLock == false) {
 					get_data();
-					$("#loading").hide();
-				} else {
-					//$("#loading").hide();
 				}
-				if (loadLock) {
-					$("#loading").hide();
-//					api.toast({
-//						msg : '已没有更多了！'
-//					});
-				}
+			
+			
 				console.log('loadLock' + loadLock);
 			});
 		});
+		// 3.0 获取数据
 		function get_data() {
 			loadLock = true;
+			$("#loading").show();
 			// 1、 最新问题
 			api.ajax({
 				url : window.serverUrl + '/bbs_list/token/' + userobj.token + '/page/' + page + '/pagesize/10',
@@ -283,6 +276,7 @@
 					laytpl(tpl).render(ret, function(render) {
 						H.$recoverDropdownToNormal();
 						H.$api.append(H.$api.byId("answer_body"), render);
+						$("#loading").hide();
 						if (ret.retValue.count == page) {
 							loadLock = true;
 						} else {
@@ -306,9 +300,6 @@
 
 		//向搜索框中添加关键字
 		function word_add(word) {
-			//			api.toast({
-			//				msg : word
-			//			});
 			$("#search-input").val(word);
 			search();
 		}
