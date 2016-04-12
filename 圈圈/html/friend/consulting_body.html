@@ -42,9 +42,8 @@
 		</style>
 	</head>
 	<body>
-		
 		<div class="aui-content" id="doctor_list_html">
-				<div id="ic_loading">
+			<div id="ic_loading">
 				<img src="../../image/loading.png" />
 				<h6>
 				<div class="spinner">
@@ -72,21 +71,21 @@
 		<script id="doctor_list_data" type="text/html">
 			<ul class="aui-user-view">
 			<!--加载医师信息的循环-->
-			{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
+			{{# for(var i = 0, len = d.retValue.doctorObj.length; i < len; i++){ }}
 			<!--医师信息-->
-			<li class="aui-user-view-cell aui-img" tapmode onclick="to_doctor({{ d.retValue[i].id }},'{{ d.retValue[i].rongid }}','{{ d.retValue[i].name }}','{{ d.retValue[i].pic }}');">
-			<img class="aui-img-object aui-pull-left" src="http://116.255.190.248/{{ d.retValue[i].pic }}">
+			<li class="aui-user-view-cell aui-img" tapmode onclick="to_doctor({{ d.retValue.doctorObj[i].id }},'{{ d.retValue.doctorObj[i].rongid }}','{{ d.retValue.doctorObj[i].name }}','{{ d.retValue.doctorObj[i].pic }}');">
+			<img class="aui-img-object aui-pull-left" src="http://116.255.190.248/{{ d.retValue.doctorObj[i].pic }}">
 			<div class="aui-img-body">
-			<span>{{ d.retValue[i].name }}<i>{{ d.retValue[i].stars }}</i>{{# if (d.retValue[i].isauthent == 1){ }}<em><img src="../../image/friend/rzys.png" style="width: 80px;"/></em>{{# }}}</span>
+			<span>{{ d.retValue.doctorObj[i].name }}<i>{{ d.retValue.doctorObj[i].stars }}</i>{{# if (d.retValue.doctorObj[i].isauthent == 1){ }}<em><img src="../../image/friend/rzys.png" style="width: 80px;"/></em>{{# }}}</span>
 			<p class='aui-ellipsis-1'>
-			{{ d.retValue[i].jobname}}
+			{{ d.retValue.doctorObj[i].jobname}}
 			</p>
 			<p class="aui-ellipsis-pp">
-			{{ d.retValue[i].froms }}
+			{{ d.retValue.doctorObj[i].froms }}
 			</p>
 			</div>
 			<div class="aui-line-x"></div>
-			<h5 class="intro">专长：{{ d.retValue[i].expertise }}</h5>
+			<h5 class="intro">专长：{{ d.retValue.doctorObj[i].expertise }}</h5>
 			</li>
 			<!---->
 			{{# } }}
@@ -119,7 +118,7 @@
 			//请求ajax数据
 			api.ajax({
 				url : window.serverUrl + '/doctor_list/token/' + retabc.token + '/page/' + page + '/pagesize/10',
-				cache:true
+				cache : true
 			}, function(ret, err) {
 				if (ret && ret.retCode == 1) {
 					var t = document.getElementById('doctor_list_data').innerHTML;
@@ -130,7 +129,7 @@
 						H.$api.css(H.$api.byId("loading"), "display:none");
 					});
 					console.log(ret.retValue.length);
-					if (ret.retValue.length < 10) {
+					if (page == ret.retValue.page) {
 						loadLock = true;
 					} else {
 						page++;
@@ -148,7 +147,6 @@
 
 		//获取数据并渲染
 		function Refresh_data() {
-			
 			//请求ajax数据
 			api.ajax({
 				url : window.serverUrl + '/doctor_list/token/' + retabc.token + '/page/1/pagesize/10'
@@ -156,20 +154,25 @@
 				if (ret && ret.retCode == 1) {
 					var t = document.getElementById('doctor_list_data').innerHTML;
 					laytpl(t).render(ret, function(render) {
-				
-						document.getElementById('doctor_list_html').innerHTML = render;
+						H.$api.append(H.$api.byId("doctor_list_html"), render);
 						api.parseTapmode();
 						H.$recoverDropdownToNormal();
 						H.$api.css(H.$api.byId("loading"), "display:none");
 					});
-					
 				} else {
-					if(ret && ret.retCode==0){
-						
+					if (ret && ret.retCode == 0) {
+						api.toast({
+							msg : '抱歉获取数据失败，请稍后再试！'
+						});
+					} else {
+						api.toast({
+							msg : err.body
+						});
 					}
 				}
 			});
 		}
+
 
 		H.ready(function() {
 			api.parseTapmode();
@@ -187,11 +190,13 @@
 			api.addEventListener({
 				name : 'scrolltobottom',
 				extra : {
-					threshold : 200
+					threshold : -10
 				}
 			}, function(ret, err) {
 				if (loadLock == false) {
 					get_data();
+				}else{
+				
 				}
 			});
 		});

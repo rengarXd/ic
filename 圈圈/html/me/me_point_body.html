@@ -56,7 +56,7 @@
 				<!--页面加载中-->
 			</div>
 			<!--loading-->
-			<div class="aui-text-center" id="loading" style="display: none;color: rgb(167, 167, 167);font-size: 14px;padding-bottom: 10px;">
+			<div class="aui-text-center" id="loading" style="padding:10px 25px;display: none;color: rgb(167, 167, 167);font-size: 14px;">
 				<img src="../../image/loading01.gif" style="width: 45px;" />&nbsp;&nbsp;加载中...
 			</div>
 			<!--loading-->
@@ -85,7 +85,7 @@
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript" src="../../script/laytpl.js"></script>
 	<script type="text/javascript">
-		var page = 1, loadLock = false, userobj = null,pagecount;
+		var page = 1, loadLock = false, userobj = null, pagecount = null;
 		Zepto(function($) {
 			$("#exchange").on('tap', function() {
 				H.$openWin('me_exchange_header', 'me_exchange_header.html', {
@@ -159,12 +159,14 @@
 				if (loadLock == false) {
 					get_data();
 					$("#loading").hide();
-				}else{
+				} else if (page == pagecount) {
 					$("#loading").hide();
+					api.toast({
+						msg : '没有更多了！'
+					});
 				}
-				
-				
-				//          	alert("滚动到页面底部了");
+				//				console.log('page' + page);
+				//				console.log('pagecount' + pagecount);
 			});
 		});
 	</script>
