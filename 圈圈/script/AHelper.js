@@ -15,12 +15,12 @@
 	// 全局模块
 	var modules = {};
 	//常规api请求地址
-	window.serverUrl = "http://116.255.190.248/apis";
+	window.serverUrl = "http://122.114.90.191/apis";
 	//		window.serverUrl = "http://192.168.10.129/iwebshop/apis";
 	//设备访问api请求地址
-	window.deviceserverUrl = "http://116.255.190.248/deviceapi";
+	window.deviceserverUrl = "http://122.114.90.191/deviceapi";
 	//常规静态资源请求地址
-	window.serverUrlPath = "http://116.255.190.248/";
+	window.serverUrlPath = "http://122.114.90.191/";
 	
 	var nowtime,secondNum;
 	// 公共类库
