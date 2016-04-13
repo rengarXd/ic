@@ -199,10 +199,15 @@
 							$("#store_nums").text('库存：' + ret.retValue.store_nums);
 							$("#favorite").text('收藏：' + ret.retValue.favorite);
 							$("#visit").text('查看：' + ret.retValue.visit);
-							if (ret.retValue.spec_array){
+							if (ret.retValue.spec_array) {
 								//2.4将型号数据传递出去有型号
 								H.$sendEvent('haveSpec_array', {
-									spec_array : ret.retValue.spec_array
+									spec_array : ret.retValue,
+								});
+							} else {
+								//2.4将型号数据传递出去有型号
+								H.$sendEvent('noneSpec_array', {
+									goods : ret.retValue,
 								});
 							}
 							var tpl = document.getElementById('index_addata').innerHTML;
