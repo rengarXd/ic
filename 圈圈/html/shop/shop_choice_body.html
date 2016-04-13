@@ -89,7 +89,7 @@
 		<div class="share-container winu-flex-box-vertical">
 			<div class="share-space winu-flex-item q_sizes"></div>
 			<div class="share-maim">
-				<div class="aui-content-padded" id="shopdata_body"></div>
+				<div class="aui-content-padded ic_type" id="shopdata_body"></div>
 				<div class="aui-content-padded">
 					<div class="aui-col-xs-6" style="line-height: 63px;">
 						购买数量
@@ -102,7 +102,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="cancel-share winu-center-all" tapmode  onclick="closeShareFrame();">
+				<div class="cancel-share winu-center-all" tapmode  onclick="openOrder();">
 					确定购买
 				</div>
 			</div>
@@ -117,6 +117,7 @@
 			<span class="active">{{ ds[ii] }}</span>
 			{{# }else{ }}
 			<span>{{ ds[ii] }}</span>
+			<!--'{{ d[i].name }}:{{ ds[ii] }}'-->
 			{{# } }}
 			{{# } }}
 			</div>
@@ -127,12 +128,14 @@
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript" src="../../script/laytpl.js"></script>
 	<script type="text/javascript">
-		//3、整合产品型号数据
-		var templis = [];
+		//整合产品型号数据
+		var templis = [],goodId = null;
 		var retstatus = true;
 		H.ready(function() {
 			//1、接收传递
-			var datas = eval('(' + api.pageParam.value.spec_array + ')');
+			goodId = eval('(' + api.pageParam.id + ')');
+			//1.1接受传递的型号选择数据
+			datas = eval('(' + api.pageParam.spec_array + ')');
 			//2、暂时写死，我也不想
 			if (datas["1"]) {
 				templis.push(datas["1"]);
@@ -146,6 +149,7 @@
 			if (datas["4"]) {
 				templis.push(datas["4"]);
 			}
+//						alert(JSON.stringify(templis));
 			var tpl = document.getElementById('shopdata').innerHTML;
 			//alert(templis.length);
 			//读取模版
@@ -190,6 +194,12 @@
 					$("#member").val(ms - 1);
 				}
 			});
+			//监听返回按键关闭Frame
+			api.addEventListener({
+				name : 'keyback'
+			}, function(ret, err) {
+				closeShareFrame();
+			});
 		});
 		//4、关闭购买
 		function closeShareFrame() {
@@ -201,6 +211,35 @@
 			setTimeout(function() {
 				H.$closeCurrentFrame();
 			}, 300);
+		}
+
+		//6、打开订单详情页
+		function openOrder() {
+			//6.1获取所选型号名
+			var tempname = $(".ic_type").find("#q_sizes");
+			var tNameAry = new Array();
+			for (var l = 0; l < tempname.length; l++) {
+				tNameAry[l] = tempname[l].innerText;
+			}
+			//6.1、获取所选型号
+			var temp = $(".ic_type").find(".active");
+			//6.2、创建数组并将所选型号保存到数组当中
+			var orderAry = new Array();
+			for (var i = 0; i < temp.length; i++) {
+				orderAry[i] = temp[i].innerText;
+			}
+			//6.3、生成
+			var last = new Array();
+			for (var i = 0; i < temp.length; i++) {
+				var frt = tNameAry[i] + ":" + orderAry[i];
+				last[i] = frt;
+			}
+			var memNum = $("#member").val();
+			H.$openWin("shop_order_header", "shop_order_header.html", {
+				goodId : goodId,
+				content : last,
+				num : memNum
+			});
 		}
 
 		Zepto(function($) {
