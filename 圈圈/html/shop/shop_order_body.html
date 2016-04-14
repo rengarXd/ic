@@ -260,11 +260,11 @@
 			$("#telephone").html(result.address[a].mobile);
 			$("#addressInfo").html(result.address[a].province_val + result.address[a].city_val + result.address[a].area_val + result.address[a].address);
 			accept_name = result.address[a].accept_name;
-			province = result.address[a].province_val;
-			city = result.address[a].city_val;
-			area = result.address[a].area_val;
+			province = result.address[a].province;
+			city = result.address[a].city;
+			area = result.address[a].area;
 			address = result.address[a].address;
-			telphone = result.address[a].mobile
+			mobile = result.address[a].mobile;
 		}
 
 		/*
@@ -393,12 +393,12 @@
 			}
 			var delivery_ids = $("#delivery").attr("deliveryVal");
 			if (delivery_ids) {
-				var payments = $("#payments").attr("payment");
-				if (payments) {
+				var pays = $("#payments").attr("payment");
+				if (pays) {
 					var accept_names = accept_name;
 					if (accept_names) {
 						api.ajax({
-							url : window.serverUrl + '/cart3/direct_type/goods/' + '/user_id/' + retabc.id + '/token/' + retabc.token,
+							url : window.serverUrl + '/cart3/direct_type/products/' + '/user_id/' + retabc.id + '/token/' + retabc.token,
 							method : 'post',
 							data : {
 								values : {
@@ -409,9 +409,9 @@
 									"city" : city,
 									"area" : area,
 									"address" : address,
-									"telphone" : telphone,
+									"mobile" : mobile,
 									"delivery_id" : delivery_ids,
-									"payment" : payments,
+									"payment" : pays,
 									"ticket_id" : ticket_ids
 								}
 							}
