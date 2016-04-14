@@ -95,6 +95,13 @@
 		<script type="text/html" id="cart_data">
 			<div class="aui-content">
 			<ul class="aui-list-view">
+			{{# if ( d.retValue.address.length == 0 ) { }}
+			<li class="aui-list-view-cell">
+			<div class="q_addressd" onclick="add_page();" style="text-align: center;">
+			<span class="iconfont icon-14052229 q_address"></span>&nbsp;&nbsp;新增地址
+			</div>
+			</li>
+			{{# } else { }}
 			<li class="aui-list-view-cell" onclick="openAddress();" >
 			<div class="aui-arrow-right" style="margin: 8px 0 8px 0;">
 			<div class="aui-col-xs-1">
@@ -110,7 +117,8 @@
 			</div>
 			</div>
 			</li>
-			{{# for(var a = 0, b = d.retValue.address.length; a < b; a++) { }}
+			{{# } }}
+			{{# for(var a = 1, b = d.retValue.address.length; a < b; a++) { }}
 			<li class="aui-list-view-cell address_list" style="display: none;">
 			<div style="margin: 8px 0 8px 0;">
 			<div class="aui-col-xs-2" >
@@ -234,6 +242,18 @@
 					alert(JSON.stringify(result));
 					$("#totalPrice").text(result.goodsList[0].sell_price);
 					$("#goodsNum").text(result.goodsList[0].count);
+					if (result.address.length == 0) {
+						api.toast({
+	                        msg:'请先添加收货地址'
+                        });
+					}else{
+						accept_name = result.address[0].accept_name;
+						province = result.address[0].province;
+						city = result.address[0].city;
+						area = result.address[0].area;
+						address = result.address[0].address;
+						mobile = result.address[0].mobile;
+					}
 					var t = document.getElementById('cart_data').innerHTML;
 					laytpl(t).render(ret, function(render) {
 						document.getElementById('cart_html').innerHTML = render;
@@ -384,18 +404,25 @@
 
 		//提交订单
 		function uploadOrder() {
-			//生成订单
+			//
 			if (result.prop) {
 				ticket_ids = ticket_ids;
 			} else {
 				ticket_ids = 0;
 			}
 			var delivery_ids = $("#delivery").attr("deliveryVal");
+			//			accept_name = result.address[0].accept_name;
+			//			province = result.address[0].province;
+			//			city = result.address[0].city;
+			//			area = result.address[0].area;
+			//			address = result.address[0].address;
+			//			mobile = result.address[0].mobile;
 			if (delivery_ids) {
 				var pays = $("#payments").attr("payment");
 				if (pays) {
-					var accept_names = accept_name;
-					if (accept_names) {
+					//					var accept_names = accept_name;
+					if (accept_name) {
+						//提交生成订单
 						api.ajax({
 							url : window.serverUrl + '/cart3/direct_type/goods' + '/user_id/' + retabc.id + '/token/' + retabc.token,
 							method : 'post',
@@ -441,7 +468,7 @@
 
 		H.ready(function() {
 			contents = H.$getPageParam();
-			alert(JSON.stringify(contents));
+			//			alert(JSON.stringify(contents));
 			//			var nnum = JSON.stringify(contents.num);
 			//			if(contents.num){
 			//				$("#goodsNum").text(nnum);
