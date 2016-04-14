@@ -59,7 +59,7 @@
 		{{# for(var ii = 0, lens = d.retValue[i].tip_data.length; ii < lens; ii++){ }}
 		{{# if(d.retValue[i].tip_data[ii].istop=="1"){ }}
 		<li class="aui-list-view-cell" style="padding:0" onclick="to_news({{ d.retValue[i].tip_data[ii].id }});">
-		<div class="aui-col-xs-12"><img src="http://122.114.90.191/{{ d.retValue[i].tip_data[ii].img }}" class="ic_top_img"/><span class="ic_top_title">{{ d.retValue[i].tip_data[ii].title }}</span>
+		<div class="aui-col-xs-12"><img src="http://122.114.90.191/{{ d.retValue[i].tip_data[ii].img }}" onerror="this.src='../../../image/index/tipnopic.png'" class="ic_top_img"/><span class="ic_top_title">{{ d.retValue[i].tip_data[ii].title }}</span>
 		</div>
 		</li>
 		{{# }else{ }}
@@ -67,7 +67,7 @@
 		<div class="aui-col-xs-10">
 		<span>{{ d.retValue[i].tip_data[ii].title }}</span>
 		</div>
-		<div class="aui-col-xs-2"><img src="http://122.114.90.191/{{ d.retValue[i].tip_data[ii].img }}" />
+		<div class="aui-col-xs-2"><img src="http://122.114.90.191/{{ d.retValue[i].tip_data[ii].img }}" onerror="this.src='../../../image/loading.png'" />
 		</div>
 		</li>
 		{{# } }}

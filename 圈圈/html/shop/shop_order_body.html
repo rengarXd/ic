@@ -22,17 +22,15 @@
 				font-size: 15px;
 			}
 			.products_no {
-				
 				font-size: 12px !important;
 				color: #bbb;
 			}
-			.ways{
+			.ways {
 				margin-right: 16px;
 			}
-			.aui-content{
-				background:#fff;
+			.aui-content {
+				background: #fff;
 			}
-			
 			.aui-nav .aui-bar-tab {
 				background: #34495E;
 			}
@@ -59,7 +57,7 @@
 				line-height: 55px;
 			}
 			.ms_font {
-				font-size:15px !important;
+				font-size: 15px !important;
 				color: #000000 !important;
 			}
 		</style>
@@ -127,17 +125,16 @@
 			</ul>
 			</div>
 			<div class="aui-content">
-			
 			<ul class="aui-list-view">
 			<li class="aui-list-view-cell">
-			<span class="products_no">商家编号:{{ d.retValue.goodsList[0].goods_no }}</span>
+			<span class="products_no">商品编号:{{ d.retValue.goodsList[0].goods_no }}</span>
 			</li>
 			<li class="aui-list-view-cell" style="background: #f4f4f4">
 			<div class="aui-col-xs-3">
-			<img src="http://122.114.90.191/{{ d.retValue.goodsList[0].img }}" style="height: 50px !important;"/>
+			<img src="http://122.114.90.191/{{ d.retValue.goodsList[0].img }}" style="width: 100%"/>
 			</div>
 			<div class="aui-col-xs-9">
-			<span style="font-size: 15px;line-height: 5px !important;">{{ d.retValue.goodsList[0].name }}</span>
+			<span style="font-size: 13px;">{{ d.retValue.goodsList[0].name }}</span>
 			<br />
 			<span style="font-size: 12px;">
 			{{# if (contents.content) { }}
@@ -177,7 +174,7 @@
 			<span class="aui-arrow-right">配送方式<span class="aui-pull-right ways" id="delivery" deliveryVal="" ></span></span>
 			</li>
 			<li class="aui-list-view-cell" onclick="payMent();">
-				<a class="aui-arrow-right">支付方式<span class="aui-pull-right ways" id="payments" payment=""></span></a>
+			<a class="aui-arrow-right">支付方式<span class="aui-pull-right ways" id="payments" payment=""></span></a>
 			</li>
 			</ul>
 			</div>
@@ -228,11 +225,13 @@
 				}
 			});
 		}
+
 		//2、打开地址选择
 		function openAddress() {
 			//			H.$openWin("user_shop_address_header", "../me/user_shop_address_header.html");
 			$(".address_list").toggle();
 		}
+
 		//2.1、关闭地址选择器并选择相应地址
 		function closeAddress(a) {
 			$(".address_list").hide();
@@ -263,6 +262,7 @@
 			}
 			$("#countNum").html(++member);
 		}
+
 		/*处理数量减*/
 		function minus() {
 			//5.1 获取最新的数量
@@ -276,52 +276,57 @@
 			}
 			$("#countNum").html($("#member").val());
 		}
+
 		//选择配送方式
 		function Distribution() {
 			api.actionSheet({
-				title:'请选择配送方式',
-				cancelTitle:'取消',
-				buttons:['快递','货到付款']	
-            },function(ret,err){
-            	switch(ret.buttonIndex) {
-							case 1:
-								$("#delivery").html("快递");
-								$("#delivery").attr("deliveryVal", 1);
-								break;
-							case 2:
-								$("#delivery").html("货到付款");
-								$("#delivery").attr("deliveryVal", 2);
-								break;
-						};
-            });
+				title : '请选择配送方式',
+				cancelTitle : '取消',
+				buttons : ['快递', '货到付款']
+			}, function(ret, err) {
+				switch(ret.buttonIndex) {
+					case 1:
+						$("#delivery").html("快递");
+						$("#delivery").attr("deliveryVal", 1);
+						break;
+					case 2:
+						$("#delivery").html("货到付款");
+						$("#delivery").attr("deliveryVal", 2);
+						break;
+				};
+			});
 		}
+
 		//选择支付方式
 		function payMent() {
 			api.actionSheet({
-				title:'请选择支付方式',
-				cancelTitle:'取消',
-				buttons:['预存款','在线支付']	
-            },function(ret,err){
-            	switch(ret.buttonIndex) {
-							case 1:
-								$("#payments").html("预存款");
-								$("#payments").attr("payment", 1);
-								break;
-							case 2:
-								$("#payments").html("在线支付");
-								$("#payments").attr("payment", 11);
-								break;
-						};
-            });
+				title : '请选择支付方式',
+				cancelTitle : '取消',
+				buttons : ['预存款', '在线支付']
+			}, function(ret, err) {
+				switch(ret.buttonIndex) {
+					case 1:
+						$("#payments").html("预存款");
+						$("#payments").attr("payment", 1);
+						break;
+					case 2:
+						$("#payments").html("在线支付");
+						$("#payments").attr("payment", 11);
+						break;
+				};
+			});
 		}
+
 		//活动信息选择器
 		function active_message() {
 			$(".active_list").toggle();
 		}
+
 		//隐藏并提交选中的活动信息
 		function closeActive() {
 			$(".active_list").hide();
 		}
+
 		//新增地址
 		function add_page() {
 			H.$openWin("user_shop_address_add_header", "../me/user_shop_address_add_header.html");

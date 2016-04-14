@@ -8,6 +8,7 @@
 		<link rel="stylesheet" type="text/css" href="../../css/aui.css"/>
 		<link rel="stylesheet" type="text/css" href="../../css/fonts/iconfont.css"/>
 		<link rel="stylesheet" href="../../css/tools/loading.css" />
+		<link rel="stylesheet" href="../../css/tools/animate.min.css" />
 		<style>
 			.a_keyword span {
 				background: #e3e3e3;
@@ -141,19 +142,19 @@
 			<div id="answer_body"></div>
 			<!--loading-->
 			<div class="aui-text-center" id="loading" style="padding: 20px;display: none;color: rgb(167, 167, 167);font-size: 14px;">
-				<img src="../../image/loading01.gif" style="width: 45px;" />&nbsp;&nbsp;加载中...
+				<img src="../../image/loading01.gif" onerror="this.src='../../../image/loading.png'" style="width: 45px;" />&nbsp;&nbsp;加载中...
 			</div>
 			<!--loading-->
 		</div>
 		<script id="answer_data" type="text/html">
-			<ul class="aui-list-view" style="margin-bottom: 0">
+			<ul class="aui-list-view animated fadeIn" style="margin-bottom: 0">
 			{{# for(var i = 0, len = d.retValue.bbsList.length; i < len; i++){ }}
 			<li class="aui-list-view-cell answer_data" tapmode onclick="to_answers({{ d.retValue.bbsList[i].id }});">
 			<div class="img-cont tiezi_data">
 			{{#if (d.retValue.bbsList[i].head_ico == null){}}
 			<img class="aui-pull-left" src="../../image/noavatar.gif">
 			{{#}else{}}
-			<img class="aui-pull-left" src="http://122.114.90.191/{{ d.retValue.bbsList[i].head_ico }}" tapmode >
+			<img class="aui-pull-left" src="http://122.114.90.191/{{ d.retValue.bbsList[i].head_ico }}" onerror="this.src='../../../image/noavatar.gif'" tapmode >
 			{{# }}}
 			</div>
 			<div class="aui-img-body">
