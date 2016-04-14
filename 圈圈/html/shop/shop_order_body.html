@@ -68,6 +68,17 @@
 				background-color: #ffffff !important;
 				border: 1px solid #dddddd
 			}
+			.ic_shop_title{
+				font-size: 12px;
+				line-height: 17px !important;
+				height: 52px !important;
+				/* line-height: 13px; */
+				overflow: hidden;
+				width: 100%;
+				display: block;
+				padding-left: 8px;
+				color: #000000;
+			}
 		</style>
 	</head>
 	<body>
@@ -150,8 +161,12 @@
 			<img src="http://122.114.90.191/{{ d.retValue.goodsList[0].img }}" style="height: 50px !important;"/>
 			</div>
 			<div class="aui-col-xs-9">
-			<span style="font-size: 15px;line-height: 5px !important;">{{ d.retValue.goodsList[0].name }}</span>
-			<br />
+			<span class="ic_shop_title">{{ d.retValue.goodsList[0].name }}</span>
+	
+			</div>
+			<div style="display: inline-block;width: 100%;">
+				<div class="aui-col-xs-12">
+							
 			<span style="font-size: 12px;">
 			{{# if (contents.content) { }}
 			商品型号：{{ JSON.stringify(contents.content) }}
@@ -169,6 +184,7 @@
 			</span>
 			</span>
 			</span>
+				</div>
 			</div>
 			</li>
 			<li class="aui-list-view-cell">
