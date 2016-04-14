@@ -365,7 +365,7 @@
 		//隐藏并获取选中的活动信息
 		function closeActive(i) {
 			$("#activeMessage").text(result.prop[i].name);
-			var ticket_ids = result.prop[i].id;
+			ticket_ids = result.prop[i].id;
 			$(".active_list").hide();
 		}
 
@@ -385,7 +385,6 @@
 		//提交订单
 		function uploadOrder() {
 			//生成订单
-			//			var ticket_ids=
 			if (result.prop) {
 				ticket_ids = ticket_ids;
 			} else {
