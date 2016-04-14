@@ -1,0 +1,143 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>收货地址修改body</title>
+		<link rel="stylesheet" type="text/css" href="../../../css/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../../../css/fonts/iconfont.css" />
+		<style>
+			.aui-input-addon {
+				padding-left: 20px !important
+			}
+			.aui-btn-block {
+				width: 97%;
+				padding: 10px 0;
+				font-size: 14px;
+				margin: 10px auto;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="aui-content" style="padding-top: 15px;">
+			<div class="aui-form" id="form">
+				<div class="aui-input-row">
+					<label class="aui-input-addon" >收货人</label>
+					<input type="text" id="accept_name" class="aui-input" data-rule="s2-6" data-nullmsg="抱歉收货人不能为空" data-errmsg="收货人长度为3-12个字符不可以包含特殊字符" placeholder="名字" />
+				</div>
+				<div class="aui-input-row">
+					<label class="aui-input-addon" >手机号</label>
+					<input type="number" id="mobile" class="aui-input" data-rule="m" data-nullmsg="手机号码不能为空" data-errmsg="你输入的不是一个手机号码" placeholder="11位手机号"/>
+				</div>
+				<div class="aui-input-row" onclick="openArea();">
+					<span class="aui-input-addon" >选择地区</span>
+					<input type="text" id="area" data-rule="*" data-nullmsg="地区不能为空" data-errmsg="验证失败" class="aui-input" placeholder="地区信息"/>
+				</div>
+				<div class="aui-input-row">
+					<span class="aui-input-addon" >详细信息</span>
+					<input type="text" id="address" class="aui-input" data-rule="*" data-nullmsg="街道门牌不能为空" data-errmsg="验证失败" placeholder="街道门牌信息"/>
+				</div>
+				<div class="aui-input-row">
+					<span class="aui-input-addon">邮政编码</span>
+					<input type="text" id="zip" class="aui-input" data-rule="p" data-nullmsg="邮政编码不能为空" data-errmsg="你输入的不是一个正确的邮政编码" placeholder="邮政编码"/>
+				</div>
+				<div class="aui-btn aui-btn-block aui-btn-danger" id="btn">
+					保存
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../../../script/AHelper.js"></script>
+	<script type="text/javascript" src="../../../script/zepto.min.js"></script>
+	<script type="text/javascript" src="../../../script/tools/availdate.js"></script>
+	<script type="text/javascript">
+		var aid;
+		ac.form({
+			area : "#form", // 验证区域，支持标签，id，class，推荐使用id或者class
+			btn : "#btn", // 触发验证的按钮或者元素，支持标签，id，class，推荐使用id或者class
+			singleError : function(e, msg) {
+				api.alert({
+					title : "提示",
+					msg : msg
+				});
+			},
+			endSuccess : function(data) {
+				save_a();
+			}
+		});
+		//1 共享用户对象
+		var userobj = null, province = null, city = null, area = null, temp = 0;
+		Zepto(function() {
+		});
+		H.ready(function() {
+			//1.0 获取地址ID
+			aid = api.pageParam.id;
+			api.getPrefs({
+				key : 'userinfo'
+			}, function(ret, err) {
+				userobj = eval('(' + ret.value + ')');
+				api.showProgress({
+                });
+				api.ajax({
+	                url:window.serverUrl+'/user_address/token/'+userobj.token+'/user_id/'+userobj.id+'/address_id/'+aid
+                },function(ret,err){	
+                	if(ret && ret.retCode==1){
+                		api.hideProgress();
+                		$("#accept_name").val(ret.retValue[0].accept_name);
+                		$("#mobile").val(ret.retValue[0].mobile);
+                		$("#area").val(ret.retValue[0].province_val+ret.retValue[0].area_val+ret.retValue[0].city_val);
+                		$("#address").val(ret.retValue[0].address);
+                		$("#zip").val(ret.retValue[0].zip);
+                		province = ret.retValue[0].province;
+                		city = ret.retValue[0].city;
+                		area = ret.retValue[0].area;
+                	}
+					//alert(JSON.stringify(ret));
+                });
+			});
+			api.addEventListener({
+				name : 'change_aera'
+			}, function(ret, err) {
+				var areas = $("#area").val();
+				$("#area").val(areas + " " + ret.value.area_name);
+				if (temp == 0) {
+					province = ret.value.area_id;
+				} else if (temp == 1) {
+					city = ret.value.area_id;
+				} else if (temp == 2) {
+					area = ret.value.area_id;
+				}
+				temp = temp + 1;
+			});
+		});
+		//2 保存地址
+		function save_a() {
+			api.showProgress({
+				title : '保存中'
+			});
+			api.ajax({
+				url : window.serverUrl + '/user_address_add/token/' + userobj.token + '/user_id/' + userobj.id + '/id/'+aid+'/accept_name/' + encodeURI($("#accept_name").val()) + '/mobile/' + $("#mobile").val() + '/address/' + encodeURI($("#address").val()) + '/zip/' + $("#zip").val() + '/province/' + province + '/city/' + city + '/area/' + area,
+				cache : false
+			}, function(ret, err) {
+				api.hideProgress();
+				if (ret && ret.retCode == 1) {
+					api.execScript({
+						name : 'user_shop_address_header',
+						frameName : 'user_shop_address_body',
+						script : 'reload();'
+					});
+					api.closeWin({
+					});
+					
+				}
+			});
+		}
+
+		//3.0 打开区域地址
+		function openArea() {
+			$("#area").val("");
+			H.$openWin('area_header', 'area_header.html');
+		}
+	</script>
+</html>

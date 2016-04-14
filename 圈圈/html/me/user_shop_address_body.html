@@ -20,6 +20,15 @@
 			.aui-list-view-cell:active {
 				background: #f5f5f5
 			}
+			.ic_icon {
+				font-size: 26px;
+				text-align: center;
+				color: rgba(228, 55, 0, 0.49);
+				font-weight: 700;
+			}
+			.ic_icon:active {
+				color: #f50
+			}
 		</style>
 	</head>
 	<body>
@@ -27,10 +36,15 @@
 			<ul class="aui-list-view">
 			{{# for(var i = 0, len = d.length; i < len; i++){ }}
 			<li class="aui-list-view-cell">
+			<div class="aui-col-xs-10">
 			<h3>{{ d[i].accept_name }}<span class="aui-pull-right">{{ d[i].telphone }}</span></h3>
 			<p>
-			{{ d[i].address }}
+			{{ d[i].province_val }} {{ d[i].city_val }} {{ d[i].area_val }} {{ d[i].address }}
 			</p>
+			</div>
+			<div class="aui-col-xs-2">
+			<span class="iconfont icon-guanyu ic_icon" onclick="change_address({{ d[i].id }})"></span>
+			</div>
 			</li>
 			{{# } }}
 			</ul>
@@ -88,8 +102,13 @@
 				});
 			});
 		});
-		function reload(){
+		function reload() {
 			location.reload();
+		}
+
+		// 2.0 跳转修改地址页面
+		function change_address(id) {
+			H.$openWin('user_shop_address_edit','area/user_shop_address_edit_header.html',{id:id});
 		}
 	</script>
 </html>
