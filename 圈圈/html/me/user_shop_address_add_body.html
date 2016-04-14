@@ -106,6 +106,9 @@
 						frameName : 'user_shop_address_body',
 						script : 'reload();'
 					});
+					api.sendEvent({
+						name:'addressChange'
+					});
 					api.closeWin({
 					});
 				}
