@@ -36,13 +36,13 @@
 			<ul class="aui-list-view">
 			{{# for(var i = 0, len = d.length; i < len; i++){ }}
 			<li class="aui-list-view-cell">
-			<div class="aui-col-xs-10">
+			<div class="aui-col-xs-11">
 			<h3>{{ d[i].accept_name }}<span class="aui-pull-right">{{ d[i].telphone }}</span></h3>
 			<p>
 			{{ d[i].province_val }} {{ d[i].city_val }} {{ d[i].area_val }} {{ d[i].address }}
 			</p>
 			</div>
-			<div class="aui-col-xs-2">
+			<div class="aui-col-xs-1">
 			<span class="iconfont icon-guanyu ic_icon" onclick="change_address({{ d[i].id }})"></span>
 			</div>
 			</li>
@@ -93,10 +93,13 @@
 							document.getElementById('addressData_body').innerHTML = render;
 						});
 					} else if (ret && ret.retCode == 0) {
-						//						api.toast({
-						//							msg : '请求数据异常，请重试！'
-						//						});
+						api.toast({
+							msg : '请求数据异常，请重试！'
+						});
 					} else {
+						api.toast({
+	                        msg:err.body
+                        });
 						alert(JSON.stringify(err));
 					}
 				});
