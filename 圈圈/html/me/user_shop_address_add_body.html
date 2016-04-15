@@ -21,7 +21,7 @@
 	</head>
 	<body>
 		<div class="aui-content" style="padding-top: 15px;">
-			<div class="aui-form" id="form">
+			<div class="aui-form" id="form" style="margin-bottom: 13px;">
 				<div class="aui-input-row">
 					<label class="aui-input-addon" >收货人</label>
 					<input type="text" id="accept_name" class="aui-input" data-rule="s2-6" data-nullmsg="抱歉收货人不能为空" data-errmsg="收货人长度为3-12个字符不可以包含特殊字符" placeholder="名字" />
@@ -42,7 +42,13 @@
 					<span class="aui-input-addon">邮政编码</span>
 					<input type="text" id="zip" class="aui-input" data-rule="p" data-nullmsg="邮政编码不能为空" data-errmsg="你输入的不是一个正确的邮政编码" placeholder="邮政编码"/>
 				</div>
-				<div class="aui-btn aui-btn-block aui-btn-danger" id="btn">
+			</div>
+			<div class="aui-form">
+				<div class="aui-input-row">
+					<label class="aui-input-addon">设为默认</label>
+					<input class="aui-pull-right aui-checkbox aui-checkbox-info" name="is_default" type="checkbox">
+				</div>
+				<div class="aui-btn aui-btn-block aui-btn-success" id="btn">
 					保存
 				</div>
 			</div>
@@ -68,6 +74,7 @@
 		//1 共享用户对象
 		var userobj = null, province = null, city = null, area = null, temp = 0;
 		Zepto(function() {
+		
 		});
 		H.ready(function() {
 			api.getPrefs({
@@ -75,6 +82,7 @@
 			}, function(ret, err) {
 				userobj = eval('(' + ret.value + ')');
 			});
+			//2.0 更改区域监听事件
 			api.addEventListener({
 				name : 'change_aera'
 			}, function(ret, err) {
@@ -92,11 +100,13 @@
 		});
 		//2 保存地址
 		function save_a() {
+			//2.1 获取是否为默认地址的状态
+			var is_default = $("input[name='is_default']").attr("checked")  != 1 ? 0 : 1;
 			api.showProgress({
 				title : '保存中'
 			});
 			api.ajax({
-				url : window.serverUrl + '/user_address_add/token/' + userobj.token + '/user_id/' + userobj.id + '/accept_name/' + encodeURI($("#accept_name").val()) + '/mobile/' + $("#mobile").val() + '/address/' + encodeURI($("#address").val()) + '/zip/' + $("#zip").val() + '/province/' + province + '/city/' + city + '/area/' + area,
+				url : window.serverUrl + '/user_address_add/token/' + userobj.token + '/user_id/' + userobj.id + '/accept_name/' + encodeURI($("#accept_name").val()) + '/mobile/' + $("#mobile").val() + '/address/' + encodeURI($("#address").val()) + '/zip/' + $("#zip").val() + '/province/' + province + '/city/' + city + '/area/' + area+'/is_default/'+is_default,
 				cache : false
 			}, function(ret, err) {
 				api.hideProgress();
@@ -107,7 +117,7 @@
 						script : 'reload();'
 					});
 					api.sendEvent({
-						name:'addressChange'
+						name : 'addressChange'
 					});
 					api.closeWin({
 					});

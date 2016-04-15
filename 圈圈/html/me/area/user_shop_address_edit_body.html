@@ -21,7 +21,7 @@
 	</head>
 	<body>
 		<div class="aui-content" style="padding-top: 15px;">
-			<div class="aui-form" id="form">
+			<div class="aui-form" id="form" style="margin-bottom: 13px;">
 				<div class="aui-input-row">
 					<label class="aui-input-addon" >收货人</label>
 					<input type="text" id="accept_name" class="aui-input" data-rule="s2-6" data-nullmsg="抱歉收货人不能为空" data-errmsg="收货人长度为3-12个字符不可以包含特殊字符" placeholder="名字" />
@@ -42,8 +42,17 @@
 					<span class="aui-input-addon">邮政编码</span>
 					<input type="text" id="zip" class="aui-input" data-rule="p" data-nullmsg="邮政编码不能为空" data-errmsg="你输入的不是一个正确的邮政编码" placeholder="邮政编码"/>
 				</div>
-				<div class="aui-btn aui-btn-block aui-btn-danger" id="btn">
-					保存
+			</div>
+			<div class="aui-form">
+				<div class="aui-input-row">
+					<label class="aui-input-addon">设为默认</label>
+					<input class="aui-pull-right aui-checkbox aui-checkbox-info" name="is_default" type="checkbox">
+				</div>
+				<div class="aui-btn aui-btn-block aui-btn-success" id="btn">
+					确认修改
+				</div>
+				<div class="aui-btn aui-btn-block aui-btn-danger" id="del_btn">
+					删除
 				</div>
 			</div>
 		</div>
@@ -69,6 +78,41 @@
 		//1 共享用户对象
 		var userobj = null, province = null, city = null, area = null, temp = 0;
 		Zepto(function() {
+			//3 删除地址
+			$("#del_btn").on('tap', function() {
+				api.confirm({
+					title : '',
+					msg : '确定要删除该地址吗？',
+					buttons : ['取消', '确定']
+				}, function(ret, err) {
+					if (ret.buttonIndex == 2) {
+						api.showProgress({
+							title : '',
+							mag : ''
+						});
+						api.ajax({
+							url : window.serverUrl + '/user_address_del/token/' + userobj.token + '/user_id/' + userobj.id + '/id/' + aid
+						}, function(ret, err) {
+							api.hideProgress();
+							if (ret && ret.retCode == 1) {
+								reloadaddress();
+								api.closeWin({
+								});
+							} else {
+								if (ret && ret.retCode == 0) {
+									api.toast({
+										msg : ret.retDesc
+									});
+								} else {
+									api.toast({
+										msg : err.body
+									});
+								}
+							}
+						});
+					}
+				});
+			});
 		});
 		H.ready(function() {
 			//1.0 获取地址ID
@@ -78,23 +122,26 @@
 			}, function(ret, err) {
 				userobj = eval('(' + ret.value + ')');
 				api.showProgress({
-                });
+				});
 				api.ajax({
-	                url:window.serverUrl+'/user_address/token/'+userobj.token+'/user_id/'+userobj.id+'/address_id/'+aid
-                },function(ret,err){	
-                	if(ret && ret.retCode==1){
-                		api.hideProgress();
-                		$("#accept_name").val(ret.retValue[0].accept_name);
-                		$("#mobile").val(ret.retValue[0].mobile);
-                		$("#area").val(ret.retValue[0].province_val+ret.retValue[0].area_val+ret.retValue[0].city_val);
-                		$("#address").val(ret.retValue[0].address);
-                		$("#zip").val(ret.retValue[0].zip);
-                		province = ret.retValue[0].province;
-                		city = ret.retValue[0].city;
-                		area = ret.retValue[0].area;
-                	}
+					url : window.serverUrl + '/user_address/token/' + userobj.token + '/user_id/' + userobj.id + '/address_id/' + aid
+				}, function(ret, err) {
+					if (ret && ret.retCode == 1) {
+						api.hideProgress();
+						$("#accept_name").val(ret.retValue[0].accept_name);
+						$("#mobile").val(ret.retValue[0].mobile);
+						$("#area").val(ret.retValue[0].province_val + ret.retValue[0].area_val + ret.retValue[0].city_val);
+						$("#address").val(ret.retValue[0].address);
+						$("#zip").val(ret.retValue[0].zip);
+						if (ret.retValue[0].is_default == 1) {
+							$("input[name='is_default']").attr('checked', true);
+						}
+						province = ret.retValue[0].province;
+						city = ret.retValue[0].city;
+						area = ret.retValue[0].area;
+					}
 					//alert(JSON.stringify(ret));
-                });
+				});
 			});
 			api.addEventListener({
 				name : 'change_aera'
@@ -113,23 +160,19 @@
 		});
 		//2 保存地址
 		function save_a() {
+			var is_default = $("input[name='is_default']").attr("checked") != 1 ? 0 : 1;
 			api.showProgress({
 				title : '保存中'
 			});
 			api.ajax({
-				url : window.serverUrl + '/user_address_add/token/' + userobj.token + '/user_id/' + userobj.id + '/id/'+aid+'/accept_name/' + encodeURI($("#accept_name").val()) + '/mobile/' + $("#mobile").val() + '/address/' + encodeURI($("#address").val()) + '/zip/' + $("#zip").val() + '/province/' + province + '/city/' + city + '/area/' + area,
+				url : window.serverUrl + '/user_address_add/token/' + userobj.token + '/user_id/' + userobj.id + '/id/' + aid + '/accept_name/' + encodeURI($("#accept_name").val()) + '/mobile/' + $("#mobile").val() + '/address/' + encodeURI($("#address").val()) + '/zip/' + $("#zip").val() + '/province/' + province + '/city/' + city + '/area/' + area + '/is_default/' + is_default,
 				cache : false
 			}, function(ret, err) {
 				api.hideProgress();
 				if (ret && ret.retCode == 1) {
-					api.execScript({
-						name : 'user_shop_address_header',
-						frameName : 'user_shop_address_body',
-						script : 'reload();'
-					});
+					reloadaddress();
 					api.closeWin({
 					});
-					
 				}
 			});
 		}
@@ -138,6 +181,15 @@
 		function openArea() {
 			$("#area").val("");
 			H.$openWin('area_header', 'area_header.html');
+		}
+
+		//4.0 刷新收货地址页面
+		function reloadaddress() {
+			api.execScript({
+				name : 'user_shop_address_header',
+				frameName : 'user_shop_address_body',
+				script : 'reload();'
+			});
 		}
 	</script>
 </html>
