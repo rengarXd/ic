@@ -72,7 +72,6 @@
 		});
 		Zepto(function() {
 			$("#add_files").on("tap", function() {
-//			try{
 				var addate = $("#ad_date").val();
 				if (addate) {
 					var adAddress = $("#ad_address").val();
@@ -98,7 +97,7 @@
 									}
 								}, function(ret, err) {
 									api.hideProgress();
-									//					alert(JSON.stringify(ret))
+									//alert(JSON.stringify(ret))
 									if (ret && ret.retCode == 1) {
 										api.sendEvent({
 											name : 'healthreload'
@@ -107,7 +106,7 @@
 										H.$closeCurrentWin();
 									} else {
 										api.toast({
-											msg : ret
+											msg : err
 										});
 									}
 								});
@@ -130,11 +129,7 @@
 					api.toast({
 						msg : '您还没填日期呢'
 					});
-//					throw "请输入日期！";
 				}
-//				} catch (err) {
-//					alert(err)
-//				}
 			});
 		});
 		//时间选择器
