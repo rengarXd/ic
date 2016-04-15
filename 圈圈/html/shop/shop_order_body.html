@@ -88,18 +88,18 @@
 		<!--撑开相应高度-->
 		<footer class="aui-nav" id="aui-footer">
 			<div class="aui-col-xs-8">
-				<div class="aui-col-xs-6 ms_info">
+				<div class="aui-col-xs-5 ms_info">
 					<p class="ms_font">
 						共<span style="color: #fd0202;" id="goodsNum">*</span>件商品
 					</p>
 				</div>
-				<div class="aui-col-xs-6 ms_info">
+				<div class="aui-col-xs-7 ms_info">
 					<p class="ms_font">
 						总价：￥<span style="color: #fd0202;" id="totalPrice">*</span>元
 					</p>
 				</div>
 			</div>
-			<div class="aui-col-xs-4 buy" id="buy" onclick="uploadOrder();">
+			<div class="aui-col-xs-4 buy" id="buy" onclick="post_data();">
 				提交订单
 			</div>
 		</footer>
@@ -154,7 +154,7 @@
 			<div class="aui-content">
 			<ul class="aui-list-view">
 			<li class="aui-list-view-cell">
-			<span class="products_no">商家编号:{{ d.retValue.goodsList[0].goods_no }}</span>
+			<span class="products_no">商品编号:{{ d.retValue.goodsList[0].goods_no }}</span>
 			</li>
 			<li class="aui-list-view-cell" style="background: #f4f4f4">
 			<div class="aui-col-xs-3">
@@ -194,7 +194,7 @@
 			<div class="aui-col-xs-6">
 			<div class="aui-counter aui-danger aui-pull-right">
 			<div class="aui-counter-minus aui-disabled" onclick="minus();"></div>
-			<input class="aui-counter-input" type="number" value="1" id="member" onfocus="this.blur();">
+			<input class="aui-counter-input" type="number" id="member" name="memVal" value="1" onfocus="this.blur();">
 			<div class="aui-counter-plus" onclick="plus();"></div>
 			</div>
 			</div>
@@ -203,7 +203,10 @@
 			<span>商家类别<span class="aui-pull-right">商城自营</span></span>
 			</li>
 			<li class="aui-list-view-cell" onclick="Distribution();">
-			<span class="aui-arrow-right">配送方式<span class="aui-pull-right ways" id="delivery" deliveryVal="" ></span></span>
+			<span class="aui-arrow-right">配送方式
+			<span style="color: #bbb !important; font-size: 11px !important;">(含运费：18元)</span>
+			<span class="aui-pull-right ways" id="delivery" deliveryVal="" ></span>
+			</span>
 			</li>
 			<li class="aui-list-view-cell" onclick="payMent();">
 			<a class="aui-arrow-right">支付方式<span class="aui-pull-right ways" id="payments" payment=""></span></a>
@@ -211,7 +214,7 @@
 			<li>
 			<div class="aui-input-row">
 			<span class="aui-input-addon message_info">买家留言：</span>
-			<input type="text" class="aui-input" id="Message" placeholder="请输入您的留言"/>
+			<input type="text" class="aui-input" name="test" id="Message" placeholder="请输入您的留言"/>
 			</div>
 			</li>
 			</ul>
@@ -246,7 +249,9 @@
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript" src="../../script/laytpl.js"></script>
 	<script type="text/javascript">
-		var retabc = null, contents = null, result = null, addressData = null, proId = null, ticket_ids = null, accept_name = null, province = null, city = null, area = null, address = null, telphone = null;
+		Zepto(function($) {
+		});
+		var retabc = null, contents = null, result = null, addressData = null, proId = null, ticket_ids = null, accept_name = null, province = null, city = null, area = null, address = null, telphone = null, totalPlus = null;
 		//1、获取数据
 		function get_data() {
 			//请求ajax数据
@@ -255,14 +260,20 @@
 			}, function(ret, err) {
 				if (ret && ret.retCode == 1) {
 					result = ret.retValue;
-					alert(JSON.stringify(result));
-					$("#totalPrice").text(result.goodsList[0].sell_price);
-					$("#goodsNum").text(result.goodsList[0].count);
+					//					alert(JSON.stringify(result));
+					if (contents.num) {
+						totalPlus = parseInt(contents.num) * parseInt(result.goodsList[0].sell_price);
+						$("#totalPrice").html(totalPlus);
+						$("#goodsNum").text(contents.num);
+					} else {
+						$("#totalPrice").text(result.goodsList[0].sell_price);
+						$("#goodsNum").text(result.goodsList[0].count);
+					}
 					if (result.address.length == 0) {
 						api.toast({
-	                        msg:'请先添加收货地址'
-                        });
-					}else{
+							msg : '请先添加收货地址'
+						});
+					} else {
 						accept_name = result.address[0].accept_name;
 						province = result.address[0].province;
 						city = result.address[0].city;
@@ -274,6 +285,11 @@
 					laytpl(t).render(ret, function(render) {
 						document.getElementById('cart_html').innerHTML = render;
 						api.parseTapmode();
+						if (contents.num) {
+							$("#member").val(parseInt(contents.num));
+						} else {
+							$("#member").val(parseInt(1));
+						}
 					});
 				} else {
 					api.toast({
@@ -320,7 +336,7 @@
 			}
 			$("#countNum").html(++member);
 			$("#goodsNum").html(member);
-			var totalPlus = parseInt(member) * parseInt(result.goodsList[0].sell_price);
+			totalPlus = parseInt(member) * parseInt(result.goodsList[0].sell_price);
 			$("#totalPrice").html(totalPlus);
 		}
 
@@ -363,10 +379,12 @@
 					case 1:
 						$("#delivery").html("快递");
 						$("#delivery").attr("deliveryVal", 1);
+						$("#totalPrice").text(parseInt($("#totalPrice").text()) + parseInt(18));
 						break;
 					case 2:
 						$("#delivery").html("货到付款");
 						$("#delivery").attr("deliveryVal", 2);
+						$("#totalPrice").text(parseInt($("#totalPrice").text()) + parseInt(18));
 						break;
 				};
 			});
@@ -409,6 +427,7 @@
 		function removeActive() {
 			//添加选择框移除样式
 			$("input[name='activeCheck']").addClass('ic_radio');
+			ticket_ids = 0;
 			//移除所选活动名
 			$("#activeMessage").text('');
 		}
@@ -419,26 +438,27 @@
 		}
 
 		//提交订单
-		function uploadOrder() {
-			//
-			if (result.prop) {
+		function post_data() {
+			if (result.prop.length !== 0) {
 				ticket_ids = ticket_ids;
 			} else {
 				ticket_ids = 0;
 			}
 			var delivery_ids = $("#delivery").attr("deliveryVal");
-			//			accept_name = result.address[0].accept_name;
-			//			province = result.address[0].province;
-			//			city = result.address[0].city;
-			//			area = result.address[0].area;
-			//			address = result.address[0].address;
-			//			mobile = result.address[0].mobile;
 			if (delivery_ids) {
 				var pays = $("#payments").attr("payment");
 				if (pays) {
-					//					var accept_names = accept_name;
-					if (accept_name) {
-						//提交生成订单
+					if (result.address.length != 0) {
+						//判断信息是否为空的两种情况；
+						var message = null;
+						if ($("input[name='test']").val()) {
+							message = $("input[name='test']").val();
+						}else{
+							message = 0;
+						}
+//						console.log(ticket_ids);
+//						console.log(message);
+						//ajax提交生成订单
 						api.ajax({
 							url : window.serverUrl + '/cart3/direct_type/goods' + '/user_id/' + retabc.id + '/token/' + retabc.token,
 							method : 'post',
@@ -454,12 +474,14 @@
 									"mobile" : mobile,
 									"delivery_id" : delivery_ids,
 									"payment" : pays,
-									"ticket_id" : ticket_ids
+									"ticket_id" : ticket_ids,
+									"Message" : message
 								}
 							}
 						}, function(ret, err) {
 							if (ret) {
 								alert(JSON.stringify(ret));
+								
 							} else {
 								alert(JSON.stringify(err));
 							}
@@ -484,11 +506,8 @@
 
 		H.ready(function() {
 			contents = H.$getPageParam();
-			//			alert(JSON.stringify(contents));
+//						alert(JSON.stringify(contents));
 			//			var nnum = JSON.stringify(contents.num);
-			//			if(contents.num){
-			//				$("#goodsNum").text(nnum);
-			//			}
 			api.getPrefs({
 				key : 'userinfo'
 			}, function(ret, err) {
