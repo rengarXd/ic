@@ -301,7 +301,6 @@
 
 		//2、打开地址选择
 		function openAddress() {
-			//			H.$openWin("user_shop_address_header", "../me/user_shop_address_header.html");
 			$(".address_list").toggle();
 		}
 
@@ -379,7 +378,25 @@
 					case 1:
 						$("#delivery").html("快递");
 						$("#delivery").attr("deliveryVal", 1);
-						$("#totalPrice").text(parseInt($("#totalPrice").text()) + parseInt(18));
+//						$("#totalPrice").text(parseInt($("#totalPrice").text()) + parseInt(18));
+						api.ajax({
+	                        url : window.serverUrl + '/order_delivery/token/' + retabc.token + '/user_id/' + retabc.id,
+                        	data : {
+                        		values : {
+                        			"goodsId[]" : contents.goodId,
+                        			 "province" : result.address[0].province,
+                        			 "distribution" : $("#delivery").attr("deliveryVal"),
+                        			 "num" : $("#member").val()
+                        		}
+                        	}
+                        },function(ret,err){
+                        	if(ret && ret.Code == 1 ) {
+                        		alert(JSON.stringify(ret));
+                        	}else{
+                        		alert(JSON.stringify(err));
+                        	}
+                        });
+						
 						break;
 					case 2:
 						$("#delivery").html("货到付款");
@@ -481,6 +498,7 @@
 						}, function(ret, err) {
 							if (ret) {
 								alert(JSON.stringify(ret));
+//								H.$openWin("user_shop_address_header", "../me/user_shop_address_header.html");
 								
 							} else {
 								alert(JSON.stringify(err));
@@ -506,8 +524,7 @@
 
 		H.ready(function() {
 			contents = H.$getPageParam();
-//						alert(JSON.stringify(contents));
-			//			var nnum = JSON.stringify(contents.num);
+//			alert(JSON.stringify(contents));
 			api.getPrefs({
 				key : 'userinfo'
 			}, function(ret, err) {
