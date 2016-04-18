@@ -367,8 +367,6 @@
 
 		//选择配送方式
 		function Distribution() {
-//			if()
-		
 			api.actionSheet({
 				title : '配送方式（由第三方物流公司配送）',
 				cancelTitle : '取消',
@@ -523,11 +521,12 @@
 							}
 						}, function(ret, err) {
 							if (ret) {
-								alert(JSON.stringify(ret));
 								if(ret.retCode == 2) {
 									var orders = ret.retValue;
 								console.log(orders);
 								H.$openWin("shop_order_creation_header", "shop_order_creation_header.html",orders);
+								}else{
+									
 								}
 								
 							} else {
