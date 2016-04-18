@@ -505,6 +505,12 @@
 						} else {
 							message = 0;
 						}
+						api.showProgress({
+							title:'订单提交中',
+							text:'请稍后..',
+							animationType: 'fade',
+							modal:false
+                        });
 						//						console.log(ticket_ids);
 						//						console.log(message);
 						//ajax提交生成订单
@@ -532,6 +538,7 @@
 								if (ret.retCode == 2) {
 									var orders = ret.retValue;
 									console.log(orders);
+									api.hideProgress();
 									H.$openWin("shop_order_creation_header", "shop_order_creation_header.html", orders);
 								} else {
 								}
