@@ -1,0 +1,206 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>订单生成body</title>
+		<link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/fonts/iconfont.css" />
+		<style>
+			.file_view {
+				border-radius: 10px;
+			}
+			.order_info {
+				text-align: center;
+				font-size: 15px;
+			}
+			.aui-col-xs-4 {
+				font-size: 13px;
+				color: #bbb;
+			}
+			.aui-col-xs-8 {
+				font-size: 16px;
+			}
+			.aui-nav .aui-bar-tab {
+				background: #34495E;
+			}
+			.aui-nav .aui-bar-tab li .aui-iconfont, .aui-nav .aui-bar-tab li p {
+				color: #fff;
+			}
+			.aui-nav .aui-bar-tab li.active .aui-iconfont, .aui-nav .aui-bar-tab li.active p {
+				color: #14bd7c;
+			}
+			.aui-nav {
+				background: #fff;
+				font-size: 18px;
+				color: #fff;
+				text-align: center;
+			}
+			.aui-nav  div {
+				height: 55px;
+			}
+			.aui-nav .buy {
+				line-height: 55px;
+				background: -webkit-gradient(linear, left top, left bottom, from(#ff7f27), to(#ff6001));
+			}
+			.aui-nav .cancel {
+				line-height: 55px;
+				background: -webkit-gradient(linear, left top, left bottom, from(#f9bf23), to(#f9c740));
+			}
+			.ms_info {
+				line-height: 55px;
+			}
+			.ms_font {
+				font-size: 15px !important;
+				color: #000000 !important;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="aui-content-padded"style="padding-top: 10px;" id="order_html">
+			<p class="order_info">
+				确认支付信息
+			</p>
+			<ul class="aui-list-view file_view">
+				<li class="aui-list-view-cell">
+					<div class="aui-col-xs-4">
+						订单号：
+					</div>
+					<div class="aui-col-xs-8" id="order_no"></div>
+				</li>
+				<li class="aui-list-view-cell">
+					<div class="aui-col-xs-4">
+						订单创建时间：
+					</div>
+					<div class="aui-col-xs-8" id="create_time"></div>
+				</li>
+				<li class="aui-list-view-cell">
+					<div class="aui-col-xs-4">
+						收件人：
+					</div>
+					<div class="aui-col-xs-8" id="accept_name"></div>
+				</li>
+				<li class="aui-list-view-cell">
+					<div class="aui-col-xs-4">
+						配送方式：
+					</div>
+					<div class="aui-col-xs-8" id="distribution"></div>
+				</li>
+				<li class="aui-list-view-cell">
+					<div class="aui-col-xs-4">
+						运费：
+					</div>
+					<div class="aui-col-xs-8" id="real_freight"></div>
+				</li>
+				<li class="aui-list-view-cell">
+					<div class="aui-col-xs-4">
+						支付方式：
+					</div>
+					<div class="aui-col-xs-8" id="pay_type"></div>
+				</li>
+				<li class="aui-list-view-cell">
+					<div class="aui-col-xs-4">
+						用户留言：
+					</div>
+					<div class="aui-col-xs-8" id="postscript"></div>
+				</li>
+			</ul>
+		</div>
+		<div class="aui-content-padded ">
+			<ul class="aui-list-view file_view">
+				<li class="aui-list-view-cell">
+					<div class="aui-col-xs-4">
+						附加信息：
+					</div>
+					<div class="aui-col-xs-8" id="note"></div>
+				</li>
+				<li class="aui-list-view-cell">
+					<div class="aui-pull-right">
+						总金额：<span style="color: #f80e0e;" id="order_amount"></span>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<!--撑开相应高度-->
+		<div style="height: 55px;"></div>
+		<!--撑开相应高度-->
+		<footer class="aui-nav">
+			<div class="aui-col-xs-6">
+				<div class="cancel" onclick="removeData();">
+					取消
+				</div>
+			</div>
+			<div class="buy" >
+				支付
+			</div>
+		</footer>
+	</body>
+	<!--	<script type="text/html" id="order_data">-->
+	<!--	</script>-->
+	<script type="text/javascript" src="../../script/AHelper.js"></script>
+	<script type="text/javascript" src="../../script/zepto.min.js"></script>
+	<script type="text/javascript">
+		var retobj = null, orders = null, datas = null;
+		function get_data(orders) {
+			$("#order_no").html(orders.order_no);
+			//订单编号
+			$("#create_time").html(orders.create_time);
+			//创建时间
+			$("#accept_name").html(orders.accept_name);
+			//收件人
+			$("#real_freight").html(orders.real_freight + "元");
+			//运费
+			$("#real_amount").html(orders.real_amount);
+			//商品总金额
+			if (orders.distribution == 1) {
+				$("#distribution").html("快递");
+			}
+			if (orders.distribution == 2) {
+				$("#distribution").html("货到付款");
+			}
+			//配送方式
+			$("#pay_type").html(orders.pay_type);
+			if (orders.pay_type == 1) {
+				$("#pay_type").html("预存款");
+			}
+			if (orders.pay_type == 11) {
+				$("#pay_type").html("在线支付");
+			}
+			//支付方式
+			$("#order_amount").html("￥" + orders.order_amount + "元");
+			//订单总金额
+			$("#note").html(orders.note);
+			//附加信息
+			if (orders.postscript) {
+				$("#postscript").html(orders.postscript);
+			} else {
+				$("#postscript").html("无");
+			}
+			//用户留言
+		}
+
+		function removeData() {
+			api.closeToWin({
+				name : 'shop_show_header',
+				animation : {
+					type : 'push',
+					subType : 'from_bottom',
+					duration : 500
+				}
+			});
+		}
+
+
+		H.ready(function() {
+			orders = H.$getPageParam();
+			//			alert(JSON.stringify(orders));
+			get_data(orders);
+			api.getPrefs({
+				key : 'userinfo'
+			}, function(ret, err) {
+				retobj = eval('(' + ret.value + ')');
+			});
+		});
+	</script>
+</html>
