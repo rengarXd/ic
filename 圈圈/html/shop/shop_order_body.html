@@ -7,6 +7,7 @@
 		<title>订单详情body</title>
 		<link rel="stylesheet" type="text/css" href="../../css/aui.css" />
 		<link rel="stylesheet" type="text/css" href="../../css/fonts/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/tools/loading.css"/>
 		<style>
 			.ic_zl_icon {
 				display: block;
@@ -82,7 +83,14 @@
 		</style>
 	</head>
 	<body>
-		<div id="cart_html"></div>
+		<div id="cart_html">
+			<!--页面加载中-->
+			<div style="text-align: center" id="ic_loading"><img src="../../image/loading.png" width="70" height="70" />
+				<br />
+				<span>加载中...</span>
+			</div>
+			<!--页面加载中-->
+		</div>
 		<!--撑开相应高度-->
 		<div style="height: 55px;"></div>
 		<!--撑开相应高度-->
@@ -391,7 +399,7 @@
 								$("#delivery").html(ret.retValue.name);
 								if (ret.retValue.if_delivery == 0) {
 									$("#yunfei").html("运费：" + ret.retValue.price + "元");
-//									$("#totalPrice").text(parseInt($("#totalPrice").text()) + parseInt(ret.retValue.price));
+									//									$("#totalPrice").text(parseInt($("#totalPrice").text()) + parseInt(ret.retValue.price));
 								} else {
 									alert("您所在的地区暂不支持配送，请联系客服人员");
 								}
@@ -418,7 +426,7 @@
 								$("#delivery").html(ret.retValue.name);
 								if (ret.retValue.if_delivery == 0) {
 									$("#yunfei").html("运费：" + ret.retValue.price + "元");
-//									$("#totalPrice").text(parseInt($("#totalPrice").text()) + parseInt(ret.retValue.price));
+									//									$("#totalPrice").text(parseInt($("#totalPrice").text()) + parseInt(ret.retValue.price));
 								} else {
 									alert("您所在的地区暂不支持配送，请联系客服人员");
 								}
@@ -521,14 +529,12 @@
 							}
 						}, function(ret, err) {
 							if (ret) {
-								if(ret.retCode == 2) {
+								if (ret.retCode == 2) {
 									var orders = ret.retValue;
-								console.log(orders);
-								H.$openWin("shop_order_creation_header", "shop_order_creation_header.html",orders);
-								}else{
-									
+									console.log(orders);
+									H.$openWin("shop_order_creation_header", "shop_order_creation_header.html", orders);
+								} else {
 								}
-								
 							} else {
 								alert(JSON.stringify(err));
 							}
