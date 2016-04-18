@@ -51,7 +51,7 @@
 				</div>
 				<div class="aui-input-row">
 					<label class="aui-input-addon">保密</label>
-					<input class="aui-pull-right aui-radio aui-radio-success" value="0" type="radio" name="sex" checked>
+					<input class="aui-pull-right aui-radio aui-radio-success" value="0" type="radio" name="sex">
 				</div>
 				<div class="aui-btn aui-btn-block aui-btn-danger" onclick="save_b();">
 					保存
@@ -209,13 +209,17 @@
 					break;
 				case 3:
 					$("#sexname").show();
-					if (types.sex == 1) {
-						$("#sexname input[name='sex']").get(0).checked = true;
-					} else {
-						if (types.sex == 2) {
+						switch(types.sex) {
+							case 0:
+							$("#sexname input[name='sex']").get(2).checked = true;
+							break;
+							case 1:
+							$("#sexname input[name='sex']").get(0).checked = true;
+							break;
+							case 2:
 							$("#sexname input[name='sex']").get(1).checked = true;
+							break;
 						}
-					}
 					temp = types.sex;
 					break;
 			}
