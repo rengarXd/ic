@@ -159,6 +159,7 @@
 		//3.0 更改性别
 		function save_b() {
 			var sexid = $("#sexname input[type='radio']:checked").val();
+			//alert(sexid);
 			if (temp == sexid) {
 				return api.toast({
 					msg : "抱歉您未做任何修改"
@@ -169,7 +170,7 @@
 				modal : false
 			});
 			api.ajax({
-				url : window.serverUrl + '/userinfo_edit/token/' + retobj.token + '/user_id/' + retobj.id + '/type/2' + '/sex/' + sexid
+				url : window.serverUrl + '/userinfo_edit/token/' + retobj.token + '/user_id/' + retobj.id + '/type/2' + '/sex/' + sexid,
 			}, function(ret, err) {
 				if (ret && ret.retCode == 1) {
 					H.$setPrefs(function(ret, err) {
