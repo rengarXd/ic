@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>无网络</title>
+		<link rel="stylesheet" type="text/css" href="../css/aui.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/tools/animate.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/tools/loading.css"/>
+	</head>
+	<body>
+		<!--无网络提示 start-->
+		<div style="display:block" id="ic_nonetwork"><img src="../image/loading.png" width="70" height="70" />
+			<br />
+			<span style="font-size:12px; margin-bottom: 10px;" class="aui-block"> 抱歉，您的网络连接不正常
+				<br />
+				请连接网络后刷新后再次访问 </span>
+			<div class="aui-btn aui-btn-default" id="reload_page" tapmode>
+				重新加载
+			</div>
+		</div>
+		<!--无网络提示 end-->
+		<script type="text/javascript" src="../script/AHelper.js"></script>
+		<script type="text/javascript" src="../script/zepto.min.js"></script>
+		H.ready(function() {
+		api.parseTapmode();
+		});
+		Zepto(function($){
+		});
+	</body>
+</html>
