@@ -53,7 +53,7 @@
 			}, function(ret, err) {
 				userinfo = eval('(' + ret.value + ')');
 				api.ajax({
-					url : window.serverUrl + '/me_bbs/token/' + userinfo.token + '/userid/' + userinfo.id
+					url : window.serverUrl + '/me_bbs/token/' + userinfo.token + '/user_id/' + userinfo.id
 				}, function(ret, err) {
 					//1.1 如果请求数据成功
 					if (ret && ret.retCode == 1) {
