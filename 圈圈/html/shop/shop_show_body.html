@@ -187,9 +187,10 @@
 						cache : true
 					}, function(ret, err) {
 						//alert(JSON.stringify(ret));
+						api.hideProgress();
 						//2.2如果请求数据成功
 						if (ret && ret.retCode == 1) {
-							api.hideProgress();
+							
 							//2.3渲染
 							$(".goods-title").text(ret.retValue.name);
 							$("#price").text(ret.retValue.sell_price);
@@ -222,7 +223,11 @@
 						} else if (ret && ret.retCode == 0) {
 							alert("请求数据异常:" + ret.retDesc);
 						} else if (err) {
-							alert("请求错误触发:" + JSON.stringify(err));
+							//alert("请求错误触发:" + JSON.stringify(err));
+//							H.$openFrame('loading', 'widget://res/noNetwork_body.html', null, {
+//								x : 0,
+//								y : 0
+//							});
 						}
 					});
 				});

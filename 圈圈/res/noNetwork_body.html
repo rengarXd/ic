@@ -5,9 +5,20 @@
 		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
 		<title>无网络</title>
 		<link rel="stylesheet" type="text/css" href="../css/fonts/iconfont.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/tools/animate.min.css"/>
 		<style>
 			#no {
-				text-align: center
+				padding: 7px;
+				margin: 0 79px;
+				background: #000;
+				color: #fff;
+				border-radius: 10px;
+				opacity: 0.6;
+				position: absolute;
+				top: 40%;
+				/* height: 240px; */
+				/* margin-top: -120px; */
+				text-align: center;
 			}
 			#no h5 {
 				color: #828282;
@@ -15,26 +26,13 @@
 		</style>
 	</head>
 	<body>
-		<div id="no">
-			<span class="iconfont icon-wangluo" style="font-size: 133px;color: rgb(219, 219, 219);
-			"></span>
-			<span style="display: block;
-			color: #B1B1B1;
-			font-size: 11px;">抱歉，网络连接中断</span>
+		<div id="no" class="animated fadeln">
+			<div>
+				<span class="iconfont icon-guanyu" style="font-size: 46px;"></span>
+			</div>
+			<div style="font-size: 12px;margin-top: 10px;">
+				抱歉，您的设备似乎没有连接网络，请连接网络后再次访问此页面
+			</div>
 		</div>
 	</body>
-	<script type="text/javascript" src="../script/zepto.min.js"></script>
-	<script type="text/javascript" src="../script/AHelper.js"></script>
-	<script type="text/javascript">
-		H.ready(function() {
-			var heights = (api.frameHeight - 344) / 2;
-			$("#no").css("margin-top", heights);
-			// 连接网络
-			H.$addEventListener(function(ret, err) {
-				H.$closeCurrentWin();
-			}, 'online');
-		});
-		Zepto(function($) {
-		});
-	</script>
 </html>
