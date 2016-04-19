@@ -74,12 +74,11 @@
 	</head>
 	<body>
 		<!--<div class="aui-content slider" id="shop_addata_body">
-			<img src="../../image/d5.png" />
+		<img src="../../image/d5.png" />
 		</div>-->
 		<div id="aui-slide2" class="aui-border-b" style="background: #fff">
 			<div class="aui-slide-wrap" id="shop_addata_body" style="height:150px;text-align: center" >
 				<img class="ic_shop_ad" src="../../image/loading.png" />
-				
 			</div>
 			<div class="aui-slide-page-wrap">
 				<!--分页容器-->
@@ -87,9 +86,9 @@
 		</div>
 		<script type="text/html" id="shop_addata">
 			{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
-				<div class="aui-slide-node aui-slide-node-middle aui-slide-node-center">
-					<img class="slider-img" src="http://122.114.90.191/{{ d.retValue[i].content }}" />
-				</div>
+			<div class="aui-slide-node aui-slide-node-middle aui-slide-node-center">
+			<img class="slider-img" src="http://122.114.90.191/{{ d.retValue[i].content }}" />
+			</div>
 			{{# } }}
 		</script>
 		<div class="aui-content aui-border-b">
@@ -103,19 +102,19 @@
 				<li class="aui-col-xs-3 aui-text-center" id="openPoints">
 					<span class="aui-iconfont aui-icon-creativefill aui-bg-warning" ></span>
 					<p>
-						积分兑换
+						新品上架
 					</p>
 				</li>
 				<li class="aui-col-xs-3 aui-text-center">
 					<span class="aui-iconfont aui-icon-apps aui-bg-danger"></span>
 					<p>
-						新品促销
+						特价商品
 					</p>
 				</li>
-				<li class="aui-col-xs-3 aui-text-center">
+				<li class="aui-col-xs-3 aui-text-center" onclick="openPoints()">
 					<span class="aui-iconfont aui-icon-countdownfill aui-bg-info"></span>
 					<p>
-						热门推荐
+						积分兑换
 					</p>
 				</li>
 			</ul>
@@ -127,10 +126,9 @@
 					<div class="aui-img-body aui-text-left"></div>
 				</li>
 				<li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode="" onclick="openGoods(1)">
-				<img class="ic_shop_ad" src="../../image/loading.png" />
+					<img class="ic_shop_ad" src="../../image/loading.png" />
 					<div class="aui-img-body aui-text-left"></div>
 				</li>
-				
 			</ul>
 		</div>
 		<script id="shopdata" type="text/html">
@@ -153,16 +151,17 @@
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript" src="../../script/laytpl.js"></script>
+	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript" src="../../script/tools/aui-slide.js"></script>
 	<script type="text/javascript">
-	Zepto(function($){
-		$("#openAllGood").on("tap", function() {
-			H.$openWin("shop_allorder_header","shop_allorder_header.html");
+		Zepto(function($) {
+			$("#openAllGood").on("tap", function() {
+				H.$openWin("shop_allorder_header", "shop_allorder_header.html");
+			});
+			$("#openPoints").on("tap", function() {
+				H.$openWin('me_exchange_header', '../me/me_exchange_header.html');
+			});
 		});
-		$("#openPoints").on("tap", function() {
-			H.$openWin('me_exchange_header', '../me/me_exchange_header.html');
-		});
-	});
 		H.ready(function() {
 			api.getPrefs({
 				key : 'userinfo'
@@ -181,8 +180,8 @@
 						});
 					} else {
 						api.toast({
-	                        msg:err
-                        });
+							msg : err
+						});
 					}
 				});
 				//1.2 请求市场广告数据
@@ -203,7 +202,7 @@
 								"autoPlay" : 3000, //自动播放
 								"pageShow" : true,
 								"loop" : true,
-								"pageStyle":'line',
+								"pageStyle" : 'line',
 								'dotPosition' : 'center'
 							})
 						});
@@ -220,5 +219,11 @@
 				goodId : goodId
 			});
 		}
+
+		Zepto(function($) {
+			$("#all_shop").on('tap', function() {
+				H.$openWin('shop_all_header', 'shop_all_header.html');
+			});
+		});
 	</script>
 </html>
