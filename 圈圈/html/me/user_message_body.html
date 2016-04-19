@@ -338,25 +338,26 @@
 				}, function(ret, err) {
 					if (ret) {
 						api.showProgress({
-                        });
-                        api.ajax({
-	                        url:window.serverUrl + '/userinfo_edit/token/' + retobj.token + '/type/2/user_id/' + retobj.id,
-                        	data: {
-                        		values: {
-                        			"area" : encodeURI(encodeURI(ret.province + ret.city + ret.county)),
-//                      			encodeURI(encodeURI())
-                        		}
-                        	}
-                        },function(ret,err){
-                        	if (ret && ret.retCode == 1) {
-								api.hideProgress();
+						});
+						api.ajax({
+							url : window.serverUrl + '/userinfo_edit/token/' + retobj.token + '/user_id/' + retobj.id + '/type/2/area/' + encodeURI(ret.province + ret.city + ret.county)
+						}, function(ret, err) {
+							api.hideProgress();
+							if (ret && ret.retCode == 1) {
 								H.$setPrefs(function(ret, err) {
 								}, 'userinfo', JSON.stringify(ret.retValue));
-							}else{
-								
+							} else {
+								if (ret && ret.retCode == 0) {
+									api.toast({
+										msg : ret.retDesc
+									});
+								} else {
+									api.toast({
+										msg : err.msg
+									});
+								}
 							}
-                        });
-					
+						});
 						$("#ads_span").html(ret.province + ' ' + ret.city + ' ' + ret.county);
 					} else {
 						api.toast({
