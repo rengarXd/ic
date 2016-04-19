@@ -242,7 +242,8 @@
 								$("#ic_nonetwork").show();
 								$("#ic_nonetwork span").text(err.msg);
 								api.execScript({
-	                                script: 'exec();'
+									name:'shop_show_header',
+	                                script: 'close_footer();'
                                 });
 							}
 							//							alert("请求错误触发:" + JSON.stringify(err.msg));
