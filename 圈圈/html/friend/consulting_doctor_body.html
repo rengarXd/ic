@@ -90,55 +90,6 @@
 				height: 48px !important;
 			}
 		</style>
-	</head>
-	<body>
-		<div class="aui-content">
-			<ul class="aui-user-view">
-				<li class="aui-user-view-cell aui-img">
-					<img class="aui-img-object aui-pull-left" id="doctor_pic" src="">
-					<div class="aui-img-body">
-						<span><span id="doctor_name">&nbsp;&nbsp;&nbsp;</span><i id="doctor_fen">&nbsp;&nbsp;&nbsp;</i><em><img id="doctor_isauthent" style="display:none" src="../../image/friend/rzys.png"/></em></span>
-						<p class='aui-ellipsis-1' id="doctor_jobname">
-							&nbsp;&nbsp;&nbsp;
-						</p>
-						<p class="aui-ellipsis-pp" id="doctor_from">
-							&nbsp;&nbsp;&nbsp;
-						</p>
-					</div>
-					<div class="aui-line-x"></div>
-					<div class="asc">
-						<div class="aui-col-xs-6" style="border-right:1px solid #ddd">
-							回答数：<span id="doctor_answer">&nbsp;&nbsp;&nbsp;</span>
-						</div>
-						<div class="aui-col-xs-6">
-							好评率：<span id="doctor_goodrate">&nbsp;&nbsp;&nbsp;</span>
-						</div>
-					</div>
-					<div class="aui-line-x"></div>
-					<h5 class="intro" id="doctor_expertise"></h5>
-				</li>
-			</ul>
-		</div>
-		<div class="aui-content">
-			<div class="aui-content-title">
-				<span class="iconfont icon-iconxiaoxi"></span> 近期评论
-			</div>
-			<ul class="aui-list-view" id="inquiry_data_body"></ul>
-		</div>
-		<!--用户评价-->
-		<div class="aui-content">
-			<div class="aui-content-title">
-				<span class="iconfont icon-iconxiaoxi"></span> 用户评价
-			</div>
-			<ul class="aui-list-view" id="evaluate_data_body"></ul>
-			<!--撑开下部层页面-->
-			<div style="height:50px;"></div>
-			<!--撑开下部层页面-->
-		</div>
-		<!--用户评价-->
-		<div class="aui-btn aui-btn-block wenzhen_btn_wen" id="consulting">
-			我要问诊
-		</div>
 		<script id="inquiry_data" type="text/html">
 			<div class="aui-line-x"></div>
 			{{# for(var i = 0, len = d.length; i < len; i++){ }}
@@ -159,7 +110,7 @@
 			<p style="margin-top: 5px; margin-bottom: 5px;">
 			{{ d[i].content }}
 			</p>
-			<h6>{{ H.$com.jsDateDiff(d[i].time) }}<span style="float: right">回复（{{ d[i].answer_nums }}）</span></h6>
+			<h6>{{ H.$com.jsDateDiff(d[i].time) }}<!--<span style="float: right">回复（{{ d[i].answer_nums }}）</span>--></h6>
 			</li>
 			{{# } }}
 		</script>
@@ -190,6 +141,56 @@
 			</li>
 			{{# } }}
 		</script>
+	</head>
+	<body>
+		<div class="aui-content">
+			<ul class="aui-user-view">
+				<li class="aui-user-view-cell aui-img">
+					<img class="aui-img-object aui-pull-left" id="doctor_pic" src="../../image/noavatar.gif">
+					<div class="aui-img-body">
+						<span><span id="doctor_name">&nbsp;&nbsp;&nbsp;</span><i id="doctor_fen">&nbsp;&nbsp;&nbsp;</i><em><img id="doctor_isauthent" style="display:none" src="../../image/friend/rzys.png"/></em></span>
+						<p class='aui-ellipsis-1' id="doctor_jobname">
+							&nbsp;&nbsp;&nbsp;
+						</p>
+						<p class="aui-ellipsis-pp" id="doctor_from">
+							&nbsp;&nbsp;&nbsp;
+						</p>
+					</div>
+					<div class="aui-line-x"></div>
+					<div class="asc">
+						<div class="aui-col-xs-6" style="border-right:1px solid #ddd">
+							回答数：<span id="doctor_answer">&nbsp;&nbsp;&nbsp;</span>
+						</div>
+						<div class="aui-col-xs-6">
+							好评率：<span id="doctor_goodrate">&nbsp;&nbsp;&nbsp;</span>
+						</div>
+					</div>
+					<div class="aui-line-x"></div>
+					<h5 class="intro" id="doctor_expertise"></h5>
+				</li>
+			</ul>
+		</div>
+		<div class="aui-content">
+			<div class="aui-content-title">
+				<span class="iconfont icon-iconxiaoxi"></span> 近期问诊
+			</div>
+			<ul class="aui-list-view" id="inquiry_data_body"></ul>
+		</div>
+		<!--用户评价-->
+		<div class="aui-content">
+			<div class="aui-content-title">
+				<span class="iconfont icon-iconxiaoxi"></span> 用户评价
+			</div>
+			<ul class="aui-list-view" id="evaluate_data_body"></ul>
+			<!--撑开下部层页面-->
+			<div style="height:50px;"></div>
+			<!--撑开下部层页面-->
+		</div>
+		<!--用户评价-->
+		<div class="aui-btn aui-btn-block wenzhen_btn_wen" id="consulting">
+			我要问诊
+		</div>
+		
 	</body>
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
@@ -217,7 +218,7 @@
 						}
 						$("#doctor_name").html(ret.retValue.doctor[0].name);
 						$("#doctor_fen").html(ret.retValue.doctor[0].stars + "分");
-						$("#doctor_pic").attr('src', window.serverUrlPath + ret.retValue.doctor[0].pic);
+						$("#doctor_pic").attr('src', ret.retValue.doctor[0].pic);
 						$("#doctor_jobname").html(ret.retValue.doctor[0].jobname);
 						$("#doctor_from").html(ret.retValue.doctor[0].from);
 						$("#doctor_answer").html(ret.retValue.doctor[0].answer);
