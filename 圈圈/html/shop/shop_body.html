@@ -5,6 +5,7 @@
 		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
 		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
 		<link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/tools/loading.css"/>
 		<link rel="stylesheet" type="text/css" href="../../css/tools/aui-slide.css" />
 		<style type="text/css">
 			.slider {
@@ -76,60 +77,62 @@
 		<!--<div class="aui-content slider" id="shop_addata_body">
 		<img src="../../image/d5.png" />
 		</div>-->
-		<div id="aui-slide2" class="aui-border-b" style="background: #fff">
-			<div class="aui-slide-wrap" id="shop_addata_body" style="height:150px;text-align: center" >
-				<img class="ic_shop_ad" src="../../image/loading.png" />
-			</div>
-			<div class="aui-slide-page-wrap">
-				<!--分页容器-->
-			</div>
-		</div>
-		<script type="text/html" id="shop_addata">
-			{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
-			<div class="aui-slide-node aui-slide-node-middle aui-slide-node-center">
-			<img class="slider-img" src="http://122.114.90.191/{{ d.retValue[i].content }}" />
-			</div>
-			{{# } }}
-		</script>
-		<div class="aui-content aui-border-b">
-			<ul class="aui-grid-sixteen">
-				<li class="aui-col-xs-3 aui-text-center" id="openAllGood">
-					<span class="aui-iconfont aui-icon-profilefill aui-bg-success" ></span>
-					<p>
-						全部商品
-					</p>
-				</li>
-				<li class="aui-col-xs-3 aui-text-center" id="openPoints">
-					<span class="aui-iconfont aui-icon-creativefill aui-bg-warning" ></span>
-					<p>
-						新品上架
-					</p>
-				</li>
-				<li class="aui-col-xs-3 aui-text-center">
-					<span class="aui-iconfont aui-icon-apps aui-bg-danger"></span>
-					<p>
-						特价商品
-					</p>
-				</li>
-				<li class="aui-col-xs-3 aui-text-center" onclick="openPoints()">
-					<span class="aui-iconfont aui-icon-countdownfill aui-bg-info"></span>
-					<p>
-						积分兑换
-					</p>
-				</li>
-			</ul>
-		</div>
-		<div class="aui-content">
-			<ul class="aui-list-view aui-grid-view" id="shopdata_body">
-				<li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode="" onclick="openGoods(1)">
+		<div id="ic_main">
+			<div id="aui-slide2" class="aui-border-b" style="background: #fff">
+				<div class="aui-slide-wrap" id="shop_addata_body" style="height:150px;text-align: center" >
 					<img class="ic_shop_ad" src="../../image/loading.png" />
-					<div class="aui-img-body aui-text-left"></div>
-				</li>
-				<li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode="" onclick="openGoods(1)">
-					<img class="ic_shop_ad" src="../../image/loading.png" />
-					<div class="aui-img-body aui-text-left"></div>
-				</li>
-			</ul>
+				</div>
+				<div class="aui-slide-page-wrap">
+					<!--分页容器-->
+				</div>
+			</div>
+			<script type="text/html" id="shop_addata">
+				{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
+				<div class="aui-slide-node aui-slide-node-middle aui-slide-node-center">
+				<img class="slider-img" src="http://122.114.90.191/{{ d.retValue[i].content }}" />
+				</div>
+				{{# } }}
+			</script>
+			<div class="aui-content aui-border-b">
+				<ul class="aui-grid-sixteen">
+					<li class="aui-col-xs-3 aui-text-center" id="openAllGood">
+						<span class="aui-iconfont aui-icon-profilefill aui-bg-success" ></span>
+						<p>
+							全部商品
+						</p>
+					</li>
+					<li class="aui-col-xs-3 aui-text-center" >
+						<span class="aui-iconfont aui-icon-creativefill aui-bg-warning" ></span>
+						<p>
+							新品上架
+						</p>
+					</li>
+					<li class="aui-col-xs-3 aui-text-center">
+						<span class="aui-iconfont aui-icon-apps aui-bg-danger"></span>
+						<p>
+							特价商品
+						</p>
+					</li>
+					<li class="aui-col-xs-3 aui-text-center" id="openPoints">
+						<span class="aui-iconfont aui-icon-countdownfill aui-bg-info"></span>
+						<p>
+							积分兑换
+						</p>
+					</li>
+				</ul>
+			</div>
+			<div class="aui-content">
+				<ul class="aui-list-view aui-grid-view" id="shopdata_body">
+					<li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode="" onclick="openGoods(1)">
+						<img class="ic_shop_ad" src="../../image/loading.png" />
+						<div class="aui-img-body aui-text-left"></div>
+					</li>
+					<li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode="" onclick="openGoods(1)">
+						<img class="ic_shop_ad" src="../../image/loading.png" />
+						<div class="aui-img-body aui-text-left"></div>
+					</li>
+				</ul>
+			</div>
 		</div>
 		<script id="shopdata" type="text/html">
 			{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
@@ -147,6 +150,15 @@
 			</li>
 			{{# } }}
 		</script>
+		<!--无网络提示 start-->
+		<div style="text-align: center" id="ic_nonetwork"><img src="../../image/loading.png" width="70" height="70" />
+			<br />
+			<span style="font-size:12px; margin-bottom: 10px;" class="aui-block"></span>
+			<div class="aui-btn aui-btn-default" id="reload_page" tapmode>
+				重新加载
+			</div>
+		</div>
+		<!--无网络提示 end-->
 	</body>
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
@@ -179,9 +191,14 @@
 							document.getElementById('shopdata_body').innerHTML = render;
 						});
 					} else {
-						api.toast({
-							msg : err
-						});
+						$("#ic_main").hide();
+						if (ret && ret.retCode == 0) {
+							$("#ic_nonetwork").show();
+							$("#ic_nonetwork span").text(ret.retDesc);
+						} else {
+							$("#ic_nonetwork").show();
+							$("#ic_nonetwork span").text(err.msg);
+						}
 					}
 				});
 				//1.2 请求市场广告数据
