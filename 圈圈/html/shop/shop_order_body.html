@@ -54,6 +54,10 @@
 				line-height: 55px;
 				background: -webkit-gradient(linear, left top, left bottom, from(#ff7f27), to(#ff6001));
 			}
+			.aui-nav .buy:active {
+				line-height: 55px;
+				background: -webkit-gradient(linear, left top, left bottom, from(#e06816), to(#f07927));
+			}
 			.ms_info {
 				line-height: 55px;
 			}
@@ -232,6 +236,11 @@
 			活动信息<span class="aui-pull-right ways" id="activeMessage"></span>
 			</div>
 			</li>
+			{{#if (d.retValue.prop.length == 0 ) { }}
+			<li class="aui-list-view-cell">
+			<span style="text-align: center;color: #bbb">暂无相关活动信息</span>
+			</li>
+			{{# } else { }}
 			{{# for(var i = 0, len = d.retValue.prop.length; i < len; i++){ }}
 			<li class="aui-list-view-cell active_list" style="display: none;">
 			<div class="aui-col-xs-2">
@@ -247,6 +256,7 @@
 			<li class="aui-list-view-cell active_list" style="display: none;">
 			<div style="width: 100%" class="aui-btn aui-btn-warning aui-btn-outlined aui-pull-right" onclick="removeActive();">取消</div>
 			</li>
+			{{# } }}
 			</ul>
 			</div>
 		</script>
@@ -255,54 +265,96 @@
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript" src="../../script/laytpl.js"></script>
 	<script type="text/javascript">
+		var retabc = null, contents = null, result = null, addressData = null, proId = null, ticket_ids = null, accept_name = null, province = null, city = null, area = null, address = null, telphone = null, totalPlus = null;
 		Zepto(function($) {
 		});
-		var retabc = null, contents = null, result = null, addressData = null, proId = null, ticket_ids = null, accept_name = null, province = null, city = null, area = null, address = null, telphone = null, totalPlus = null;
 		//1、获取数据
 		function get_data() {
-			//请求ajax数据
-			api.ajax({
-				url : window.serverUrl + '/cart2/token/' + retabc.token + '/type/goods' + '/user_id/' + retabc.id + '/id/' + contents.goodId,
-			}, function(ret, err) {
-				if (ret && ret.retCode == 1) {
-					result = ret.retValue;
-					//					alert(JSON.stringify(result));
-					if (contents.num) {
-						totalPlus = parseInt(contents.num) * parseInt(result.goodsList[0].sell_price);
-						$("#totalPrice").html(totalPlus);
-						$("#goodsNum").text(contents.num);
-					} else {
-						$("#totalPrice").text(result.goodsList[0].sell_price);
-						$("#goodsNum").text(result.goodsList[0].count);
-					}
-					if (result.address.length == 0) {
-						api.toast({
-							msg : '请先添加收货地址'
+			if (contents.productId) {
+				//请求ajax数据
+				api.ajax({
+					url : window.serverUrl + '/cart2/token/' + retabc.token + '/type/product' + '/user_id/' + retabc.id + '/id/' + contents.productId,
+				}, function(ret, err) {
+					if (ret && ret.retCode == 1) {
+						result = ret.retValue;
+						//alert(JSON.stringify(result));
+						if (contents.num) {
+							totalPlus = parseInt(contents.num) * parseInt(result.goodsList[0].sell_price);
+							$("#totalPrice").html(totalPlus);
+							$("#goodsNum").text(contents.num);
+						} else {
+							$("#totalPrice").text(result.goodsList[0].sell_price);
+							$("#goodsNum").text(result.goodsList[0].count);
+						}
+						if (result.address.length == 0) {
+							api.toast({
+								msg : '请先添加收货地址'
+							});
+						} else {
+							accept_name = result.address[0].accept_name;
+							province = result.address[0].province;
+							city = result.address[0].city;
+							area = result.address[0].area;
+							address = result.address[0].address;
+							mobile = result.address[0].mobile;
+						}
+						var t = document.getElementById('cart_data').innerHTML;
+						laytpl(t).render(ret, function(render) {
+							document.getElementById('cart_html').innerHTML = render;
+							api.parseTapmode();
+							if (contents.num) {
+								$("#member").val(parseInt(contents.num));
+							} else {
+								$("#member").val(parseInt(1));
+							}
 						});
 					} else {
-						accept_name = result.address[0].accept_name;
-						province = result.address[0].province;
-						city = result.address[0].city;
-						area = result.address[0].area;
-						address = result.address[0].address;
-						mobile = result.address[0].mobile;
+						alert(JSON.stringify(err.msg));
 					}
-					var t = document.getElementById('cart_data').innerHTML;
-					laytpl(t).render(ret, function(render) {
-						document.getElementById('cart_html').innerHTML = render;
-						api.parseTapmode();
+				});
+			} else {
+				//请求ajax数据
+				api.ajax({
+					url : window.serverUrl + '/cart2/token/' + retabc.token + '/type/goods' + '/user_id/' + retabc.id + '/id/' + contents.goodId,
+				}, function(ret, err) {
+					if (ret && ret.retCode == 1) {
+						result = ret.retValue;
+						//alert(JSON.stringify(result));
 						if (contents.num) {
-							$("#member").val(parseInt(contents.num));
+							totalPlus = parseInt(contents.num) * parseInt(result.goodsList[0].sell_price);
+							$("#totalPrice").html(totalPlus);
+							$("#goodsNum").text(contents.num);
 						} else {
-							$("#member").val(parseInt(1));
+							$("#totalPrice").text(result.goodsList[0].sell_price);
+							$("#goodsNum").text(result.goodsList[0].count);
 						}
-					});
-				} else {
-					api.toast({
-						msg : JSON.stringify(err)
-					});
-				}
-			});
+						if (result.address.length == 0) {
+							api.toast({
+								msg : '请先添加收货地址'
+							});
+						} else {
+							accept_name = result.address[0].accept_name;
+							province = result.address[0].province;
+							city = result.address[0].city;
+							area = result.address[0].area;
+							address = result.address[0].address;
+							mobile = result.address[0].mobile;
+						}
+						var t = document.getElementById('cart_data').innerHTML;
+						laytpl(t).render(ret, function(render) {
+							document.getElementById('cart_html').innerHTML = render;
+							api.parseTapmode();
+							if (contents.num) {
+								$("#member").val(parseInt(contents.num));
+							} else {
+								$("#member").val(parseInt(1));
+							}
+						});
+					} else {
+						alert(JSON.stringify(err.msg));
+					}
+				});
+			}
 		}
 
 		//2、打开地址选择
@@ -383,57 +435,113 @@
 				switch(ret.buttonIndex) {
 					case 1:
 						$("#delivery").attr("deliveryVal", 1);
-						api.ajax({
-							url : window.serverUrl + '/order_delivery/token/' + retabc.token + '/user_id/' + retabc.id,
-							data : {
-								values : {
-									"goodsId[]" : contents.goodId,
-									"province" : result.address[0].province,
-									"distribution" : $("#delivery").attr("deliveryVal"),
-									"num" : $("#member").val()
+						if (contents.productId) {
+							api.ajax({
+								url : window.serverUrl + '/order_delivery/token/' + retabc.token + '/user_id/' + retabc.id,
+								data : {
+									values : {
+										//									"goodId[]" : contents.goodId,
+										"productId[]" : contents.productId,
+										"province" : result.address[0].province,
+										"distribution" : $("#delivery").attr("deliveryVal"),
+										"num" : $("#member").val()
+									}
 								}
-							}
-						}, function(ret, err) {
-							if (ret) {
-								//                      		alert(JSON.stringify(ret));
-								$("#delivery").html(ret.retValue.name);
-								if (ret.retValue.if_delivery == 0) {
-									$("#yunfei").html("运费：" + ret.retValue.price + "元");
-									//									$("#totalPrice").text(parseInt($("#totalPrice").text()) + parseInt(ret.retValue.price));
+							}, function(ret, err) {
+								if (ret) {
+									//                      		alert(JSON.stringify(ret));
+									$("#delivery").html(ret.retValue.name);
+									if (ret.retValue.if_delivery == 0) {
+										$("#yunfei").html("运费：" + ret.retValue.price + "元");
+										//									$("#totalPrice").text(parseInt($("#totalPrice").text()) + parseInt(ret.retValue.price));
+									} else {
+										alert("您所在的地区暂不支持配送，请联系客服人员");
+									}
 								} else {
-									alert("您所在的地区暂不支持配送，请联系客服人员");
+									alert(JSON.stringify(err));
 								}
-							} else {
-								alert(JSON.stringify(err));
-							}
-						});
+							});
+						} else {
+							api.ajax({
+								url : window.serverUrl + '/order_delivery/token/' + retabc.token + '/user_id/' + retabc.id,
+								data : {
+									values : {
+										//									"goodId[]" : contents.goodId,
+										"goodsId[]" : contents.goodId,
+										"province" : result.address[0].province,
+										"distribution" : $("#delivery").attr("deliveryVal"),
+										"num" : $("#member").val()
+									}
+								}
+							}, function(ret, err) {
+								if (ret) {
+									//                      		alert(JSON.stringify(ret));
+									$("#delivery").html(ret.retValue.name);
+									if (ret.retValue.if_delivery == 0) {
+										$("#yunfei").html("运费：" + ret.retValue.price + "元");
+										//									$("#totalPrice").text(parseInt($("#totalPrice").text()) + parseInt(ret.retValue.price));
+									} else {
+										alert("您所在的地区暂不支持配送，请联系客服人员");
+									}
+								} else {
+									alert(JSON.stringify(err));
+								}
+							});
+						};
 						break;
 					case 2:
 						$("#delivery").attr("deliveryVal", 2);
-						api.ajax({
-							url : window.serverUrl + '/order_delivery/token/' + retabc.token + '/user_id/' + retabc.id,
-							data : {
-								values : {
-									"goodsId[]" : contents.goodId,
-									"province" : result.address[0].province,
-									"distribution" : $("#delivery").attr("deliveryVal"),
-									"num" : $("#member").val()
+						if (contents.productId) {
+							api.ajax({
+								url : window.serverUrl + '/order_delivery/token/' + retabc.token + '/user_id/' + retabc.id,
+								data : {
+									values : {
+										"productId[]" : contents.productId,
+										"province" : result.address[0].province,
+										"distribution" : $("#delivery").attr("deliveryVal"),
+										"num" : $("#member").val()
+									}
 								}
-							}
-						}, function(ret, err) {
-							if (ret) {
-								//alert(JSON.stringify(ret));
-								$("#delivery").html(ret.retValue.name);
-								if (ret.retValue.if_delivery == 0) {
-									$("#yunfei").html("运费：" + ret.retValue.price + "元");
-									//									$("#totalPrice").text(parseInt($("#totalPrice").text()) + parseInt(ret.retValue.price));
+							}, function(ret, err) {
+								if (ret) {
+									//alert(JSON.stringify(ret));
+									$("#delivery").html(ret.retValue.name);
+									if (ret.retValue.if_delivery == 0) {
+										$("#yunfei").html("运费：" + ret.retValue.price + "元");
+										//									$("#totalPrice").text(parseInt($("#totalPrice").text()) + parseInt(ret.retValue.price));
+									} else {
+										alert("您所在的地区暂不支持配送，请联系客服人员");
+									}
 								} else {
-									alert("您所在的地区暂不支持配送，请联系客服人员");
+									alert(JSON.stringify(err));
 								}
-							} else {
-								alert(JSON.stringify(err));
-							}
-						});
+							});
+						} else {
+							api.ajax({
+								url : window.serverUrl + '/order_delivery/token/' + retabc.token + '/user_id/' + retabc.id,
+								data : {
+									values : {
+										"goodsId[]" : contents.goodId,
+										"province" : result.address[0].province,
+										"distribution" : $("#delivery").attr("deliveryVal"),
+										"num" : $("#member").val()
+									}
+								}
+							}, function(ret, err) {
+								if (ret) {
+									//alert(JSON.stringify(ret));
+									$("#delivery").html(ret.retValue.name);
+									if (ret.retValue.if_delivery == 0) {
+										$("#yunfei").html("运费：" + ret.retValue.price + "元");
+										//									$("#totalPrice").text(parseInt($("#totalPrice").text()) + parseInt(ret.retValue.price));
+									} else {
+										alert("您所在的地区暂不支持配送，请联系客服人员");
+									}
+								} else {
+									alert(JSON.stringify(err));
+								}
+							});
+						}
 						break;
 				};
 			});
@@ -506,46 +614,98 @@
 							message = 0;
 						}
 						api.showProgress({
-							title:'订单提交中',
-							text:'请稍后..',
-							animationType: 'fade',
-							modal:false
-                        });
-						//						console.log(ticket_ids);
-						//						console.log(message);
-						//ajax提交生成订单
-						api.ajax({
-							url : window.serverUrl + '/cart3/direct_type/goods' + '/user_id/' + retabc.id + '/token/' + retabc.token,
-							method : 'post',
-							data : {
-								values : {
-									"direct_gid" : contents.goodId,
-									"direct_num" : $("#goodsNum").text(),
-									"accept_name" : accept_name,
-									"province" : province,
-									"city" : city,
-									"area" : area,
-									"address" : address,
-									"mobile" : mobile,
-									"delivery_id" : delivery_ids,
-									"payment" : pays,
-									"ticket_id" : ticket_ids,
-									"Message" : message
-								}
-							}
-						}, function(ret, err) {
-							if (ret) {
-								if (ret.retCode == 2) {
-									var orders = ret.retValue;
-									console.log(orders);
-									api.hideProgress();
-									H.$openWin("shop_order_creation_header", "shop_order_creation_header.html", orders);
-								} else {
-								}
-							} else {
-								alert(JSON.stringify(err));
-							}
+							title : '订单提交中',
+							text : '请稍后..',
+							animationType : 'fade',
+							modal : false
 						});
+						if (contents.productId) {
+							//ajax提交生成货品订单
+							api.ajax({
+								url : window.serverUrl + '/cart3/direct_type/product' + '/user_id/' + retabc.id + '/token/' + retabc.token,
+								method : 'post',
+								data : {
+									values : {
+										"direct_gid" : contents.productId,
+										"direct_num" : $("#goodsNum").text(),
+										"accept_name" : accept_name,
+										"province" : province,
+										"city" : city,
+										"area" : area,
+										"address" : address,
+										"mobile" : mobile,
+										"delivery_id" : delivery_ids,
+										"payment" : pays,
+										"ticket_id" : ticket_ids,
+										"Message" : message,
+									}
+								}
+							}, function(ret, err) {
+								if (ret) {
+									var orders = ret.retValue;
+									switch (ret.retCode) {
+										case 0 :
+											api.hideProgress();
+											alert('请检查您提交过的订单信息，不要重复提交');
+											break;
+										case 1 :
+											api.hideProgress();
+											api.toast({
+												msg : '免单订单生成成功'
+											});
+										case 2 :
+											console.log(orders);
+											api.hideProgress();
+											H.$openWin("shop_order_creation_header", "shop_order_creation_header.html", orders);
+									}
+								} else {
+									alert(JSON.stringify(err));
+								}
+							});
+						} else {
+							//ajax提交生成商品订单
+							api.ajax({
+								url : window.serverUrl + '/cart3/direct_type/goods' + '/user_id/' + retabc.id + '/token/' + retabc.token,
+								method : 'post',
+								data : {
+									values : {
+										"direct_gid" : contents.goodId,
+										"direct_num" : $("#goodsNum").text(),
+										"accept_name" : accept_name,
+										"province" : province,
+										"city" : city,
+										"area" : area,
+										"address" : address,
+										"mobile" : mobile,
+										"delivery_id" : delivery_ids,
+										"payment" : pays,
+										"ticket_id" : ticket_ids,
+										"Message" : message,
+									}
+								}
+							}, function(ret, err) {
+								if (ret) {
+									var orders = ret.retValue;
+									switch (ret.retCode) {
+										case 0 :
+											api.hideProgress();
+											alert('请检查您提交过的订单信息，不要重复提交');
+											break;
+										case 1 :
+											api.hideProgress();
+											api.toast({
+												msg : '免单订单生成成功'
+											});
+										case 2 :
+											console.log(orders);
+											api.hideProgress();
+											H.$openWin("shop_order_creation_header", "shop_order_creation_header.html", orders);
+									}
+								} else {
+									alert(JSON.stringify(err));
+								}
+							});
+						};
 					} else {
 						api.toast({
 							msg : '请添加收货信息'
@@ -566,7 +726,7 @@
 
 		H.ready(function() {
 			contents = H.$getPageParam();
-			//			alert(JSON.stringify(contents));
+
 			api.getPrefs({
 				key : 'userinfo'
 			}, function(ret, err) {
