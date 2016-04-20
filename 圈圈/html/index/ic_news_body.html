@@ -61,6 +61,15 @@
 				</div></h6>
 			</div>
 		</div>
+		<!--无网络提示 start-->
+		<div style="text-align: center;display: none;" id="ic_nonetwork" ><img src="../../image/loading.png" width="70" height="70" />
+			<br />
+			<span style="font-size:12px; margin-bottom: 10px;" class="aui-block"></span>
+			<div class="aui-btn aui-btn-default" id="reload_page" tapmode>
+				重新加载
+			</div>
+		</div>
+		<!--无网络提示 end-->
 	</body>
 	<script type="text/html" id="news_data">
 		<h1 class="news_title">{{ d.retValue.title }}</h1>
@@ -69,6 +78,7 @@
 		<div class="ic_conetnt">{{ d.retValue.content }}</div>
 	</script>
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
+	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript" src="../../script/laytpl.js"></script>
 	<script type="text/javascript">
 		var retabc = null, newsId = null;
@@ -85,13 +95,17 @@
 						api.parseTapmode();
 					});
 				} else {
-					api.toast({
-						msg : JSON.stringify(err)
-					});
+					$("#ic_loading").hide();
+					if (ret && ret.retCode == 0) {
+						$("#ic_nonetwork").show();
+						$("#ic_nonetwork span").text(ret.retDesc);
+					} else {
+						$("#ic_nonetwork").show();
+						$("#ic_nonetwork span").text(err.msg);
+					}
 				}
 			});
 		}
-
 
 		H.ready(function() {
 			newsId = H.$getPageParam().newsId;
@@ -102,8 +116,10 @@
 				get_data();
 			});
 		});
-		//		Zepto(function(){
-		//
-		//		});
+		Zepto(function() {
+			$("#reload_page").on("tap", function() {
+				location.reload();
+			});
+		});
 	</script>
 </html>
