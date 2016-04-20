@@ -32,7 +32,7 @@
 				background: red;
 				border-radius: 50%;
 				-webkit-border-radius: 50%;
-/*				font-size: 11px;*/
+				/*				font-size: 11px;*/
 				height: 8px;
 				line-height: 8px;
 				text-align: center;
@@ -123,7 +123,7 @@
 				<p>
 					消息
 				</p>
-				<em class="brige" id="brige"></em>
+				<em class="brige" style="display: none;" id="brige"></em>
 			</div>
 		</header>
 		<header class="aui-bar aui-bar-nav aui-bar-1d9dd5 display-none header" id='pet-header' style="background: #0099ff">
@@ -229,6 +229,7 @@
 				}
 			});
 			$("#index_massage").on('click', function() {
+				$("#brige").hide();
 				H.$openWin('massage_header', 'index/massage_header.html');
 			});
 			$("#input_box").on('click', function() {
@@ -276,13 +277,6 @@
 			H.$addEventListener(function(ret, err) {
 				$("#pet-header .aui-title").text("未绑定硬件");
 			}, 'changepettitle');
-			//清零系统消息数据状态操作
-			api.addEventListener({
-	            name:'editSystemMsgaStatus'
-            },function(ret,err){
-            	console.log(111);
-            	$("#brige").hide();
-            });
 			// 10 初始化DB模块
 			db = api.require('db');
 			var SerachWordStatus = H.$api.getStorage('SerachWordStatus');
@@ -413,6 +407,7 @@
 				name : 'addsystemmsg'
 			}, function(ret, err) {
 				//alert(JSON.stringify(ret));
+				$("#brige").show();
 				var sql = "INSERT INTO SystemMassage(title,content,status,time,type) VALUES ('" + ret.value.title + "','" + ret.value.content + "'," + ret.value.status + "," + ret.value.time + "," + ret.value.type + ")";
 				db.executeSql({
 					name : 'ichong',
@@ -421,10 +416,17 @@
 					//alert(JSON.stringify(ret));
 				});
 			});
+			//12.1.1代金卷使用时消息状态
+			api.addEventListener({
+				name : 'useVoucherMsg'
+			}, function(ret, err) {
+				$("#brige").show();
+			});
 			//12.2 系统消息阅读状态
 			api.addEventListener({
 				name : 'editSystemMsgaStatus'
 			}, function(ret, err) {
+				$("#brige").hide();
 				var sql = 'UPDATE SystemMassage SET status=1';
 				db.executeSql({
 					name : 'ichong',
