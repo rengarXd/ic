@@ -26,17 +26,17 @@
 			.brige {
 				display: inline-block;
 				position: absolute;
-				top: 0;
+				top: 5px;
 				left: 51%;
 				z-index: 100;
 				background: red;
 				border-radius: 50%;
 				-webkit-border-radius: 50%;
-				font-size: 11px;
-				height: 16px;
-				line-height: 16px;
+/*				font-size: 11px;*/
+				height: 8px;
+				line-height: 8px;
 				text-align: center;
-				min-width: 16px;
+				min-width: 8px;
 				color: #fff;
 				font-style: normal;
 			}
@@ -123,7 +123,7 @@
 				<p>
 					消息
 				</p>
-				<em class="brige" id="brige">8</em>
+				<em class="brige" id="brige"></em>
 			</div>
 		</header>
 		<header class="aui-bar aui-bar-nav aui-bar-1d9dd5 display-none header" id='pet-header' style="background: #0099ff">
@@ -173,7 +173,7 @@
 						友邻
 					</p>
 					<!--消息样式-->
-					<em class="brige" id="brige">8</em>
+					<!--<em class="brige" id="brige">8</em>-->
 					<!--消息样式-->
 				</li>
 				<li data-header="shop-header" data-frameName="shop" tapmode>
@@ -276,6 +276,13 @@
 			H.$addEventListener(function(ret, err) {
 				$("#pet-header .aui-title").text("未绑定硬件");
 			}, 'changepettitle');
+			//清零系统消息数据状态操作
+			api.addEventListener({
+	            name:'editSystemMsgaStatus'
+            },function(ret,err){
+            	console.log(111);
+            	$("#brige").hide();
+            });
 			// 10 初始化DB模块
 			db = api.require('db');
 			var SerachWordStatus = H.$api.getStorage('SerachWordStatus');
