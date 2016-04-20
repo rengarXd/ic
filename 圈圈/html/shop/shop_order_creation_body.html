@@ -135,17 +135,15 @@
 					取消
 				</div>
 			</div>
-			<div class="buy" >
+			<div class="buy" onclick="payData();" >
 				支付
 			</div>
 		</footer>
 	</body>
-	<!--	<script type="text/html" id="order_data">-->
-	<!--	</script>-->
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript">
-		var retobj = null, orders = null, datas = null;
+		var retobj = null, orders = null, datas = null,ordersId = null;
 		function get_data(orders) {
 			$("#order_no").html(orders.order_no);
 			//订单编号
@@ -182,6 +180,7 @@
 				$("#postscript").html("无");
 			}
 		}
+
 		//返回商品页
 		function removeData() {
 			api.closeToWin({
@@ -192,12 +191,46 @@
 					duration : 500
 				}
 			});
+			H.$closeCurrentWin();
+		}
+
+		//支付
+		function payData() {
+			if (orders.pay_type == 1) {
+				api.ajax({
+					url : window.serverUrl + '/doPay/token/' + retobj.token + '/user_id/' + retobj.id + '/order_id/' + ordersId,
+				}, function(ret, err) {
+					if (ret) {
+						alert(JSON.stringify(ret));
+						// 2.0 插入系统消息
+						api.sendEvent({
+							name : 'useVoucherMsg'
+						}, function(ret, err) {
+							api.toast({
+								msg : ret.retDesc
+							});
+						});
+					} else {
+						api.toast({
+							msg : err.msg
+						});
+					}
+				});
+			}else{
+				alert('在线支付功能即将开启！');
+			}
 		}
 
 
 		H.ready(function() {
 			orders = H.$getPageParam();
-			//alert(JSON.stringify(orders));
+//			alert(JSON.stringify(orders));
+			
+			if (orders.id) {
+				ordersId = orders.id;
+			}else{
+				ordersId = orders.order_id;
+			}
 			get_data(orders);
 			api.getPrefs({
 				key : 'userinfo'
