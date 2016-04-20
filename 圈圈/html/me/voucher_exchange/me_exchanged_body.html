@@ -86,7 +86,7 @@
 		<script type="text/html" id="Voucher_data">
 			{{# for(var i = 0, len = d.retValue.length; i < len; i++) { }}
 			<!--我的代金卷-->
-			{{# if (d.retValue[i].is_close == 0) { }}
+			{{# if (d.retValue[i].is_userd == 0) { }}
 			<div style="text-align: center; background-color: #f4f4f4 !important;" id="ic_loading"><img src="../../../image/loading.png" width="70" height="70" />
 			<br />
 			<span >您暂无已使用的代金卷</span>
@@ -113,54 +113,77 @@
 	<script type="text/javascript" src="../../../script/zepto.min.js"></script>
 	<script type="text/javascript" src="../../../script/laytpl.js"></script>
 	<script type="text/javascript">
-		var total = null, retobj = null;
+		var total = null, retobj = null, loadLock = false,page = 1;
 		Zepto(function() {
 			$("#reload_page").on("tap", function() {
 				location.reload();
 			})
 		});
+		function get_data() {
+			//1.1 我的代金卷
+			// 重置加载判断
+			loadLock = true;
+			api.ajax({
+				url : window.serverUrl + '/my_redpacket/token/' + retobj.token + '/user_id/' + retobj.id + '/page/' + page + '/pagesize/10',
+				
+			}, function(ret, err) {
+				if (ret) {
+					//alert(JSON.stringify(ret));
+					switch (ret.retCode) {
+						case 0:
+							//alert(JSON.stringify(ret.retDesc));
+							$("#showrecord").hide();
+							$("#norecord").show();
+							break;
+						case 1:
+							var tpl = document.getElementById('Voucher_data').innerHTML;
+							laytpl(tpl).render(ret, function(render) {
+								document.getElementById('Voucher_body').innerHTML = render;
+							});
+							if (page == ret.retValue.page) {
+								loadLock = true;
+							} else {
+								page++;
+								loadLock = false;
+							}
+							break;
+					}
+				} else {
+					api.toast({
+						msg : '请求超时'
+					});
+					$("#VoucherShow").hide();
+					if (ret && ret.retCode == 0) {
+						$("#ic_nonetwork").show();
+						$("#ic_nonetwork span").text(ret.retDesc);
+					} else {
+						$("#ic_nonetwork").show();
+						$("#ic_nonetwork span").text(err.msg);
+					}
+				}
+			});
+		}
+
+
 		H.ready(function() {
 			total = H.$getPageParam();
 			api.getPrefs({
 				key : 'userinfo'
 			}, function(ret, err) {
 				retobj = eval('(' + ret.value + ')');
-				//1.1 我的代金卷
-				api.ajax({
-					url : window.serverUrl + '/my_redpacket/token/' + retobj.token + '/user_id/' + retobj.id
-				}, function(ret, err) {
-					if (ret) {
-						//						alert(JSON.stringify(ret));
-						//						if(ret.retValue[i].is_close == 1){
-						//
-						//						}
-						switch (ret.retCode) {
-							case 0:
-								//alert(JSON.stringify(ret.retDesc));
-								$("#showrecord").hide();
-								$("#norecord").show();
-								break;
-							case 1:
-								var tpl = document.getElementById('Voucher_data').innerHTML;
-								laytpl(tpl).render(ret, function(render) {
-									document.getElementById('Voucher_body').innerHTML = render;
-								});
-								break;
-						}
-					} else {
-						api.toast({
-							msg : '请求超时'
-						});
-						$("#VoucherShow").hide();
-						if (ret && ret.retCode == 0) {
-							$("#ic_nonetwork").show();
-							$("#ic_nonetwork span").text(ret.retDesc);
-						} else {
-							$("#ic_nonetwork").show();
-							$("#ic_nonetwork span").text(err.msg);
-						}
-					}
-				});
+				get_data();
+			});
+			//上拉加载
+			api.addEventListener({
+				name : 'scrolltobottom',
+				extra : {
+					threshold : -10
+				}
+			}, function(ret, err) {
+				if (loadLock == false) {
+					get_data();
+				} else {
+				}
 			});
 		});
 	</script>
