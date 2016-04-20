@@ -129,7 +129,7 @@
 	<script type="text/javascript" src="../../script/laytpl.js"></script>
 	<script type="text/javascript">
 		//整合产品型号数据
-		var templis = [], goodId = null, retobj = null,productId = null;
+		var templis = [], goodId = null, retobj = null, productId = null;
 		var retstatus = true;
 		H.ready(function() {
 			api.getPrefs({
@@ -220,7 +220,13 @@
 		//选择相应的规格
 		function openActive(p, j) {
 			templis[p].value = j;
-			if (p == templis.length - 1) {
+			//6.1、获取所选型号
+			var temp = $(".ic_type").find(".active");
+//			var orderAry = new Array();
+//			for (var i = 0; i < temp.length; i++) {
+//				orderAry[i] = temp[i].innerText;
+//			}
+			if (temp.length == templis.length) {
 				api.ajax({
 					url : window.serverUrl + '/getProduct/token/' + retobj.token + '/user_id/' + retobj.id + '/goods_id/' + goodId,
 					data : {
@@ -242,39 +248,33 @@
 
 		//6、打开订单详情页
 		function openOrder() {
-//			//6.1获取所选型号名
-//			var tempname = $(".ic_type").find("#q_sizes");
-//			var tNameAry = new Array();
-//			for (var l = 0; l < tempname.length; l++) {
-//				tNameAry[l] = tempname[l].innerText;
-//			}
-//			//6.1、获取所选型号
-//			var temp = $(".ic_type").find(".active");
-//			//6.2、创建数组并将所选型号保存到数组当中
-//			var orderAry = new Array();
-//			for (var i = 0; i < temp.length; i++) {
-//				orderAry[i] = temp[i].innerText;
-//			}
-//			//6.3所选ID
-//			//			var templisId = new Array();
-//			//			for (var i = 0; i < temp.length; i++) {
-//			//				var frtId = "id" + ":" + templis[i].id;
-//			//				templisId[i] = frtId;
-//			//			}
-//			H.$com.writeObj(tNameAry);
-//			//6.4、生成
-//			var last = new Array();
-//			for (var i = 0; i < temp.length; i++) {
-//				var frt = tNameAry[i] + '":"' + orderAry[i];
-//				last[i] = frt;
-//			}
-			var memNum = $("#member").val();
-			//			alert(JSON.stringify(templis))
-			H.$openWin("shop_order_header", "shop_order_header.html", {
-				goodId : goodId,
-				productId : productId,
-				num : memNum
-			});
+			//			//6.1获取所选型号名
+			//						var tempname = $(".ic_type").find("#q_sizes");
+			//						var tNameAry = new Array();
+			//						for (var l = 0; l < tempname.length; l++) {
+			//							tNameAry[l] = tempname[l].innerText;
+			//						}
+			var temp = $(".ic_type").find(".active");
+			//6.2、创建数组并将所选型号保存到数组当中
+			if (temp.length == templis.length) {
+				var memNum = $("#member").val();
+				H.$openWin("shop_order_header", "shop_order_header.html", {
+					goodId : goodId,
+					productId : productId,
+					num : memNum
+				});
+			} else {
+				api.toast({
+					msg : '请将型号选择完整'
+				});
+			}
+			//			//6.3所选ID
+			//			//			var templisId = new Array();
+			//			//			for (var i = 0; i < temp.length; i++) {
+			//			//				var frtId = "id" + ":" + templis[i].id;
+			//			//				templisId[i] = frtId;
+			//			//			}
+			//			H.$com.writeObj(tNameAry);
 		}
 
 		Zepto(function($) {
