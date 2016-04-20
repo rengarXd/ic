@@ -184,7 +184,7 @@
 				retobj = eval('(' + ret.value + ')');
 				//1.2可用代金卷
 				api.ajax({
-					url : window.serverUrl + '/ticket_list/token/' + retobj.token
+					url : window.serverUrl + '/ticket_list/token/' + retobj.token + '/user_id/' + retobj.id,
 				}, function(ret, err) {
 					if (ret) {
 						//						alert(JSON.stringify(ret));
