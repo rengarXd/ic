@@ -7,6 +7,7 @@
 		<title>我的积分body</title>
 		<link rel="stylesheet" type="text/css" href="../../css/aui.css" />
 		<link rel="stylesheet" type="text/css" href="../../css/fonts/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/tools/loading.css"/>
 		<style>
 			.jifen {
 				text-align: center;
@@ -49,10 +50,10 @@
 		<div class="aui-content" >
 			<div class="aui-content-padded" id="point_body" style="margin:10px">
 				<!--页面加载中-->
-				<div style="text-align: center" id="ic_loading"><img src="../../image/loading.png" width="70" height="70" />
+				<!--<div style="text-align: center" id="ic_loading"><img src="../../image/loading.png" width="70" height="70" />
 					<br />
 					<span>加载中...</span>
-				</div>
+				</div>-->
 				<!--页面加载中-->
 			</div>
 			<!--loading-->
@@ -61,6 +62,15 @@
 			</div>
 			<!--loading-->
 		</div>
+		<!--无网络提示 start-->
+		<div style="margin-top:5px;text-align: center;display: none;" id="ic_nonetwork"><img src="../../image/loading.png" width="70" height="70" />
+			<br />
+			<span style="font-size:12px; margin-bottom: 10px;" class="aui-block"></span>
+			<div class="aui-btn aui-btn-default" id="reload_page" tapmode>
+				重新加载
+			</div>
+		</div>
+		<!--无网络提示 end-->
 		<script type="text/html" id="point_data">
 			<ul class="aui-list-view">
 			{{# for(var i = 0, len = d.detail.length; i < len; i++) { }}
@@ -88,10 +98,13 @@
 		var page = 1, loadLock = false, userobj = null, pagecount = null;
 		Zepto(function($) {
 			$("#exchange").on('tap', function() {
-				H.$openWin('me_exchange_header', 'me_exchange_header.html', {
+				H.$openWin('me_exchange_header', 'voucher_exchange/me_exchange_header.html', {
 					value : $("#point").text()
 				});
 			});
+			$("#reload_page").on("tap", function() {
+				location.reload();
+			})
 		});
 		// 1.1 获取数据
 		function get_data() {
@@ -125,9 +138,14 @@
 						msg : '抱歉获取数据失败，请稍后再试！'
 					});
 				} else {
-					api.toast({
-						msg : err.body
-					});
+					$("#loading").hide();
+					if (ret && ret.retCode == 0) {
+						$("#ic_nonetwork").show();
+						$("#ic_nonetwork span").text(ret.retDesc);
+					} else {
+						$("#ic_nonetwork").show();
+						$("#ic_nonetwork span").text(err.msg);
+					}
 				}
 			});
 		}
