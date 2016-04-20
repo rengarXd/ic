@@ -5,8 +5,9 @@
 		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
 		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
 		<title>代金卷body</title>
-		<link rel="stylesheet" type="text/css" href="../../css/aui.css" />
-		<link rel="stylesheet" href="../../css/me/lanren.css" />
+		<link rel="stylesheet" type="text/css" href="../../../css/aui.css" />
+		<link rel="stylesheet" href="../../../css/me/lanren.css" />
+		<link rel="stylesheet" type="text/css" href="../../../css/tools/loading.css"/>
 		<style>
 			.ic_quan {
 				width: 93%;
@@ -56,62 +57,39 @@
 			.ic_quan_boxs {
 				background: #f50000;
 			}
+			.ic_quan_boxs_after {
+				background: #bbb;
+			}
 			#ic_loading span {
 				color: #dddddd
 			}
 		</style>
 	</head>
 	<body>
-		<!--我的代金券-->
-		<div class="aui-content" style="padding-top:10px">
-			<h3 class="ic_me_djq">我的代金券</h3>
-			<div id="Voucher_body">
-				<!--页面加载中-->
-				<div style="text-align: center; background-color: #f4f4f4 !important;" id="ic_loading"><img src="../../image/loading.png" width="70" height="70" />
-					<br />
-					<span id="showrecord">加载中...</span>
-					<span id="norecord" style="display: none;">您暂无代金卷</span>
+		<div id="VoucherShow">
+			<div class="aui-content" style="padding-top:10px">
+				<h3 class="ic_me_djq">可兑换代金券</h3>
+				<!--代金券-->
+				<div id="Voucher_body1">
+					<!--页面加载中-->
+					<div style="text-align: center; background-color: #f4f4f4 !important;" id="ic_loading"><img src="../../../image/loading.png" width="70" height="70" />
+						<br />
+						<span>加载中...</span>
+					</div>
+					<!--页面加载中-->
 				</div>
-				<!--页面加载中-->
+				<!--代金券-->
 			</div>
 		</div>
-		<div class="aui-line-x"></div>
-		<!--我的代金券-->
-		<div class="aui-content" style="padding-top:10px">
-			<h3 class="ic_me_djq">可兑换代金券</h3>
-			<!--代金券-->
-			<div id="Voucher_body1">
-				<!--页面加载中-->
-				<div style="text-align: center; background-color: #f4f4f4 !important;" id="ic_loading"><img src="../../image/loading.png" width="70" height="70" />
-					<br />
-					<span>加载中...</span>
-				</div>
-				<!--页面加载中-->
+		<!--无网络提示 start-->
+		<div style="text-align: center;display: none;" id="ic_nonetwork"><img src="../../../image/loading.png" width="70" height="70" />
+			<br />
+			<span style="font-size:12px; margin-bottom: 10px;" class="aui-block"></span>
+			<div class="aui-btn aui-btn-default" id="reload_page" tapmode>
+				重新加载
 			</div>
-			<!--代金券-->
 		</div>
-		<script type="text/html" id="Voucher_data">
-			{{# for(var i = 0, len = d.retValue.length; i < len; i++) { }}
-			<!--我的代金卷-->
-			<div class="ic_quan ic_quans">
-			<div class="ic_quan_box ic_quan_boxs">
-			<div class="aui-col-xs-8">
-			<h1>编号:{{d.retValue[i].card_name }}</h1>
-			<sub class="sign">￥</sub><span style="font-size: 35px;">{{d.retValue[i].value }}</span>
-			</div>
-			<div class="aui-col-xs-4 ic_quan_time">
-			<h6 style="color:#fff">有效时间</h6>
-			<span>{{d.retValue[i].end_time }}</span>
-			{{# if (d.retValue[i].is_close == 0) { }}
-			<h4 style="font-size:16px">可使用</h4>
-			{{# }else{ }}
-			<h4 style="font-size:16px">不可使用</h4>
-			{{# } }}
-			</div>
-			</div>
-			</div>
-			{{# }　}}
-		</script>
+		<!--无网络提示 end-->
 		<script type="text/html" id="Voucher_data1">
 			{{# for(var i = 0, len = d.retValue.length; i < len; i++) { }}
 			<div class="ic_quan" >
@@ -140,13 +118,17 @@
 			{{# }　}}
 		</script>
 	</body>
-	<script type="text/javascript" src="../../script/AHelper.js"></script>
-	<script type="text/javascript" src="../../script/zepto.min.js"></script>
-	<script type="text/javascript" src="../../script/laytpl.js"></script>
+	<script type="text/javascript" src="../../../script/AHelper.js"></script>
+	<script type="text/javascript" src="../../../script/zepto.min.js"></script>
+	<script type="text/javascript" src="../../../script/laytpl.js"></script>
 	<script type="text/javascript">
 		var total = null, retobj = null;
 		Zepto(function() {
+			$("#reload_page").on("tap", function() {
+				location.reload();
+			})
 		});
+		//兑换代金卷
 		function duihuan(ticket) {
 			api.showProgress({
 				title : '兑换中'
@@ -200,31 +182,7 @@
 				key : 'userinfo'
 			}, function(ret, err) {
 				retobj = eval('(' + ret.value + ')');
-				//1.1 我的代金卷
-				api.ajax({
-					url : window.serverUrl + '/my_redpacket/token/' + retobj.token + '/user_id/' + retobj.id
-				}, function(ret, err) {
-					if (ret) {
-						//						alert(JSON.stringify(ret));
-						switch (ret.retCode) {
-							case 0:
-								//								alert(JSON.stringify(ret.retDesc));
-								$("#showrecord").hide();
-								$("#norecord").show();
-								break;
-							case 1:
-								var tpl = document.getElementById('Voucher_data').innerHTML;
-								laytpl(tpl).render(ret, function(render) {
-									document.getElementById('Voucher_body').innerHTML = render;
-								});
-								break;
-						}
-						//
-					} else {
-						alert(JSON.stringify(err));
-					}
-				});
-				//				//1.2可用代金卷
+				//1.2可用代金卷
 				api.ajax({
 					url : window.serverUrl + '/ticket_list/token/' + retobj.token
 				}, function(ret, err) {
@@ -235,7 +193,17 @@
 							document.getElementById('Voucher_body1').innerHTML = render;
 						});
 					} else {
-						alert(JSON.stringify(err));
+						api.toast({
+							msg : '请求超时'
+						});
+						$("#VoucherShow").hide();
+						if (ret && ret.retCode == 0) {
+							$("#ic_nonetwork").show();
+							$("#ic_nonetwork span").text(ret.retDesc);
+						} else {
+							$("#ic_nonetwork").show();
+							$("#ic_nonetwork span").text(err.msg);
+						}
 					}
 				});
 			});

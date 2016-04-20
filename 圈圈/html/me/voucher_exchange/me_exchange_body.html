@@ -1,0 +1,176 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>代金卷body</title>
+		<link rel="stylesheet" type="text/css" href="../../../css/aui.css" />
+		<link rel="stylesheet" href="../../../css/me/lanren.css" />
+		<link rel="stylesheet" type="text/css" href="../../../css/tools/loading.css"/>
+		<style>
+			.ic_quan {
+				width: 93%;
+				background: radial-gradient(rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 5px, #38B321 5px);
+				background-size: 15px 15px;
+				background-position: 9px 3px;
+				margin: 0 auto 10px;
+			}
+			.ic_quans {
+				width: 93%;
+				background: radial-gradient(rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 5px, #f50000 5px);
+				background-size: 15px 15px;
+				background-position: 9px 3px;
+				margin: 0 auto 10px;
+			}
+			.ic_quan_box {
+				padding: 10px;
+				background: #38B321;
+				margin: 0 7px;
+				color: #fff;
+				display: -webkit-box;
+			}
+			.ic_quan_box:before {
+				background: #38B321;
+			}
+			.ic_quan_time span {
+				font-size: 10px;
+			}
+			.ic_quan_button {
+				border: 1px solid #fff;
+				padding: 5px;
+				color: #fff !important;
+				font-size: 12px;
+				margin-top: 7px;
+			}
+			.ic_quan_button:active {
+				background: #38B321 !important;
+			}
+			.aui-col-xs-8 {
+				color: #fff
+			}
+			.ic_me_djq {
+				padding-left: 10px;
+				padding-bottom: 10px;
+				color: #BE6C6C;
+			}
+			.ic_quan_boxs {
+				background: #f50000;
+			}
+			.ic_quan_boxs_after {
+				background: #bbb;
+			}
+			#ic_loading span {
+				color: #dddddd
+			}
+		</style>
+	</head>
+	<body>
+		<div id="VoucherShow">
+			<!--我的代金券-->
+			<div class="aui-content" style="padding-top:10px">
+				<h3 class="ic_me_djq">可使用的代金券</h3>
+				<div id="Voucher_body">
+					<!--页面加载中-->
+					<div style="text-align: center; background-color: #f4f4f4 !important;" id="ic_loading"><img src="../../../image/loading.png" width="70" height="70" />
+						<br />
+						<span id="showrecord">加载中...</span>
+						<span id="norecord" style="display: none;">您暂无代金卷</span>
+					</div>
+					<!--页面加载中-->
+				</div>
+			</div>
+			<!--我的代金券-->
+		</div>
+		<!--无网络提示 start-->
+		<div style="text-align: center;display: none;" id="ic_nonetwork"><img src="../../../image/loading.png" width="70" height="70" />
+			<br />
+			<span style="font-size:12px; margin-bottom: 10px;" class="aui-block"></span>
+			<div class="aui-btn aui-btn-default" id="reload_page" tapmode>
+				重新加载
+			</div>
+		</div>
+		<!--无网络提示 end-->
+		<script type="text/html" id="Voucher_data">
+			{{# for(var i = 0, len = d.retValue.length; i < len; i++) { }}
+			<!--我的代金卷-->
+			{{# if(d.retValue[i].is_close == 0){ }}
+			<div class="ic_quan ic_quans">
+			<div class="ic_quan_box ic_quan_boxs">
+			<div class="aui-col-xs-8">
+			<h1>编号:{{d.retValue[i].card_name }}</h1>
+			<sub class="sign">￥</sub><span style="font-size: 35px;">{{d.retValue[i].value }}</span>
+			</div>
+			<div class="aui-col-xs-4 ic_quan_time">
+			<h6 style="color:#fff">有效时间</h6>
+			<span>{{d.retValue[i].end_time }}</span>
+			{{# if(d.retValue[i].is_close == 0){ }}
+			<h4 style="font-size:16px">可使用</h4>
+			{{# }else{ }}	
+			<h4 style="font-size:16px">已超过有效期</h4>
+			{{# } }}
+			</div>
+			</div>
+			</div>
+			{{# }else{ }}
+			<div style="text-align: center; background-color: #f4f4f4 !important;" id="ic_loading"><img src="../../../image/loading.png" width="70" height="70" />
+			<br />
+			<span>您暂无未使用的代金卷</span>
+			</div>
+			{{# } }}
+			{{# } }}
+		</script>
+	</body>
+	<script type="text/javascript" src="../../../script/AHelper.js"></script>
+	<script type="text/javascript" src="../../../script/zepto.min.js"></script>
+	<script type="text/javascript" src="../../../script/laytpl.js"></script>
+	<script type="text/javascript">
+		var total = null, retobj = null;
+		Zepto(function() {
+			$("#reload_page").on("tap", function() {
+				location.reload();
+			})
+		});
+		H.ready(function() {
+			total = H.$getPageParam();
+			api.getPrefs({
+				key : 'userinfo'
+			}, function(ret, err) {
+				retobj = eval('(' + ret.value + ')');
+				//1.1 我的代金卷
+				api.ajax({
+					url : window.serverUrl + '/my_redpacket/token/' + retobj.token + '/user_id/' + retobj.id
+				}, function(ret, err) {
+					if (ret) {
+						//						alert(JSON.stringify(ret));
+						switch (ret.retCode) {
+							case 0:
+								//alert(JSON.stringify(ret.retDesc));
+								$("#showrecord").hide();
+								$("#norecord").show();
+								break;
+							case 1:
+								var tpl = document.getElementById('Voucher_data').innerHTML;
+								laytpl(tpl).render(ret, function(render) {
+									document.getElementById('Voucher_body').innerHTML = render;
+								});
+								break;
+						}
+					} else {
+						api.toast({
+							msg : '请求超时'
+						});
+						$("#VoucherShow").hide();
+						if (ret && ret.retCode == 0) {
+							$("#ic_nonetwork").show();
+							$("#ic_nonetwork span").text(ret.retDesc);
+						} else {
+							$("#ic_nonetwork").show();
+							$("#ic_nonetwork span").text(err.msg);
+						}
+					}
+				});
+			});
+		});
+	</script>
+</html>
