@@ -165,17 +165,14 @@
 							break;
 					}
 				} else {
-					api.toast({
-						msg : err.msg
-					});
-//					$("#VoucherShow").hide();
-//					if (ret && ret.retCode == 0) {
-//						$("#ic_nonetwork").show();
-//						$("#ic_nonetwork span").text(ret.retDesc);
-//					} else {
-//						$("#ic_nonetwork").show();
-//						$("#ic_nonetwork span").text(err.msg);
-//					}
+					$("#VoucherShow").hide();
+					if (ret && ret.retCode == 0) {
+						$("#ic_nonetwork").show();
+						$("#ic_nonetwork span").text(ret.retDesc);
+					} else {
+						$("#ic_nonetwork").show();
+						$("#ic_nonetwork span").text(err.msg);
+					}
 				}
 			});
 		}
