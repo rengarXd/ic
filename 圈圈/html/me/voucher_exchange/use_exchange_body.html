@@ -193,9 +193,6 @@
 							document.getElementById('Voucher_body1').innerHTML = render;
 						});
 					} else {
-						api.toast({
-							msg : '请求超时'
-						});
 						$("#VoucherShow").hide();
 						if (ret && ret.retCode == 0) {
 							$("#ic_nonetwork").show();
