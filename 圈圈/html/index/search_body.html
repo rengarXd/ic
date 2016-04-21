@@ -148,7 +148,7 @@
 				modal : false
 			});
 			api.ajax({
-				url : window.serverUrl + '/goods_list/token/' + retobj.token + '/user_id/' + retobj.id + '/word/' + encodeURI(encodeURI(swd)),
+				url : window.serverUrl + '/goods_list/token/' + retobj.token + '/user_id/' + retobj.id + '/word/' + encodeURI(swd),
 				cache : true
 			}, function(ret, err) {
 				//如果请求有数据返回
@@ -193,9 +193,9 @@
 						document.getElementById('keyword_body').innerHTML = render;
 					});
 				} else {
-					//						if (ret && ret.retCode == 0) {
-					//						}
-					alert(JSON.stringify(err));
+					api.toast({
+	                    msg:err.msg
+                    });
 				}
 			});
 		}
