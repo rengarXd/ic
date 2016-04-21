@@ -71,6 +71,11 @@
 			<div class="aui-content" style="padding-top:10px">
 				<h3 class="ic_me_djq">不可使用的代金券</h3>
 				<div id="Voucher_body"></div>
+				<!--loading-->
+				<div class="aui-text-center" id="loading" style="padding: 20px;display: none;color: rgb(167, 167, 167);font-size: 14px;">
+					<img src="../../../image/loading01.gif" style="width: 45px;" />&nbsp;&nbsp;加载中...
+				</div>
+				<!--loading-->
 			</div>
 			<!--我的代金券-->
 		</div>
@@ -84,9 +89,9 @@
 		</div>
 		<!--无网络提示 end-->
 		<script type="text/html" id="Voucher_data">
-			{{# for(var i = 0, len = d.retValue.length; i < len; i++) { }}
+			{{# for(var i = 0, len = d.retValue.props.length; i < len; i++) { }}
 			<!--我的代金卷-->
-			{{# if (d.retValue[i].is_userd == 0 && d.retValue[i].is_close==2) { }}
+			{{# if (d.retValue.props[i].is_userd == 0 && d.retValue.props[i].is_close==2) { }}
 		<!--	<div style="text-align: center; background-color: #f4f4f4 !important;" id="ic_loading"><img src="../../../image/loading.png" width="70" height="70" />
 			<br />
 			<span >您暂无已使用的代金卷</span>
@@ -95,12 +100,12 @@
 			<div class="ic_quan ic_quans">
 			<div class="ic_quan_box ic_quan_boxs_after">
 			<div class="aui-col-xs-8">
-			<h1>编号:{{d.retValue[i].card_name }}</h1>
-			<sub class="sign">￥</sub><span style="font-size: 35px;">{{d.retValue[i].value }}</span>
+			<h1>编号:{{d.retValue.props[i].card_name }}</h1>
+			<sub class="sign">￥</sub><span style="font-size: 35px;">{{d.retValue.props[i].value }}</span>
 			</div>
 			<div class="aui-col-xs-4 ic_quan_time">
 			<h6 style="color:#fff">有效时间</h6>
-			<span>{{d.retValue[i].end_time }}</span>
+			<span>{{d.retValue.props[i].end_time }}</span>
 			<h4 style="font-size:16px">被锁定</h4>
 			</div>
 			</div>
@@ -110,12 +115,12 @@
 			<div class="ic_quan ic_quans">
 			<div class="ic_quan_box ic_quan_boxs_after">
 			<div class="aui-col-xs-8">
-			<h1>编号:{{d.retValue[i].card_name }}</h1>
-			<sub class="sign">￥</sub><span style="font-size: 35px;">{{d.retValue[i].value }}</span>
+			<h1>编号:{{d.retValue.props[i].card_name }}</h1>
+			<sub class="sign">￥</sub><span style="font-size: 35px;">{{d.retValue.props[i].value }}</span>
 			</div>
 			<div class="aui-col-xs-4 ic_quan_time">
 			<h6 style="color:#fff">有效时间</h6>
-			<span>{{d.retValue[i].end_time }}</span>
+			<span>{{d.retValue.props[i].end_time }}</span>
 			<h4 style="font-size:16px">已使用</h4>
 			</div>
 			</div>
@@ -132,31 +137,33 @@
 		Zepto(function() {
 			$("#reload_page").on("tap", function() {
 				location.reload();
-			})
+			});
 		});
 		function get_data() {
 			//1.1 我的代金卷
 			// 重置加载判断
+			$("#loading").show();
 			loadLock = true;
 			api.ajax({
 				url : window.serverUrl + '/my_redpacket/token/' + retobj.token + '/user_id/' + retobj.id + '/page/' + page + '/pagesize/10',
 				cache:false,
-				
 			}, function(ret, err) {
 				if (ret) {
-					//alert(JSON.stringify(ret));
 					switch (ret.retCode) {
 						case 0:
-							//alert(JSON.stringify(ret.retDesc));
+							$("#loading").hide();
 							$("#showrecord").hide();
 							$("#norecord").show();
 							break;
 						case 1:
+							$("#loading").hide();
 							var tpl = document.getElementById('Voucher_data').innerHTML;
 							laytpl(tpl).render(ret, function(render) {
-								H.$api.append(H.$api.byId("Voucher_body"), render);
+								H.$api.append(H.$api.byId('Voucher_body'), render);
+								H.$api.css(H.$api.byId("ic_loading"), "display:none");
+								$("#loading").hide();
 							});
-							if (page == ret.retValue.page) {
+							if (page == ret.retValue.count) {
 								loadLock = true;
 							} else {
 								page++;
