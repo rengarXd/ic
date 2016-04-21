@@ -92,12 +92,12 @@
 				<div class="aui-content-padded ic_type" id="shopdata_body"></div>
 				<div class="aui-content-padded">
 					<div class="aui-col-xs-6" style="line-height: 63px;">
-						购买数量
+						购买数量(库存：<span id="store_num"></span>)
 					</div>
 					<div class="aui-col-xs-6">
 						<div class="aui-counter aui-danger aui-pull-right" style="margin: 20px;">
 							<div class="aui-counter-minus aui-disabled" id="minus"></div>
-							<input class="aui-counter-input" type="number" value="1" id="member">
+							<input class="aui-counter-input" type="number" value="1" id="member" onblur="changeNum();">
 							<div class="aui-counter-plus" id="plus"></div>
 						</div>
 					</div>
@@ -129,7 +129,7 @@
 	<script type="text/javascript" src="../../script/laytpl.js"></script>
 	<script type="text/javascript">
 		//整合产品型号数据
-		var templis = [], goodId = null, retobj = null, productId = null;
+		var templis = [], goodId = null, retobj = null, productId = null,store_nums = null;
 		var retstatus = true;
 		H.ready(function() {
 			api.getPrefs({
@@ -139,6 +139,8 @@
 			});
 			//1、接收传递
 			goodId = eval('(' + api.pageParam.id + ')');
+			//1.1.2接受库存
+			store_nums = eval('(' + api.pageParam.store_nums + ')');
 			//1.1接受传递的型号选择数据
 			datas = eval('(' + api.pageParam.spec_array + ')');
 			//2、暂时写死，我也不想
@@ -155,6 +157,7 @@
 				templis.push(datas["4"]);
 			}
 			//						alert(JSON.stringify(templis));
+			$("#store_num").html(store_nums);
 			var tpl = document.getElementById('shopdata').innerHTML;
 			//读取模版
 			laytpl(tpl).render(templis, function(render) {
@@ -173,31 +176,7 @@
 			$("#specList4 span").click(function() {
 				$("#specList4 span").eq($(this).index()).addClass("active").siblings().removeClass('active');
 			});
-			//4、处理数量加
-			$("#plus").on("tap", function() {
-				//4.1 获取最新数量
-				var member = $("#member").val();
-				//4.2 转整型
-				var m = parseInt(member);
-				//4.2 数量+1
-				$("#member").val(m + 1);
-				//4.3 判断数量
-				if (m >= 1) {
-					$(".aui-counter-minus").removeClass('aui-disabled');
-				}
-			});
-			//5、处理数量减
-			$("#minus").on("tap", function() {
-				//5.1 获取最新的数量
-				var members = $("#member").val();
-				//5.2 字符串转换为整型
-				var ms = parseInt(members);
-				if (ms < 2) {
-					$(".aui-counter-minus").addClass('aui-disabled');
-				} else {
-					$("#member").val(ms - 1);
-				}
-			});
+			
 			//监听返回按键关闭Frame
 			api.addEventListener({
 				name : 'keyback'
@@ -245,7 +224,21 @@
 				templis[p].value = j;
 			}
 		}
-
+		//手动改变数量
+		function changeNum() {
+			var buyNums = parseInt($.trim($('#member').val()));
+			if (isNaN(buyNums) || buyNums == 0) {
+				api.toast({
+					msg : '请填写正确的商品数量'
+				});
+				$("#member").val(1);
+			}else if (buyNums > store_nums) {
+				api.toast({
+					msg : '商品数量不能大于库存'
+				});
+				$("#member").val(store_nums);
+			}
+		}
 		//6、打开订单详情页
 		function openOrder() {
 			//			//6.1获取所选型号名
@@ -278,6 +271,31 @@
 		}
 
 		Zepto(function($) {
+			//4、处理数量加
+			$("#plus").on("tap", function() {
+				//4.1 获取最新数量
+				var member = $("#member").val();
+				//4.2 转整型
+				var m = parseInt(member);
+				//4.2 数量+1
+				$("#member").val(m + 1);
+				//4.3 判断数量
+				if (m >= 1) {
+					$(".aui-counter-minus").removeClass('aui-disabled');
+				}
+			});
+			//5、处理数量减
+			$("#minus").on("tap", function() {
+				//5.1 获取最新的数量
+				var members = $("#member").val();
+				//5.2 字符串转换为整型
+				var ms = parseInt(members);
+				if (ms < 2) {
+					$(".aui-counter-minus").addClass('aui-disabled');
+				} else {
+					$("#member").val(ms - 1);
+				}
+			});
 			$(".share-space").tap(function() {
 				closeShareFrame();
 			});
