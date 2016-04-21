@@ -103,7 +103,7 @@
 				<div class="aui-col-xs-5 ms_info">
 					<p class="ms_font">
 						<!--共<span style="color: #fd0202;" id="goodsNum">*</span>件商品-->
-						<span style="color: #fd0202;" id="freight"></span>
+						<span style="color: #bbb;font-size: 15px;" id="freight"></span>
 					</p>
 				</div>
 				<div class="aui-col-xs-7 ms_info">
@@ -199,25 +199,25 @@
 			</div>
 			</div>
 			</li>
-			<li class="aui-list-view-cell">
+			<!--<li class="aui-list-view-cell">
 			<div class="aui-col-xs-6">
 			购买数量
-			</div>
-			<div class="aui-col-xs-6">
+			</div>-->
+			<!--<div class="aui-col-xs-6">
 			<div class="aui-counter aui-danger aui-pull-right">
 			<div class="aui-counter-minus aui-disabled" onclick="minus();"></div>
-			<input class="aui-counter-input" type="number" id="member" name="memVal" value="1" onchange="changeNum(this.value);" >
+			<input class="aui-counter-input" type="number" id="member" name="memVal" value="1" onchange="changeNum(this.value);" >-->
 			<!--onfocus="this.blur();"-->
-			<div class="aui-counter-plus" onclick="plus();"></div>
+			<!--<div class="aui-counter-plus" onclick="plus();"></div>
 			</div>
 			</div>
-			</li>
+			</li>-->
 			<li class="aui-list-view-cell">
 			<span>商家类别<span class="aui-pull-right">商城自营</span></span>
 			</li>
 			<li class="aui-list-view-cell" onclick="Distribution();">
 			<span class="aui-arrow-right">配送方式
-			<span style="color: #bbb !important; font-size: 11px !important;" id="yunfei"></span>
+			<span style="color: #bbb !important; font-size: 11px !important;"></span>
 			<span class="aui-pull-right ways" id="delivery" deliveryVal="" ></span>
 			</span>
 			</li>
@@ -460,27 +460,6 @@
 				return;
 			}
 		}
-
-		//选择配送方式
-		function Distribution() {
-			api.actionSheet({
-				title : '配送方式（由第三方物流公司配送）',
-				cancelTitle : '取消',
-				buttons : ['快递', '货到付款']
-			}, function(ret, err) {
-				switch(ret.buttonIndex) {
-					case 1:
-						$("#delivery").attr("deliveryVal", 1);
-						fares();
-						break;
-					case 2:
-						$("#delivery").attr("deliveryVal", 2);
-						fares();
-						break;
-				};
-			});
-		}
-
 		function fares() {
 			if (contents.productId) {
 				api.ajax({
@@ -534,6 +513,27 @@
 				});
 			}
 		}
+		//选择配送方式
+		function Distribution() {
+			api.actionSheet({
+				title : '配送方式（由第三方物流公司配送）',
+				cancelTitle : '取消',
+				buttons : ['快递', '货到付款']
+			}, function(ret, err) {
+				switch(ret.buttonIndex) {
+					case 1:
+						$("#delivery").attr("deliveryVal", 1);
+						fares();
+						break;
+					case 2:
+						$("#delivery").attr("deliveryVal", 2);
+						fares();
+						break;
+				};
+			});
+		}
+
+		
 
 		function fare() {
 			if (contents.productId) {
@@ -768,6 +768,7 @@
 
 		H.ready(function() {
 			contents = H.$getPageParam();
+			alert(JSON.stringify(contents));
 			api.getPrefs({
 				key : 'userinfo'
 			}, function(ret, err) {
