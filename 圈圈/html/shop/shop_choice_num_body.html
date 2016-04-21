@@ -1,0 +1,205 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>商品有型号区分body</title>
+		<link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/font/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/winu-ui.css" />
+		<style>
+			html, body {
+				background: rgba(0,0,0,0.2);
+			}
+			.share-maim {
+				background: #fff;
+				animation: swiper 0.3s;
+				-webkit-animation: swiper 0.3s;
+				height: auto;
+				overflow: hidden;
+			}
+			@-webkit-keyframes swiper
+			{
+			from {
+				height: 0;
+			}
+			to {
+				height: 160px;
+			}
+			}
+			@-webkit-keyframes
+			swiperend {from {
+				height: 160px;
+			}
+			to {
+				height: 0;
+			}
+			}
+			.share-maim ul {
+			}
+			.share-maim ul li {
+				text-align: center;
+			}
+			.share-maim ul li span {
+				height: 3em;
+				width: 3em;
+				border-radius: 50%;
+				-webkit-border-radius: 50%;
+				background: #009944;
+				margin: 16px auto 15px auto;
+			}
+			.share-maim ul li span i {
+				color: #fff;
+				font-size: 24px;
+			}
+			.share-maim ul li p {
+				color: #a4a4a8;
+			}
+			.cancel-share {
+				margin: 16px auto 0 auto;
+				background: #FF7F2A;
+				height: 50px;
+				color: #FFF;
+				width: 100%;
+			}
+			.q_size span {
+				background: #f5f5f5;
+				padding: 6px 15px;
+				margin-right: 10px;
+				float: left;
+				margin-bottom: 7px;
+				font-size: 12px;
+				-moz-border-radius: 7px;
+				-khtml-border-radius: 7px;
+				-webkit-border-radius: 7px;
+			}
+			.q_size .active {
+				background: #FF7F2A;
+				color: #fff;
+			}
+			.q_puch1 {
+				float: left;
+				margin: 10px 0px;
+				width: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="share-container winu-flex-box-vertical">
+			<div class="share-space winu-flex-item q_sizes"></div>
+			<div class="share-maim">
+				<div class="aui-content-padded">
+					<div class="aui-col-xs-6" style="line-height: 63px;">
+						购买数量(库存：<span id="store_num"></span>)
+					</div>
+					<div class="aui-col-xs-6">
+						<div class="aui-counter aui-danger aui-pull-right" style="margin: 20px;">
+							<div class="aui-counter-minus aui-disabled" id="minus"></div>
+							<input class="aui-counter-input" type="number" value="1" id="member" onblur="changeNum();">
+							<div class="aui-counter-plus" id="plus"></div>
+						</div>
+					</div>
+				</div>
+				<div class="cancel-share winu-center-all" tapmode  onclick="openOrder();">
+					确定购买
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../../script/AHelper.js"></script>
+	<script type="text/javascript" src="../../script/zepto.min.js"></script>
+	<script type="text/javascript" src="../../script/laytpl.js"></script>
+	<script type="text/javascript">
+		//整合产品型号数据
+		var goodId = null, retobj = null;
+		var retstatus = true;
+		H.ready(function() {
+			api.getPrefs({
+				key : 'userinfo'
+			}, function(ret, err) {
+				retobj = eval('(' + ret.value + ')');
+			});
+			
+			//1、接收传递
+			goodId = H.$getPageParam();
+			store_nums = H.$getPageParam().store_nums;
+//			alert(JSON.stringify(goodId));
+			$("#store_num").html(store_nums);
+			//监听返回按键关闭Frame
+			api.addEventListener({
+				name : 'keyback'
+			}, function(ret, err) {
+				closeShareFrame();
+			});
+		});
+		//4、关闭购买
+		function closeShareFrame() {
+			$(".share-maim").css({
+				"animation" : "swiperend 0.3s",
+				"-webkit-animation" : "swiperend 0.3s",
+				"height" : "0"
+			});
+			setTimeout(function() {
+				H.$closeCurrentFrame();
+			}, 300);
+		}
+
+		//6、打开订单详情页
+		function openOrder() {
+			var memNum = $("#member").val();
+			H.$openWin("shop_order_header", "shop_order_header.html", {
+				goodId : goodId.id,
+				num : memNum
+			});
+		}
+		//手动改变数量
+		function changeNum() {
+			var buyNums = parseInt($.trim($('#member').val()));
+			if (isNaN(buyNums) || buyNums == 0) {
+				api.toast({
+					msg : '请填写正确的商品数量'
+				});
+				$("#member").val(1);
+			}else if (buyNums > store_nums) {
+				api.toast({
+					msg : '商品数量不能大于库存'
+				});
+				$("#member").val(store_nums);
+			}
+		}
+		Zepto(function($) {
+			//4、处理数量加
+			$("#plus").on("tap", function() {
+				//4.1 获取最新数量
+				var member = $("#member").val();
+				//4.2 转整型
+				var m = parseInt(member);
+				//4.2 数量+1
+				$("#member").val(m + 1);
+				//4.3 判断数量
+				if (m >= 1) {
+					$(".aui-counter-minus").removeClass('aui-disabled');
+				}
+			});
+			//5、处理数量减
+			$("#minus").on("tap", function() {
+				//5.1 获取最新的数量
+				var members = $("#member").val();
+				//5.2 字符串转换为整型
+				var ms = parseInt(members);
+				if (ms < 2) {
+					$(".aui-counter-minus").addClass('aui-disabled');
+				} else {
+					$("#member").val(ms - 1);
+				}
+			});
+			$(".share-space").tap(function() {
+				closeShareFrame();
+			});
+			$(".share-maim li").on("tap", function() {
+				H.$toast($.trim($(this).find("p").text()));
+			});
+		});
+	</script>
+</html>
