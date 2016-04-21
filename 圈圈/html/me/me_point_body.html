@@ -49,17 +49,11 @@
 		</div>
 		<div class="aui-content" >
 			<div class="aui-content-padded" id="point_body" style="margin:10px">
-				<!--页面加载中-->
-				<div style="text-align: center" id="ic_loading"><img src="../../image/loading.png" width="70" height="70" />
-					<br />
-					<span id="show">加载中...</span>
-					<span id="hide" style="display: none;">暂无兑换记录</span>
-				</div>
-				<!--页面加载中-->
 			</div>
 			<!--loading-->
 			<div class="aui-text-center" id="loading" style="padding:10px 25px;display: none;color: rgb(167, 167, 167);font-size: 14px;">
-				<img src="../../image/loading01.gif" style="width: 45px;" />&nbsp;&nbsp;加载中...
+				<img src="../../image/loading01.gif" id="show" style="width: 45px;" />&nbsp;&nbsp;加载中...
+				<span id="hide" style="display: none;">暂无兑换记录</span>
 			</div>
 			<!--loading-->
 		</div>
@@ -124,7 +118,7 @@
 						case 1:
 							//alert(JSON.stringify(ret.retValue));
 							$("#point").text(ret.retValue.total_point);
-							$("#ic_loading").hide();
+							$("#loading").hide();
 							pagecount = ret.retValue.count;
 							var tpl = document.getElementById('point_data').innerHTML;
 							laytpl(tpl).render(ret.retValue, function(render) {
