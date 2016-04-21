@@ -172,6 +172,9 @@
 			$("#openPoints").on("tap", function() {
 				H.$openWin('me_exchange_header', '../me/voucher_exchange/me_exchange_header.html');
 			});
+			$("#reload_page").on("tap", function(){
+				location.reloading();
+			});
 		});
 		H.ready(function() {
 			api.getPrefs({
