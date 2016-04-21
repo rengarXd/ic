@@ -47,7 +47,7 @@
 					if (ret && ret.retCode == 1) {
 						$("#me_credit").text('￥' + ret.retValue[0].balance);
 						api.sendEvent({
-							name : 'pagereload',
+							name : 'creditreload',
 						});
 						api.setPrefs({
 							key : 'userinfo',
