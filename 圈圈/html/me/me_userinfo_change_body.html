@@ -136,7 +136,14 @@
 					modal : false
 				});
 				api.ajax({
-					url : window.serverUrl + '/userinfo_edit/token/' + retobj.token + '/user_id/' + retobj.id + '/type/2/truename/' + encodeURI(firstnm)
+					url : window.serverUrl + '/userinfo_edit/token/' + retobj.token + '/user_id/' + retobj.id,
+					cache : false,
+					data : {
+						values : {
+							type : 2,
+							truename : firstnm
+						}
+					}
 				}, function(ret, err) {
 					if (ret && ret.retCode == 1) {
 						H.$setPrefs(function(ret, err) {
@@ -209,18 +216,20 @@
 					temp = types.truename;
 					break;
 				case 3:
+					// 3.3 显示性别选项
 					$("#sexname").show();
-						switch(types.sex) {
-							case 0:
+					switch(parseInt(types.sex)) {
+						case 0:
+						
 							$("#sexname input[name='sex']").get(2).checked = true;
 							break;
-							case 1:
+						case 1:
 							$("#sexname input[name='sex']").get(0).checked = true;
 							break;
-							case 2:
+						case 2:
 							$("#sexname input[name='sex']").get(1).checked = true;
 							break;
-						}
+					}
 					temp = types.sex;
 					break;
 			}
