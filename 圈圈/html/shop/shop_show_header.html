@@ -147,10 +147,10 @@
 					//3.1、判断是否是有型号之类的
 					if (haveSpec_array) {
 //						alert(JSON.stringify(haveSpec_array));
-						H.$openFrame('shop_choice_body', 'shop_choice_body.html',haveSpec_array,{x:0,y:0,goodId:haveSpec_array.id})
+						H.$openFrame('shop_choice_body', 'shop_choice_body.html',haveSpec_array,{x:0,y:0,goodId:haveSpec_array.id,store_nums:haveSpec_array.store_nums})
 					}else {
 //						alert(JSON.stringify(noneSpec_array));
-						H.$openWin("shop_order_header","shop_order_header.html",{goodId:noneSpec_array.id});
+						H.$openFrame('shop_choice_num_body','shop_choice_num_body.html',noneSpec_array,{x:0,y:0,goodId:noneSpec_array.id,store_nums:noneSpec_array.store_nums});
 					}
 				});
 			});
