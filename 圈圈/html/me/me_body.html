@@ -111,7 +111,7 @@
 							<p>
 								萌宠账号：<span id="tel"></span>
 							</p></span>
-						</div>
+					</div>
 				</li>
 			</ul>
 		</div>
@@ -234,7 +234,16 @@
 					}
 					//					});
 				});
-				//添加页刷新的监听
+				//余额刷新监听
+				api.addEventListener({
+					name : 'creditreload'
+				}, function(ret, err) {
+					if (ret) {
+						location.reload();
+					} else {
+					}
+				});
+				//添加积分刷新的监听
 				api.addEventListener({
 					name : 'pointreload'
 				}, function(ret, err) {
