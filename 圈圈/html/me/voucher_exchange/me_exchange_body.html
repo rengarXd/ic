@@ -127,7 +127,8 @@
 			// 重置加载判断
 			loadLock = true;
 			api.ajax({
-				url : window.serverUrl + '/my_redpacket/token/' + retobj.token + '/user_id/' + retobj.id  +'/page/' + page + '/pagesize/10',
+				url : window.serverUrl + '/my_redpacket/token/' + retobj.token + '/user_id/' + retobj.id + '/page/' + page + '/pagesize/10',
+				cache : false
 			}, function(ret, err) {
 				if (ret) {
 					switch (ret.retCode) {
@@ -138,7 +139,7 @@
 						case 1:
 							var tpl = document.getElementById('Voucher_data').innerHTML;
 							laytpl(tpl).render(ret, function(render) {
-								document.getElementById('Voucher_body').innerHTML = render;
+								H.$api.append(H.$api.byId("Voucher_body"), render);
 							});
 							if (page == ret.retValue.page) {
 								loadLock = true;
