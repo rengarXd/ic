@@ -69,7 +69,7 @@
 		<div id="VoucherShow">
 			<!--我的代金券-->
 			<div class="aui-content" style="padding-top:10px">
-				<h3 class="ic_me_djq">已使用的代金券</h3>
+				<h3 class="ic_me_djq">不可使用的代金券</h3>
 				<div id="Voucher_body"></div>
 			</div>
 			<!--我的代金券-->
@@ -86,12 +86,27 @@
 		<script type="text/html" id="Voucher_data">
 			{{# for(var i = 0, len = d.retValue.length; i < len; i++) { }}
 			<!--我的代金卷-->
-			{{# if (d.retValue[i].is_userd == 0) { }}
-			<div style="text-align: center; background-color: #f4f4f4 !important;" id="ic_loading"><img src="../../../image/loading.png" width="70" height="70" />
+			{{# if (d.retValue[i].is_userd == 0 && d.retValue[i].is_close==2) { }}
+		<!--	<div style="text-align: center; background-color: #f4f4f4 !important;" id="ic_loading"><img src="../../../image/loading.png" width="70" height="70" />
 			<br />
 			<span >您暂无已使用的代金卷</span>
+			</div>-->
+			
+			<div class="ic_quan ic_quans">
+			<div class="ic_quan_box ic_quan_boxs_after">
+			<div class="aui-col-xs-8">
+			<h1>编号:{{d.retValue[i].card_name }}</h1>
+			<sub class="sign">￥</sub><span style="font-size: 35px;">{{d.retValue[i].value }}</span>
+			</div>
+			<div class="aui-col-xs-4 ic_quan_time">
+			<h6 style="color:#fff">有效时间</h6>
+			<span>{{d.retValue[i].end_time }}</span>
+			<h4 style="font-size:16px">被锁定</h4>
+			</div>
+			</div>
 			</div>
 			{{# }else{ }}
+	
 			<div class="ic_quan ic_quans">
 			<div class="ic_quan_box ic_quan_boxs_after">
 			<div class="aui-col-xs-8">
@@ -125,6 +140,7 @@
 			loadLock = true;
 			api.ajax({
 				url : window.serverUrl + '/my_redpacket/token/' + retobj.token + '/user_id/' + retobj.id + '/page/' + page + '/pagesize/10',
+				cache:false,
 				
 			}, function(ret, err) {
 				if (ret) {
@@ -150,16 +166,16 @@
 					}
 				} else {
 					api.toast({
-						msg : '请求超时'
+						msg : err.msg
 					});
-					$("#VoucherShow").hide();
-					if (ret && ret.retCode == 0) {
-						$("#ic_nonetwork").show();
-						$("#ic_nonetwork span").text(ret.retDesc);
-					} else {
-						$("#ic_nonetwork").show();
-						$("#ic_nonetwork span").text(err.msg);
-					}
+//					$("#VoucherShow").hide();
+//					if (ret && ret.retCode == 0) {
+//						$("#ic_nonetwork").show();
+//						$("#ic_nonetwork span").text(ret.retDesc);
+//					} else {
+//						$("#ic_nonetwork").show();
+//						$("#ic_nonetwork span").text(err.msg);
+//					}
 				}
 			});
 		}
