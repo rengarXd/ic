@@ -8,10 +8,10 @@
 		<title>I宠应用首页分发index</title>
 		<!--引入aui框架win-->
 		<link rel="stylesheet" href="css/aui-win.css" />
-	</head>
-	<body>
 		<!--引入AHelper.js框架-->
 		<script src="script/AHelper.js" type="text/javascript"></script>
+	</head>
+	<body>
 		<script>
 			//1、设备准备完毕后
 			H.ready(function() {
@@ -30,7 +30,7 @@
 					} else {
 						//如果没有了（launch）偏好设置
 						//H.$toast("报告，没有设置launch偏好");
-						H.$openWin('launch', './html/launch.html', {});
+						H.$openWin('launch', './html/launch.html');
 					}
 				}, 'launch');
 			});
