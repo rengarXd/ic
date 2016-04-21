@@ -102,7 +102,8 @@
 			<div class="aui-col-xs-8">
 				<div class="aui-col-xs-5 ms_info">
 					<p class="ms_font">
-						共<span style="color: #fd0202;" id="goodsNum">*</span>件商品
+						<!--共<span style="color: #fd0202;" id="goodsNum">*</span>件商品-->
+						<span style="color: #fd0202;" id="freight"></span>
 					</p>
 				</div>
 				<div class="aui-col-xs-7 ms_info">
@@ -173,11 +174,12 @@
 			<img src="http://122.114.90.191/{{ d.retValue.goodsList[0].img }}" style="height: 50px !important;"/>
 			</div>
 			<div class="aui-col-xs-9">
-			<span class="ic_shop_title">{{ d.retValue.goodsList[0].name }}</span>
+			<span class="ic_shop_title">{{ d.retValue.goodsList[0].name }}</span><br />
 			</div>
 			<div style="display: inline-block;width: 100%;">
 			<div class="aui-col-xs-12">
-			<span style="font-size: 12px;">
+			<span style="font-size: 12px;" class="aui-pull-right">
+			库存：{{ d.retValue.goodsList[0].store_nums }}
 			{{# if (contents.content) { }}
 			商品型号：{{ JSON.stringify(contents.content) }}
 			{{# } }}
@@ -204,7 +206,8 @@
 			<div class="aui-col-xs-6">
 			<div class="aui-counter aui-danger aui-pull-right">
 			<div class="aui-counter-minus aui-disabled" onclick="minus();"></div>
-			<input class="aui-counter-input" type="number" id="member" name="memVal" value="1" onfocus="this.blur();">
+			<input class="aui-counter-input" type="number" id="member" name="memVal" value="1" onchange="changeNum(this.value);" >
+			<!--onfocus="this.blur();"-->
 			<div class="aui-counter-plus" onclick="plus();"></div>
 			</div>
 			</div>
@@ -393,6 +396,7 @@
 			}
 			$("#countNum").html(++member);
 			$("#goodsNum").html(member);
+			fare();
 			totalPlus = parseInt(member) * parseInt(result.goodsList[0].sell_price);
 			$("#totalPrice").html(totalPlus);
 		}
@@ -414,6 +418,7 @@
 			}
 			$("#countNum").html($("#member").val());
 			$("#goodsNum").html($("#member").val());
+			fare();
 			var minuend = result.goodsList[0].sell_price;
 			if (members > 1) {
 				var totalMinus = parseInt($("#totalPrice").html()) - parseInt(minuend);
@@ -422,6 +427,37 @@
 				api.toast({
 					msg : '商品数量最少为1件'
 				});
+			}
+		}
+
+		//手动改变数量
+		function changeNum(nums) {
+			var buyNums = parseInt($.trim($('#member').val()));
+			if (isNaN(buyNums) || buyNums == 0) {
+				api.toast({
+					msg : '请填写正确的商品数量'
+				});
+				$("#member").val(1);
+				$("#countNum").html(1);
+				fare();
+				$("#totalPrice").html(result.goodsList[0].sell_price);
+				return;
+			}
+			if (buyNums > result.goodsList[0].store_nums) {
+				api.toast({
+					msg : '商品数量不能大于库存'
+				});
+				$("#member").val(result.goodsList[0].store_nums);
+				$("#countNum").html(result.goodsList[0].store_nums);
+				fare();
+				$("#totalPrice").html(parseInt(result.goodsList[0].store_nums) * parseInt(result.goodsList[0].sell_price));
+				return;
+			} else {
+				$("#totalPrice").html(parseInt(nums) * parseInt(result.goodsList[0].sell_price));
+				$("#goodsNum").html(nums);
+				$("#countNum").html(nums);
+				fare();
+				return;
 			}
 		}
 
@@ -435,116 +471,122 @@
 				switch(ret.buttonIndex) {
 					case 1:
 						$("#delivery").attr("deliveryVal", 1);
-						if (contents.productId) {
-							api.ajax({
-								url : window.serverUrl + '/order_delivery/token/' + retabc.token + '/user_id/' + retabc.id,
-								data : {
-									values : {
-										//									"goodId[]" : contents.goodId,
-										"productId[]" : contents.productId,
-										"province" : result.address[0].province,
-										"distribution" : $("#delivery").attr("deliveryVal"),
-										"num" : $("#member").val()
-									}
-								}
-							}, function(ret, err) {
-								if (ret) {
-									//                      		alert(JSON.stringify(ret));
-									$("#delivery").html(ret.retValue.name);
-									if (ret.retValue.if_delivery == 0) {
-										$("#yunfei").html("运费：" + ret.retValue.price + "元");
-										//									$("#totalPrice").text(parseInt($("#totalPrice").text()) + parseInt(ret.retValue.price));
-									} else {
-										alert("您所在的地区暂不支持配送，请联系客服人员");
-									}
-								} else {
-									alert(JSON.stringify(err));
-								}
-							});
-						} else {
-							api.ajax({
-								url : window.serverUrl + '/order_delivery/token/' + retabc.token + '/user_id/' + retabc.id,
-								data : {
-									values : {
-										//									"goodId[]" : contents.goodId,
-										"goodsId[]" : contents.goodId,
-										"province" : result.address[0].province,
-										"distribution" : $("#delivery").attr("deliveryVal"),
-										"num" : $("#member").val()
-									}
-								}
-							}, function(ret, err) {
-								if (ret) {
-									//                      		alert(JSON.stringify(ret));
-									$("#delivery").html(ret.retValue.name);
-									if (ret.retValue.if_delivery == 0) {
-										$("#yunfei").html("运费：" + ret.retValue.price + "元");
-										//									$("#totalPrice").text(parseInt($("#totalPrice").text()) + parseInt(ret.retValue.price));
-									} else {
-										alert("您所在的地区暂不支持配送，请联系客服人员");
-									}
-								} else {
-									alert(JSON.stringify(err));
-								}
-							});
-						};
+						fares();
 						break;
 					case 2:
 						$("#delivery").attr("deliveryVal", 2);
-						if (contents.productId) {
-							api.ajax({
-								url : window.serverUrl + '/order_delivery/token/' + retabc.token + '/user_id/' + retabc.id,
-								data : {
-									values : {
-										"productId[]" : contents.productId,
-										"province" : result.address[0].province,
-										"distribution" : $("#delivery").attr("deliveryVal"),
-										"num" : $("#member").val()
-									}
-								}
-							}, function(ret, err) {
-								if (ret) {
-									//alert(JSON.stringify(ret));
-									$("#delivery").html(ret.retValue.name);
-									if (ret.retValue.if_delivery == 0) {
-										$("#yunfei").html("运费：" + ret.retValue.price + "元");
-										//									$("#totalPrice").text(parseInt($("#totalPrice").text()) + parseInt(ret.retValue.price));
-									} else {
-										alert("您所在的地区暂不支持配送，请联系客服人员");
-									}
-								} else {
-									alert(JSON.stringify(err));
-								}
-							});
-						} else {
-							api.ajax({
-								url : window.serverUrl + '/order_delivery/token/' + retabc.token + '/user_id/' + retabc.id,
-								data : {
-									values : {
-										"goodsId[]" : contents.goodId,
-										"province" : result.address[0].province,
-										"distribution" : $("#delivery").attr("deliveryVal"),
-										"num" : $("#member").val()
-									}
-								}
-							}, function(ret, err) {
-								if (ret) {
-									//alert(JSON.stringify(ret));
-									$("#delivery").html(ret.retValue.name);
-									if (ret.retValue.if_delivery == 0) {
-										$("#yunfei").html("运费：" + ret.retValue.price + "元");
-										//									$("#totalPrice").text(parseInt($("#totalPrice").text()) + parseInt(ret.retValue.price));
-									} else {
-										alert("您所在的地区暂不支持配送，请联系客服人员");
-									}
-								} else {
-									alert(JSON.stringify(err));
-								}
-							});
-						}
+						fares();
 						break;
 				};
 			});
+		}
+
+		function fares() {
+			if (contents.productId) {
+				api.ajax({
+					url : window.serverUrl + '/order_delivery/token/' + retabc.token + '/user_id/' + retabc.id,
+					data : {
+						values : {
+							"productId[]" : contents.productId,
+							"province" : result.address[0].province,
+							"distribution" : $("#delivery").attr("deliveryVal"),
+							"num" : $("#member").val()
+						}
+					}
+				}, function(ret, err) {
+					if (ret) {
+						//alert(JSON.stringify(ret));
+						$("#delivery").html(ret.retValue.name);
+						if (ret.retValue.if_delivery == 0) {
+							$("#freight").html("运费：" + ret.retValue.price + "元");
+							$("#totalPrice").text(parseInt($("#totalPrice").text()) + parseInt(ret.retValue.price));
+						} else {
+							alert("您所在的地区暂不支持配送，请联系客服人员");
+						}
+					} else {
+						alert(JSON.stringify(err));
+					}
+				});
+			} else {
+				api.ajax({
+					url : window.serverUrl + '/order_delivery/token/' + retabc.token + '/user_id/' + retabc.id,
+					data : {
+						values : {
+							"goodsId[]" : contents.goodId,
+							"province" : result.address[0].province,
+							"distribution" : $("#delivery").attr("deliveryVal"),
+							"num" : $("#member").val()
+						}
+					}
+				}, function(ret, err) {
+					if (ret) {
+						//alert(JSON.stringify(ret));
+						$("#delivery").html(ret.retValue.name);
+						if (ret.retValue.if_delivery == 0) {
+							$("#freight").html("运费：" + ret.retValue.price + "元");
+							$("#totalPrice").text(parseInt($("#totalPrice").text()) + parseInt(ret.retValue.price));
+						} else {
+							alert("您所在的地区暂不支持配送，请联系客服人员");
+						}
+					} else {
+						alert(JSON.stringify(err));
+					}
+				});
+			}
+		}
+
+		function fare() {
+			if (contents.productId) {
+				api.ajax({
+					url : window.serverUrl + '/order_delivery/token/' + retabc.token + '/user_id/' + retabc.id,
+					data : {
+						values : {
+							"productId[]" : contents.productId,
+							"province" : result.address[0].province,
+							"distribution" : $("#delivery").attr("deliveryVal"),
+							"num" : $("#member").val()
+						}
+					}
+				}, function(ret, err) {
+					if (ret) {
+						//alert(JSON.stringify(ret));
+						$("#delivery").html(ret.retValue.name);
+						if (ret.retValue.if_delivery == 0) {
+							$("#freight").html("运费：" + ret.retValue.price + "元");
+							//									$("#totalPrice").text(parseInt($("#totalPrice").text()) + parseInt(ret.retValue.price));
+						} else {
+							alert("您所在的地区暂不支持配送，请联系客服人员");
+						}
+					} else {
+						alert(JSON.stringify(err));
+					}
+				});
+			} else {
+				api.ajax({
+					url : window.serverUrl + '/order_delivery/token/' + retabc.token + '/user_id/' + retabc.id,
+					data : {
+						values : {
+							"goodsId[]" : contents.goodId,
+							"province" : result.address[0].province,
+							//							"distribution" : $("#delivery").attr("deliveryVal"),
+							"num" : $("#member").val()
+						}
+					}
+				}, function(ret, err) {
+					if (ret) {
+						//alert(JSON.stringify(ret));
+						$("#delivery").html(ret.retValue.name);
+						if (ret.retValue.if_delivery == 0) {
+							$("#freight").html("运费：" + ret.retValue.price + "元");
+							//									$("#totalPrice").text(parseInt($("#totalPrice").text()) + parseInt(ret.retValue.price));
+						} else {
+							alert("您所在的地区暂不支持配送，请联系客服人员");
+						}
+					} else {
+						alert(JSON.stringify(err));
+					}
+				});
+			}
 		}
 
 		//选择支付方式
@@ -726,7 +768,6 @@
 
 		H.ready(function() {
 			contents = H.$getPageParam();
-
 			api.getPrefs({
 				key : 'userinfo'
 			}, function(ret, err) {
