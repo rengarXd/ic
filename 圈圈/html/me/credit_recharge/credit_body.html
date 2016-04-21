@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>余额充值body</title>
+		<link rel="stylesheet" type="text/css" href="../../../css/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../../../css/fonts/iconfont.css" />
+		<style>
+			.aui-input-addon {
+				padding-left: 10px !important
+			}
+			.ic_zfb_icon {
+				float: left;
+				height: 18px;
+				padding: 4px;
+				color: #1B6BDA;
+				font-size: 27px;
+				margin-right: 10px;
+			}
+			.ic_zf_span {
+				font-size: 12px;
+				color: #A9A9A9;
+			}
+			.aui-btn-block {
+				display: block;
+				width: 100%;
+				padding: 8px 0;
+				margin-bottom: 0;
+				font-size: 15px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="aui-content" style="padding-top:10px ">
+			<div class="aui-form">
+				<div class="aui-input-row">
+					<div class="aui-input-addon">
+						充值金额(元)：
+					</div>
+					<input type="number" class="aui-input" placeholder="请输入充值金额" id="pay_num"/>
+				</div>
+			</div>
+		</div>
+		<div class="aui-content" style="margin-top: 10px;">
+			<div class="aui-form">
+				<div class="aui-input-row">
+					<label class="aui-input-addon aui-text-left"><span class="iconfont icon-zhifubao ic_zfb_icon"></span><h4>支付宝支付</h4><span class="ic_zf_span">推荐安装支付宝客户端的使用</span></label>
+					<input class="aui-pull-right aui-checkbox aui-checkbox-info" type="checkbox" checked="">
+				</div>
+			</div>
+		</div>
+		<div class="aui-content aui-padded-10">
+			<div class="aui-btn aui-btn-danger aui-btn-block" tapmode id="submit_pay">
+				确认支付
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../../../script/AHelper.js"></script>
+	<script type="text/javascript" src="../../../script/zepto.min.js"></script>
+	<script type="text/javascript">
+		Zepto(function($) {
+			$("#submit_pay").on('tap', function() {
+				var pay_num = $("#pay_num").val();
+				if (isPositiveNum(pay_num)){
+					alert(pay_num);
+				}else{
+					api.toast({
+	                    msg:'抱歉您输入的金额有误！'
+                    });
+                    $("#pay_num").focus();
+				}
+			})
+		});
+		H.ready(function() {
+			api.parseTapmode();
+		});
+		function isPositiveNum(s) {//是否为正整数
+			var re = /^[0-9]*[1-9][0-9]*$/;
+			return re.test(s)
+		}
+	</script>
+</html>

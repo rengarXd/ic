@@ -23,7 +23,7 @@
 		<div class="aui-content" >
 			<ul class="aui-list-view">
 				<li class="aui-list-view-cell aui-text-center" style="color: #F00;
-				font-size: 17px;" tapmode>
+				font-size: 17px;" id="credit" tapmode>
 					充值
 				</li>
 			</ul>
@@ -33,6 +33,10 @@
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript">
 		Zepto(function($) {
+			// 1.1 跳转到余额充值
+			$("#credit").on('tap',function(){
+				H.$openWin('credit_header','credit_recharge/credit_header.html');
+			});
 		});
 		H.ready(function() {
 			api.parseTapmode();
