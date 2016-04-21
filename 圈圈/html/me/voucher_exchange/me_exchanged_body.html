@@ -92,11 +92,6 @@
 			{{# for(var i = 0, len = d.retValue.props.length; i < len; i++) { }}
 			<!--我的代金卷-->
 			{{# if (d.retValue.props[i].is_userd == 0 && d.retValue.props[i].is_close==2) { }}
-		<!--	<div style="text-align: center; background-color: #f4f4f4 !important;" id="ic_loading"><img src="../../../image/loading.png" width="70" height="70" />
-			<br />
-			<span >您暂无已使用的代金卷</span>
-			</div>-->
-			
 			<div class="ic_quan ic_quans">
 			<div class="ic_quan_box ic_quan_boxs_after">
 			<div class="aui-col-xs-8">
@@ -110,8 +105,7 @@
 			</div>
 			</div>
 			</div>
-			{{# }else{ }}
-	
+			{{# }else if (d.retValue.props[i].is_userd == 1){ }}	
 			<div class="ic_quan ic_quans">
 			<div class="ic_quan_box ic_quan_boxs_after">
 			<div class="aui-col-xs-8">
