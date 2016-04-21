@@ -94,7 +94,7 @@
 		<script type="text/html" id="Voucher_data">
 			{{# for(var i = 0, len = d.retValue.length; i < len; i++) { }}
 			<!--我的代金卷-->
-			{{# if(d.retValue[i].is_userd == 0 ){ }}
+			{{# if(d.retValue[i].is_userd == 0 &&d.retValue[i].is_close == 0){ }}
 			<div class="ic_quan ic_quans">
 			<div class="ic_quan_box ic_quan_boxs">
 			<div class="aui-col-xs-8">
@@ -104,18 +104,14 @@
 			<div class="aui-col-xs-4 ic_quan_time">
 			<h6 style="color:#fff">有效时间</h6>
 			<span>{{d.retValue[i].end_time }}</span>
-			{{# if(d.retValue[i].is_close == 0){ }}
 			<h4 style="font-size:16px">可使用</h4>
-			{{# }else{ }}
-			<h4 style="font-size:16px">已超过有效期</h4>
-			{{# } }}
 			</div>
 			</div>
 			</div>
 			{{# }else{ }}
 			<div style="text-align: center; background-color: #f4f4f4 !important;" id="ic_loading"><img src="../../../image/loading.png" width="70" height="70" />
 			<br />
-			<span>您暂无未使用的代金卷</span>
+			<span>您暂无可使用的代金卷</span>
 			</div>
 			{{# } }}
 			{{# } }}
