@@ -30,6 +30,14 @@
 				margin-bottom: 0;
 				font-size: 15px;
 			}
+			.ic_wxzf_icon {
+				float: left;
+				height: 18px;
+				padding: 0 4px;
+				color: #0D9E0E;
+				font-size: 28px;
+				margin-right: 10px;
+			}
 		</style>
 	</head>
 	<body>
@@ -47,7 +55,11 @@
 			<div class="aui-form">
 				<div class="aui-input-row">
 					<label class="aui-input-addon aui-text-left"><span class="iconfont icon-zhifubao ic_zfb_icon"></span><h4>支付宝支付</h4><span class="ic_zf_span">推荐安装支付宝客户端的使用</span></label>
-					<input class="aui-pull-right aui-checkbox aui-checkbox-info" type="checkbox" checked="">
+					<input class="aui-pull-right aui-checkbox aui-checkbox-info" type="radio" name="pay" checked="">
+				</div>
+				<div class="aui-input-row">
+					<label class="aui-input-addon aui-text-left"><span class="iconfont icon-weixinzhifu ic_wxzf_icon"></span><h4>微信支付</h4><span class="ic_zf_span">推荐安装微信客户端的使用</span></label>
+					<input class="aui-pull-right aui-checkbox aui-checkbox-info" type="radio" name="pay">
 				</div>
 			</div>
 		</div>
