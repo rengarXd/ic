@@ -619,6 +619,7 @@
 			$("#activeMessage").text(result.prop[i].name);
 			ticket_ids = result.prop[i].id;
 			$(".active_list").hide();
+			$("#totalPrice").text(parseInt($("#totalPrice").text()) - parseInt(result.prop[i].value));
 		}
 
 		//移除活动信息
