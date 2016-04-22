@@ -129,7 +129,7 @@
 	<script type="text/javascript" src="../../script/laytpl.js"></script>
 	<script type="text/javascript">
 		//整合产品型号数据
-		var templis = [], goodId = null, retobj = null, productId = null,store_nums = null;
+		var templis = [], goodId = null, retobj = null, productId = null, store_nums = null;
 		var retstatus = true;
 		H.ready(function() {
 			api.getPrefs({
@@ -176,7 +176,6 @@
 			$("#specList4 span").click(function() {
 				$("#specList4 span").eq($(this).index()).addClass("active").siblings().removeClass('active');
 			});
-			
 			//监听返回按键关闭Frame
 			api.addEventListener({
 				name : 'keyback'
@@ -198,14 +197,16 @@
 
 		//选择相应的规格
 		function openActive(p, j) {
-			templis[p].value = j;
+						templis[p].value = j;
 			//6.1、获取所选型号
+//			var specList = "specList" + (p + 1);
+//			alert(specList);
+//			$("#specList span").eq($(this).index()).addClass("active").siblings().removeClass('active');
 			var temp = $(".ic_type").find(".active");
-//			var orderAry = new Array();
-//			for (var i = 0; i < temp.length; i++) {
-//				orderAry[i] = temp[i].innerText;
-//			}
-			if (temp.length == templis.length) {
+			if (templis.length <= temp.length + 1) {
+				api.showProgress({
+					title : '型号上传中'
+				});
 				api.ajax({
 					url : window.serverUrl + '/getProduct/token/' + retobj.token + '/user_id/' + retobj.id + '/goods_id/' + goodId,
 					data : {
@@ -216,14 +217,19 @@
 				}, function(ret, err) {
 					if (ret) {
 						productId = ret.retValue.id;
+						api.hideProgress();
 					} else {
-						alert(JSON.stringify(err));
+						api.hideProgress();
+						api.toast({
+							msg : err.msg
+						});
 					}
 				});
 			} else {
 				templis[p].value = j;
 			}
 		}
+
 		//手动改变数量
 		function changeNum() {
 			var buyNums = parseInt($.trim($('#member').val()));
@@ -232,13 +238,14 @@
 					msg : '请填写正确的商品数量'
 				});
 				$("#member").val(1);
-			}else if (buyNums > store_nums) {
+			} else if (buyNums > store_nums) {
 				api.toast({
 					msg : '商品数量不能大于库存'
 				});
 				$("#member").val(store_nums);
 			}
 		}
+
 		//6、打开订单详情页
 		function openOrder() {
 			//			//6.1获取所选型号名
