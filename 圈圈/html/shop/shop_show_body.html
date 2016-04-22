@@ -222,6 +222,12 @@
 									goods : ret.retValue,
 								});
 							}
+							if(ret.retValue.is_favorite == 1){
+								api.execScript({
+									name:'shop_show_header',
+	                                script: 'collect();'
+                                });
+							}
 							var tpl = document.getElementById('index_addata').innerHTML;
 							laytpl(tpl).render(ret.retValue.photo, function(render) {
 								document.getElementById('index_addata_body').innerHTML = render;
