@@ -171,20 +171,20 @@
 			</li>
 			<li class="aui-list-view-cell" style="background: #f4f4f4">
 			<div class="aui-col-xs-3">
-			<img src="http://122.114.90.191/{{ d.retValue.goodsList[0].img }}" style="height: 50px !important;"/>
+			<img src="http://122.114.90.191/{{ d.retValue.goodsList[0].img }}" style="height: 40px !important;"/>
 			</div>
 			<div class="aui-col-xs-9">
 			<span class="ic_shop_title">{{ d.retValue.goodsList[0].name }}</span><br />
+			<span class="aui-pull-right" style="font-size: 12px;">库存：{{ d.retValue.goodsList[0].store_nums }}</span>
 			</div>
 			<div style="display: inline-block;width: 100%;">
 			<div class="aui-col-xs-12">
+			{{# if (d.retValue.goodsList[0].specStr) { }}
 			<span style="font-size: 12px;" class="aui-pull-right">
-			库存：{{ d.retValue.goodsList[0].store_nums }}
-			{{# if (contents.content) { }}
-			商品型号：{{ JSON.stringify(contents.content) }}
-			{{# } }}
+			商品型号：{{ d.retValue.goodsList[0].specStr }}
 			</span>
 			<br />
+			{{# } }}
 			<span style="color:#fd0202">￥{{ d.retValue.goodsList[0].sell_price }}
 			<span class="aui-pull-right">x
 			<span id="countNum">
@@ -380,86 +380,86 @@
 		}
 
 		/*
-		 处理商品数量加
-		 * */
-		function plus() {
-			//4、处理数量加
-			//4.1 获取最新数量
-			var member = $("#member").val();
-			//4.2 转整型
-			var m = parseInt(member);
-			//4.2 数量+1
-			$("#member").val(m + 1);
-			//4.3 判断数量
-			if (m >= 1) {
-				$(".aui-counter-minus").removeClass('aui-disabled');
-			}
-			$("#countNum").html(++member);
-			$("#goodsNum").html(member);
-			fare();
-			totalPlus = parseInt(member) * parseInt(result.goodsList[0].sell_price);
-			$("#totalPrice").html(totalPlus);
-		}
-
-		/*处理数量减*/
-		function minus() {
-			//5.1 获取最新的数量
-			var members = $("#member").val();
-			//5.2 字符串转换为整型
-			var ms = parseInt(members);
-			if (ms < 2) {
-				$(".aui-counter-minus").addClass('aui-disabled');
-			} else {
-				$("#member").val(ms - 1);
-			}
-			//4.3 判断数量
-			if (ms < 1) {
-				$(".aui-counter-minus").remove('minus();');
-			}
-			$("#countNum").html($("#member").val());
-			$("#goodsNum").html($("#member").val());
-			fare();
-			var minuend = result.goodsList[0].sell_price;
-			if (members > 1) {
-				var totalMinus = parseInt($("#totalPrice").html()) - parseInt(minuend);
-				$("#totalPrice").html(totalMinus);
-			} else {
-				api.toast({
-					msg : '商品数量最少为1件'
-				});
-			}
-		}
-
-		//手动改变数量
-		function changeNum(nums) {
-			var buyNums = parseInt($.trim($('#member').val()));
-			if (isNaN(buyNums) || buyNums == 0) {
-				api.toast({
-					msg : '请填写正确的商品数量'
-				});
-				$("#member").val(1);
-				$("#countNum").html(1);
-				fare();
-				$("#totalPrice").html(result.goodsList[0].sell_price);
-				return;
-			}
-			if (buyNums > result.goodsList[0].store_nums) {
-				api.toast({
-					msg : '商品数量不能大于库存'
-				});
-				$("#member").val(result.goodsList[0].store_nums);
-				$("#countNum").html(result.goodsList[0].store_nums);
-				fare();
-				$("#totalPrice").html(parseInt(result.goodsList[0].store_nums) * parseInt(result.goodsList[0].sell_price));
-				return;
-			} else {
-				$("#totalPrice").html(parseInt(nums) * parseInt(result.goodsList[0].sell_price));
-				$("#goodsNum").html(nums);
-				$("#countNum").html(nums);
-				fare();
-				return;
-			}
-		}
+		处理商品数量加
+		* */
+		//		function plus() {
+		//			//4、处理数量加
+		//			//4.1 获取最新数量
+		//			var member = $("#member").val();
+		//			//4.2 转整型
+		//			var m = parseInt(member);
+		//			//4.2 数量+1
+		//			$("#member").val(m + 1);
+		//			//4.3 判断数量
+		//			if (m >= 1) {
+		//				$(".aui-counter-minus").removeClass('aui-disabled');
+		//			}
+		//			$("#countNum").html(++member);
+		//			$("#goodsNum").html(member);
+		//			fare();
+		//			totalPlus = parseInt(member) * parseInt(result.goodsList[0].sell_price);
+		//			$("#totalPrice").html(totalPlus);
+		//		}
+		//
+		//		/*处理数量减*/
+		//		function minus() {
+		//			//5.1 获取最新的数量
+		//			var members = $("#member").val();
+		//			//5.2 字符串转换为整型
+		//			var ms = parseInt(members);
+		//			if (ms < 2) {
+		//				$(".aui-counter-minus").addClass('aui-disabled');
+		//			} else {
+		//				$("#member").val(ms - 1);
+		//			}
+		//			//4.3 判断数量
+		//			if (ms < 1) {
+		//				$(".aui-counter-minus").remove('minus();');
+		//			}
+		//			$("#countNum").html($("#member").val());
+		//			$("#goodsNum").html($("#member").val());
+		//			fare();
+		//			var minuend = result.goodsList[0].sell_price;
+		//			if (members > 1) {
+		//				var totalMinus = parseInt($("#totalPrice").html()) - parseInt(minuend);
+		//				$("#totalPrice").html(totalMinus);
+		//			} else {
+		//				api.toast({
+		//					msg : '商品数量最少为1件'
+		//				});
+		//			}
+		//		}
+		//
+		//		//手动改变数量
+		//		function changeNum(nums) {
+		//			var buyNums = parseInt($.trim($('#member').val()));
+		//			if (isNaN(buyNums) || buyNums == 0) {
+		//				api.toast({
+		//					msg : '请填写正确的商品数量'
+		//				});
+		//				$("#member").val(1);
+		//				$("#countNum").html(1);
+		//				fare();
+		//				$("#totalPrice").html(result.goodsList[0].sell_price);
+		//				return;
+		//			}
+		//			if (buyNums > result.goodsList[0].store_nums) {
+		//				api.toast({
+		//					msg : '商品数量不能大于库存'
+		//				});
+		//				$("#member").val(result.goodsList[0].store_nums);
+		//				$("#countNum").html(result.goodsList[0].store_nums);
+		//				fare();
+		//				$("#totalPrice").html(parseInt(result.goodsList[0].store_nums) * parseInt(result.goodsList[0].sell_price));
+		//				return;
+		//			} else {
+		//				$("#totalPrice").html(parseInt(nums) * parseInt(result.goodsList[0].sell_price));
+		//				$("#goodsNum").html(nums);
+		//				$("#countNum").html(nums);
+		//				fare();
+		//				return;
+		//			}
+		//		}
 		function fares() {
 			if (contents.productId) {
 				api.ajax({
@@ -513,6 +513,7 @@
 				});
 			}
 		}
+
 		//选择配送方式
 		function Distribution() {
 			api.actionSheet({
@@ -532,8 +533,6 @@
 				};
 			});
 		}
-
-		
 
 		function fare() {
 			if (contents.productId) {
