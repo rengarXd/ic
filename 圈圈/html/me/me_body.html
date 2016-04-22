@@ -165,7 +165,7 @@
 						<i class="aui-iconfont iconfont icon-zhenliaoguahao aui-bg-warning" ></i> 诊疗记录
 					</div>
 				</li>
-				<li class="aui-list-view-cell" data-funcName="health_header" tapmode>
+				<li class="aui-list-view-cell" onclick="health();">
 					<div class="aui-arrow-right">
 						<i class="aui-iconfont iconfont icon-dangan aui-bg-primary"></i> 健康档案
 					</div>
@@ -189,10 +189,19 @@
 		<script type="text/javascript" src="../../script/AHelper.js"></script>
 		<script type="text/javascript" src="../../script/zepto.min.js"></script>
 		<script type="text/javascript">
+			var userinfoobj = null;
 			function reload() {
 				location.reload();
 			}
-
+			function health() {
+				if( userinfoobj.ishavedevice == 1 ){
+					H.$openWin("health_header","health_header.html");
+				}else{
+					api.toast({
+	                    msg:'请先绑定设备'
+                    });
+				}
+			}
 			Zepto(function($) {
 				//头像如果没有则设置默认无头像
 				$(".avatar_pic").error(function() {
@@ -216,6 +225,8 @@
 				api.getPrefs({
 					key : 'userinfo'
 				}, function(ret, err) {
+					userinfoobj = eval('(' + ret.value + ')');
+//					alert(JSON.stringify(userinfoobj));
 					//					api.ajax({
 					//						url : window.serverUrl + '/userinfo_list/token/' + userinfoobj.token + '/user_id/' + userinfoobj.id,
 					//					}, function(ret, err) {
@@ -223,7 +234,7 @@
 					//	                        msg:ret
 					//                      });
 					if (ret && ret.value) {
-						var userinfoobj = eval('(' + ret.value + ')');
+						
 						$("#username").html(userinfoobj.username);
 						$("#tel").html(userinfoobj.tel);
 						$(".avatar_pic").attr('src', window.serverUrlPath + userinfoobj.head_ico);
