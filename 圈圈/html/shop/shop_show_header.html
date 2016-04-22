@@ -8,7 +8,6 @@
 		<title>商品详情header</title>
 		<!--引入aui框架-->
 		<link rel="stylesheet" href="../../css/aui-win.css" />
-
 		<style>
 			.aui-bar-1d9dd5 {
 				background: #1786FF;
@@ -65,7 +64,6 @@
 			.buy:active {
 				background: #00A4E2
 			}
-
 		</style>
 	</head>
 	<body>
@@ -98,13 +96,12 @@
 				</div>
 			</div>
 		</footer>
-
 		<script type="text/javascript" src="../../script/api.js"></script>
 		<script type="text/javascript" src="../../script/AHelper.js"></script>
 		<script type="text/javascript" src="../../script/zepto.min.js"></script>
 		<script type="text/javascript" src="../../script/laytpl.js"></script>
 		<script type="text/javascript">
-			var haveSpec_array = null,noneSpec_array = null;
+			var haveSpec_array = null, noneSpec_array = null;
 			Zepto(function($) {
 				//1、收藏商品的处理
 				$("#collection-btn").on("tap", function() {
@@ -119,6 +116,7 @@
 								api.toast({
 									msg : ret.retDesc
 								});
+								$("#collection-btn span").css('color', '#FF8502');
 							} else if (ret && ret.retCode == 0) {
 								api.toast({
 									msg : ret.retDesc
@@ -139,18 +137,31 @@
 					//3.1、判断是否是有型号之类的
 					if (haveSpec_array) {
 						//alert(JSON.stringify(haveSpec_array));
-						H.$openFrame('shop_choice_body', 'shop_choice_body.html',haveSpec_array,{x:0,y:0})
+						H.$openFrame('shop_choice_body', 'shop_choice_body.html', haveSpec_array, {
+							x : 0,
+							y : 0
+						})
 					}
 				});
 				//4、购买处理
 				$("#buy").on("tap", function() {
 					//3.1、判断是否是有型号之类的
 					if (haveSpec_array) {
-//						alert(JSON.stringify(haveSpec_array));
-						H.$openFrame('shop_choice_body', 'shop_choice_body.html',haveSpec_array,{x:0,y:0,goodId:haveSpec_array.id,store_nums:haveSpec_array.store_nums})
-					}else {
-//						alert(JSON.stringify(noneSpec_array));
-						H.$openFrame('shop_choice_num_body','shop_choice_num_body.html',noneSpec_array,{x:0,y:0,goodId:noneSpec_array.id,store_nums:noneSpec_array.store_nums});
+						//						alert(JSON.stringify(haveSpec_array));
+						H.$openFrame('shop_choice_body', 'shop_choice_body.html', haveSpec_array, {
+							x : 0,
+							y : 0,
+							goodId : haveSpec_array.id,
+							store_nums : haveSpec_array.store_nums
+						})
+					} else {
+						//						alert(JSON.stringify(noneSpec_array));
+						H.$openFrame('shop_choice_num_body', 'shop_choice_num_body.html', noneSpec_array, {
+							x : 0,
+							y : 0,
+							goodId : noneSpec_array.id,
+							store_nums : noneSpec_array.store_nums
+						});
 					}
 				});
 			});
@@ -180,21 +191,21 @@
 					name : 'haveSpec_array'
 				}, function(ret, err) {
 					haveSpec_array = ret.value.spec_array;
-//					alert(JSON.stringify(haveSpec_array.spec_array));
+					//					alert(JSON.stringify(haveSpec_array.spec_array));
 				});
 				api.addEventListener({
-	                name:'noneSpec_array'
-                },function(ret,err){
-                	noneSpec_array = ret.value.goods;
-                });
+					name : 'noneSpec_array'
+				}, function(ret, err) {
+					noneSpec_array = ret.value.goods;
+				});
 			}
 			function closeWin() {
 				api.closeWin();
 			}
-			function close_footer(){
+
+			function close_footer() {
 				$("#aui-footer").hide();
 			}
-
 		</script>
 	</body>
 </html>
