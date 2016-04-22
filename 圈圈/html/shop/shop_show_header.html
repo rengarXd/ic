@@ -55,12 +55,12 @@
 			.blue p {
 				font-size: 12px !important
 			}
-			.blue p:active {
-				color: #1786FF !important
-			}
-			.blue span:active {
-				color: #1786FF !important
-			}
+			/*.blue p:active {
+			 color: #1786FF !important
+			 }*/
+			/*.blue span:active {
+			 color: #1786FF !important
+			 }*/
 			.buy:active {
 				background: #00A4E2
 			}
@@ -101,29 +101,48 @@
 		<script type="text/javascript" src="../../script/zepto.min.js"></script>
 		<script type="text/javascript" src="../../script/laytpl.js"></script>
 		<script type="text/javascript">
-			var haveSpec_array = null, noneSpec_array = null;
+			var haveSpec_array = null, noneSpec_array = null, temps = null;
+			function collect() {
+				$("#collection-btn span").css('color', '#FF8502');
+				$("#collection-title").attr("collect", 1);
+			}
+
 			Zepto(function($) {
 				//1、收藏商品的处理
 				$("#collection-btn").on("tap", function() {
-					api.getPrefs({
-						key : 'userinfo'
-					}, function(ret, err) {
-						var temps = eval('(' + ret.value + ')');
+					if ($("#collection-title").attr("collect")) {
+						api.ajax({
+							url : window.serverUrl + '/favorite_del/token/' + temps.token + '/user_id/' + temps.id + '/goods_id/' + api.pageParam.goodId
+						}, function(ret, err) {
+							if (ret && ret.retCode == 1) {
+								$("#collection-title").removeAttr("collect");
+								$("#collection-btn span").css('color', '#999');
+								api.toast({
+									msg : ret.retDesc
+								});
+							} else {
+								api.toast({
+									msg : ret.retDesc
+								});
+							}
+						});
+					} else {
 						api.ajax({
 							url : window.serverUrl + '/favorite_add/token/' + temps.token + '/goods_id/' + api.pageParam.goodId + '/user_id/' + temps.id
 						}, function(ret, err) {
 							if (ret && ret.retCode == 1) {
+								$("#collection-title").attr("collect", 1);
+								$("#collection-btn span").css('color', '#FF8502');
 								api.toast({
 									msg : ret.retDesc
 								});
-								$("#collection-btn span").css('color', '#FF8502');
 							} else if (ret && ret.retCode == 0) {
 								api.toast({
 									msg : ret.retDesc
 								});
 							}
 						});
-					});
+					}
 				});
 				//2、评论处理
 				$("#pj").on("tap", function() {
@@ -172,6 +191,11 @@
 				var headerPos = $api.offset(header);
 				var body_h = $api.offset($api.dom('body')).h;
 				var footer_h = $api.offset($api.byId("aui-footer")).h;
+				api.getPrefs({
+					key : 'userinfo'
+				}, function(ret, err) {
+					temps = eval('(' + ret.value + ')');
+				});
 				api.openFrame({
 					name : 'shop_show_body',
 					url : 'shop_show_body.html',
