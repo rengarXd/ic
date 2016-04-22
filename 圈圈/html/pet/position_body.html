@@ -11,7 +11,8 @@
 		<script type="text/javascript" src="../../script/AHelper.js"></script>
 		<script type="text/javascript" src="../../script/zepto.min.js"></script>
 		<script type="text/javascript">
-			Zepto(function() {
+			var retobj = null, bMap = null;
+			Zepto(function($) {
 			});
 			// 监听来自func页面的事件
 			function addEventListenerFromFunc(eventName, callback) {
@@ -29,7 +30,64 @@
 
 
 			H.ready(function() {
-				H.$showProgress();
+				// 1.0 加载地图阻塞页面
+				api.showProgress({
+					title : '定位中'
+				});
+				// 1.1 获取用户信息
+				H.$getPrefs(function(ret, err) {
+					retobj = eval('(' + ret.value + ')');
+					api.ajax({
+						url : window.deviceserverUrl + '/position/token/' + retobj.token,
+						cache : false,
+						timeout : 10
+					}, function(ret, err) {
+						api.hideProgress();
+						if (ret) {
+							switch(parseInt(ret.retCode)) {
+								case 1:
+									//添加标注
+									bMap.addAnnotations({
+										annotations : ret.retValue,
+										icon : 'widget://image/mark_red.png',
+										draggable : false
+									}, function(ret) {
+										H.$toast(ret);
+									});
+									bMap.setBubble({
+										id : 11,
+										bgImg : 'widget://image/map_bgp.png',
+										content : {
+											title : '毛毛(2016年02月28日23:43:09)',
+											subTitle : '河南省郑州市惠济区沙口路8号金沙国际号楼',
+											illus : 'widget://image/map_pet.png'
+										},
+										styles : {
+											titleColor : '#ffc000',
+											titleSize : 13,
+											subTitleColor : '#fff',
+											subTitleSize : 12,
+											illusAlign : 'left'
+										}
+									}, function(ret) {
+										if (ret) {
+											alert(JSON.stringify(ret));
+										}
+									});
+									break;
+								case 0:
+									api.toast({
+										msg : '宠物定位失败，请重试！'
+									});
+									break;
+							}
+						} else {
+							api.toast({
+								msg : '宠物定位失败，请重试！'
+							});
+						}
+					});
+				}, 'userinfo');
 				bMap = api.require('bMap');
 				//1秒延时加载
 				setTimeout(function() {
@@ -58,8 +116,8 @@
 								name : 'position_map_zoom_button',
 								url : 'position_map_zoom_button.html',
 								rect : {
-									x : api.frameWidth-40,
-									y : api.frameHeight-20,
+									x : api.frameWidth - 40,
+									y : api.frameHeight - 20,
 									w : 30,
 									h : 67
 								},
@@ -91,80 +149,6 @@
 						}
 					});
 				}, 1000);
-				H.$getPrefs(function(ret, err) {
-					var retobj = eval('(' + ret.value + ')');
-					H.$ajax(function(ret, err) {
-						H.$toast(ret);
-						H.$hideProgress();
-						//添加标注
-						bMap.addAnnotations({
-							annotations : ret.retValue,
-							icon : 'widget://image/mark_red.png',
-							draggable : false
-						}, function(ret) {
-							H.$toast(ret);
-							//							if (ret) {
-							//								var id = ret.id;
-							//								//获取当前的标注点经纬度
-							//								bMap.getAnnotationCoords({
-							//									id : id
-							//								}, function(ret) {
-							//									if (ret) {
-							//										//获取地址信息
-							//										bMap.getNameFromCoords(ret, function(ret, err) {
-							//											if (ret.status) {
-							//												bMap.setBubble({
-							//													id : id,
-							//													bgImg : 'widget://image/map_bgp.png',
-							//													content : {
-							//														title : '嘟嘟(2016年02月28日20:50:50)',
-							//														subTitle : ret.address + ret.streetName + ret.streetNumber,
-							//														illus : 'widget://image/map_pet.png'
-							//													},
-							//													styles : {
-							//														titleColor : '#ffc000',
-							//														titleSize : 15,
-							//														subTitleColor : '#fff',
-							//														subTitleSize : 13,
-							//														illusAlign : 'left'
-							//													}
-							//												}, function(ret) {
-							//													if (ret) {
-							//														H.$toast(JSON.stringify(ret));
-							//													}
-							//												});
-							//												//															H.$alert("当前地址：" + ret.address + ret.streetName + ret.streetNumber);
-							//											}
-							//										});
-							//									}
-							//								})
-							//							}
-						});
-						for (var i = 0; i <= 5; i++) {
-							bMap.setBubble({
-								id : i,
-								bgImg : 'widget://image/map_bgp.png',
-								content : {
-									title : '毛毛(2016年02月28日23:43:09)',
-									subTitle : '河南省郑州市惠济区沙口路8号金沙国际号楼',
-									illus : 'widget://image/map_pet.png'
-								},
-								styles : {
-									titleColor : '#ffc000',
-									titleSize : 13,
-									subTitleColor : '#fff',
-									subTitleSize : 12,
-									illusAlign : 'left'
-								}
-							}, function(ret) {
-								if (ret) {
-									alert(JSON.stringify(ret));
-								}
-							});
-						}
-						//用户设备定位API
-					}, window.deviceserverUrl+'/position/token/' + retobj.token);
-				}, 'userinfo');
 				// 定位到当前位置
 				addEventListenerFromFunc("position", function(ret) {
 					//定位到当前位置逻辑
@@ -184,6 +168,10 @@
 				//定位到宠物位置
 				addEventListenerFromFunc("positionPet", function(ret) {
 					//定位到宠物位置逻辑
+				});
+				// 关闭地图
+				addEventListenerFromFunc("map_close", function(ret) {
+					bMap.close();
 				});
 			});
 		</script>

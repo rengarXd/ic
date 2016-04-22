@@ -87,7 +87,7 @@
 	</head>
 	<body>
 		<header class="aui-bar aui-bar-nav header aui-bar-1d9dd5" id='position-header'>
-			<a class="aui-pull-left" tapmode onclick="H.$closeCurrentWin();"> <span class="aui-iconfont aui-icon-left"></span>返回 </a>
+			<a class="aui-pull-left" tapmode onclick="close_map();"> <span class="aui-iconfont aui-icon-left"></span>返回 </a>
 			<div class="aui-title">
 				位置
 			</div>
@@ -192,5 +192,11 @@
 				bounces : false
 			}, 'aui-footer');
 		});
+		
+		function close_map(){
+			api.sendEvent('close_map');
+			api.closeWin({
+            });
+		}
 	</script>
 </html>
