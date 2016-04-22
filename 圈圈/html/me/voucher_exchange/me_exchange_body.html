@@ -173,6 +173,11 @@
 				retobj = eval('(' + ret.value + ')');
 				get_data();
 			});
+			api.addEventListener({
+	            name:'pointreload'
+            },function(ret,err){
+            	location.reload();
+            });
 			//上拉加载
 			api.addEventListener({
 				name : 'scrolltobottom',
