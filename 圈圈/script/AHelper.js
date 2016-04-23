@@ -21,8 +21,10 @@
 	window.deviceserverUrl = "http://122.114.90.191/deviceapi";
 	//常规静态资源请求地址
 	window.serverUrlPath = "http://122.114.90.191/";
-	
-	var nowtime,secondNum;
+
+	window.debug = true;
+
+	var nowtime, secondNum;
 	// 公共类库
 	var $$com = {
 		// 去掉前后空格
@@ -147,7 +149,7 @@
 		// 时间转转个性化时间
 		// time 时间
 		jsDateDiff : function(publishTime) {
-			 nowtime = (new Date).getTime();
+			nowtime = (new Date).getTime();
 			/*当前时间戳*/
 			secondNum = parseInt((nowtime - publishTime * 1000) / 1000);
 			//计算时间戳差值
@@ -228,6 +230,13 @@
 				description += i + " = " + property + "\n";
 			}
 			alert(description);
+		},
+		// 判断是否为调试模式
+		// @msg 要打印调试的信息
+		isdebug : function(msg) {
+			if (window.debug) {
+				console.log(msg);
+			}
 		}
 	};
 	// ######################################## 完美分割线 #############################################

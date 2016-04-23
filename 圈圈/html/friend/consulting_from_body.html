@@ -232,11 +232,11 @@
 
 		Zepto(function($) {
 			// 类别处理
-			$("#chongwuleibie").on("tap", function() {
+			$("#chongwuleibie").on("click", function() {
 				H.$openWin("consulting_pet_type_header", "consulting_pet_type_header.html");
 			});
 			// 性别处理
-			$("#chongwuxingbie").on("tap", function() {
+			$("#chongwuxingbie").on("click", function() {
 				api.actionSheet({
 					title : '请选择您要问诊的宠物性别',
 					cancelTitle : '取消',
@@ -260,7 +260,7 @@
 				});
 			});
 			// 年龄处理
-			$("#chongwunianling").on("tap", function() {
+			$("#chongwunianling").on("click", function() {
 				$("#old_bgs").css("opacity", 0.4);
 				$("#old_bgs").show();
 				var UICustomPicker = api.require('UICustomPicker');
@@ -307,7 +307,7 @@
 				});
 			});
 			// 疫苗处理
-			$("#yimiao").on("tap", function() {
+			$("#yimiao").on("click", function() {
 				api.actionSheet({
 					title : '是否打过疫苗',
 					cancelTitle : '取消',
@@ -335,7 +335,7 @@
 			var normalW = $("#addpic img").width();
 			// ###############################################################
 			// 为图片添加点击预览功能,排除添加按钮
-			$("#imgslist").on("tap", "li:not(#addpic)", function() {
+			$("#imgslist").on("click", "li:not(#addpic)", function() {
 				// 定义一个数组，存储需要预览的图片
 				var browerImgs = [];
 				$("#imgslist li:not(#addpic)").each(function() {
@@ -345,7 +345,7 @@
 				// 调用图片预览函数
 				openImageBrowser(browerImgs);
 			});
-			$("#imgslist").on("tap", "#addpic", function() {
+			$("#imgslist").on("click", "#addpic", function() {
 				if (picnumber >= 8) {
 					api.toast({
 						msg : '抱歉，最多发布8张图片'
@@ -468,7 +468,7 @@
 				}
 			});
 			//1.发起问诊
-			$("#consulting").on("tap", function() {
+			$("#consulting").on("click", function() {
 				//$("#wenzhenren").html();
 				var pet_type = $("#pet_type").html();
 				if (pet_type) {

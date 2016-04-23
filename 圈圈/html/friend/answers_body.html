@@ -82,7 +82,7 @@
 		<div id="ic_main">
 			<!--搜索框-->
 			<div class="aui-searchbar-wrap demo" id="search">
-				<div class="aui-searchbar aui-border-radius" tapmode onclick="doSearch()">
+				<div class="aui-searchbar aui-border-radius" onclick="doSearch()">
 					<i class="aui-iconfont aui-icon-search"></i>
 					<div class="aui-searchbar-text">
 						大家都在搜：犬类腹泻
@@ -92,9 +92,9 @@
 							<input type="search" placeholder="大家都在搜：犬类腹泻" id="search-input">
 						</form>
 					</div>
-					<i class="aui-iconfont aui-icon-roundclosefill" tapmode onclick="clearInput()"></i>
+					<i class="aui-iconfont aui-icon-roundclosefill" onclick="clearInput()"></i>
 				</div>
-				<div class="aui-searchbar-cancel aui-text-info" tapmode onclick="cancelSearch()">
+				<div class="aui-searchbar-cancel aui-text-info" onclick="cancelSearch()">
 					取消
 				</div>
 			</div>
@@ -130,7 +130,7 @@
 			</div>
 			<script type="text/html" id="hot_data">
 				{{# for (var i=0, a=d.retValue.length; i < a; i++) { }}
-				<span class="a_key" onclick="word_add('{{ d.retValue[i].keyword }}')" tapmode>{{d.retValue[i].keyword}}</span>
+				<span class="a_key" onclick="word_add('{{ d.retValue[i].keyword }}')">{{d.retValue[i].keyword}}</span>
 				{{# } }}
 			</script>
 			<!--热门搜索-->
@@ -150,16 +150,16 @@
 			<script id="answer_data" type="text/html">
 				<ul class="aui-list-view animated fadeIn" style="margin-bottom: 0">
 				{{# for(var i = 0, len = d.retValue.bbsList.length; i < len; i++){ }}
-				<li class="aui-list-view-cell answer_data" tapmode onclick="to_answers({{ d.retValue.bbsList[i].id }});">
+				<li class="aui-list-view-cell answer_data" onclick="to_answers({{ d.retValue.bbsList[i].id }});">
 				<div class="img-cont tiezi_data">
 				{{#if (d.retValue.bbsList[i].head_ico == null){}}
 				<img class="aui-pull-left" src="../../image/noavatar.gif">
 				{{#}else{}}
-				<img class="aui-pull-left" src="http://122.114.90.191/{{ d.retValue.bbsList[i].head_ico }}" onerror="this.src='../../../image/noavatar.gif'" tapmode >
+				<img class="aui-pull-left" src="http://122.114.90.191/{{ d.retValue.bbsList[i].head_ico }}" onerror="this.src='../../../image/noavatar.gif'">
 				{{# }}}
 				</div>
 				<div class="aui-img-body">
-				<span>{{ d.retValue.bbsList[i].username }}</span><i class="iconfont icon-huida" style="float: right;color: #E78066;font-size: 14px;" tapmode onclick="to_answers({{ d.retValue.bbsList[i].id }});"> 去回答</i>
+				<span>{{ d.retValue.bbsList[i].username }}</span><i class="iconfont icon-huida" style="float: right;color: #E78066;font-size: 14px;" onclick="to_answers({{ d.retValue.bbsList[i].id }});"> 去回答</i>
 				<p class='aui-ellipsis-1'>
 				来自 {{ d.retValue.bbsList[i].comedevice}}
 				</p>
@@ -184,7 +184,7 @@
 			<!--撑开下部层页面-->
 			<div style="height:50px;"></div>
 			<!--撑开下部层页面-->
-			<div class="aui-btn aui-btn-block wenzhen_btn_wen" id="answers_add" tapmode>
+			<div class="aui-btn aui-btn-block wenzhen_btn_wen" id="answers_add">
 				发布问答
 			</div>
 		</div>
@@ -192,7 +192,7 @@
 		<div style="text-align: center" id="ic_nonetwork"><img src="../../image/loading.png" width="70" height="70" />
 			<br />
 			<span style="font-size:12px; margin-bottom: 10px;" class="aui-block"></span>
-			<div class="aui-btn aui-btn-default" id="reload_page" tapmode>
+			<div class="aui-btn aui-btn-default" id="reload_page">
 				重新加载
 			</div>
 		</div>
@@ -204,11 +204,11 @@
 	<script>
 		var bbs = null, page = 1, loadLock = false;
 		Zepto(function($) {
-			$("#answers_add").on("tap", function() {
+			$("#answers_add").on("click", function(e) {
 				H.$openWin("answers_add_header", "answers_add_header.html");
 			});
 			//  网络重新加载处理
-			$("#reload_page").on('tap', function() {
+			$("#reload_page").on('click', function(e) {
 				location.reload();
 			});
 		});
@@ -262,7 +262,7 @@
 
 
 		H.ready(function() {
-			api.parseTapmode();
+			//api.parseTapmode();
 			answer_main();
 			//添加页刷新的监听
 			api.addEventListener({

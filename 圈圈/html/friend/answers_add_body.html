@@ -182,7 +182,7 @@
 		}
 
 		Zepto(function($) {
-			$("#yonghu").on("tap", function() {
+			$("#yonghu").on("click", function() {
 				api.toast({
 					msg : '用户名不能在这里更改哦'
 				});
@@ -190,7 +190,7 @@
 			var normalW = $("#addpic img").width();
 			// ###############################################################
 			// 为图片添加点击预览功能,排除添加按钮
-			$("#imgslist").on("tap", "li:not(#addpic)", function() {
+			$("#imgslist").on("click", "li:not(#addpic)", function() {
 				// 定义一个数组，存储需要预览的图片
 				var browerImgs = [];
 				$("#imgslist li:not(#addpic)").each(function() {
@@ -200,7 +200,7 @@
 				// 调用图片预览函数
 				openImageBrowser(browerImgs);
 			});
-			$("#imgslist").on("tap", "#addpic", function() {
+			$("#imgslist").on("click", "#addpic", function() {
 				api.actionSheet({
 					title : '请选择图片来源',
 					cancelTitle : '取消',
@@ -316,7 +316,7 @@
 					}
 				});
 			});
-			$("#consulting").on("tap", function() {
+			$("#consulting").on("click", function() {
 				var answers_text = $("#answers_text").val();
 				if (answers_text) {
 					api.showProgress({

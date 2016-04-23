@@ -153,11 +153,11 @@
 	<script type="text/javascript">
 		var page = 1, loadLock = false, userobj = null;
 		Zepto(function($) {
-			$("#consulting_header").on("tap", function() {
+			$("#consulting_header").on("click", function() {
 				H.$openWin("consulting_header", "consulting_header.html");
 			});
 			/*问答处理*/
-			$("#answers_header").on("tap", function() {
+			$("#answers_header").on("click", function() {
 				H.$openWin("answers_header", "answers_header.html");
 			});
 		});

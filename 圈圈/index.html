@@ -5,7 +5,7 @@
 		<!--确保绘制和缩放的效果需要在<head>标签中添加 viewport 元数据标签-->
 		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
 		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-		<title>I宠应用首页分发index</title>
+		<title>i宠应用首页分发index</title>
 		<!--引入aui框架win-->
 		<link rel="stylesheet" href="css/aui-win.css" />
 		<!--引入AHelper.js框架-->
@@ -15,21 +15,30 @@
 		<script>
 			//1、设备准备完毕后
 			H.ready(function() {
-				//1.1、获取偏好设置（launch）
+				H.$com.isdebug("1.1、设备准备完毕");
+				//1.1、获取是否第一次启动的偏好设置【launch】
 				H.$getPrefs(function(ret, err) {
+					//1.2、如果有了（launch）偏好设置
+					H.$com.isdebug("1.2、如果有了（launch）偏好设置");
 					if (ret && ret.value) {
-						//如果有了（launch）偏好设置
-						H.getPrefs(function(ret, err) {
+						//1.3、判断是否已经登录
+						H.$com.isdebug("1.3、判断是否已经登录");
+						H.$getPrefs(function(ret, err) {
+							//1.4、已经登录
+							H.$com.isdebug("1.4、已经登录");
 							if (ret && ret.value) {
-								//H.$toast("报告，已经设置launch偏好。即将进入首页");
+								//1.5、关闭当前页面跳转主页面
+								H.$com.isdebug("1.5、关闭当前页面跳转主页面");
 								H.$openWin('main', './html/main.html');
 							} else {
+								//1.6、关闭当前页面跳转登陆页面
+								H.$com.isdebug("1.6、关闭当前页面跳转登陆页面");
 								H.$openWin('login_heads', './html/login/login_head.html');
 							}
 						}, 'islogin');
 					} else {
 						//如果没有了（launch）偏好设置
-						//H.$toast("报告，没有设置launch偏好");
+						H.$com.isdebug("没有了（launch）偏好设置,跳转了/html/launch.html");
 						H.$openWin('launch', './html/launch.html');
 					}
 				}, 'launch');
