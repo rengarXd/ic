@@ -115,7 +115,7 @@
 		<script id="tiezi_data" type="text/html">
 			<ul class="aui-list-view animated fadeIn" style="margin-bottom: 0" >
 			{{# for(var i = 0, len = d.retValue.bbsList.length; i < len; i++){ }}
-			<li class="aui-list-view-cell tiezi_data" tapmode onclick="to_answers({{ d.retValue.bbsList[i].id }});">
+			<li class="aui-list-view-cell tiezi_data" onclick="to_answers({{ d.retValue.bbsList[i].id }});">
 			<div class="img-cont tiezi_data">
 			{{#if (d.retValue.bbsList[i].head_ico == null){}}
 			<img class="aui-pull-left" src="../../image/noavatar.gif">
@@ -124,7 +124,7 @@
 			{{# }}}
 			</div>
 			<div class="aui-img-body">
-			<span>{{ d.retValue.bbsList[i].username }}</span><i class="iconfont icon-huida" style="float: right;color: #E78066;font-size: 14px;" tapmode onclick="to_answers({{ d.retValue.bbsList[i].id }});"> 去回答</i>
+			<span>{{ d.retValue.bbsList[i].username }}</span><i class="iconfont icon-huida" style="float: right;color: #E78066;font-size: 14px;"> 去回答</i>
 			<p class='aui-ellipsis-1'>
 			来自 {{ d.retValue.bbsList[i].comedevice}}
 			</p>
