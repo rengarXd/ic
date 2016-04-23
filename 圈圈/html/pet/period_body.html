@@ -1,53 +1,42 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="utf-8">
-   	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
 		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>title</title>
-    <link rel="stylesheet" type="text/css" href="../../css/aui.css"/>
-</head>
-<body>
-<form>
-<div class="aui-content aui-list-view">
-	<ul class="aui-list-view">
-    <li class="aui-list-view-cell aui-switch-body">
-        <div class="aui-switch-title">5分钟</div>
-        <input type="radio" name="min" class="aui-switch aui-switch-success aui-pull-right">
-    </li>
-    <li class="aui-list-view-cell aui-switch-body">
-        <div class="aui-switch-title">10分钟</div>
-        <input type="radio" name="min" class="aui-switch aui-switch-success aui-pull-right">
-    </li>
-    <li class="aui-list-view-cell aui-switch-body">
-        <div class="aui-switch-title">15分钟</div>
-        <input type="radio" name="min" class="aui-switch aui-switch-success aui-pull-right" >
-    </li>
-    <li class="aui-list-view-cell aui-switch-body">
-        <div class="aui-switch-title">20分钟</div>
-        <input type="radio" name="min" class="aui-switch aui-switch-success aui-pull-right" >
-    </li>
-    <li class="aui-list-view-cell aui-switch-body">
-        <div class="aui-switch-title">25分钟</div>
-        <input type="radio" name="min" class="aui-switch aui-switch-success aui-pull-right" >
-    </li>
-    <li class="aui-list-view-cell aui-switch-body">
-        <div class="aui-switch-title">30分钟</div>
-        <input type="radio" name="min" class="aui-switch aui-switch-success aui-pull-right">
-    </li>
-    <li class="aui-list-view-cell aui-switch-body">
-        <div class="aui-switch-title">60分钟</div>
-        <input type="radio" name="min" class="aui-switch aui-switch-success aui-pull-right" >
-    </li>
-</ul>
-</form>
-</div>
-</body>
+		<title>title</title>
+		<link rel="stylesheet" type="text/css" href="../../css/aui.css"/>
+	</head>
+	<body>
+		<form>
+			<div class="aui-content aui-list-view" style="margin-top:10px;">
+				<ul class="aui-list-view">
+					<li class="aui-list-view-cell aui-switch-body">
+						<div class="aui-switch-title">
+							一分钟GPS定位(快速定位)
+						</div>
+						<input type="radio" name="min" class="aui-switch aui-switch-success aui-pull-right">
+					</li>
+					<li class="aui-list-view-cell aui-switch-body">
+						<div class="aui-switch-title">
+							10分钟GPS定位(标准定位)
+						</div>
+						<input type="radio" name="min" class="aui-switch aui-switch-success aui-pull-right">
+					</li>
+					<li class="aui-list-view-cell aui-switch-body">
+						<div class="aui-switch-title">
+							1小时GPS定位(省电定位)
+						</div>
+						<input type="radio" name="min" class="aui-switch aui-switch-success aui-pull-right" checked="checked">
+					</li>
+				</ul>
+		</form>
+		</div>
+	</body>
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
-<script type="text/javascript">
-		H.ready(function(){
-			
+	<script type="text/javascript">
+		H.ready(function() {
 		});
-</script>
+	</script>
 </html>
