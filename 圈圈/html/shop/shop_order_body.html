@@ -131,11 +131,11 @@
 			<div class="aui-col-xs-1">
 			<span class="iconfont icon-dingweidizhigpsditu ic_zl_icon"></span>
 			</div>
-			<div class="aui-col-xs-11">
+			<div class="aui-col-xs-11" style="padding-right: 20px;">
 			<span style="float: left">收货人：<span id="shouhuoren">{{ d.retValue.address[0].accept_name }}</span></span>
 			<span class="aui-pull-right" style="margin-right: 12px;" id="telephone">{{ d.retValue.address[0].mobile }}</span><br />
 			<p style="margin-top: 5px;" >
-			收货地址：<span id="addressInfo">{{ d.retValue.address[0].province_val }} {{ d.retValue.address[0].city_val }} {{ d.retValue.address[0].area_val }} {{ d.retValue.address[0].address }}；
+			收货地址：<span id="addressInfo">{{ d.retValue.address[0].province_val }} {{ d.retValue.address[0].city_val }} {{ d.retValue.address[0].area_val }} {{ d.retValue.address[0].address }}
 			</span>
 			</p>
 			</div>
@@ -151,7 +151,7 @@
 			<div class="aui-col-xs-10">
 			<span style="float: left" >收货人：{{ d.retValue.address[a].accept_name }}<span class="aui-pull-right" style="margin-right: 12px;" >{{ d.retValue.address[a].mobile}}</span>
 			<p style="margin-top: 5px;" >
-			收货地址：{{ d.retValue.address[a].province_val }} {{ d.retValue.address[a].city_val }} {{ d.retValue.address[a].area_val }} {{ d.retValue.address[a].address }}；
+			收货地址：{{ d.retValue.address[a].province_val }} {{ d.retValue.address[a].city_val }} {{ d.retValue.address[a].area_val }} {{ d.retValue.address[a].address }}
 			</p> </span>
 			</div>
 			</div>
@@ -174,7 +174,7 @@
 			<img src="http://122.114.90.191/{{ d.retValue.goodsList[0].img }}" style="height: 40px !important;"/>
 			</div>
 			<div class="aui-col-xs-9">
-			<span class="ic_shop_title">{{ d.retValue.goodsList[0].name }}</span><br />
+			<span class="ic_shop_title">{{ d.retValue.goodsList[0].name }}</span>
 			<span class="aui-pull-right" style="font-size: 12px;">库存：{{ d.retValue.goodsList[0].store_nums }}</span>
 			</div>
 			<div style="display: inline-block;width: 100%;">
@@ -768,7 +768,6 @@
 
 		H.ready(function() {
 			contents = H.$getPageParam();
-//			alert(JSON.stringify(contents));
 			api.getPrefs({
 				key : 'userinfo'
 			}, function(ret, err) {

@@ -90,8 +90,8 @@
 			<div class="share-space winu-flex-item q_sizes"></div>
 			<div class="share-maim">
 				<div class="aui-content-padded ic_type" id="shopdata_body"></div>
-				<div class="aui-content-padded">
-					<div class="aui-col-xs-6" style="line-height: 63px;">
+				<div class="aui-content-padded aui-pull-left">
+					<div class="aui-col-xs-6" style="line-height: 63px;font-size: 13px;">
 						购买数量(库存：<span id="store_num"></span>)
 					</div>
 					<div class="aui-col-xs-6">
@@ -110,13 +110,13 @@
 		<script id="shopdata" type="text/html">
 			{{# for(var i = 0, len = d.length; i < len; i++){ }}
 			<h3 class="q_puch1" id="q_sizes">{{ d[i].name }}</h3>
-			<div class="q_size" id="specList{{ i+1 }}">
+			<div class="q_size" id="specList{{ i }}">
 			{{# var ds = d[i].value.split(','); }}
 			{{# for(var ii = 0;ii < ds.length; ii++){ }}
 			{{# if(ii==0){ }}
-			<span onclick="openActive({{ i }},'{{ ds[ii] }}');">{{ ds[ii] }}</span>
+			<span onclick="openActive({{ i }},{{ ii }},'{{ ds[ii] }}');">{{ ds[ii] }}</span>
 			{{# }else{ }}
-			<span onclick="openActive({{ i }},'{{ ds[ii] }}');">{{ ds[ii] }}</span>
+			<span onclick="openActive({{ i }},{{ ii }},'{{ ds[ii] }}');">{{ ds[ii] }}</span>
 			<!--'{{ d[i].name }}:{{ ds[ii] }}'-->
 			{{# } }}
 			{{# } }}
@@ -129,7 +129,7 @@
 	<script type="text/javascript" src="../../script/laytpl.js"></script>
 	<script type="text/javascript">
 		//整合产品型号数据
-		var templis = [], goodId = null, retobj = null, productId = null, store_nums = null;
+		var templis = [], goodId = null, retobj = null, productId = null, store_nums = null, typenum = 0;
 		var retstatus = true;
 		H.ready(function() {
 			api.getPrefs({
@@ -143,38 +143,17 @@
 			store_nums = eval('(' + api.pageParam.store_nums + ')');
 			//1.1接受传递的型号选择数据
 			datas = eval('(' + api.pageParam.spec_array + ')');
-			//2、暂时写死，我也不想
-			if (datas["1"]) {
-				templis.push(datas["1"]);
+			for (var js2 in datas) {
+				console.log('js2==' + JSON.stringify(js2));
+				templis.push(datas[js2]);
+				typenum++;
 			}
-			if (datas["2"]) {
-				templis.push(datas["2"]);
-			}
-			if (datas["3"]) {
-				templis.push(datas["3"]);
-			}
-			if (datas["4"]) {
-				templis.push(datas["4"]);
-			}
-			//						alert(JSON.stringify(templis));
+			//alert(JSON.stringify(templis));
 			$("#store_num").html(store_nums);
 			var tpl = document.getElementById('shopdata').innerHTML;
 			//读取模版
 			laytpl(tpl).render(templis, function(render) {
 				document.getElementById('shopdata_body').innerHTML = render;
-			});
-			//3、处理规格参数
-			$("#specList1 span").click(function() {
-				$("#specList1 span").eq($(this).index()).addClass("active").siblings().removeClass('active');
-			});
-			$("#specList2 span").click(function() {
-				$("#specList2 span").eq($(this).index()).addClass("active").siblings().removeClass('active');
-			});
-			$("#specList3 span").click(function() {
-				$("#specList3 span").eq($(this).index()).addClass("active").siblings().removeClass('active');
-			});
-			$("#specList4 span").click(function() {
-				$("#specList4 span").eq($(this).index()).addClass("active").siblings().removeClass('active');
 			});
 			//监听返回按键关闭Frame
 			api.addEventListener({
@@ -196,22 +175,25 @@
 		}
 
 		//选择相应的规格
-		function openActive(p, j) {
-						templis[p].value = j;
+		function openActive(p, ii, j) {
+			templis[p].value = j;
 			//6.1、获取所选型号
-//			var specList = "specList" + (p + 1);
-//			alert(specList);
-//			$("#specList span").eq($(this).index()).addClass("active").siblings().removeClass('active');
+			//			var specList = "specList" + (p + 1);
+			//			alert(specList);
+			//			$("#specList span").eq($(this).index()).addClass("active").siblings().removeClass('active');
+			$("#specList" + p + " span").eq(ii).addClass("active").siblings().removeClass('active');
 			var temp = $(".ic_type").find(".active");
-			if (templis.length <= temp.length + 1) {
+			if (parseInt(typenum) == parseInt(temp.length)) {
+				console.log('temp.length==' + temp.length);
+				console.log('typenum' + typenum);
 				api.showProgress({
-					title : '型号上传中'
+					title : '加载中'
 				});
 				api.ajax({
 					url : window.serverUrl + '/getProduct/token/' + retobj.token + '/user_id/' + retobj.id + '/goods_id/' + goodId,
 					data : {
 						values : {
-							"specJSON" : templis,
+							"specJSON" : JSON.stringify(templis)
 						}
 					}
 				}, function(ret, err) {
