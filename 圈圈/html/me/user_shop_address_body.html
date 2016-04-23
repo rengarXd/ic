@@ -45,7 +45,6 @@
 			<div class="aui-col-xs-1">
 			<span class="iconfont icon-guanyu ic_icon" onclick="change_address({{ d[i].id }})"></span>
 			</div>
-			
 			</li>
 			{{# } }}
 			</ul>
@@ -94,14 +93,13 @@
 							document.getElementById('addressData_body').innerHTML = render;
 						});
 					} else if (ret && ret.retCode == 0) {
-						api.toast({
-							msg : '请求数据异常，请重试！'
-						});
+						//						api.toast({
+						//							msg : '请求数据异常，请重试！'
+						//						});
 					} else {
 						api.toast({
-	                        msg:err.body
-                        });
-						
+							msg : err.body
+						});
 					}
 				});
 			});
@@ -112,7 +110,9 @@
 
 		// 2.0 跳转修改地址页面
 		function change_address(id) {
-			H.$openWin('user_shop_address_edit','area/user_shop_address_edit_header.html',{id:id});
+			H.$openWin('user_shop_address_edit', 'area/user_shop_address_edit_header.html', {
+				id : id
+			});
 		}
 	</script>
 </html>

@@ -147,15 +147,19 @@
 				name : 'change_aera'
 			}, function(ret, err) {
 				var areas = $("#area").val();
+				var level = ret.value.level - 1;
 				$("#area").val(areas + " " + ret.value.area_name);
-				if (temp == 0) {
+				H.$com.isdebug('当前区域级别' + level);
+				if (temp == 0 && level == 0) {
 					province = ret.value.area_id;
-				} else if (temp == 1) {
+					temp = temp + 1;
+				} else if (temp == 1 && level == 1) {
 					city = ret.value.area_id;
-				} else if (temp == 2) {
+					temp = temp + 1;
+				} else if (temp == 2 && level == 2) {
 					area = ret.value.area_id;
+					temp = temp + 1;
 				}
-				temp = temp + 1;
 			});
 		});
 		//2 保存地址
@@ -180,6 +184,11 @@
 		//3.0 打开区域地址
 		function openArea() {
 			$("#area").val("");
+			//3.1 清空地址
+			province = null;
+			city = null
+			area = null;
+			temp = 0;
 			H.$openWin('area_header', 'area_header.html');
 		}
 
