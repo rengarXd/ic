@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<!--确保绘制和缩放的效果需要在<head>标签中添加 viewport 元数据标签-->
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>订单确认header</title>
+		<!--引入aui框架-->
+		<link rel="stylesheet" href="../../css/aui-win.css" />
+		<style>
+			.aui-bar-1d9dd5 {
+				background: #1786FF;
+			}
+		</style>
+	</head>
+	<body>
+		<!--标题栏 start-->
+		<header class="aui-bar aui-bar-nav aui-bar-1d9dd5 header" id='aui-header'>
+			<a class="aui-pull-left" tapmode onclick="H.$closeCurrentWin();"> <span class="aui-iconfont aui-icon-left"></span>返回 </a>
+			<div class="aui-title">
+				支付成功
+			</div>
+		</header>
+		<script type="text/javascript" src="../../script/AHelper.js"></script>
+		<script type="text/javascript">
+			H.ready(function() {
+				// 快速打开窗口
+				H.$openFrameWithNav('aui-header', {
+					url : 'shop_order_finish_body.html',
+					name : 'shop_order_finish_body',
+					pageParam : H.$getPageParam()
+				});
+			});
+		</script>
+	</body>
+</html>
