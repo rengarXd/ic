@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>订单生成body</title>
+		<link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/fonts/iconfont.css" />
+		<style>
+			.ic_order_confirm {
+				font-size : 40px;
+				text-align: center !important;
+				color: red;
+				line-height:50px;
+				margin-top:20px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="aui-content">
+			<span class="ic_order_confirm">订单生成成功！</span>
+			<div class="aui-btn aui-btn-block aui-btn-success" style="margin-top: 20px;" onclick="reback();">
+				返回
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../../script/AHelper.js"></script>
+	<script type="text/javascript" src="../../script/zepto.min.js"></script>
+	<script type="text/javascript">
+		function reback() {
+			api.closeToWin({
+				name : 'shop_show_body',
+				animation : {
+					type : 'fade',
+					subType : 'from_bottom',
+					duration : 500
+				}
+			});
+		}
+	</script>
+</html>
