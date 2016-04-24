@@ -8,6 +8,7 @@
 		<link rel="stylesheet" type="text/css" href="../../css/aui.css" />
 		<link rel="stylesheet" type="text/css" href="../../css/fonts/iconfont.css" />
 		<link rel="stylesheet" type="text/css" href="../../css/tools/loading.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/tools/animate.min.css"/>
 		<style>
 			.ic_zl_icon {
 				display: block;
@@ -83,6 +84,9 @@
 				display: block;
 				padding-left: 8px;
 				color: #000000;
+			}
+			.aui-list-view-cell:active{
+				background: #f5f5f5
 			}
 		</style>
 	</head>
@@ -245,7 +249,7 @@
 			</li>
 			{{# } else { }}
 			{{# for(var i = 0, len = d.retValue.prop.length; i < len; i++){ }}
-			<li class="aui-list-view-cell active_list" style="display: none;">
+			<li class="aui-list-view-cell active_list " style="display: none;">
 			<div class="aui-col-xs-2">
 			<input class="aui-radio" type="radio" name="activeCheck" onclick="closeActive({{ i }});">
 			</div>
@@ -609,7 +613,8 @@
 		//活动信息选择器
 		function active_message() {
 			$("input[name='activeCheck']").removeClass('ic_radio');
-			$(".active_list").toggle();
+			$(".active_list").fadeToggle();
+			
 		}
 
 		//隐藏并获取选中的活动信息
