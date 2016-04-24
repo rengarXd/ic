@@ -66,13 +66,15 @@
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript" src="../../script/laytpl.js"></script>
 	<script type="text/javascript">
-		var userobj = null,order = null;
+		var userobj = null, order = null;
 		Zepto(function($) {
 		});
 		function openPayPage(i) {
-			var orders = order[i]
-			H.$openWin("shop_order_creation_header", "../shop/shop_order_creation_header.html",orders);
+			var orders = order[i];
+			orders.types = 1;
+			H.$openWin("shop_order_creation_header", "../shop/shop_order_creation_header.html", orders);
 		}
+
 
 		H.ready(function() {
 			api.getPrefs({
