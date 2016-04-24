@@ -189,6 +189,8 @@
 			if (orders.pay_type == 11) {
 				$("#pay_type").html("在线支付");
 			}
+			//用户留言
+			$("#postscript").html(orders.postscript);
 			//支付方式
 			$("#order_amount").html("￥" + orders.order_amount + "元");
 			//订单总金额
