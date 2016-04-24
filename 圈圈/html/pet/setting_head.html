@@ -12,7 +12,6 @@
 			}
 			.aui-bar-1d9dd5 {
 				background: #4385f6;
-				
 			}
 		</style>
 	</head>
@@ -30,7 +29,7 @@
 		function setFade(isFade) {
 			var swp = null;
 			if (isFade) {
-				$(".aui-pull-left").attr("onclick","H.$closeCurrentWin();");
+				$(".aui-pull-left").attr("onclick", "H.$closeCurrentWin();");
 				H.$setFrameStatus("setting_head", false);
 				$("#aui-header").css({
 					"transition" : "opacity 0.6s",
@@ -38,23 +37,24 @@
 					"opacity" : 1
 				});
 			} else {
-				$(".aui-pull-left").attr("onclick","javascript:void(0);");
+				$(".aui-pull-left").attr("onclick", "javascript:void(0);");
 				$("#aui-header").css({
 					"transition" : "opacity 0.6s",
 					"-webkit-transition" : "opacity 0.6s",
 					"opacity" : 0
 				});
-				
 			}
 		}
 
 
 		H.ready(function() {
 			api.parseTapmode();
-			// 快速调整当前frame到最前面
-			H.$bringFrameToFront();
-			H.$fixStatusBar(function(offset) {
-			}, 'aui-header');
+			// 快速打开窗口 用户注册页面
+			H.$openFrameWithNav('aui-header', {
+				url : 'setting_body.html',
+				name : 'setting_body',
+				pageParam : H.$getPageParam()
+			});
 		});
 	</script>
 </html>
