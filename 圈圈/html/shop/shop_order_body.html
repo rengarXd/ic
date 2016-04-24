@@ -284,10 +284,10 @@
 						if (contents.num) {
 							totalPlus = parseInt(contents.num) * parseInt(result.goodsList[0].sell_price);
 							$("#totalPrice").html(totalPlus);
-							$("#goodsNum").text(contents.num);
+//							$("#goodsNum").text(contents.num);
 						} else {
 							$("#totalPrice").text(result.goodsList[0].sell_price);
-							$("#goodsNum").text(result.goodsList[0].count);
+//							$("#goodsNum").text(result.goodsList[0].count);
 						}
 						if (result.address.length == 0) {
 							api.toast({
@@ -326,10 +326,10 @@
 						if (contents.num) {
 							totalPlus = parseInt(contents.num) * parseInt(result.goodsList[0].sell_price);
 							$("#totalPrice").html(totalPlus);
-							$("#goodsNum").text(contents.num);
+//							$("#goodsNum").text(contents.num);
 						} else {
 							$("#totalPrice").text(result.goodsList[0].sell_price);
-							$("#goodsNum").text(result.goodsList[0].count);
+//							$("#goodsNum").text(result.goodsList[0].count);
 						}
 						if (result.address.length == 0) {
 							api.toast({
@@ -552,7 +552,6 @@
 						$("#delivery").html(ret.retValue.name);
 						if (ret.retValue.if_delivery == 0) {
 							$("#freight").html("运费：" + ret.retValue.price + "元");
-							//									$("#totalPrice").text(parseInt($("#totalPrice").text()) + parseInt(ret.retValue.price));
 						} else {
 							alert("您所在的地区暂不支持配送，请联系客服人员");
 						}
@@ -567,7 +566,7 @@
 						values : {
 							"goodsId[]" : contents.goodId,
 							"province" : result.address[0].province,
-							//							"distribution" : $("#delivery").attr("deliveryVal"),
+							"distribution" : $("#delivery").attr("deliveryVal"),
 							"num" : $("#member").val()
 						}
 					}
@@ -577,7 +576,6 @@
 						$("#delivery").html(ret.retValue.name);
 						if (ret.retValue.if_delivery == 0) {
 							$("#freight").html("运费：" + ret.retValue.price + "元");
-							//									$("#totalPrice").text(parseInt($("#totalPrice").text()) + parseInt(ret.retValue.price));
 						} else {
 							alert("您所在的地区暂不支持配送，请联系客服人员");
 						}
@@ -669,7 +667,7 @@
 								data : {
 									values : {
 										"direct_gid" : contents.productId,
-										"direct_num" : $("#goodsNum").text(),
+										"direct_num" : contents.num,
 										"accept_name" : accept_name,
 										"province" : province,
 										"city" : city,
@@ -712,7 +710,7 @@
 								data : {
 									values : {
 										"direct_gid" : contents.goodId,
-										"direct_num" : $("#goodsNum").text(),
+										"direct_num" : contents.num,
 										"accept_name" : accept_name,
 										"province" : province,
 										"city" : city,
@@ -768,6 +766,7 @@
 
 		H.ready(function() {
 			contents = H.$getPageParam();
+//			alert(JSON.stringify(contents));
 			api.getPrefs({
 				key : 'userinfo'
 			}, function(ret, err) {
