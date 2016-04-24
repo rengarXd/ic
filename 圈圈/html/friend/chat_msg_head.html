@@ -47,22 +47,71 @@
 			api.addEventListener({
 				name : 'keyback'
 			}, function(ret, err) {
-				api.openWin({
-					name : 'evaluate_doctor_header',
-					url : 'evaluate_doctor_header.html',
-					pageParam : {
-						doctorid : api.pageParam.doctor_id
+				api.confirm({
+					title : '提示',
+					msg : '是否对诊疗结果进行评价',
+					buttons : ['评价', '不评价']
+				}, function(ret, err) {
+					if (ret) {
+						switch(ret.buttonIndex) {
+							case 1:
+								api.openWin({
+									name : 'evaluate_doctor_header',
+									url : 'evaluate_doctor_header.html',
+									pageParam : {
+										doctorid : api.pageParam.doctor_id
+									}
+								});
+								break;
+							case 2:
+								api.closeToWin({
+									name : 'consulting_doctor_header',
+									animation : {
+										type : 'flip',
+										subType : 'from_bottom',
+										duration : 500
+									}
+								});
+								break;
+						}
+					} else {
+						alert(JSON.stringify(err));
 					}
 				});
 			});
-			api.addEventListener({
-				name : 'closeChat'
-			}, function(ret, err) {
-				api.closeWin();
-			});
 		};
 		function closeWin() {
-			api.closeWin();
+			api.confirm({
+				title : '提示',
+				msg : '是否对诊疗结果进行评价',
+				buttons : ['评价', '不评价']
+			}, function(ret, err) {
+				if (ret) {
+					switch(ret.buttonIndex) {
+						case 1:
+							api.openWin({
+								name : 'evaluate_doctor_header',
+								url : 'evaluate_doctor_header.html',
+								pageParam : {
+									doctorid : api.pageParam.doctor_id
+								}
+							});
+							break;
+						case 2:
+							api.closeToWin({
+								name : 'consulting_doctor_header',
+								animation : {
+									type : 'flip',
+									subType : 'from_bottom',
+									duration : 500
+								}
+							});
+							break;
+					}
+				} else {
+					alert(JSON.stringify(err));
+				}
+			});
 		}
 	</script>
 </html>
