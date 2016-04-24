@@ -226,13 +226,6 @@
 					key : 'userinfo'
 				}, function(ret, err) {
 					userinfoobj = eval('(' + ret.value + ')');
-//					alert(JSON.stringify(userinfoobj));
-					//					api.ajax({
-					//						url : window.serverUrl + '/userinfo_list/token/' + userinfoobj.token + '/user_id/' + userinfoobj.id,
-					//					}, function(ret, err) {
-					//						api.toast({
-					//	                        msg:ret
-					//                      });
 					if (ret && ret.value) {
 						
 						$("#username").html(userinfoobj.username);
@@ -243,7 +236,6 @@
 					} else {
 						alert(JSON.stringify(err));
 					}
-					//					});
 				});
 				//余额刷新监听
 				api.addEventListener({
