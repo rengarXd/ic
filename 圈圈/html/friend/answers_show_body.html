@@ -142,7 +142,9 @@
 			</ul>
 		</div>
 		<div class="aui-content" style="padding-bottom: 55px;margin-bottom: 0;">
-			<div id="answers_body"></div>
+			<div>
+				<ul class="aui-user-view aui-in" id="answers_body"></ul>
+			</div>
 			<li id="buttonload">
 				<div class="loading" style="display: none">
 					正在加载....
@@ -150,7 +152,6 @@
 			</li>
 		</div>
 		<script type="text/html" id="answers_data">
-			<ul class="aui-user-view aui-in">
 			{{# for (var i = 0, len = d.bbs_ask.length; i < len; i++) { }}
 			{{# if(d.bbs_ask[i].isright==1){ }}
 			<li class="aui-user-view-cell aui-img" style="background: #f3ffec">
@@ -180,17 +181,14 @@
 			</li>
 			{{# } }}
 			{{# } }}
-			</ul>
 		</script>
-		
-		
 	</body>
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript" src="../../script/laytpl.js"></script>
 	<script type="text/javascript" src="../../script/echo.min.js"></script>
 	<script>
-		var photoBrowser = null, answers = null, bbs = null, page = 1;
+		var photoBrowser = null, answers = null, bbs = null, page = 1, loadLock = false;
 		var ishaveright, userid;
 		Zepto(function() {
 			$("#an_photo").on("click", function() {
@@ -222,7 +220,7 @@
 				if (ret) {
 					if (ret.buttonIndex == 1) {
 						api.ajax({
-							url : window.serverUrl + '/ask_isright/user_id/'+answers.id+'/token/' + answers.token + '/ask_id/' + id + '/isright/1',
+							url : window.serverUrl + '/ask_isright/user_id/' + answers.id + '/token/' + answers.token + '/ask_id/' + id + '/isright/1',
 							cache : false
 						}, function(ret, err) {
 							if (ret && ret.retCode == 1) {
@@ -242,6 +240,7 @@
 
 		//1、获取数据 isshow为false则不显示  评论page 页数
 		function get_data(isshow, isbutton) {
+			loadLock = true;
 			//1.2 接收要获取的问答ID
 			bbs = H.$getPageParam();
 			api.getPrefs({
@@ -292,15 +291,15 @@
 							$("#noask").show();
 							$(".loading").hide();
 						} else {
-							// 1.6 对文档区域进行渲染
-							if (ret.retValue.bbs_ask.length == 10) {
-								//1.6.1 判断如果有第二页数据page+1
-								page = page + 1;
+							if (ret.retValue.count == page) {
+								loadLock = true;
+							} else {
+								page++;
+								loadLock = false;
 							}
-							$(".loading").hide();
 							// 1.7 如果是回复滚动到网页底部
 							if (!isshow && isbutton) {
-								H.$com.scrollToDocButton();
+								location.reload();
 							}
 							// 1.8 如果是底部加载
 							if (page >= 2) {
@@ -313,6 +312,7 @@
 									if (userid != answers.id) {
 										$('.ic_cn').hide();
 									}
+									$(".loading").hide();
 									//H.$com.scrollToDocButton();
 								});
 							} else {
@@ -325,6 +325,7 @@
 									if (userid != answers.id) {
 										$('.ic_cn').hide();
 									}
+									$(".loading").hide();
 									$("#noask").hide();
 								});
 							}
@@ -397,8 +398,12 @@
 			//7 滚动到底部
 			H.$scrolltobottom(function(ret, err) {
 				$(".loading").show();
+				if (loadLock == false) {
+					get_data(false, false);
+				} else {
+					$(".loading").hide();
+				}
 				//8 滚动底部重新加载
-				get_data(false, false);
 			});
 		});
 	</script>
