@@ -82,7 +82,7 @@
 		<!--我要问诊-->
 		<div id="ic_over" style="display: none;text-align: center">
 			<h4>我们已经收到您的评价，I宠有您更精彩！</h4>
-			<span class="aui-btn aui-btn-block" tapmode onclick="api.closeWin();">返回医生详情</span>
+			<span class="aui-btn aui-btn-block" tapmode onclick="returClose();">返回医生详情</span>
 		</div>
 	</body>
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
@@ -103,6 +103,17 @@
 		});
 		function issf(i) {
 			isSatisfied = i;
+		}
+
+		function returClose() {
+			api.closeToWin({
+				name : 'consulting_doctor_header',
+				animation : {
+					type : 'flip',
+					subType : 'from_bottom',
+					duration : 500
+				}
+			});
 		}
 
 
@@ -127,9 +138,6 @@
 						}
 					}, function(ret, err) {
 						if (ret && ret.retCode == 1) {
-							api.sendEvent({
-								name : 'closeChat'
-							});
 							api.sendEvent({
 								name : 'doctorReload'
 							});
