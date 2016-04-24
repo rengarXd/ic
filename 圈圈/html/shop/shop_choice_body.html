@@ -130,7 +130,7 @@
 	<script type="text/javascript">
 		//整合产品型号数据
 		var templis = [], goodId = null, retobj = null, productId = null, store_nums = null, typenum = 0;
-		var retstatus = true;
+		var retstatus = true, store = null;
 		H.ready(function() {
 			api.getPrefs({
 				key : 'userinfo'
@@ -198,12 +198,15 @@
 					}
 				}, function(ret, err) {
 					if (ret) {
+						store_nums = ret.retValue.store_nums;
+						store = ret.retValue.store_nums;
+						$("#store_num").html(store_nums);
 						productId = ret.retValue.id;
 						api.hideProgress();
 					} else {
 						api.hideProgress();
 						api.toast({
-							msg : err.msg
+							msg : '请求失败，请重新选择'
 						});
 					}
 				});
@@ -216,15 +219,15 @@
 		function changeNum() {
 			var buyNums = parseInt($.trim($('#member').val()));
 			if (isNaN(buyNums) || buyNums == 0) {
+				$("#member").val(1);
 				api.toast({
 					msg : '请填写正确的商品数量'
 				});
-				$("#member").val(1);
 			} else if (buyNums > store_nums) {
+				$("#member").val(store_nums);
 				api.toast({
 					msg : '商品数量不能大于库存'
 				});
-				$("#member").val(store_nums);
 			}
 		}
 
