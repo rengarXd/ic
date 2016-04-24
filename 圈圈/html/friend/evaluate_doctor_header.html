@@ -17,13 +17,25 @@
 	<body>
 		<!--标题栏 start-->
 		<header class="aui-bar aui-bar-nav aui-bar-1d9dd5 header" id='aui-header'>
-			<a class="aui-pull-left" tapmode onclick="H.$closeCurrentWin();"> <span class="aui-iconfont aui-icon-left"></span>返回 </a>
+			<a class="aui-pull-left" tapmode onclick="closeWin();"> <span class="aui-iconfont aui-icon-left"></span>返回 </a>
 			<div class="aui-title">
 				医生评价
 			</div>
 		</header>
 		<script type="text/javascript" src="../../script/AHelper.js"></script>
 		<script type="text/javascript">
+			function closeWin() {
+				api.closeToWin({
+					name : 'consulting_doctor_header',
+					animation : {
+						type : 'flip',
+						subType : 'from_bottom',
+						duration : 500
+					}
+				});
+			}
+
+
 			H.ready(function() {
 				api.parseTapmode();
 				// 快速打开窗口
