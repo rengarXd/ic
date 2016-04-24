@@ -394,6 +394,7 @@
 						name : 'ichong',
 						sql : sql
 					}, function(ret, err) {
+						$("#brige").show();
 						api.sendEvent({
 							name : 'getsystemmsg',
 							extra : ret
@@ -420,7 +421,13 @@
 			api.addEventListener({
 				name : 'useVoucherMsg'
 			}, function(ret, err) {
-				$("#brige").show();
+				if (ret) {
+					$("#brige").show();
+				} else {
+					api.toast({
+						msg : err
+					});
+				}
 			});
 			//12.2 系统消息阅读状态
 			api.addEventListener({
