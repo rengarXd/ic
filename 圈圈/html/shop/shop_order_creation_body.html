@@ -150,13 +150,13 @@
 		<footer class="aui-nav" id="appRefund" style="display: none;">
 			<div class="aui-col-xs-6">
 				<!--<div class="cancel" onclick="removeData();">
-					取消
+				取消
 				</div>-->
 			</div>
 			<div class="aui-col-xs-6">
-			<div class="refund">
-				申请退款
-			</div>
+				<div class="refund">
+					申请退款
+				</div>
 			</div>
 		</footer>
 	</body>
@@ -189,18 +189,17 @@
 			if (orders.pay_type == 11) {
 				$("#pay_type").html("在线支付");
 			}
-			//用户留言
-			$("#postscript").html(orders.postscript);
 			//支付方式
 			$("#order_amount").html("￥" + orders.order_amount + "元");
 			//订单总金额
 			$("#note").html(orders.note);
 			//附加信息
-			if (orders.postscript) {
-				$("#postscript").html(orders.postscript);
-			} else {
+			if (orders.postscript == null) {
 				$("#postscript").html("无");
+			} else {
+				$("#postscript").html(orders.postscript);
 			}
+			//用户留言
 		}
 
 		//返回商品页
@@ -232,7 +231,7 @@
 							buttons : ['确定']
 						}, function(ret, err) {
 							if (ret) {
-								if(ret.buttonIndex == 1){
+								if (ret.buttonIndex == 1) {
 									$("#buyPay").hide();
 									$("#appRefund").show();
 								}
