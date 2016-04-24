@@ -284,10 +284,10 @@
 						if (contents.num) {
 							totalPlus = parseInt(contents.num) * parseInt(result.goodsList[0].sell_price);
 							$("#totalPrice").html(totalPlus);
-//							$("#goodsNum").text(contents.num);
+							//							$("#goodsNum").text(contents.num);
 						} else {
 							$("#totalPrice").text(result.goodsList[0].sell_price);
-//							$("#goodsNum").text(result.goodsList[0].count);
+							//							$("#goodsNum").text(result.goodsList[0].count);
 						}
 						if (result.address.length == 0) {
 							api.toast({
@@ -326,10 +326,10 @@
 						if (contents.num) {
 							totalPlus = parseInt(contents.num) * parseInt(result.goodsList[0].sell_price);
 							$("#totalPrice").html(totalPlus);
-//							$("#goodsNum").text(contents.num);
+							//							$("#goodsNum").text(contents.num);
 						} else {
 							$("#totalPrice").text(result.goodsList[0].sell_price);
-//							$("#goodsNum").text(result.goodsList[0].count);
+							//							$("#goodsNum").text(result.goodsList[0].count);
 						}
 						if (result.address.length == 0) {
 							api.toast({
@@ -617,7 +617,11 @@
 			$("#activeMessage").text(result.prop[i].name);
 			ticket_ids = result.prop[i].id;
 			$(".active_list").hide();
-			$("#totalPrice").text(parseInt($("#totalPrice").text()) - parseInt(result.prop[i].value));
+			if (parseInt($("#totalPrice").text()) > parseInt(result.prop[i].value)) {
+				$("#totalPrice").text(parseInt($("#totalPrice").text()) - parseInt(result.prop[i].value));
+			} else {
+				$("#totalPrice").text(0);
+			}
 		}
 
 		//移除活动信息
@@ -693,10 +697,13 @@
 											api.toast({
 												msg : '免单订单生成成功'
 											});
+											H.$openWin("shop_order_finish_header", "shop_order_finish_header.html");
+											break;
 										case 2 :
 											console.log(orders);
 											api.hideProgress();
 											H.$openWin("shop_order_creation_header", "shop_order_creation_header.html", orders);
+											break;
 									}
 								} else {
 									alert(JSON.stringify(err));
@@ -736,10 +743,13 @@
 											api.toast({
 												msg : '免单订单生成成功'
 											});
+											H.$openWin("shop_order_finish_header", "shop_order_finish_header.html");
+											break;
 										case 2 :
 											console.log(orders);
 											api.hideProgress();
 											H.$openWin("shop_order_creation_header", "shop_order_creation_header.html", orders);
+											break;
 									}
 								} else {
 									alert(JSON.stringify(err));
@@ -766,7 +776,7 @@
 
 		H.ready(function() {
 			contents = H.$getPageParam();
-//			alert(JSON.stringify(contents));
+			//			alert(JSON.stringify(contents));
 			api.getPrefs({
 				key : 'userinfo'
 			}, function(ret, err) {
