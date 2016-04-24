@@ -272,7 +272,7 @@
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript" src="../../script/laytpl.js"></script>
 	<script type="text/javascript">
-		var retabc = null, contents = null, result = null, addressData = null, proId = null, ticket_ids = null, accept_name = null, province = null, city = null, area = null, address = null, telphone = null, totalPlus = null;
+		var retabc = null, ticket_value = null, fare = null, contents = null, result = null, addressData = null, proId = null, ticket_ids = null, accept_name = null, province = null, city = null, area = null, address = null, telphone = null, totalPlus = null;
 		Zepto(function($) {
 		});
 		//1、获取数据
@@ -480,9 +480,10 @@
 					if (ret) {
 						//alert(JSON.stringify(ret));
 						$("#delivery").html(ret.retValue.name);
+						fare = ret.retValue.price;
 						if (ret.retValue.if_delivery == 0) {
-							$("#freight").html("运费：" + ret.retValue.price + "元");
-							$("#totalPrice").text(parseInt($("#totalPrice").text()) + parseInt(ret.retValue.price));
+							$("#freight").html("运费：" + fare + "元");
+							$("#totalPrice").text(parseInt($("#totalPrice").text()) + parseInt(fare));
 						} else {
 							alert("您所在的地区暂不支持配送，请联系客服人员");
 						}
@@ -505,9 +506,10 @@
 					if (ret) {
 						//alert(JSON.stringify(ret));
 						$("#delivery").html(ret.retValue.name);
+						fare = ret.retValue.price;
 						if (ret.retValue.if_delivery == 0) {
-							$("#freight").html("运费：" + ret.retValue.price + "元");
-							$("#totalPrice").text(parseInt($("#totalPrice").text()) + parseInt(ret.retValue.price));
+							$("#freight").html("运费：" + fare + "元");
+							$("#totalPrice").text(parseInt($("#totalPrice").text()) + parseInt(fare));
 						} else {
 							alert("您所在的地区暂不支持配送，请联系客服人员");
 						}
@@ -538,58 +540,59 @@
 			});
 		}
 
-		function fare() {
-			if (contents.productId) {
-				api.ajax({
-					url : window.serverUrl + '/order_delivery/token/' + retabc.token + '/user_id/' + retabc.id,
-					data : {
-						values : {
-							"productId[]" : contents.productId,
-							"province" : result.address[0].province,
-							"distribution" : $("#delivery").attr("deliveryVal"),
-							"num" : $("#member").val()
-						}
-					}
-				}, function(ret, err) {
-					if (ret) {
-						//alert(JSON.stringify(ret));
-						$("#delivery").html(ret.retValue.name);
-						if (ret.retValue.if_delivery == 0) {
-							$("#freight").html("运费：" + ret.retValue.price + "元");
-						} else {
-							alert("您所在的地区暂不支持配送，请联系客服人员");
-						}
-					} else {
-						alert(JSON.stringify(err));
-					}
-				});
-			} else {
-				api.ajax({
-					url : window.serverUrl + '/order_delivery/token/' + retabc.token + '/user_id/' + retabc.id,
-					data : {
-						values : {
-							"goodsId[]" : contents.goodId,
-							"province" : result.address[0].province,
-							"distribution" : $("#delivery").attr("deliveryVal"),
-							"num" : $("#member").val()
-						}
-					}
-				}, function(ret, err) {
-					if (ret) {
-						//alert(JSON.stringify(ret));
-						$("#delivery").html(ret.retValue.name);
-						if (ret.retValue.if_delivery == 0) {
-							$("#freight").html("运费：" + ret.retValue.price + "元");
-						} else {
-							alert("您所在的地区暂不支持配送，请联系客服人员");
-						}
-					} else {
-						alert(JSON.stringify(err));
-					}
-				});
-			}
-		}
-
+		//		function fare() {
+		//			if (contents.productId) {
+		//				api.ajax({
+		//					url : window.serverUrl + '/order_delivery/token/' + retabc.token + '/user_id/' + retabc.id,
+		//					data : {
+		//						values : {
+		//							"productId[]" : contents.productId,
+		//							"province" : result.address[0].province,
+		//							"distribution" : $("#delivery").attr("deliveryVal"),
+		//							"num" : $("#member").val()
+		//						}
+		//					}
+		//				}, function(ret, err) {
+		//					if (ret) {
+		//						//alert(JSON.stringify(ret));
+		//						$("#delivery").html(ret.retValue.name);
+		//						fares = ret.retValue.price;
+		//						if (ret.retValue.if_delivery == 0) {
+		//							$("#freight").html("运费：" + fares + "元");
+		//						} else {
+		//							alert("您所在的地区暂不支持配送，请联系客服人员");
+		//						}
+		//					} else {
+		//						alert(JSON.stringify(err));
+		//					}
+		//				});
+		//			} else {
+		//				api.ajax({
+		//					url : window.serverUrl + '/order_delivery/token/' + retabc.token + '/user_id/' + retabc.id,
+		//					data : {
+		//						values : {
+		//							"goodsId[]" : contents.goodId,
+		//							"province" : result.address[0].province,
+		//							"distribution" : $("#delivery").attr("deliveryVal"),
+		//							"num" : $("#member").val()
+		//						}
+		//					}
+		//				}, function(ret, err) {
+		//					if (ret) {
+		//						//alert(JSON.stringify(ret));
+		//						$("#delivery").html(ret.retValue.name);
+		//						fares = ret.retValue.price;
+		//						if (ret.retValue.if_delivery == 0) {
+		//							$("#freight").html("运费：" + fares + "元");
+		//						} else {
+		//							alert("您所在的地区暂不支持配送，请联系客服人员");
+		//						}
+		//					} else {
+		//						alert(JSON.stringify(err));
+		//					}
+		//				});
+		//			}
+		//		}
 		//选择支付方式
 		function payMent() {
 			api.actionSheet({
@@ -619,14 +622,17 @@
 
 		//隐藏并获取选中的活动信息
 		function closeActive(i) {
+			//			if (ticket_value != ticket_value || ticke_value == null) {
 			$("#activeMessage").text(result.prop[i].name);
 			ticket_ids = result.prop[i].id;
+			ticket_value = parseInt(result.prop[i].value);
 			$(".active_list").hide();
-			if (parseInt($("#totalPrice").text()) > parseInt(result.prop[i].value)) {
-				$("#totalPrice").text(parseInt($("#totalPrice").text()) - parseInt(result.prop[i].value));
+			if (totalPlus > parseInt(ticket_value)) {
+				$("#totalPrice").text(totalPlus - parseInt(ticket_value));
 			} else {
 				$("#totalPrice").text(0);
 			}
+			//			}
 		}
 
 		//移除活动信息
@@ -636,6 +642,11 @@
 			ticket_ids = 0;
 			//移除所选活动名
 			$("#activeMessage").text('');
+			if (fare == null) {
+				$("#totalPrice").text(totalPlus);
+			} else {
+				$("#totalPrice").text(totalPlus + parseInt(fare));
+			}
 		}
 
 		//新增地址
