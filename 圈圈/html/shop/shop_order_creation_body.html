@@ -48,6 +48,14 @@
 				line-height: 55px;
 				background: -webkit-gradient(linear, left top, left bottom, from(#f96c0c), to(#f07927));
 			}
+			.aui-nav .refund {
+				line-height: 55px;
+				background: -webkit-gradient(linear, left top, left bottom, from(#ff7f27), to(#ff6001));
+			}
+			.aui-nav .refund:active {
+				line-height: 55px;
+				background: -webkit-gradient(linear, left top, left bottom, from(#f96c0c), to(#f07927));
+			}
 			.aui-nav .cancel {
 				line-height: 55px;
 				background: -webkit-gradient(linear, left top, left bottom, from(#f9bf23), to(#f9c740));
@@ -129,7 +137,7 @@
 		<!--撑开相应高度-->
 		<div style="height: 55px;"></div>
 		<!--撑开相应高度-->
-		<footer class="aui-nav">
+		<footer class="aui-nav" id="buyPay">
 			<div class="aui-col-xs-6">
 				<div class="cancel" onclick="removeData();">
 					取消
@@ -139,11 +147,23 @@
 				支付
 			</div>
 		</footer>
+		<footer class="aui-nav" id="appRefund" style="display: none;">
+			<div class="aui-col-xs-6">
+				<!--<div class="cancel" onclick="removeData();">
+					取消
+				</div>-->
+			</div>
+			<div class="aui-col-xs-6">
+			<div class="refund">
+				申请退款
+			</div>
+			</div>
+		</footer>
 	</body>
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript">
-		var retobj = null, orders = null, datas = null,ordersId = null;
+		var retobj = null, orders = null, datas = null, ordersId = null, type = null;
 		function get_data(orders) {
 			$("#order_no").html(orders.order_no);
 			//订单编号
@@ -183,15 +203,18 @@
 
 		//返回商品页
 		function removeData() {
-			api.closeToWin({
-				name : 'shop_show_header',
-				animation : {
-					type : 'push',
-					subType : 'from_bottom',
-					duration : 500
-				}
-			});
-			H.$closeCurrentWin();
+			if (orders.types == 1) {
+				H.$closeCurrentWin();
+			} else {
+				api.closeToWin({
+					name : 'shop_show_header',
+					animation : {
+						type : 'push',
+						subType : 'from_bottom',
+						duration : 500
+					}
+				});
+			}
 		}
 
 		//支付
@@ -201,14 +224,23 @@
 					url : window.serverUrl + '/doPay/token/' + retobj.token + '/user_id/' + retobj.id + '/order_id/' + ordersId,
 				}, function(ret, err) {
 					if (ret) {
-						alert(JSON.stringify(ret));
+						api.alert({
+							title : '提示',
+							msg : ret.retDesc,
+							buttons : ['确定']
+						}, function(ret, err) {
+							if (ret) {
+								if(ret.buttonIndex == 1){
+									$("#buyPay").hide();
+									$("#appRefund").show();
+								}
+							} else {
+								alert(JSON.stringify(err));
+							}
+						});
 						// 2.0 插入系统消息
 						api.sendEvent({
 							name : 'useVoucherMsg'
-						}, function(ret, err) {
-							api.toast({
-								msg : ret.retDesc
-							});
 						});
 					} else {
 						api.toast({
@@ -216,7 +248,7 @@
 						});
 					}
 				});
-			}else{
+			} else {
 				alert('在线支付功能即将开启！');
 			}
 		}
@@ -224,11 +256,10 @@
 
 		H.ready(function() {
 			orders = H.$getPageParam();
-//			alert(JSON.stringify(orders));
-			
+			//						alert(JSON.stringify(orders));
 			if (orders.id) {
 				ordersId = orders.id;
-			}else{
+			} else {
 				ordersId = orders.order_id;
 			}
 			get_data(orders);
