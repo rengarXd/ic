@@ -15,8 +15,8 @@
 			.ic_order_status:after {
 				border-bottom: #fff
 			}
-			.ic_storing {		
-				float:right;
+			.ic_storing {
+				float: right;
 			}
 			.button, .aui-btn {
 				padding: 2px 6px !important;
@@ -28,16 +28,17 @@
 		</style>
 	</head>
 	<body>
+		<div id="refunds_html"></div>
 		<div class="aui-content-padded" style="padding-top: 10px;">
 			<ul class="aui-list-view">
 				<li class="aui-list-view-cell ic_order_status">
-					<h5>2016-04-24 14:34:53  订单创建</h5>
-					<h5>2016-04-24 14:34:59  订单付款 19.00</h5>
+					<h5 id="completion_time">2016-04-24 14:34:53  订单创建</h5>
+					<h5 id="pay_time">2016-04-24 14:34:59  订单付款 19.00</h5>
 				</li>
 				<li class="aui-list-view-cell">
-					<h5>订单号：<span class="ic_storing">20160424143453834078</span></h5>
-					<h5>下单日期：<span class="ic_storing">2016-04-24 14:34:53</span></h5>
-					<h5>状态：<span class="ic_storing">等待发货</span></h5>
+					<h5>订单号：<span class="ic_storing" id="order_no">20160424143453834078</span></h5>
+					<h5>下单日期：<span class="ic_storing" id="create_time">2016-04-24 14:34:53</span></h5>
+					<h5>状态：<span class="ic_storing" id="order_status">等待发货</span></h5>
 				</li>
 				<li class="aui-list-view-cell aui-img" style="background: #ECFFED">
 					<img class="aui-img-object aui-pull-left" src="../../image/loading.png">
@@ -46,32 +47,39 @@
 						<p style="font-size: 11px;">
 							颜色:红色,尺寸:适合8斤内的宠物
 							<br />
-							赠送积分:<span class="aui-text-danger aui-pull-right">10</span>
+							赠送积分:<span class="aui-text-danger aui-pull-right" id="point">10</span>
 							<br />
-							商品价格:<span class="aui-text-danger aui-pull-right">￥49.00</span>
+							商品价格:<span class="aui-text-danger aui-pull-right" id="real_amount">￥49.00</span>
 							<br />
-							优惠金额:<span class="aui-text-danger aui-pull-right">￥0</span>
+							优惠金额:<span class="aui-text-danger aui-pull-right" id="promotions">￥0</span>
 							<br />
 							商品数量:<span class="aui-pull-right aui-text-danger">x 1</span>
 							<br />
-							小计:<span class="aui-text-danger aui-pull-right"><strong>￥49</strong></span>
+							小计:<span class="aui-text-danger aui-pull-right" ><strong id="order_amount">￥49</strong></span>
 							<br />
-							配送:<span class="aui-text-danger aui-pull-right"><strong>已发货</strong></span>
+							配送状态:<span class="aui-text-danger aui-pull-right"><strong id="distribution_status">已发货</strong></span>
 						</p>
 					</div>
 				</li>
 				<li class="aui-list-view-cell aui-text-right">
-					<div class="aui-btn aui-btn-danger">
+					<div class="aui-btn aui-btn-danger" id="refundPay">
 						申请退款
 					</div>
+					<div id="refund_distribution">
 					<div class="aui-btn aui-btn-success">
 						确认收货
 					</div>
 					<div class="aui-btn aui-btn-default">
 						查看物流
 					</div>
-					<div class="aui-btn aui-btn-warning">
-						取消订单
+					</div>
+					<div id="pay_status">
+						<div class="aui-btn aui-btn-warning">
+							立即付款
+						</div>
+						<div class="aui-btn aui-btn-warning">
+							取消订单
+						</div>
 					</div>
 				</li>
 			</ul>
@@ -161,13 +169,261 @@
 				</li>
 			</ul>
 		</div>
-	</body>
-	<script type="text/javascript" src="../../script/AHelper.js"></script>
-	<script type="text/javascript" src="../../script/zepto.min.js"></script>
-	<script type="text/javascript">
-		Zepto(function($) {
-		});
-		H.ready(function() {
-		});
-	</script>
+		<script type="text/html" id="refunds_data">
+			<div class="aui-content-padded" style="padding-top: 10px;">
+			<ul class="aui-list-view">
+			<li class="aui-list-view-cell ic_order_status">
+			<h5>{{ d.creat_time }}  订单创建</h5>
+			<h5>{{ d.pay_time }} 订单总金额 {{ d.order_amount }}</h5>
+			</li>
+			<li class="aui-list-view-cell">
+			<h5>订单号：<span class="ic_storing">{{ d.order_no }}</span></h5>
+			<h5>下单日期：<span class="ic_storing">{{ d.create_time }}</span></h5>
+			<h5>状态：
+			{{# switch (d.status) { }}
+			{{# case 1: }}
+			<span class="ic_storing">待付款</span>
+			{{# break; }}
+			{{# case 2: }}
+			<span class="ic_storing">已付款</span>
+			{{# break; }}
+			{{# case 3: }}
+			<span class="ic_storing">已取消</span>
+			{{# break; }}
+			{{# case 4: }}
+			<span class="ic_storing">已作废</span>
+			{{# break; }}
+			{{# case 5: }}
+			<span class="ic_storing">已完成</span>
+			{{# break; }}
+			{{# case 6: }}
+			<span class="ic_storing">退款</span>
+			{{# break; }}
+			{{# case 7: }}
+			<span class="ic_storing">部分退款</span>
+			{{# break; }}
+			{{# } }}
+			</h5>
+			</li>
+			<li class="aui-list-view-cell aui-img" style="background: #ECFFED">
+			<img class="aui-img-object aui-pull-left" src="../../image/loading.png">
+			<div class="aui-img-body">
+			<h4 class="ic_goods_title">出口品质藤编狗窝可拆洗藤窝柳编泰迪金毛宠物窝猫窝四季可用包邮</h4>
+			<p style="font-size: 11px;">
+			颜色:红色,尺寸:适合8斤内的宠物
+			<br />
+			赠送积分:<span class="aui-text-danger aui-pull-right">{{ d.point }}</span>
+			<br />
+			商品价格:<span class="aui-text-danger aui-pull-right">￥{{ d.real_amount }}</span>
+			<br />
+			优惠金额:<span class="aui-text-danger aui-pull-right">￥{{ d.promotions }}</span>
+			<br />
+			商品数量:<span class="aui-pull-right aui-text-danger">x 1</span>
+			<br />
+			小计:<span class="aui-text-danger aui-pull-right"><strong>￥{{ d.order_amount }}</strong></span>
+			<br />
+			配送:<span class="aui-text-danger aui-pull-right">
+			{{# switch( d.distribution_status ) { }}
+			{{# case 0: }}
+			<strong>未发送</strong>
+			{{# break; }}
+			{{# case 1: }}
+			<strong>已发货</strong>
+			{{# break; }}
+			{{# case 2: }}
+			<strong>部分发货</strong>
+			{{# break; }}
+			{{# } }}
+			</span>
+			</p>
+			</div>
+			</li>
+			<li class="aui-list-view-cell aui-text-right">
+			{{# if( d.distribution_status == 1) { }}
+			<div class="aui-btn aui-btn-danger">
+			申请退款
+			</div>
+			<div class="aui-btn aui-btn-success">
+			确认收货
+			</div>
+			<div class="aui-btn aui-btn-default">
+			查看物流
+			</div>
+			<div class="aui-btn aui-btn-warning">
+			立即付款
+			</div>
+			<div class="aui-btn aui-btn-warning">
+			取消订单
+			</div>
+			{{# }　}}
+			</li>
+			</ul>
+			<ul class="aui-list-view">
+			<li class="aui-list-view-cell">
+			<h5>
+			<div class="aui-col-xs-3">
+			收货人
+			</div>
+			<div class="aui-col-xs-9">
+			{{ d.accept_name }}
+			</div></h5>
+			</li>
+			<li class="aui-list-view-cell">
+			<h5>
+			<div class="aui-col-xs-3">
+			地址
+			</div>
+			<div class="aui-col-xs-9" id="addressInfo">
+			{{ d.province_str }} {{ d.city_str }} {{ d.area_str }} {{ d.address }}郑州市 中原区 国家大学科技园东区18号楼c座13层
+			</div></h5>
+			</li>
+			<li class="aui-list-view-cell">
+			<h5>
+			<div class="aui-col-xs-3">
+			手机号码
+			</div>
+			<div class="aui-col-xs-9">
+			{{ d.mobile }}
+			</div></h5>
+			</li>
+			<!--<li class="aui-list-view-cell">
+			<h5>
+			<div class="aui-col-xs-3">
+			邮编
+			</div>
+			<div class="aui-col-xs-9">
+			未填写
+			</div></h5>
+			</li>
+			</ul>
+			<ul class="aui-list-view">
+			<li class="aui-list-view-cell">
+			<h5>
+			<div class="aui-col-xs-3">
+			配送方式
+			</div>
+			<div class="aui-col-xs-9">
+			{{ d.delivery }}
+			</div></h5>
+			</li>
+			<li class="aui-list-view-cell">
+			<h5>
+			<div class="aui-col-xs-3">
+			支付方式
+			</div>
+			<div class="aui-col-xs-9">
+			{{ d.payment }}
+			</div></h5>
+			</li>
+			<li class="aui-list-view-cell">
+			<h5>
+			<div class="aui-col-xs-3">
+			运费
+			</div>
+			<div class="aui-col-xs-9">
+			{{ d.payable_freight }}
+			</div></h5>
+			</li>
+			<li class="aui-list-view-cell">
+			<h5>
+			<div class="aui-col-xs-3">
+			物流公司
+			</div>
+			<div class="aui-col-xs-9">
+			暂无
+			</div></h5>
+			</li>
+			<li class="aui-list-view-cell">
+			<h5>
+			<div class="aui-col-xs-3">
+			快递单号
+			</div>
+			<div class="aui-col-xs-9">
+			暂无
+			</div></h5>
+			</li>
+			</ul>
+			</div>
+			</script>-->
+			</body>
+			<script type="text/javascript" src="../../script/AHelper.js"></script>
+		<script type="text/javascript" src="../../script/zepto.min.js"></script>
+		<script type="text/javascript" src="../../script/laytpl.js"></script>
+		<script type="text/javascript">
+			var create = null, retobj = null, result = null;
+			Zepto(function($) {
+			});
+			//1、获取数据
+			function get_data() {
+				//请求ajax数据
+				api.ajax({
+					url : window.serverUrl + '/refunds_order_detail/token/' + retobj.token + '/user_id/' + retobj.id + '/order_id/' + parseInt(create.ordersId),
+				}, function(ret, err) {
+					if (ret && ret.retCode == 1) {
+						alert(JSON.stringify(ret));
+						result = ret.retValue;
+						$("#completion_time").html(result.creat_time + "订单创建");
+						$("#pay_time").html(result.pay_time + "订单付款" + result.order_amount);
+						$("#order_status").html(result.order_status);
+						$("#order_no").html(result.order_no);
+						$("#create_time").html(result.create_time);
+						$("#real_amount").html(result.real_amount);
+						$("#promotions").html(result.promotions);
+						$("#order_amount").html(result.order_amount);
+						switch(result.distribution_status) {
+							case 0:
+								$("#distribution_status").html("未发送");
+								break;
+							case 1:
+								$("#distribution_status").html("已发送");
+								break;
+							case 2:
+								$("#distribution_status").html("部分发送");
+								break;
+						}
+						switch (result.pay_status) {
+							case 0:
+								$("#pay_status").show();
+								$("#refundPay").hide();
+								break;
+							case 1:
+								$("#pay_status").hide();
+								$("#refundPay").show();
+								break;
+						}
+						switch (result.distribution_status){
+							case 0:
+							$("refund_distribution").hide();
+							break;
+							case 1:
+							$("refund_distribution").show();
+							break;
+						}
+						$("#addressInfo").html(result.province_str);
+//						$("#point").html(result.point);
+//						$("#point").html(result.point);
+//						$("#point").html(result.point);
+//						$("#point").html(result.point);
+						//					var t = document.getElementById('refunds_data').innerHTML;
+						//					laytpl(t).render(result, function(render) {
+						//						document.getElementById('refunds_html').innerHTML = render;
+						//					});
+					} else {
+						alert(JSON.stringify(err.msg));
+					}
+				});
+			}
+
+
+			H.ready(function() {
+				create = H.$getPageParam();
+				//			alert(JSON.stringify(create.ordersId));
+				api.getPrefs({
+					key : 'userinfo'
+				}, function(ret, err) {
+					retobj = eval('(' + ret.value + ')');
+					get_data();
+				});
+			});
+		</script>
 </html>
