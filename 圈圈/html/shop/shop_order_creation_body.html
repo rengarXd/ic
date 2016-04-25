@@ -147,18 +147,6 @@
 				支付
 			</div>
 		</footer>
-		<footer class="aui-nav" id="appRefund" style="display: none;">
-			<div class="aui-col-xs-6">
-				<!--<div class="cancel" onclick="removeData();">
-				取消
-				</div>-->
-			</div>
-			<div class="aui-col-xs-6">
-				<div class="refund">
-					申请退款
-				</div>
-			</div>
-		</footer>
 	</body>
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
@@ -225,20 +213,34 @@
 					url : window.serverUrl + '/doPay/token/' + retobj.token + '/user_id/' + retobj.id + '/order_id/' + ordersId,
 				}, function(ret, err) {
 					if (ret) {
-						api.alert({
-							title : '提示',
-							msg : ret.retDesc,
-							buttons : ['确定']
-						}, function(ret, err) {
-							if (ret) {
-								if (ret.buttonIndex == 1) {
-									$("#buyPay").hide();
-									$("#appRefund").show();
-								}
-							} else {
-								alert(JSON.stringify(err));
+						alert(JSON.stringify(ret.retDesc));
+						api.openWin({
+							name : 'shop_order_detail_header',
+							url : 'shop_order_detail_header.html',
+							pageParam : {
+								ordersId : ordersId
 							}
 						});
+						//						api.alert({
+						//							title : '提示',
+						//							msg : ret.retDesc,
+						//							buttons : ['确定']
+						//						}, function(ret, err) {
+						//							if (ret) {
+						//								alert(JSON.stringify(ret));
+						//								if (ret.buttonIndex == parseInt(1)) {
+						//									api.openWin({
+						//										name : 'shop_order_detail_header',
+						//										url : 'shop_order_detail_header.html',
+						//										pageParam : {
+						//											orderId : orderId
+						//										}
+						//									});
+						//								}
+						//							} else {
+						//								alert(JSON.stringify(err));
+						//							}
+						//						});
 						// 2.0 插入系统消息
 						api.sendEvent({
 							name : 'useVoucherMsg'
