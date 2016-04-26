@@ -165,7 +165,7 @@
 			</div>
 			</li>
 			<li class="aui-list-view-cell aui-text-right">
-			<div class="aui-btn aui-btn-danger" id="refundPay" onclick="openRefund({{ i }});" style="display: none;">
+			<div class="aui-btn aui-btn-danger" id="refundPay" onclick="openRefund();" style="display: none;">
 			申请退款
 			</div>
 			<div class="aui-btn aui-btn-success" id="cof_delivery" style="display: none;">
@@ -190,24 +190,46 @@
 	<script type="text/javascript">
 		var create = null, retobj = null, result = null;
 		Zepto(function($) {
-			$("#paynow").on("tap", function() {
-				H.$openWin("shop_order_creation_header", "shop_order_creation_header.html", {
-					id : parseInt(create.ordersId)
-				});
-			});
 			$("#cancelPay").on("tap", function() {
 			});
 		});
+		//立即付款
 		function openPaynow() {
-			H.$openWin("shop_order_creation_header", "shop_order_creation_header.html", {
-					id : parseInt(create.ordersId)
-				});
+			api.confirm({
+				title : '温馨提示',
+				msg : '您确定要立即付款吗？',
+				buttons : ['取消', '确定']
+			}, function(ret, err) {
+				if (ret) {
+					if (ret.buttonIndex == 2) {
+						api.ajax({
+							url : window.serverUrl + '/doPay/token/' + retobj.token + '/user_id/' + retobj.id + '/order_id/' + parseInt(create.ordersId),
+						}, function(ret, err) {
+							if (ret) {
+								alert(JSON.stringify(ret.retDesc));
+								location.reload();
+								// 2.0 插入系统消息
+								api.sendEvent({
+									name : 'useVoucherMsg'
+								});
+							} else {
+								api.toast({
+									msg : err.msg
+								});
+							}
+						});
+					}
+				} else {
+					alert(JSON.stringify(err.msg));
+				}
+			});
 		}
-		
-		function openRefund(i) {
+
+		//打开退款详情页
+		function openRefund() {
 			var imgUrl = $("#goods_img").attr('src');
 			var goodsName = $("#goods_name").text();
-			H.$openWin("shop_refund_head", "shop_refund_head.html", {
+			H.$openWin("shop_refund_header", "shop_refund_header.html", {
 				id : parseInt(create.ordersId),
 				order_no : result.order_no,
 				create_time : create_time,
@@ -252,7 +274,7 @@
 						$("#ic_text").show();
 					});
 					//根据状态显示按钮
-					if (status == 3) {
+					if (result.status == 3) {
 						$("#distribution_status").text("未发送");
 					} else if (result.pay_status == 0 && result.distribution_status == 0) {
 						$("#paynow").show();
