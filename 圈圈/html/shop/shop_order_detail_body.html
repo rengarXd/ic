@@ -174,7 +174,7 @@
 			<div class="aui-btn aui-btn-default" id="logistics" style="display: none;">
 			查看物流
 			</div>
-			<div class="aui-btn aui-btn-warning" id="paynow" style="display: none;">
+			<div class="aui-btn aui-btn-warning" id="paynow" onclick="openPaynow();" style="display: none;">
 			立即付款
 			</div>
 			<div class="aui-btn aui-btn-warning" id="cancelPay" style="display: none;">
@@ -198,6 +198,12 @@
 			$("#cancelPay").on("tap", function() {
 			});
 		});
+		function openPaynow() {
+			H.$openWin("shop_order_creation_header", "shop_order_creation_header.html", {
+					id : parseInt(create.ordersId)
+				});
+		}
+		
 		function openRefund(i) {
 			var imgUrl = $("#goods_img").attr('src');
 			var goodsName = $("#goods_name").text();
