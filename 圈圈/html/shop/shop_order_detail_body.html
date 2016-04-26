@@ -6,6 +6,7 @@
 		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
 		<title>订单详情body</title>
 		<link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/tools/loading.css"/>
 		<!--<link rel="stylesheet" type="text/css" href="../../css/fonts/iconfont.css" />-->
 		<style>
 			.ic_order_status {
@@ -28,134 +29,133 @@
 		</style>
 	</head>
 	<body>
-		<div class="aui-content-padded" style="padding-top: 10px;">
-			<ul class="aui-list-view">
-				<div id="state_html"></div>
-				<!--<li class="aui-list-view-cell ic_order_status" >
-				<h5 id="order_step"></h5>
-				<h5 id="completion_time">2016-04-24 14:34:53  订单创建</h5>
-				<h5 id="pay_time">2016-04-24 14:34:59  订单付款 19.00</h5>
-				</li>-->
-				<li class="aui-list-view-cell">
-					<h5>订单号：<span class="ic_storing" id="order_no">20160424143453834078</span></h5>
-					<h5>下单日期：<span class="ic_storing" id="create_time">2016-04-24 14:34:53</span></h5>
-					<h5>状态：<span class="ic_storing" id="order_status">等待发货</span></h5>
-				</li>
-				<div id="refunds_html"></div>
-				<li class="aui-list-view-cell aui-text-right">
-					<div class="aui-btn aui-btn-danger" id="refundPay" style="display: none;">
-						申请退款
-					</div>
-					<div id="refund_distribution" style="display: none;">
-						<div class="aui-btn aui-btn-success">
+		<!--页面加载中-->
+		<div style="text-align: center;" id="ic_loading"><img src="../../image/loading.png" width="70" height="70" />
+			<br />
+			<span>加载中...</span>
+		</div>
+		<!--页面加载中-->
+		<div id="ic_text" style="display: none">
+			<div class="aui-content-padded" style="padding-top: 10px;">
+				<ul class="aui-list-view">
+					<div id="state_html"></div>
+					<li class="aui-list-view-cell">
+						<h5>订单号：<span class="ic_storing" id="order_no">20160424143453834078</span></h5>
+						<h5>下单日期：<span class="ic_storing" id="create_time">2016-04-24 14:34:53</span></h5>
+						<h5>状态：<span class="ic_storing" id="order_status">等待发货</span></h5>
+					</li>
+					<div id="refunds_html"></div>
+					<li class="aui-list-view-cell aui-text-right">
+						<div class="aui-btn aui-btn-danger" id="refundPay" style="display: none;">
+							申请退款
+						</div>
+						<div class="aui-btn aui-btn-success" id="cof_delivery" style="display: none;">
 							确认收货
 						</div>
-						<div class="aui-btn aui-btn-default">
+						<div class="aui-btn aui-btn-default" id="logistics" style="display: none;">
 							查看物流
 						</div>
-					</div>
-					<div id="pay_status" style="display: none;">
-						<div class="aui-btn aui-btn-warning">
+						<div class="aui-btn aui-btn-warning" id="paynow" style="display: none;">
 							立即付款
 						</div>
-						<div class="aui-btn aui-btn-warning">
+						<div class="aui-btn aui-btn-warning" id="cancelPay" style="display: none;">
 							取消订单
 						</div>
-					</div>
-				</li>
-			</ul>
-			<ul class="aui-list-view">
-				<li class="aui-list-view-cell">
-					<h5>
-					<div class="aui-col-xs-3">
-						收货人
-					</div>
-					<div class="aui-col-xs-9" id="accept_name">
-						陈亚磊
-					</div></h5>
-				</li>
-				<li class="aui-list-view-cell">
-					<h5>
-					<div class="aui-col-xs-3">
-						地址
-					</div>
-					<div class="aui-col-xs-9" id="addressInfo">
-						河南省 郑州市 中原区 国家大学科技园东区18号楼c座13层
-					</div></h5>
-				</li>
-				<li class="aui-list-view-cell">
-					<h5>
-					<div class="aui-col-xs-3">
-						手机号码
-					</div>
-					<div class="aui-col-xs-9" id="mobile">
-						15738364224
-					</div></h5>
-				</li>
-				<li class="aui-list-view-cell">
-					<h5>
-					<div class="aui-col-xs-3">
-						邮编
-					</div>
-					<div class="aui-col-xs-9">
-						未填写
-					</div></h5>
-				</li>
-			</ul>
-			<ul class="aui-list-view">
-				<li class="aui-list-view-cell">
-					<h5>
-					<div class="aui-col-xs-3" >
-						配送方式
-					</div>
-					<div class="aui-col-xs-9"id="delivery">
-						快递
-					</div></h5>
-				</li>
-				<li class="aui-list-view-cell">
-					<h5>
-					<div class="aui-col-xs-3">
-						支付方式
-					</div>
-					<div class="aui-col-xs-9" id="payment">
-						预存款
-					</div></h5>
-				</li>
-				<li class="aui-list-view-cell">
-					<h5>
-					<div class="aui-col-xs-3">
-						运费
-					</div>
-					<div class="aui-col-xs-9" id="real_amount">
-						20.00
-					</div></h5>
-				</li>
-				<li class="aui-list-view-cell">
-					<h5>
-					<div class="aui-col-xs-3">
-						物流公司
-					</div>
-					<div class="aui-col-xs-9">
-						暂无
-					</div></h5>
-				</li>
-				<li class="aui-list-view-cell">
-					<h5>
-					<div class="aui-col-xs-3">
-						快递单号
-					</div>
-					<div class="aui-col-xs-9">
-						暂无
-					</div></h5>
-				</li>
-			</ul>
+					</li>
+				</ul>
+				<ul class="aui-list-view">
+					<li class="aui-list-view-cell">
+						<h5>
+						<div class="aui-col-xs-3">
+							收货人
+						</div>
+						<div class="aui-col-xs-9" id="accept_name">
+							陈亚磊
+						</div></h5>
+					</li>
+					<li class="aui-list-view-cell">
+						<h5>
+						<div class="aui-col-xs-3">
+							地址
+						</div>
+						<div class="aui-col-xs-9" id="addressInfo">
+							河南省 郑州市 中原区 国家大学科技园东区18号楼c座13层
+						</div></h5>
+					</li>
+					<li class="aui-list-view-cell">
+						<h5>
+						<div class="aui-col-xs-3">
+							手机号码
+						</div>
+						<div class="aui-col-xs-9" id="mobile">
+							15738364224
+						</div></h5>
+					</li>
+					<li class="aui-list-view-cell">
+						<h5>
+						<div class="aui-col-xs-3">
+							邮编
+						</div>
+						<div class="aui-col-xs-9">
+							未填写
+						</div></h5>
+					</li>
+				</ul>
+				<ul class="aui-list-view">
+					<li class="aui-list-view-cell">
+						<h5>
+						<div class="aui-col-xs-3" >
+							配送方式
+						</div>
+						<div class="aui-col-xs-9" id="delivery">
+							快递
+						</div></h5>
+					</li>
+					<li class="aui-list-view-cell">
+						<h5>
+						<div class="aui-col-xs-3">
+							支付方式
+						</div>
+						<div class="aui-col-xs-9" id="payment">
+							预存款
+						</div></h5>
+					</li>
+					<li class="aui-list-view-cell">
+						<h5>
+						<div class="aui-col-xs-3">
+							运费
+						</div>
+						<div class="aui-col-xs-9" id="real_amount">
+							20.00
+						</div></h5>
+					</li>
+					<li class="aui-list-view-cell">
+						<h5>
+						<div class="aui-col-xs-3">
+							物流公司
+						</div>
+						<div class="aui-col-xs-9">
+							暂无
+						</div></h5>
+					</li>
+					<li class="aui-list-view-cell">
+						<h5>
+						<div class="aui-col-xs-3">
+							快递单号
+						</div>
+						<div class="aui-col-xs-9">
+							暂无
+						</div></h5>
+					</li>
+				</ul>
+			</div>
 		</div>
 		<script type="text/html" id="state_data">
 			<li class="aui-list-view-cell ic_order_status" >
 			{{# for( var x in d.order_step ){ }}
 			<h5>{{ x }}&nbsp;{{ d.order_step[x] }}</h5>
 			{{# } }}
-			</li>		
+			</li>
 		</script>
 		<script type="text/html" id="refunds_data">
 			{{# for(var i = 0, len = d.goods_list.length; i < len; i++){ }}
@@ -177,7 +177,7 @@
 			<br />
 			小计:<span class="aui-text-danger aui-pull-right" ><strong id="order_amount">￥{{ d.goods_list[i].real_price }}</strong></span>
 			<br />
-			配送状态:<span class="aui-text-danger aui-pull-right"><strong id="distribution_status">已发货</strong></span>
+			配送状态:<span class="aui-text-danger aui-pull-right"><strong id="distribution_status"></strong></span>
 			</p>
 			</div>
 			</li>
@@ -190,6 +190,19 @@
 	<script type="text/javascript">
 		var create = null, retobj = null, result = null;
 		Zepto(function($) {
+			$("#paynow").on("tap", function() {
+				H.$openWin("shop_order_creation_header", "shop_order_creation_header.html", {
+					id : parseInt(create.ordersId)
+				});
+			});
+			$("#cancelPay").on("tap", function() {
+				
+			});
+			$("#refundPay").on("tap", function() {
+				H.$openWin("shop_order_creation_header", "shop_order_creation_header.html", {
+					id : parseInt(create.ordersId)
+				});
+			});
 		});
 		//1、获取数据
 		function get_data() {
@@ -198,12 +211,8 @@
 				url : window.serverUrl + '/refunds_order_detail/token/' + retobj.token + '/user_id/' + retobj.id + '/order_id/' + parseInt(create.ordersId),
 			}, function(ret, err) {
 				if (ret && ret.retCode == 1) {
-					alert(JSON.stringify(ret));
+					//					alert(JSON.stringify(ret));
 					result = ret.retValue;
-					//					var x;
-					//					for(x in result.order_step){
-					//
-					//					}
 					$("#pay_time").html(result.pay_time + "订单付款" + result.order_amount);
 					$("#order_status").text(result.order_status);
 					$("#order_no").text(result.order_no);
@@ -211,34 +220,28 @@
 					$("#real_amount").text(result.real_amount);
 					$("#promotions").text(result.promotions);
 					$("#order_amount").text(result.order_amount);
-					switch(result.distribution_status) {
-						case 0:
-							$("#distribution_status").html("未发送");
-							break;
-						case 1:
-							$("#distribution_status").html("已发送");
-							break;
-						case 2:
-							$("#distribution_status").html("部分发送");
-							break;
+					//根据状态显示按钮
+					
+					if(status == 3){
+						$("#distribution_status").text("未发送");
 					}
-					switch (result.pay_status) {
-						case 0:
-							$("#refundPay").hide();
-							break;
-						case 1:
-							$("#refundPay").show();
-							break;
+					else if (result.pay_status == 0 && result.distribution_status == 0) {
+						$("#paynow").show();
+						$("#cancelPay").show();
+					} else if (result.pay_status == 1 && result.distribution_status == 0) {
+						$("#refundPay").show();
+						$("#distribution_status").text("未发送");
+					} else if (result.pay_status == 1 && result.distribution_status == 1) {
+						$("#refundPay").show();
+						$("#logistics").show();
+						$("#cof_delivery").show();
+						$("#distribution_status").html("已发送");
+					} else if (result.pay_status == 1 && result.distribution_status == 2) {
+						$("#refundPay").show();
+						$("#logistics").show();
+						$("#cof_delivery").show();
+						$("#distribution_status").html("部分发送");
 					}
-					switch (result.distribution_status) {
-						case 0:
-							$("refund_distribution").hide();
-							break;
-						case 1:
-							$("refund_distribution").show();
-							break;
-					}
-					//					result.goods_lists[0].goods_array.name
 					$("#addressInfo").text(result.province_str + result.city_str + result.area_str + result.address);
 					$("#accept_name").text(result.accept_name);
 					$("#mobile").text(result.mobile);
@@ -249,10 +252,14 @@
 					var t = document.getElementById('refunds_data').innerHTML;
 					laytpl(t).render(result, function(render) {
 						document.getElementById('refunds_html').innerHTML = render;
+						$("#ic_loading").hide();
+						$("#ic_text").show();
 					});
 					var t = document.getElementById('state_data').innerHTML;
 					laytpl(t).render(result, function(render) {
 						document.getElementById('state_html').innerHTML = render;
+						$("#ic_loading").hide();
+						$("#ic_text").show();
 					});
 				} else {
 					alert(JSON.stringify(err.msg));
