@@ -1,0 +1,88 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>物流信息body</title>
+		<link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/fonts/iconfont.css" />
+		<!--第一、加载样式-->
+		<link rel="stylesheet" type="text/css" href="../../css/tools/loading.css"/>
+	</head>
+	<body>
+		<div class="aui-content" style="padding-top: 10px;" id="logistics_html">
+			<!--loading-->
+			<div class="aui-text-center" id="loading" style="padding: 20px;color: rgb(167, 167, 167);font-size: 14px;">
+				<img src="../../image/loading01.gif" style="width: 45px;" />&nbsp;&nbsp;加载中...
+			</div>
+			<!--loading-->
+		</div>
+		<!--页面加载中-->
+		<div style="text-align: center;display: none" id="ic_loading"><img src="../../image/loading.png" width="70" height="70" />
+			<br />
+			<span></span>
+		</div>
+		<!--页面加载中-->
+		<script id="logistics_body" type="text/html">
+			<ul class="aui-list-view" >
+			{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
+			<li class="aui-list-view-cell">
+			<div class="aui-col-xs-2">
+			{{# if(i==0){ }}
+			<span class="iconfont icon-wuliu" style="font-size: 24px;color:green"></span>
+			{{# }else{ }}
+			<span class="iconfont icon-dian" style="font-size: 24px;color:#ddd"></span>
+			{{# } }}
+			</div>
+			<div style="font-size: 12px;" class="aui-col-xs-10">
+			{{ d.retValue[i].station }}
+			<br />
+			{{ d.retValue[i].time }}
+			</div>
+			</li>
+			{{# } }}
+			</ul>
+		</script>
+	</body>
+	<script type="text/javascript" src="../../script/AHelper.js"></script>
+	<script type="text/javascript" src="../../script/zepto.min.js"></script>
+	<script type="text/javascript" src="../../script/laytpl.js"></script>
+	<script type="text/javascript">
+		Zepto(function($) {
+		});
+		H.ready(function() {
+			//1.1 接收到传递
+			var delivery_id = api.pageParam.delivery_id;
+			api.getPrefs({
+				key : 'userinfo'
+			}, function(ret, err) {
+				var userobj = eval('(' + ret.value + ')');
+				api.ajax({
+					url : window.serverUrl + '/freight/token/' + userobj.token + '/user_id/' + userobj.id + '/delivery_id/' + delivery_id,
+					timeout : 10
+				}, function(ret, err) {
+					if (ret) {
+						switch(ret.retCode) {
+							case 1:
+								var tpl = document.getElementById('logistics_body').innerHTML;
+								laytpl(tpl).render(ret, function(render) {
+									document.getElementById('logistics_html').innerHTML = render;
+								});
+								break;
+							case 0:
+								$("#loading").hide();
+								$("#ic_loading").show();
+								$("#ic_loading span").text(ret.retDesc);
+								break;
+						}
+					} else {
+						$("#loading").hide();
+						$("#ic_loading").show();
+						$("#ic_loading span").text(err.msg);
+					}
+				});
+			});
+		});
+	</script>
+</html>
