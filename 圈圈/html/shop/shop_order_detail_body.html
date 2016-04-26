@@ -192,6 +192,15 @@
 		Zepto(function($) {
 			$("#cancelPay").on("tap", function() {
 			});
+			//4 物流信息查看
+			$("#logistics").on("tap", function() {
+				var delivery_id = $("#logistics").attr('delivery_id');
+				if (delivery_id) {
+					H.$openWin('shop_logistics_header', 'shop_logistics_header.html', {
+						delivery_id : delivery_id
+					});
+				}
+			});
 		});
 		//确认收货
 		function confirmPay() {
@@ -217,7 +226,7 @@
 			api.showProgress({
 			});
 			api.ajax({
-				url : window.serverUrl + '/order_status/token/' + retobj.token + '/user_id/' + retobj.id + '/order_id/' + parseInt(create.ordersId)+'/op/cancel',
+				url : window.serverUrl + '/order_status/token/' + retobj.token + '/user_id/' + retobj.id + '/order_id/' + parseInt(create.ordersId) + '/op/cancel',
 			}, function(ret, err) {
 				if (ret) {
 					api.hideProgress();
@@ -361,5 +370,6 @@
 				get_data();
 			});
 		});
+		//1 物流信息查看
 	</script>
 </html>
