@@ -45,23 +45,6 @@
 						<h5>状态：<span class="ic_storing" id="order_status">等待发货</span></h5>
 					</li>
 					<div id="refunds_html"></div>
-					<li class="aui-list-view-cell aui-text-right">
-						<div class="aui-btn aui-btn-danger" id="refundPay" style="display: none;">
-							申请退款
-						</div>
-						<div class="aui-btn aui-btn-success" id="cof_delivery" style="display: none;">
-							确认收货
-						</div>
-						<div class="aui-btn aui-btn-default" id="logistics" style="display: none;">
-							查看物流
-						</div>
-						<div class="aui-btn aui-btn-warning" id="paynow" style="display: none;">
-							立即付款
-						</div>
-						<div class="aui-btn aui-btn-warning" id="cancelPay" style="display: none;">
-							取消订单
-						</div>
-					</li>
 				</ul>
 				<ul class="aui-list-view">
 					<li class="aui-list-view-cell">
@@ -161,9 +144,9 @@
 			{{# for(var i = 0, len = d.goods_list.length; i < len; i++){ }}
 			{{# var goods_array = eval('('+ d.goods_list[i].goods_array + ')'); }}
 			<li class="aui-list-view-cell aui-img" style="background: #ECFFED" >
-			<img class="aui-img-object aui-pull-left" src="http://122.114.90.191/{{ d.goods_list[i].img }}">
+			<img class="aui-img-object aui-pull-left" id="goods_img" src="http://122.114.90.191/{{ d.goods_list[i].img }}">
 			<div class="aui-img-body">
-			<h4 class="ic_goods_title">{{ goods_array.name}}</h4>
+			<h4 class="ic_goods_title" id="goods_name">{{ goods_array.name}}</h4>
 			<p style="font-size: 11px;">
 			{{ goods_array.value }}
 			<br />
@@ -181,6 +164,23 @@
 			</p>
 			</div>
 			</li>
+			<li class="aui-list-view-cell aui-text-right">
+			<div class="aui-btn aui-btn-danger" id="refundPay" onclick="openRefund({{ i }});" style="display: none;">
+			申请退款
+			</div>
+			<div class="aui-btn aui-btn-success" id="cof_delivery" style="display: none;">
+			确认收货
+			</div>
+			<div class="aui-btn aui-btn-default" id="logistics" style="display: none;">
+			查看物流
+			</div>
+			<div class="aui-btn aui-btn-warning" id="paynow" style="display: none;">
+			立即付款
+			</div>
+			<div class="aui-btn aui-btn-warning" id="cancelPay" style="display: none;">
+			取消订单
+			</div>
+			</li>
 			{{# } }}
 		</script>
 	</body>
@@ -196,14 +196,20 @@
 				});
 			});
 			$("#cancelPay").on("tap", function() {
-				
-			});
-			$("#refundPay").on("tap", function() {
-				H.$openWin("shop_order_creation_header", "shop_order_creation_header.html", {
-					id : parseInt(create.ordersId)
-				});
 			});
 		});
+		function openRefund(i) {
+			var imgUrl = $("#goods_img").attr('src');
+			var goodsName = $("#goods_name").text();
+			H.$openWin("shop_refund_head", "shop_refund_head.html", {
+				id : parseInt(create.ordersId),
+				order_no : result.order_no,
+				create_time : create_time,
+				img : "http://122.114.90.191/result.goods_list[i].img",
+				goods_name : goodsName
+			});
+		}
+
 		//1、获取数据
 		function get_data() {
 			//请求ajax数据
@@ -220,28 +226,6 @@
 					$("#real_amount").text(result.real_amount);
 					$("#promotions").text(result.promotions);
 					$("#order_amount").text(result.order_amount);
-					//根据状态显示按钮
-					
-					if(status == 3){
-						$("#distribution_status").text("未发送");
-					}
-					else if (result.pay_status == 0 && result.distribution_status == 0) {
-						$("#paynow").show();
-						$("#cancelPay").show();
-					} else if (result.pay_status == 1 && result.distribution_status == 0) {
-						$("#refundPay").show();
-						$("#distribution_status").text("未发送");
-					} else if (result.pay_status == 1 && result.distribution_status == 1) {
-						$("#refundPay").show();
-						$("#logistics").show();
-						$("#cof_delivery").show();
-						$("#distribution_status").html("已发送");
-					} else if (result.pay_status == 1 && result.distribution_status == 2) {
-						$("#refundPay").show();
-						$("#logistics").show();
-						$("#cof_delivery").show();
-						$("#distribution_status").html("部分发送");
-					}
 					$("#addressInfo").text(result.province_str + result.city_str + result.area_str + result.address);
 					$("#accept_name").text(result.accept_name);
 					$("#mobile").text(result.mobile);
@@ -261,6 +245,26 @@
 						$("#ic_loading").hide();
 						$("#ic_text").show();
 					});
+					//根据状态显示按钮
+					if (status == 3) {
+						$("#distribution_status").text("未发送");
+					} else if (result.pay_status == 0 && result.distribution_status == 0) {
+						$("#paynow").show();
+						$("#cancelPay").show();
+					} else if (result.pay_status == 1 && result.distribution_status == 0) {
+						$("#refundPay").show();
+						$("#distribution_status").text("未发送");
+					} else if (result.pay_status == 1 && result.distribution_status == 1) {
+						$("#refundPay").show();
+						$("#logistics").show();
+						$("#cof_delivery").show();
+						$("#distribution_status").html("已发送");
+					} else if (result.pay_status == 1 && result.distribution_status == 2) {
+						$("#refundPay").show();
+						$("#logistics").show();
+						$("#cof_delivery").show();
+						$("#distribution_status").html("部分发送");
+					}
 				} else {
 					alert(JSON.stringify(err.msg));
 				}
