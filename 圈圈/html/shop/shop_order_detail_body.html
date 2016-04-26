@@ -190,7 +190,10 @@
 	<script type="text/javascript">
 		var create = null, retobj = null, result = null;
 		Zepto(function($) {
-			$("#cancelPay").on("tap", function() {
+			$("#logistics").on("tap", function() {
+				H.$openWin("shop_refund_header", "shop_refund_header.html", {
+					id : parseInt(create.ordersId)
+				});
 			});
 			//4 物流信息查看
 			$("#logistics").on("tap", function() {
@@ -264,7 +267,7 @@
 								api.toast({
 									msg : ret.retDesc
 								});
-								//								alert(JSON.stringify(ret.retDesc));
+								//alert(JSON.stringify(ret.retDesc));
 								location.reload();
 								// 2.0 插入系统消息
 								api.sendEvent({
@@ -312,7 +315,6 @@
 					$("#order_no").text(result.order_no);
 					$("#create_time").text(result.create_time);
 					$("#real_freight").text(result.real_freight);
-					$("#promotions").text(result.promotions);
 					$("#order_amount").text(result.order_amount);
 					$("#addressInfo").text(result.province_str + result.city_str + result.area_str + result.address);
 					$("#accept_name").text(result.accept_name);
@@ -324,6 +326,7 @@
 					var t = document.getElementById('refunds_data').innerHTML;
 					laytpl(t).render(result, function(render) {
 						document.getElementById('refunds_html').innerHTML = render;
+						$("#promotions").text(result.promotions);
 						$("#ic_loading").hide();
 						$("#ic_text").show();
 					});
@@ -335,7 +338,7 @@
 					});
 					//根据状态显示按钮
 					if (result.status == 3) {
-						$("#distribution_status").text("未发送");
+						$("#distribution_status").text("未发货");
 					} else if (result.pay_status == 0 && result.distribution_status == 0) {
 						$("#paynow").show();
 						$("#cancelPay").show();
