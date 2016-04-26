@@ -45,6 +45,23 @@
 						<h5>状态：<span class="ic_storing" id="order_status">等待发货</span></h5>
 					</li>
 					<div id="refunds_html"></div>
+					<li class="aui-list-view-cell aui-text-right">
+						<div class="aui-btn aui-btn-danger" id="refundPay" onclick="openRefund();" style="display: none;">
+							申请退款
+						</div>
+						<div class="aui-btn aui-btn-success" id="cof_delivery" onclick="confirmPay();" style="display: none;">
+							确认收货
+						</div>
+						<div class="aui-btn aui-btn-default" id="logistics" style="display: none;">
+							查看物流
+						</div>
+						<div class="aui-btn aui-btn-warning" id="paynow" onclick="openPaynow();" style="display: none;">
+							立即付款
+						</div>
+						<div class="aui-btn aui-btn-warning" id="cancelPay" onclick="cancelPay();" style="display: none;">
+							取消订单
+						</div>
+					</li>
 				</ul>
 				<ul class="aui-list-view">
 					<li class="aui-list-view-cell">
@@ -164,23 +181,6 @@
 			</p>
 			</div>
 			</li>
-			<li class="aui-list-view-cell aui-text-right">
-			<div class="aui-btn aui-btn-danger" id="refundPay" onclick="openRefund();" style="display: none;">
-			申请退款
-			</div>
-			<div class="aui-btn aui-btn-success" id="cof_delivery" style="display: none;">
-			确认收货
-			</div>
-			<div class="aui-btn aui-btn-default" id="logistics" style="display: none;">
-			查看物流
-			</div>
-			<div class="aui-btn aui-btn-warning" id="paynow" onclick="openPaynow();" style="display: none;">
-			立即付款
-			</div>
-			<div class="aui-btn aui-btn-warning" id="cancelPay" style="display: none;">
-			取消订单
-			</div>
-			</li>
 			{{# } }}
 		</script>
 	</body>
@@ -193,6 +193,50 @@
 			$("#cancelPay").on("tap", function() {
 			});
 		});
+		//确认收货
+		function confirmPay() {
+			api.showProgress({
+			});
+			api.ajax({
+				url : window.serverUrl + '/order_status/token/' + retobj.token + '/user_id/' + retobj.id + '/order_id/' + parseInt(create.ordersId),
+				data : {
+					values : {
+						"op" : "confirm"
+					}
+				}
+			}, function(ret, err) {
+				if (ret) {
+					api.hideProgress();
+					alert(JSON.stringify(ret));
+				} else {
+					api.hideProgress();
+					alert(JSON.stringify(err));
+				}
+			});
+		}
+
+		//取消订单
+		function cancelPay() {
+			api.showProgress({
+			});
+			api.ajax({
+				url : window.serverUrl + '/order_status/token/' + retobj.token + '/user_id/' + retobj.id + '/order_id/' + parseInt(create.ordersId),
+				data : {
+					values : {
+						"op" : "cancel"
+					}
+				}
+			}, function(ret, err) {
+				if (ret) {
+					api.hideProgress();
+					alert(JSON.stringify(ret));
+				} else {
+					api.hideProgress();
+					alert(JSON.stringfy(err));
+				}
+			});
+		}
+
 		//立即付款
 		function openPaynow() {
 			api.confirm({
@@ -202,17 +246,29 @@
 			}, function(ret, err) {
 				if (ret) {
 					if (ret.buttonIndex == 2) {
+						api.showProgress({
+							style : 'default',
+							animationType : 'fade',
+							title : '加载中',
+							text : '正在支付',
+							modal : false
+						});
 						api.ajax({
 							url : window.serverUrl + '/doPay/token/' + retobj.token + '/user_id/' + retobj.id + '/order_id/' + parseInt(create.ordersId),
 						}, function(ret, err) {
 							if (ret) {
-								alert(JSON.stringify(ret.retDesc));
+								api.hideProgress();
+								api.toast({
+									msg : ret.retDesc
+								});
+								//								alert(JSON.stringify(ret.retDesc));
 								location.reload();
 								// 2.0 插入系统消息
 								api.sendEvent({
 									name : 'useVoucherMsg'
 								});
 							} else {
+								api.hideProgress();
 								api.toast({
 									msg : err.msg
 								});
@@ -220,6 +276,7 @@
 						});
 					}
 				} else {
+					api.hideProgress();
 					alert(JSON.stringify(err.msg));
 				}
 			});
@@ -232,7 +289,7 @@
 			H.$openWin("shop_refund_header", "shop_refund_header.html", {
 				id : parseInt(create.ordersId),
 				order_no : result.order_no,
-				create_time : create_time,
+				create_time : result.create_time,
 				img : imgUrl,
 				goods_name : goodsName
 			});
