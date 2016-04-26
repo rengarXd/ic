@@ -40,9 +40,9 @@
 				<ul class="aui-list-view">
 					<div id="state_html"></div>
 					<li class="aui-list-view-cell">
-						<h5>订单号：<span class="ic_storing" id="order_no">20160424143453834078</span></h5>
-						<h5>下单日期：<span class="ic_storing" id="create_time">2016-04-24 14:34:53</span></h5>
-						<h5>状态：<span class="ic_storing" id="order_status">等待发货</span></h5>
+						<h5>订单号：<span class="ic_storing" id="order_no"></span></h5>
+						<h5>下单日期：<span class="ic_storing" id="create_time"></span></h5>
+						<h5>状态：<span class="ic_storing" id="order_status"></span></h5>
 					</li>
 					<div id="refunds_html"></div>
 					<li class="aui-list-view-cell aui-text-right">
@@ -125,7 +125,7 @@
 						<div class="aui-col-xs-3">
 							运费
 						</div>
-						<div class="aui-col-xs-9" id="real_amount">
+						<div class="aui-col-xs-9" id="real_freight">
 							20.00
 						</div></h5>
 					</li>
@@ -175,9 +175,9 @@
 			<br />
 			商品数量:<span class="aui-pull-right aui-text-danger">x {{ d.goods_list[i].goods_nums }}</span>
 			<br />
-			小计:<span class="aui-text-danger aui-pull-right" ><strong id="order_amount">￥{{ d.goods_list[i].real_price }}</strong></span>
-			<br />
 			配送状态:<span class="aui-text-danger aui-pull-right"><strong id="distribution_status"></strong></span>
+			<br />
+			<span class="aui-pull-right">小计:<span class="aui-text-danger" ><strong>￥{{ d.goods_list[i].real_price }}</strong></span></span>
 			</p>
 			</div>
 			</li>
@@ -198,19 +198,16 @@
 			api.showProgress({
 			});
 			api.ajax({
-				url : window.serverUrl + '/order_status/token/' + retobj.token + '/user_id/' + retobj.id + '/order_id/' + parseInt(create.ordersId),
-				data : {
-					values : {
-						"op" : "confirm"
-					}
-				}
+				url : window.serverUrl + '/order_status/op/confirm/token/' + retobj.token + '/user_id/' + retobj.id + '/order_id/' + parseInt(create.ordersId),
 			}, function(ret, err) {
 				if (ret) {
 					api.hideProgress();
 					alert(JSON.stringify(ret));
+					location.reload();
 				} else {
 					api.hideProgress();
 					alert(JSON.stringify(err));
+					location.reload();
 				}
 			});
 		}
@@ -220,19 +217,16 @@
 			api.showProgress({
 			});
 			api.ajax({
-				url : window.serverUrl + '/order_status/token/' + retobj.token + '/user_id/' + retobj.id + '/order_id/' + parseInt(create.ordersId),
-				data : {
-					values : {
-						"op" : "cancel"
-					}
-				}
+				url : window.serverUrl + '/order_status/token/' + retobj.token + '/user_id/' + retobj.id + '/order_id/' + parseInt(create.ordersId)+'/op/cancel',
 			}, function(ret, err) {
 				if (ret) {
 					api.hideProgress();
 					alert(JSON.stringify(ret));
+					location.reload();
 				} else {
 					api.hideProgress();
-					alert(JSON.stringfy(err));
+					alert(JSON.stringify(err));
+					location.reload();
 				}
 			});
 		}
@@ -256,7 +250,7 @@
 						api.ajax({
 							url : window.serverUrl + '/doPay/token/' + retobj.token + '/user_id/' + retobj.id + '/order_id/' + parseInt(create.ordersId),
 						}, function(ret, err) {
-							if (ret) {
+							if (ret && ret.retCode == 1) {
 								api.hideProgress();
 								api.toast({
 									msg : ret.retDesc
@@ -270,7 +264,7 @@
 							} else {
 								api.hideProgress();
 								api.toast({
-									msg : err.msg
+									msg : ret.retDesc
 								});
 							}
 						});
@@ -284,14 +278,14 @@
 
 		//打开退款详情页
 		function openRefund() {
-//			var imgUrl = $("#goods_img").attr('src');
-//			var goodsName = $("#goods_name").text();
+			//			var imgUrl = $("#goods_img").attr('src');
+			//			var goodsName = $("#goods_name").text();
 			H.$openWin("shop_refund_header", "shop_refund_header.html", {
 				id : parseInt(create.ordersId),
-//				order_no : result.order_no,
-//				create_time : result.create_time,
-//				img : imgUrl,
-//				goods_name : goodsName
+				//				order_no : result.order_no,
+				//				create_time : result.create_time,
+				//				img : imgUrl,
+				//				goods_name : goodsName
 			});
 		}
 
@@ -308,7 +302,7 @@
 					$("#order_status").text(result.order_status);
 					$("#order_no").text(result.order_no);
 					$("#create_time").text(result.create_time);
-					$("#real_amount").text(result.real_amount);
+					$("#real_freight").text(result.real_freight);
 					$("#promotions").text(result.promotions);
 					$("#order_amount").text(result.order_amount);
 					$("#addressInfo").text(result.province_str + result.city_str + result.area_str + result.address);
@@ -338,17 +332,17 @@
 						$("#cancelPay").show();
 					} else if (result.pay_status == 1 && result.distribution_status == 0) {
 						$("#refundPay").show();
-						$("#distribution_status").text("未发送");
+						$("#distribution_status").text("未发货");
 					} else if (result.pay_status == 1 && result.distribution_status == 1) {
 						$("#refundPay").show();
 						$("#logistics").show();
 						$("#cof_delivery").show();
-						$("#distribution_status").html("已发送");
+						$("#distribution_status").html("已发货");
 					} else if (result.pay_status == 1 && result.distribution_status == 2) {
 						$("#refundPay").show();
 						$("#logistics").show();
 						$("#cof_delivery").show();
-						$("#distribution_status").html("部分发送");
+						$("#distribution_status").html("部分发货");
 					}
 				} else {
 					alert(JSON.stringify(err.msg));
