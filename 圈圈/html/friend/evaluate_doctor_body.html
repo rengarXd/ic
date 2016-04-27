@@ -45,6 +45,22 @@
 				padding-top: 5px;
 				padding-right: 9px;
 			}
+			#massage {
+				font-size: 13px;
+				margin-top: 20px;
+				color: #A5A3A3;
+			}
+			.ic_success {
+				color: #7D7878;
+				background: #FBF8F8;
+				border: 1px solid #ddd;
+				padding: 5px;
+				margin-top: 20px;
+				font-size: 14px;
+			}
+			.ic_success:active {
+				background: #ddd
+			}
 		</style>
 	</head>
 	<body>
@@ -80,9 +96,17 @@
 			提交评价
 		</div>
 		<!--我要问诊-->
-		<div id="ic_over" style="display: none;text-align: center">
-			<h4>我们已经收到您的评价，I宠有您更精彩！</h4>
-			<span class="aui-btn aui-btn-block" tapmode onclick="returClose();">返回医生详情</span>
+		<div id="ic_over" style="display: none;text-align: center;background: #fff">
+			<div class="aui-info aui-text-center aui-padded-20">
+				<span class="iconfont icon-chenggong2" style="color: #09BB07;
+				font-size: 90px;"></span>
+				<h2 id="title">操作成功</h2>
+				<span id="massage" >我们已经收到您的评价，I宠有您更精彩！</span>
+				<br />
+				<div class="aui-btn aui-btn-block ic_success" onclick="returClose();">
+					返回医生详情
+				</div>
+			</div>
 		</div>
 	</body>
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
@@ -156,12 +180,12 @@
 			} else {
 				api.toast({
 					msg : '请评价星级'
-				});
+										});
 			}
 		});
 		H.ready(function() {
+			api.parseTapmode();
 			doctorid = H.$getPageParam();
-			console.log(JSON.stringify(doctorid));
 			api.getPrefs({
 				key : 'userinfo'
 			}, function(ret, err) {
