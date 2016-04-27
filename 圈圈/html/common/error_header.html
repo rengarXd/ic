@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<!--确保绘制和缩放的效果需要在<head>标签中添加 viewport 元数据标签-->
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>I宠小贴士header</title>
+		<!--引入aui框架-->
+		<link rel="stylesheet" href="../../../css/aui-win.css" />
+		<style>
+			.aui-bar-1d9dd5 {
+				background: #1786FF;
+			}
+		</style>
+	</head>
+	<body>
+		<!--标题栏 start-->
+		<header class="aui-bar aui-bar-nav aui-bar-1d9dd5 header" id='aui-header'>
+			<a class="aui-pull-left" onclick="H.$closeCurrentWin();" tapmode> <span class="aui-iconfont aui-icon-left"></span> 返回 </a>
+			<div class="aui-title" id="success_title"></div>
+		</header>
+		<script type="text/javascript" src="../../script/AHelper.js"></script>
+		<script type="text/javascript" src="../../script/zepto.min.js"></script>
+		<script type="text/javascript">
+			/* 用法
+			* 	打开的时候传递
+			* @success_title string 成功页面的标题header里面显示 （必填）
+			*  @toevent 发送的事件用于更新前面的页面使用 (选填)
+			*  @title 成功页面的标题显示
+			*  @massage 成功页面的信息显示
+			*/
+			//1.1 成功标题修改
+			H.ready(function() {
+				$("#success_title").text(api.pageParam.success_title);
+				// 快速打开窗口
+				H.$openFrameWithNav('aui-header', {
+					url : 'success_body.html',
+					name : 'success_body',
+					pageParam : H.$getPageParam()
+				});
+			});
+			function closewin() {
+				H.$closeCurrentWin();
+			}
+		</script>
+	</body>
+</html>
