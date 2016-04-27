@@ -226,28 +226,48 @@
 
 		//取消订单
 		function cancelPay() {
-			api.showProgress({
-			});
-			api.ajax({
-				url : window.serverUrl + '/order_status/token/' + retobj.token + '/user_id/' + retobj.id + '/order_id/' + parseInt(create.ordersId) + '/op/cancel',
+			api.confirm({
+				title : '温馨提示',
+				msg : '您确定要取消订单吗？',
+				buttons : ['取消', '确定']
 			}, function(ret, err) {
-				if (ret) {
-					api.hideProgress();
-					alert(JSON.stringify(ret));
-					location.reload();
-				} else {
-					api.hideProgress();
-					alert(JSON.stringify(err));
-					location.reload();
+				if (ret.buttonIndex == 2) {
+					api.showProgress({
+					});
+					api.ajax({
+						url : window.serverUrl + '/order_status/token/' + retobj.token + '/user_id/' + retobj.id + '/order_id/' + parseInt(create.ordersId) + '/op/cancel',
+					}, function(ret, err) {
+						if (ret && ret.retCode == 1) {
+							api.hideProgress();
+							alert(JSON.stringify(ret.retDesc));
+							location.reload();
+						} else if (ret.retCode == 0) {
+							api.hideProgress();
+							alert(JSON.stringify(ret.retDesc));
+							location.reload();
+						} else {
+							api.hideProgress();
+							alert(JSON.stringify(err.msg));
+							location.reload();
+						}
+					});
 				}
 			});
 		}
 
 		//立即付款
 		function openPaynow() {
+			//		H.$openWin("shop_order_creation_header","shop_order_creation_header.html",{
+			//			order_no : result.order_no,
+			//			create_time:result.create_time,
+			//			accept_name:result.accept_name,
+			//			real_freight:result.real_freight,
+			//			real_amount : result.order_amount,
+			//
+			//		});
 			api.confirm({
 				title : '温馨提示',
-				msg : '您确定要立即付款吗？',
+				msg : '您确定要立即支付吗？',
 				buttons : ['取消', '确定']
 			}, function(ret, err) {
 				if (ret) {
@@ -273,6 +293,10 @@
 								api.sendEvent({
 									name : 'useVoucherMsg'
 								});
+							} else if (ret.retCode == 0) {
+								api.hideProgress();
+								alert(JSON.stringify(ret.retDesc));
+								location.reload();
 							} else {
 								api.hideProgress();
 								api.toast({
@@ -352,8 +376,8 @@
 						$("#distribution_status").html("已发货");
 					} else if (result.pay_status == 1 && result.distribution_status == 2) {
 						$("#refundPay").show();
-//						$("#logistics").show();
-//						$("#cof_delivery").show();
+						//						$("#logistics").show();
+						//						$("#cof_delivery").show();
 						$("#distribution_status").html("部分发货");
 					}
 				} else {
@@ -365,7 +389,7 @@
 
 		H.ready(function() {
 			create = H.$getPageParam();
-			//			alert(JSON.stringify(create.ordersId));
+			//						alert(JSON.stringify(create));
 			api.getPrefs({
 				key : 'userinfo'
 			}, function(ret, err) {
