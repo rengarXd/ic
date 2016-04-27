@@ -41,21 +41,21 @@
 		<script id="order_data" type="text/html">
 			<ul class="aui-list-view" >
 			{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
-			<li class="aui-list-view-cell">
+			<li class="aui-list-view-cell" onclick="openShop({{ d.retValue[i].id }});">
 			<div class="aui-col-xs-12">
-			<sapn class="aui-pull-left">
+			<span class="aui-pull-left">
 			<span class="iconfont icon-dingdan"></span> 订单编号：{{ d.retValue[i].order_no }}
-			</sapn><span class="aui-pull-right ic_status">{{# if(d.retValue[i].status==5){ }}完成订单{{# }else if(d.retValue[i].status==2){ }}等待发货{{# } }}</span>
+			</span><span class="aui-pull-right ic_status">{{# if(d.retValue[i].status==5){ }}完成订单{{# }else if(d.retValue[i].status==2){ }}等待发货{{# } }}</span>
 			</div>
 			<div class="aui-col-xs-12">
-			<sapn class="aui-pull-left">
+			<span class="aui-pull-left">
 			日期：{{ d.retValue[i].create_time }}
-			</sapn><span class="aui-pull-right ic_price">￥{{ d.retValue[i].order_amount }}</span>
+			</span><span class="aui-pull-right ic_price">￥{{ d.retValue[i].order_amount }}</span>
 			</div>
 			<div class="aui-col-xs-12">
-			<sapn class="aui-pull-left">
+			<span class="aui-pull-left">
 			收货人：{{ d.retValue[i].accept_name }}
-			</sapn><span class="aui-pull-right aui-text-blue">{{# if(d.retValue[i].pay_type==1){ }}预存款{{# }else if(d.retValue[i].pay_type==11){ }}支付宝{{# } }}</span>
+			</span><span class="aui-pull-right aui-text-blue">{{# if(d.retValue[i].pay_type==1){ }}预存款{{# }else if(d.retValue[i].pay_type==11){ }}支付宝{{# } }}</span>
 			</div>
 			</li>
 			{{# } }}
@@ -69,6 +69,13 @@
 		var userobj = null;
 		Zepto(function($) {
 		});
+		//跳转到订单详情页
+		function openShop(id) {
+			H.$openWin("shop_order_detail_header", "../shop/shop_order_detail_header.html", {
+				ordersId : id
+			});
+		}
+		
 		H.ready(function() {
 			api.getPrefs({
 				key : 'userinfo'
