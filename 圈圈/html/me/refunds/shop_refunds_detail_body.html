@@ -1,0 +1,192 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>退款详情body</title>
+		<link rel="stylesheet" type="text/css" href="../../../css/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../../../css/tools/loading.css"/>
+		<style>
+			body {
+				background-color: #f4f3f3;
+			}
+			.health {
+				text-align: center;
+				font-size: 15px;
+			}
+			.file_view {
+				border-radius: 10px;
+			}
+			.file_view span {
+				padding-left: 30px;
+			}
+			.aui_btn_dangan {
+				background: linear-gradient(#ff7f26,#ff6000);
+				position: fixed;
+				bottom: 0;
+				text-align: center;
+				color: #fff;
+			}
+			#ic_loading span {
+				color: #ddd
+			}
+			.aui-img {
+				background: #ECFFED;
+				border-radius: 3px;
+			}
+			#amount {
+				margin-left: 30px;
+				font-size: 45px;
+			}
+			.tuikuan {
+				font-size: 15px;
+				color: #bbb;
+			}
+			.ic_goods {
+				font-size: 13px;
+				line-height: 17px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="ic_showing" style="display: none;">
+			<div class="aui-content">
+				<ul class="aui-list-view">
+					<li class="aui-list-view-cell ">
+						<span class="tuikuan">退款金额：</span>
+						<br />
+						<span class="aui-text-blue" id="amount"></span>
+					</li>
+				</ul>
+			</div>
+			<div class="aui-content-padded"style="padding-top: 10px;" >
+				<!--<p class="health">
+				笨笨的健康档案
+				</p>-->
+				<ul class="aui-list-view file_view">
+					<li class="aui-list-view-cell">
+						<p>
+							订单号：<span id="order_no"></span>
+						</p>
+					</li>
+					<li class="aui-list-view-cell">
+						<p>
+							处理结果：<span id="refund_ret"></span>
+						</p>
+					</li>
+					<div id="refunds_html"></div>
+					<li class="aui-list-view-cell">
+						<p>
+							申请时间：<span id="time"></span>
+						</p>
+					</li>
+					<!--<li class="aui-list-view-cell">
+					<p>
+					退款金额：<span ></span>
+					</p>
+					</li>-->
+					<li class="aui-list-view-cell">
+						<p>
+							处理时间：<span id="dispose_time"></span>
+						</p>
+					</li>
+					<li class="aui-list-view-cell">
+						<p>
+							处理建议：<span id="dispose_idea"></span>
+						</p>
+					</li>
+					<li class="aui-list-view-cell">
+						<p>
+							退款原因：<span id="contents"></span>
+						</p>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<!--页面加载中-->
+		<div style="text-align: center;display: none;" id="ic_loading"><img src="../../../image/loading.png" width="70" height="70" />
+			<br />
+			<span>加载中...</span>
+		</div>
+		<!--页面加载中-->
+		<script type="text/html" id="refunds_data">
+			{{# for(var i = 0, len = d.goods.length; i < len; i++){ }}
+			{{# var goods_array = eval('('+ d.goods[i].goods_array + ')'); }}
+			<li class="aui-list-view-cell aui-img">
+			<img class="aui-img-object aui-pull-left" src="http://122.114.90.191/{{ d.goods[i].img }}">
+			<div class="aui-img-body">
+			<p class="ic_goods">
+			{{ goods_array.name }}<br />
+			{{# if( goods_array.value ) { }}
+			<span class="ic_goods" style="margin-top: 8px !important;">{{ goods_array.value }}</span>
+			{{# } }}
+			</p>
+			</div>
+			</li>
+			{{# } }}
+		</script>
+	</body>
+	<script type="text/javascript" src="../../../script/AHelper.js"></script>
+	<script type="text/javascript" src="../../../script/zepto.min.js"></script>
+	<script type="text/javascript" src="../../../script/laytpl.js"></script>
+	<script type="text/javascript">
+		var refunder = null;
+		Zepto(function($) {
+		});
+		H.ready(function() {
+			refund = H.$getPageParam();
+			console.log(refund);
+			api.getPrefs({
+				key : 'userinfo'
+			}, function(ret, err) {
+				var userobj = eval('(' + ret.value + ')');
+				$("#ic_loading").show();
+				api.ajax({
+					url : window.serverUrl + '/refunds_detail/token/' + userobj.token + '/user_id/' + userobj.id + '/id/' + refund.id
+				}, function(ret, err) {
+					//              alert(JSON.stringify(ret));
+					if (ret) {
+						if (ret.retCode == 1) {
+							refunder = ret.retValue;
+							$("#order_no").text(refunder.order_no);
+							if (refunder.pay_status == 2) {
+								$("#refund_ret").text("退款成功");
+							} else if (refunder.pay_status == 1) {
+								$("#refund_ret").text("退款失败");
+							} else if (refunder.pay_status == 0) {
+								$("#refund_ret").text("退款中");
+							}
+							$("#time").text(refunder.time);
+							$("#amount").text(refunder.amount);
+							if (refunder.dispose_time == null) {
+								$("#dispose_time").text("处理中");
+							} else {
+								$("#dispose_time").text(refunder.dispose_time);
+							}
+							if (refunder.dispose_idea == null) {
+								$("#dispose_idea").text("处理中");
+							} else if (refunder.dispose_idea == "") {
+								$("#dispose_idea").text("无");
+							} else {
+								$("#dispose_idea").text(refunder.dispose_idea);
+							}
+							$("#contents").text(refunder.content);
+							var tpl = document.getElementById('refunds_data').innerHTML;
+							laytpl(tpl).render(refunder, function(render) {
+								document.getElementById('refunds_html').innerHTML = render;
+								$("#ic_loading").hide();
+								$("#ic_showing").show();
+							});
+						} else {
+							$("#ic_loading span").text('暂无退款详情');
+						}
+					} else {
+						$("#ic_loading span").text('抱歉暂无数据');
+						alert(JSON.stringify(err.msg));
+					}
+				});
+			});
+		});
+	</script>
+</html>
