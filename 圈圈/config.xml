@@ -15,7 +15,7 @@
   <preference name="fullScreen" value="false"/>  
   <preference name="autoUpdate" value="true"/>  
   <preference name="smartUpdate" value="false"/>  
-  <preference name="debug" value="false"/>  
+  <preference name="debug" value="true"/>  
   <preference name="iOS7StatusBarAppearance" value="true"/>  
   <preference name="statusBarAppearance" value="true"/>  
   <preference name="softInputMode" value="resize"/>  
@@ -39,9 +39,9 @@
     <param name="apiKey" value="1105298312"/> 
   </feature>  
   <feature name="weibo"> 
-    <param name="urlScheme" value="wb4002923785"/>  
-    <param name="apiKey" value="4002923785"/>  
-    <param name="registUrl" value="http://www.quanquan.com"/> 
+    <param name="urlScheme" value="wb593277268"/>  
+    <param name="apiKey" value="593277268"/>  
+    <param name="registUrl" value="http://www.ipetoo.com"/> 
   </feature>  
   <feature name="bMap"> 
     <param name="android_api_key" value="nzZVGk2kfrjPTu5EcTeVzvyEsMpihEVf"/>  

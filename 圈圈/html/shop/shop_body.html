@@ -95,28 +95,28 @@
 			</script>
 			<div class="aui-content aui-border-b">
 				<ul class="aui-grid-sixteen">
-					<li class="aui-col-xs-3 aui-text-center" id="openAllGood">
+					<li class="aui-col-xs-3 aui-text-center">
 						<span class="aui-iconfont aui-icon-profilefill aui-bg-success" ></span>
 						<p>
-							全部商品
+							免费商品
+						</p>
+					</li>
+					<li class="aui-col-xs-3 aui-text-center">
+						<span class="aui-iconfont aui-icon-profilefill aui-bg-success" ></span>
+						<p>
+							特价商品
 						</p>
 					</li>
 					<li class="aui-col-xs-3 aui-text-center" >
 						<span class="aui-iconfont aui-icon-creativefill aui-bg-warning" ></span>
 						<p>
-							新品上架
+							最新商品
 						</p>
 					</li>
-					<li class="aui-col-xs-3 aui-text-center">
-						<span class="aui-iconfont aui-icon-apps aui-bg-danger"></span>
+					<li class="aui-col-xs-3 aui-text-center" id="openAllGood">
+						<span class="aui-iconfont aui-icon-profilefill aui-bg-success" ></span>
 						<p>
-							特价商品
-						</p>
-					</li>
-					<li class="aui-col-xs-3 aui-text-center" id="openPoints">
-						<span class="aui-iconfont aui-icon-countdownfill aui-bg-info"></span>
-						<p>
-							积分兑换
+							全部商品
 						</p>
 					</li>
 				</ul>
@@ -172,7 +172,7 @@
 			$("#openPoints").on("tap", function() {
 				H.$openWin('me_exchange_header', '../me/voucher_exchange/me_exchange_header.html');
 			});
-			$("#reload_page").on("tap", function(){
+			$("#reload_page").on("tap", function() {
 				location.reload();
 			});
 		});
