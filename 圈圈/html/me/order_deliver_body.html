@@ -41,7 +41,7 @@
 		<script id="order_data" type="text/html">
 			<ul class="aui-list-view" >
 			{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
-			<li class="aui-list-view-cell">
+			<li class="aui-list-view-cell" onclick="openShop({{ d.retValue[i].id }});">
 			<div class="aui-col-xs-12">
 			<sapn class="aui-pull-left">
 			<span class="iconfont icon-dingdan"></span> 订单编号：{{ d.retValue[i].order_no }}
@@ -69,6 +69,14 @@
 		var userobj = null;
 		Zepto(function($) {
 		});
+		//跳转到订单详情页
+		function openShop(id) {
+			H.$openWin("shop_order_detail_header", "../shop/shop_order_detail_header.html", {
+				ordersId : id
+			});
+		}
+
+
 		H.ready(function() {
 			api.getPrefs({
 				key : 'userinfo'
