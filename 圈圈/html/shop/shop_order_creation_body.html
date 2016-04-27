@@ -182,7 +182,7 @@
 			//订单总金额
 			$("#note").html(orders.note);
 			//附加信息
-			if (orders.postscript == null) {
+			if (orders.postscript == "null") {
 				$("#postscript").html("无");
 			} else {
 				$("#postscript").html(orders.postscript);
@@ -213,34 +213,20 @@
 					url : window.serverUrl + '/doPay/token/' + retobj.token + '/user_id/' + retobj.id + '/order_id/' + ordersId,
 				}, function(ret, err) {
 					if (ret) {
-						alert(JSON.stringify(ret.retDesc));
-						api.openWin({
-							name : 'shop_order_detail_header',
-							url : 'shop_order_detail_header.html',
-							pageParam : {
-								ordersId : ordersId
-							}
+//						alert(JSON.stringify(ret.retDesc));
+//						api.openWin({
+//							name : 'shop_order_detail_header',
+//							url : 'shop_order_detail_header.html',
+//							pageParam : {
+//								ordersId : ordersId
+//							}
+//						});
+						H.$openWin("success_header","../common/success_header.html",{
+							success_title : "操作结果",
+							title : JSON.stringify(ret.retDesc),
+							massage : "点击下面按钮返回",
+							toevent : 'PageReload'
 						});
-						//						api.alert({
-						//							title : '提示',
-						//							msg : ret.retDesc,
-						//							buttons : ['确定']
-						//						}, function(ret, err) {
-						//							if (ret) {
-						//								alert(JSON.stringify(ret));
-						//								if (ret.buttonIndex == parseInt(1)) {
-						//									api.openWin({
-						//										name : 'shop_order_detail_header',
-						//										url : 'shop_order_detail_header.html',
-						//										pageParam : {
-						//											orderId : orderId
-						//										}
-						//									});
-						//								}
-						//							} else {
-						//								alert(JSON.stringify(err));
-						//							}
-						//						});
 						// 2.0 插入系统消息
 						api.sendEvent({
 							name : 'useVoucherMsg'
