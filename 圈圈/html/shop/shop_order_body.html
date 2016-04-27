@@ -677,6 +677,10 @@
 										case 2 :
 											console.log(orders);
 											api.hideProgress();
+											api.sendEvent({
+												name : 'orders',
+												extra : orders
+											});
 											H.$openWin("shop_order_creation_header", "shop_order_creation_header.html", orders);
 											break;
 									}
@@ -718,11 +722,19 @@
 											api.toast({
 												msg : '免单订单生成成功'
 											});
-											H.$openWin("shop_order_finish_header", "shop_order_finish_header.html");
+											H.$openWin("shop_order_detail_header", "shop_order_detail_header.html");
 											break;
 										case 2 :
-											console.log(orders);
+											console.log(JSON.stringify(orders));
 											api.hideProgress();
+											//											api.sendEvent({
+											//												name : 'ordersOpen',
+											//												extra : JSON.stringify(orders)
+											//											});
+											api.setPrefs({
+												key : 'ordersOpen',
+												value : JSON.stringify(orders)
+											});
 											H.$openWin("shop_order_creation_header", "shop_order_creation_header.html", orders);
 											break;
 									}
