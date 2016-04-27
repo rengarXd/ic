@@ -93,8 +93,8 @@
 						if (ret.retCode == 1) {
 							alert(JSON.stringify(ret.retDesc));
 							refunds = ret.retValue;
-							alert(JSON.stringify(refunds));
-							H.$openWin("order_refund_body","../me/order_header.html",refunds);
+//							alert(JSON.stringify(refunds));
+							H.$openWin("order_refund_body","../me/order_header.html");
 						} else {
 							alert(JSON.stringify(ret.retDesc));
 						}
@@ -124,7 +124,6 @@
 					if (ret && ret.retCode == 1) {
 						order = ret.retValue;
 						goods_lists = ret.retValue.goods_list;
-						alert(JSON.stringify(order));
 						var t = document.getElementById('goods_list').innerHTML;
 						laytpl(t).render(order, function(render) {
 							document.getElementById('ul').innerHTML = render;
