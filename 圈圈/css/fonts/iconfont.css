@@ -1,10 +1,10 @@
 
 @font-face {font-family: "iconfont";
-  src: url('iconfont.eot?t=1461737663'); /* IE9*/
-  src: url('iconfont.eot?t=1461737663#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('iconfont.woff?t=1461737663') format('woff'), /* chrome, firefox */
-  url('iconfont.ttf?t=1461737663') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
-  url('iconfont.svg?t=1461737663#iconfont') format('svg'); /* iOS 4.1- */
+  src: url('iconfont.eot?t=1461741983'); /* IE9*/
+  src: url('iconfont.eot?t=1461741983#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('iconfont.woff?t=1461741983') format('woff'), /* chrome, firefox */
+  url('iconfont.ttf?t=1461741983') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('iconfont.svg?t=1461741983#iconfont') format('svg'); /* iOS 4.1- */
 }
 
 .iconfont {
@@ -50,6 +50,7 @@
 .icon-6:before { content: "\e630"; }
 .icon-iconfontweixin:before { content: "\e614"; }
 .icon-iconfontweibo:before { content: "\e615"; }
+.icon-shibai:before { content: "\e651"; }
 .icon-position:before { content: "\e610"; }
 .icon-wode:before { content: "\e62a"; }
 .icon-icon:before { content: "\e600"; }
