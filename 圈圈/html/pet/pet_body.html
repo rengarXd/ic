@@ -122,7 +122,7 @@
 			100% {-webkit-transform : rotate(360deg);}
 			}
 			#nodevice {
-				height: 86px;
+				height: 139px;
 				background: #fff;
 			}
 			.ic_bj {
@@ -132,6 +132,9 @@
 			.ic_buy {
 				background: #21bdfe;
 				color: #fff;
+			}
+			.ic_ddd {
+				background: #ddd !important;
 			}
 		</style>
 	</head>
@@ -186,16 +189,54 @@
 		<!--有设备-->
 		<!--无设备-->
 		<div id="nodevice" style="display: none">
-			<div class="aui-col-xs-6" style="padding: 14px;">
-				<div class="aui-btn aui-btn-block ic_bj" style="background: #86d855;border: 0">
-					绑定设备
+			<div class="aui-tips aui-tips-warning" id="device_do">
+				<div class="aui-tips-content aui-arrow-right aui-ellipsis-1">
+					<i class="aui-iconfont aui-icon-warnfill"></i>
+					未绑定设备，点我去购买设备或绑定设备
 				</div>
 			</div>
-			<div class="aui-col-xs-6" style="padding: 14px;">
-				<div class="aui-btn aui-btn-block ic_buy" style="background: #21bdfe;border: 0">
-					购买设备
+			<div class="item-func" tapmode>
+				<div class="content-area">
+					<p class="aui-bg-info ic_ddd">
+						<i class="iconfont icon-6"></i>
+					</p>
+					<span>溜宠</span>
 				</div>
 			</div>
+			<div class="item-func" tapmode >
+				<div class="content-area">
+					<p class="aui-bg-success ic_ddd">
+						<i class="iconfont icon-weizhi"></i>
+					</p>
+					<span>位置</span>
+				</div>
+			</div>
+			<div class="item-func" tapmode >
+				<div class="content-area">
+					<p class="aui-bg-danger ic_ddd">
+						<i class="iconfont icon-gouzheng"></i>
+					</p>
+					<span>身份</span>
+				</div>
+			</div>
+			<div class="item-func" tapmode >
+				<div class="content-area">
+					<p class="aui-bg-warning ic_ddd">
+						<i class="iconfont icon-set"></i>
+					</p>
+					<span>设置</span>
+				</div>
+			</div>
+			<!--	<div class="aui-col-xs-6" style="padding: 14px;">
+			<div class="aui-btn aui-btn-block ic_bj" style="background: #86d855;border: 0">
+			绑定设备
+			</div>
+			</div>
+			<div class="aui-col-xs-6" style="padding: 14px;">
+			<div class="aui-btn aui-btn-block ic_buy" style="background: #21bdfe;border: 0">
+			购买设备
+			</div>
+			</div>-->
 		</div>
 		<!--无设备-->
 		<div class="aui-content">
@@ -243,6 +284,12 @@
 				$("#setting").on("click", function() {
 					H.$openWin("setting", "setting_head.html");
 				});
+				$("#device_do").on('click', function() {
+					do_device();
+				});
+				$("#nodevice .item-func").on('click', function() {
+					do_device();
+				});
 				$("#identity_header").on("click", function() {
 					var FNScanner = api.require('FNScanner');
 					FNScanner.openScanner({
@@ -257,21 +304,9 @@
 						}
 					});
 				});
-
 				//1、绑定设备的处理
-				$(".ic_bj").on("click", function() {
-					var FNScanner = api.require('FNScanner');
-					FNScanner.openScanner({
-						autorotation : true,
-					}, function(ret, err) {
-						if (ret) {
-							//alert(JSON.stringify(ret));
-						} else {
-							//alert(JSON.stringify(err));
-						}
-					});
-				});
-
+				//				$(".ic_bj").on("click", function() {
+				//				});
 				api.addEventListener({
 					name : 'pagereload'
 				}, function(ret, err) {
@@ -281,6 +316,29 @@
 					}
 				});
 			});
+			function do_device() {
+				api.confirm({
+					title : '',
+					msg : '购买或者去绑定设备',
+					buttons : ['购买', '绑定设备']
+				}, function(ret, err) {
+					if (ret && ret.buttonIndex == 1) {
+						//2.2 设备购买处理
+					} else if (ret && ret.buttonIndex == 2) {
+						//2.3 设备绑定处理
+						var FNScanner = api.require('FNScanner');
+						FNScanner.openScanner({
+							autorotation : true,
+						}, function(ret, err) {
+							if (ret) {
+								//alert(JSON.stringify(ret));
+							} else {
+								//alert(JSON.stringify(err));
+							}
+						});
+					}
+				});
+			}
 		</script>
 	</body>
 </html>
