@@ -190,11 +190,11 @@
 	<script type="text/javascript">
 		var create = null, retobj = null, result = null;
 		Zepto(function($) {
-			$("#logistics").on("tap", function() {
-				H.$openWin("shop_refund_header", "shop_refund_header.html", {
-					id : parseInt(create.ordersId)
-				});
-			});
+//			$("#logistics").on("tap", function() {
+//				H.$openWin("shop_refund_header", "shop_refund_header.html", {
+//					id : parseInt(create.ordersId)
+//				});
+//			});
 			//4 物流信息查看
 			$("#logistics").on("tap", function() {
 				var delivery_id = $("#logistics").attr('delivery_id');
@@ -214,8 +214,8 @@
 			}, function(ret, err) {
 				if (ret) {
 					api.hideProgress();
-					alert(JSON.stringify(ret));
-					location.reload();
+					alert(JSON.stringify(ret.retDesc));
+					H.$openWin("shop_order_finish_header","shop_order_finish_header.html");
 				} else {
 					api.hideProgress();
 					alert(JSON.stringify(err));
@@ -293,6 +293,7 @@
 								api.sendEvent({
 									name : 'useVoucherMsg'
 								});
+								H.$openWin("success_header","../common/success_header.html");
 							} else if (ret.retCode == 0) {
 								api.hideProgress();
 								alert(JSON.stringify(ret.retDesc));
