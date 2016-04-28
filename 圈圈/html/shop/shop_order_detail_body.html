@@ -55,7 +55,7 @@
 					</li>
 					<div id="refunds_html"></div>
 					<div class="aui-line-x"></div>
-					<li class="aui-list-view-cell aui-text-right">
+					<li class="aui-list-view-cell aui-text-right" id="buttonsHide">
 						<div class="aui-btn aui-btn-danger" id="refundPay" onclick="openRefund();" style="display: none;">
 							申请退款
 						</div>
@@ -232,7 +232,7 @@
 					alert(JSON.stringify(ret.retDesc));
 					location.reload();
 					H.$openWin("shop_order_finish_header", "shop_order_finish_header.html", {
-//						ordersId : create.ordersId,
+						//						ordersId : create.ordersId,
 						type : 2
 					});
 				} else {
@@ -319,10 +319,10 @@
 							} else if (ret.retCode == 0) {
 								api.hideProgress();
 								alert(JSON.stringify(ret.retDesc));
-//								H.$openWin("shop_order_finish_header", "shop_order_finish_header.html", {
-//									ordersId : create.ordersId,
-//									type : 3
-//								});
+								//								H.$openWin("shop_order_finish_header", "shop_order_finish_header.html", {
+								//									ordersId : create.ordersId,
+								//									type : 3
+								//								});
 								location.reload();
 							} else {
 								api.hideProgress();
@@ -393,7 +393,8 @@
 						$("#ic_text").show();
 					});
 					//根据状态显示按钮
-					if (result.status == 3) {
+					if (result.status == 3 || result.status == 5 || result.status == 6) {
+						$("#buttonsHide").hide();
 					} else if (result.pay_status == 0 && result.distribution_status == 0) {
 						$("#paynow").show();
 						$("#cancelPay").show();
@@ -429,7 +430,6 @@
 				retobj = eval('(' + ret.value + ')');
 				get_data();
 			});
-			
 		});
 		//1 物流信息查看
 	</script>
