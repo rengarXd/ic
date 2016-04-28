@@ -20,29 +20,29 @@
 				width: 70%;
 			}
 			.list_header {
-				background: #1786FF;
+				background: #f5f5f5;
 			}
 			.aui-col-xs-6 {
 				text-align: center;
 			}
 			.aui-content {
-				margin-top:0px;
+				margin-top: 0px;
+			}
+			.aui-list-view:after {
+				border-top: 0
 			}
 		</style>
 	</head>
 	<body>
-		<div class="aui-content">
+		<div class="aui-content aui-text-center" style="background: #fff">
+			<span class="iconfont icon-chenggong2" style="color: #09BB07;
+			font-size: 90px;"></span>
+			<h2 id="paySuccess">操作成功</h2>
+			<span id="message">恭喜您操作成功，点击返回查看最新信息</span>
+			<br />
+			<br />
+			<div class="aui-line-x"></div>
 			<ul class="aui-list-view list_header" >
-				<li class="aui-list-view-cell">
-				<div class="aui-col-xs-6" style="color: #FFFFFF;">
-					<span class="ic_order_confirm" id="paySuccess"></span>
-					<br />
-					<span class="ic_order_font" id="message"></span>
-				</div>
-				<div class="aui-col-xs-6">
-					<img src="" alt="" />
-				</div>
-				</li>
 				<li class="aui-list-view-cell" style="background: #fff;">
 					<div class="aui-col-xs-6">
 						<div class="aui-btn aui-btn-outlined" id="pingjia" style="display: none">

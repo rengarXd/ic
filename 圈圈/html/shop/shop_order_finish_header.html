@@ -23,10 +23,11 @@
 			</div>
 		</header>
 		<script type="text/javascript" src="../../script/AHelper.js"></script>
+		<script type="text/javascript" src="../../script/zepto.min.js"></script>
 		<script type="text/javascript">
-			var content = null;
 			H.ready(function() {
-				content = H.$getPageParam();
+
+				var content = H.$getPageParam();
 				if (content.type == 1) {
 					$("#pay_title").text('支付成功');
 				} else if (content.type == 2) {
