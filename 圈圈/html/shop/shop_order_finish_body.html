@@ -31,15 +31,24 @@
 			.aui-list-view:after {
 				border-top: 0
 			}
+			#chenggong {
+				color: #09BB07;
+				font-size: 90px;
+				display: none;
+			}
+			#shibai {
+				color: #EF4F4F;
+				font-size: 90px;
+				display: none;
+			}
 		</style>
 	</head>
 	<body>
 		<div class="aui-content aui-text-center" style="background: #fff">
-			<span class="iconfont icon-chenggong2" style="color: #09BB07;
-			font-size: 90px;"></span>
+			<span class="iconfont icon-chenggong2" id="chenggong"></span>
+			<span class="iconfont icon-shibai" id="shibai"></span>
 			<h2 id="paySuccess">操作成功</h2>
 			<span id="message">恭喜您操作成功，点击返回查看最新信息</span>
-			<br />
 			<br />
 			<div class="aui-line-x"></div>
 			<ul class="aui-list-view list_header" >
@@ -67,13 +76,20 @@
 		var contents = null;
 		function get_data() {
 			if (contents.type == 1) {
+				$("#chenggong").show();
 				$("#paySuccess").text('支付成功');
 				$("#message").text('请等待商家发货');
 				$("#fanhui").show();
 			} else if (contents.type == 2) {
+				$("#chenggong").show();
 				$("#paySuccess").text('交易成功');
 				$("#message").text('商家将收到您的货款！');
 				$("#pingjia").show();
+			} else if (contents.type == 3) {
+				$("#shibai").show();
+				$("#paySuccess").text('余额不足');
+				$("#message").text('请重新付款款');
+				$("#fanhui").show();
 			}
 		}
 
@@ -93,12 +109,13 @@
 			contents = H.$getPageParam();
 			console.log(contents);
 			get_data();
-			//			api.getPrefs({
-			//				key : 'userinfo'
-			//			}, function(ret, err) {
-			//				retobj = eval('(' + ret.value + ')');
-			//				get_data();
-			//			});
+			api.addEventListener({
+				name : 'keyback'
+			}, function(ret, err) {
+				api.closeToWin({
+					name : 'main'
+				});
+			});
 		});
 	</script>
 </html>
