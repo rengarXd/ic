@@ -45,7 +45,7 @@
 			<div class="aui-col-xs-12">
 			<sapn class="aui-pull-left">
 			<span class="iconfont icon-dingdan"></span> 订单编号：{{ d.retValue[i].order_no }}
-			</sapn><span class="aui-pull-right ic_status">{{# if(d.retValue[i].status==5){ }}完成订单{{# }else if(d.retValue[i].status==2){ }}等待发货{{# }else if(d.retValue[i].status==1){ }}待付款{{# } }}</span>
+			</sapn><span class="aui-pull-right ic_status">{{# if(d.retValue[i].status==2 && d.retValue[i].distribution_status == 0){ }}等待发货{{# } }}</span>
 			</div>
 			<div class="aui-col-xs-12">
 			<sapn class="aui-pull-left">
