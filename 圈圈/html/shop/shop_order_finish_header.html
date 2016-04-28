@@ -46,6 +46,13 @@
 					name : 'shop_order_finish_body',
 					pageParam : H.$getPageParam()
 				});
+				api.addEventListener({
+	                name:'keyback'
+                },function(ret,err){
+                	api.closeToWin({
+	                    name: 'shop_body'
+                    });
+                });
 			});
 		</script>
 	</body>
