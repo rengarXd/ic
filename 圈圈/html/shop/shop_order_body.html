@@ -672,7 +672,9 @@
 											api.toast({
 												msg : '免单订单生成成功'
 											});
-											H.$openWin("shop_order_detail_header", "shop_order_detail_header.html");
+											H.$openWin("shop_order_detail_header", "shop_order_detail_header.html", {
+												ordersId : orders.order_id
+											});
 											break;
 										case 2 :
 											console.log(orders);
@@ -718,7 +720,9 @@
 											api.toast({
 												msg : '免单订单生成成功'
 											});
-											H.$openWin("shop_order_detail_header", "shop_order_detail_header.html");
+											H.$openWin("shop_order_detail_header", "shop_order_detail_header.html", {
+												ordersId : orders.order_id
+											});
 											break;
 										case 2 :
 											console.log(JSON.stringify(orders));
