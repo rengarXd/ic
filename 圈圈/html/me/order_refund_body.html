@@ -45,7 +45,7 @@
 			<div class="aui-col-xs-12" onclick="openRefund({{ d.retValue[i].id }});">
 			<span class="aui-pull-left">
 			<span class="iconfont icon-dingdan"></span> 订单编号：{{ d.retValue[i].order_no }}
-			</span><span class="aui-pull-right ic_status">{{# if(d.retValue[i].pay_status==0){ }}退款中{{# }else if(d.retValue[i].pay_status==1){ }}退款失败{{# }else if(d.retValue[i].pay_status==2){ }}退款成功{{# } }}</span>
+			</span><span class="aui-pull-right ic_status">{{# if(d.retValue[i].pay_status==0){ }}申请退款中{{# }else if(d.retValue[i].pay_status==1){ }}退款失败{{# }else if(d.retValue[i].pay_status==2){ }}退款成功{{# } }}</span>
 			</div>
 			<div class="aui-col-xs-12">
 			<span class="aui-pull-left">
