@@ -9,34 +9,96 @@
 		<link rel="stylesheet" type="text/css" href="../../css/fonts/iconfont.css" />
 		<style>
 			.ic_order_confirm {
-				font-size : 40px;
-				text-align: center !important;
-				color: red;
-				line-height:50px;
-				margin-top:20px;
+				font-size: 30px;
+				line-height: 50px;
+				margin-top: 20px;
+			}
+			.ic_order_font {
+				font-size: 13px;
+			}
+			.aui-btn-outlined {
+				width: 70%;
+			}
+			.list_header {
+				background: #1786FF;
+			}
+			.aui-col-xs-6 {
+				text-align: center;
+			}
+			.aui-content {
+				margin-top:0px;
 			}
 		</style>
 	</head>
 	<body>
 		<div class="aui-content">
-			<span class="ic_order_confirm">订单生成成功！</span>
-			<div class="aui-btn aui-btn-block aui-btn-success" style="margin-top: 20px;" onclick="reback();">
-				返回
-			</div>
+			<ul class="aui-list-view list_header" >
+				<li class="aui-list-view-cell">
+				<div class="aui-col-xs-6" style="color: #FFFFFF;">
+					<span class="ic_order_confirm" id="paySuccess"></span>
+					<br />
+					<span class="ic_order_font" id="message"></span>
+				</div>
+				<div class="aui-col-xs-6">
+					<img src="" alt="" />
+				</div>
+				</li>
+				<li class="aui-list-view-cell" style="background: #fff;">
+					<div class="aui-col-xs-6">
+						<div class="aui-btn aui-btn-outlined" id="pingjia" style="display: none">
+							立即评价
+						</div>
+						<div class="aui-btn aui-btn-outlined" id="fanhui" style="display: none">
+							返回首页
+						</div>
+					</div>
+					<div class="aui-col-xs-6">
+						<div class="aui-btn aui-btn-outlined" id="order_detail">
+							订单详情
+						</div>
+					</div>
+				</li>
+			</ul>
 		</div>
 	</body>
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript">
-		function reback() {
-			api.closeToWin({
-				name : 'shop_show_body',
-				animation : {
-					type : 'fade',
-					subType : 'from_bottom',
-					duration : 500
-				}
-			});
+		var contents = null;
+		function get_data() {
+			if (contents.type == 1) {
+				$("#paySuccess").text('支付成功');
+				$("#message").text('请等待商家发货');
+				$("#fanhui").show();
+			} else if (contents.type == 2) {
+				$("#paySuccess").text('交易成功');
+				$("#message").text('商家将收到您的货款！');
+				$("#pingjia").show();
+			}
 		}
+
+		Zepto(function($) {
+			$("#order_detail").on("tap", function() {
+				H.$openWin("shop_order_detail_header", "shop_order_detail_header.html", {
+					ordersId : contents.ordersId
+				});
+			});
+			$("#fanhui").on("tap", function() {
+				api.closeToWin({
+					name : 'main'
+				});
+			});
+		});
+		H.ready(function() {
+			contents = H.$getPageParam();
+			console.log(contents);
+			get_data();
+			//			api.getPrefs({
+			//				key : 'userinfo'
+			//			}, function(ret, err) {
+			//				retobj = eval('(' + ret.value + ')');
+			//				get_data();
+			//			});
+		});
 	</script>
 </html>
