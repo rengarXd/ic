@@ -157,6 +157,15 @@
 				</ul>
 			</div>
 		</div>
+		<!--无网络提示 start-->
+		<div style="text-align: center;display: none;" id="ic_nonetwork"><img src="../../image/loading.png" width="70" height="70" />
+			<br />
+			<span style="font-size:12px; margin-bottom: 10px;" class="aui-block"></span>
+			<div class="aui-btn aui-btn-default" id="reload_page" tapmode>
+				重新加载
+			</div>
+		</div>
+		<!--无网络提示 end-->
 		<script type="text/html" id="state_data">
 			<li class="aui-list-view-cell ic_order_status" >
 			{{# for( var x in d.order_step ){ }}
@@ -203,11 +212,6 @@
 	<script type="text/javascript">
 		var create = null, retobj = null, result = null;
 		Zepto(function($) {
-//			$("#logistics").on("tap", function() {
-//				H.$openWin("shop_refund_header", "shop_refund_header.html", {
-//					id : parseInt(create.ordersId)
-//				});
-//			});
 		});
 		//查看物流处理
 		function openLogistics(delivery_id) {
@@ -226,7 +230,11 @@
 				if (ret) {
 					api.hideProgress();
 					alert(JSON.stringify(ret.retDesc));
-					H.$openWin("shop_order_finish_header","shop_order_finish_header.html");
+					location.reload();
+					H.$openWin("shop_order_finish_header", "shop_order_finish_header.html", {
+//						ordersId : create.ordersId,
+						type : 2
+					});
 				} else {
 					api.hideProgress();
 					alert(JSON.stringify(err));
@@ -251,7 +259,7 @@
 						if (ret && ret.retCode == 1) {
 							api.hideProgress();
 							alert(JSON.stringify(ret.retDesc));
-							location.reload();
+							api.closeWin();
 						} else if (ret.retCode == 0) {
 							api.hideProgress();
 							alert(JSON.stringify(ret.retDesc));
@@ -302,9 +310,12 @@
 								location.reload();
 								// 2.0 插入系统消息
 								api.sendEvent({
-									name : 'useVoucherMsg'
+									name : 'useVoucherMsg',
 								});
-								H.$openWin("success_header","../common/success_header.html");
+								H.$openWin("shop_order_finish_header", "shop_order_finish_header.html", {
+									ordersId : create.ordersId,
+									type : 1
+								});
 							} else if (ret.retCode == 0) {
 								api.hideProgress();
 								alert(JSON.stringify(ret.retDesc));
@@ -329,7 +340,7 @@
 			//			var imgUrl = $("#goods_img").attr('src');
 			//			var goodsName = $("#goods_name").text();
 			H.$openWin("shop_refund_header", "shop_refund_header.html", {
-				id : parseInt(create.ordersId),
+				id : parseInt(create.ordersId)
 				//				order_no : result.order_no,
 				//				create_time : result.create_time,
 				//				img : imgUrl,
@@ -377,11 +388,8 @@
 						$("#ic_loading").hide();
 						$("#ic_text").show();
 					});
-
-						
 					//根据状态显示按钮
 					if (result.status == 3) {
-
 					} else if (result.pay_status == 0 && result.distribution_status == 0) {
 						$("#paynow").show();
 						$("#cancelPay").show();
@@ -394,7 +402,15 @@
 						$("#refundPay").show();
 					}
 				} else {
-					alert(JSON.stringify(err.msg));
+					$("#ic_loading").hide();
+					if (ret && ret.retCode == 0) {
+						$("#ic_nonetwork").show();
+						$("#ic_nonetwork span").text(ret.retDesc);
+					} else {
+						$("#ic_nonetwork").show();
+						$("#ic_nonetwork span").text(err.msg);
+					}
+					//					alert(JSON.stringify(err.msg));
 				}
 			});
 		}
