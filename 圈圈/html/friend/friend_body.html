@@ -93,7 +93,7 @@
 				</li>
 			</ul>
 		</div>
-		<div class="aui-content friend_ad">
+<!--		<div class="aui-content friend_ad">
 			<ul class="aui-list-view">
 				<li class="aui-list-view-cell">
 					<div class="aui-col-xs-6">
@@ -104,12 +104,12 @@
 					</div>
 				</li>
 			</ul>
-		</div>
+		</div>-->
 		<!--帖子信息-->
 		<div class="aui-content" id="tiezi_body"></div>
 		<!--loading-->
 		<div class="aui-text-center" id="loading" style="padding: 25px;display: none;font-size: 14px;color: #9B9B9B;">
-			<img src="../../image/spinner_2x.gif" style="width: 45px;" />&nbsp;&nbsp;加载中...
+			<img src="../../image/loading01.gif" style="width: 45px;" />&nbsp;&nbsp;加载中...
 		</div>
 		<!--loading-->
 		<script id="tiezi_data" type="text/html">
@@ -124,7 +124,7 @@
 			{{# }}}
 			</div>
 			<div class="aui-img-body">
-			<span>{{ d.retValue.bbsList[i].username }}</span><i class="iconfont icon-huida" style="float: right;color: #E78066;font-size: 14px;"> 去回答</i>
+			<span>{{ d.retValue.bbsList[i].username }}</span><i class="iconfont icon-jifen" style="float: right;color: #009f3b;font-size: 14px;"> {{ d.retValue.bbsList[i].point }}</i>
 			<p class='aui-ellipsis-1'>
 			来自 {{ d.retValue.bbsList[i].comedevice}}
 			</p>

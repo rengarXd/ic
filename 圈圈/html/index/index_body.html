@@ -319,6 +319,7 @@
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript" src="../../script/swiper/swiper.min.js"></script>
+	<!--<script type="text/javascript" src="../../script/tools/vconsole.min.js"></script>-->
 	<!--<script type="text/javascript" src="../../script/echo.min.js"></script>-->
 	<script type="text/javascript" src="../../script/laytpl.js"></script>
 	<script type="text/javascript">
@@ -395,6 +396,9 @@
 			}, function(ret, err) {
 				//字符串转为json对象
 				var retobj = eval('(' + ret.value + ')');
+//				vConsole.ready(function() {
+//					console.log(retobj);
+//				});
 				//请求首页广告数据
 				api.ajax({
 					url : window.serverUrl + '/app_index_manage/token/' + retobj.token,
@@ -518,7 +522,6 @@
 							};
 						});
 					}
-					
 				}
 			});
 		});

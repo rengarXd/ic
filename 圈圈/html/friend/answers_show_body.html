@@ -105,7 +105,7 @@
 					<div class="img-cont"><img class="aui-pull-left" id="answer_headico" src="../../image/noavatar.gif" />
 					</div>
 					<div class="aui-img-body">
-						<span id="answer_name">&nbsp;&nbsp;&nbsp;</span><b class="aui-pull-right" style="">#楼主</b>
+						<span id="answer_name">&nbsp;&nbsp;&nbsp;</span><b class="aui-pull-right" style=""><i class="iconfont icon-jifen" style="float: right;color: #009f3b;font-size: 14px;" id="point"></i></b>
 						<p class='aui-ellipsis-1' id="answer_from">
 							&nbsp;&nbsp;&nbsp;
 						</p>
@@ -271,6 +271,7 @@
 							$("#answer_content").html(ret.retValue.bbscontent[0].content);
 							$("#answer_time").html(H.$com.jsDateDiff(ret.retValue.bbscontent[0].time));
 							$("#answer_askcount").html("回复(" + ret.retValue.bbscontent[0].askcount + ")");
+							$("#point").text(ret.retValue.bbscontent[0].point);
 							ishaveright = ret.retValue.bbscontent[0].ishaveright;
 							userid = ret.retValue.bbscontent[0].id;
 							//图片渲染
