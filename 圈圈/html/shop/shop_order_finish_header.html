@@ -27,17 +27,18 @@
 		<script type="text/javascript">
 			function closeWinTo() {
 				api.closeToWin({
-	                name: 'shop_body'
-                });
+					name : 'shop_show_header'
+				});
 			}
-			H.ready(function() {
 
+
+			H.ready(function() {
 				var content = H.$getPageParam();
 				if (content.type == 1) {
 					$("#pay_title").text('支付成功');
 				} else if (content.type == 2) {
 					$("#pay_title").text('交易成功');
-				} else if (content.type == 2 ) {
+				} else if (content.type == 3) {
 					$("#pay_title").text('支付失败');
 				}
 				// 快速打开窗口
@@ -47,12 +48,12 @@
 					pageParam : H.$getPageParam()
 				});
 				api.addEventListener({
-	                name:'keyback'
-                },function(ret,err){
-                	api.closeToWin({
-	                    name: 'shop_body'
-                    });
-                });
+					name : 'keyback'
+				}, function(ret, err) {
+					api.closeToWin({
+						name : 'shop_show_header'
+					});
+				});
 			});
 		</script>
 	</body>
