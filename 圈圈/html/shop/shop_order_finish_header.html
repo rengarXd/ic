@@ -17,7 +17,7 @@
 	<body>
 		<!--标题栏 start-->
 		<header class="aui-bar aui-bar-nav aui-bar-1d9dd5 header" id='aui-header'>
-			<a class="aui-pull-left" tapmode onclick="H.$closeCurrentWin();"> <span class="aui-iconfont aui-icon-left"></span>返回 </a>
+			<a class="aui-pull-left" tapmode onclick="closeWinTo();"> <span class="aui-iconfont aui-icon-left"></span>返回 </a>
 			<div class="aui-title" id="pay_title">
 				交易成功
 			</div>
@@ -25,6 +25,11 @@
 		<script type="text/javascript" src="../../script/AHelper.js"></script>
 		<script type="text/javascript" src="../../script/zepto.min.js"></script>
 		<script type="text/javascript">
+			function closeWinTo() {
+				api.closeToWin({
+	                name: 'shop_body'
+                });
+			}
 			H.ready(function() {
 
 				var content = H.$getPageParam();
@@ -32,6 +37,8 @@
 					$("#pay_title").text('支付成功');
 				} else if (content.type == 2) {
 					$("#pay_title").text('交易成功');
+				} else if (content.type == 2 ) {
+					$("#pay_title").text('支付失败');
 				}
 				// 快速打开窗口
 				H.$openFrameWithNav('aui-header', {
