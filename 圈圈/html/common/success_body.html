@@ -49,13 +49,14 @@
 		H.ready(function() {
 			api.parseTapmode();
 			var toevent = api.pageParam.toevent;
+			var extra = api.pageParam.extra;
 			//1.1 成功标题
 			$("#title").text(api.pageParam.title);
 			//1.2 成功说明
 			$("#massage").text(api.pageParam.massage);
 			//1.3 有发送的事件则处理
 			if (toevent) {
-				sendEvent(toevent);
+				sendEvent(toevent,extra);
 			}
 			$(".ic_success").on('tap',function(){
 				api.execScript({
@@ -65,9 +66,10 @@
 			});
 		});
 		//@event string 事件名称
-		function sendEvent(toevent) {
+		function sendEvent(toevent,extra) {
 			api.sendEvent({
-				name : toevent
+				name : toevent,
+				extra:extra
 			});
 		}
 	</script>
