@@ -208,6 +208,9 @@
 
 		//支付
 		function payData() {
+			api.showProgress({
+				title : '付款中'
+			});
 			if (orders.pay_type == 1) {
 				api.ajax({
 					url : window.serverUrl + '/doPay/token/' + retobj.token + '/user_id/' + retobj.id + '/order_id/' + ordersId,
@@ -221,6 +224,7 @@
 						//								ordersId : ordersId
 						//							}
 						//						});
+						api.hideProgress();
 						H.$openWin("shop_order_finish_header", "shop_order_finish_header.html", {
 							ordersId : ordersId,
 							type : 1
@@ -230,12 +234,14 @@
 							name : 'useVoucherMsg'
 						});
 					} else {
+						api.hideProgress();
 						api.toast({
 							msg : err.msg
 						});
 					}
 				});
 			} else {
+				api.hideProgress();
 				alert('在线支付功能即将开启！');
 			}
 		}
