@@ -319,10 +319,10 @@
 							} else if (ret.retCode == 0) {
 								api.hideProgress();
 								alert(JSON.stringify(ret.retDesc));
-								H.$openWin("shop_order_finish_header", "shop_order_finish_header.html", {
-									ordersId : create.ordersId,
-									type : 3
-								});
+//								H.$openWin("shop_order_finish_header", "shop_order_finish_header.html", {
+//									ordersId : create.ordersId,
+//									type : 3
+//								});
 								location.reload();
 							} else {
 								api.hideProgress();
