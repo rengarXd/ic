@@ -213,19 +213,17 @@
 					url : window.serverUrl + '/doPay/token/' + retobj.token + '/user_id/' + retobj.id + '/order_id/' + ordersId,
 				}, function(ret, err) {
 					if (ret) {
-//						alert(JSON.stringify(ret.retDesc));
-//						api.openWin({
-//							name : 'shop_order_detail_header',
-//							url : 'shop_order_detail_header.html',
-//							pageParam : {
-//								ordersId : ordersId
-//							}
-//						});
-						H.$openWin("success_header","../common/success_header.html",{
-							success_title : "操作结果",
-							title : JSON.stringify(ret.retDesc),
-							massage : "点击下面按钮返回",
-							toevent : 'PageReload'
+						//						alert(JSON.stringify(ret.retDesc));
+						//						api.openWin({
+						//							name : 'shop_order_detail_header',
+						//							url : 'shop_order_detail_header.html',
+						//							pageParam : {
+						//								ordersId : ordersId
+						//							}
+						//						});
+						H.$openWin("shop_order_finish_header", "shop_order_finish_header.html", {
+							ordersId : ordersId,
+							type : 1
 						});
 						// 2.0 插入系统消息
 						api.sendEvent({
@@ -242,10 +240,16 @@
 			}
 		}
 
+		function openDetail(id) {
+			H.$openWin("shop_order_detail_header", "shop_order_detail_header.html", {
+				ordersId : id
+			})
+		}
+
 
 		H.ready(function() {
 			orders = H.$getPageParam();
-//									alert(JSON.stringify(orders));
+			//									alert(JSON.stringify(orders));
 			if (orders.id) {
 				ordersId = orders.id;
 			} else {
@@ -256,6 +260,13 @@
 				key : 'userinfo'
 			}, function(ret, err) {
 				retobj = eval('(' + ret.value + ')');
+			});
+			api.addEventListener({
+				name : 'closePayWin'
+			}, function(ret, err) {
+				//				var ctw = eval('(' + ret.value + ')');
+				console.log(ret.value);
+				openDetail(ret.value);
 			});
 		});
 	</script>
