@@ -271,7 +271,7 @@
 							$("#answer_content").html(ret.retValue.bbscontent[0].content);
 							$("#answer_time").html(H.$com.jsDateDiff(ret.retValue.bbscontent[0].time));
 							$("#answer_askcount").html("回复(" + ret.retValue.bbscontent[0].askcount + ")");
-							$("#point").text(ret.retValue.bbscontent[0].point);
+							$("#point").text(' '+ret.retValue.bbscontent[0].point);
 							ishaveright = ret.retValue.bbscontent[0].ishaveright;
 							userid = ret.retValue.bbscontent[0].id;
 							//图片渲染
