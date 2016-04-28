@@ -256,7 +256,8 @@
 				}
 				// 1.5 请求问答数据【新增分页】
 				api.ajax({
-					url : window.serverUrl + '/ask_list/token/' + answers.token + '/bbsid/' + bbs.id + '/page/' + page
+					url : window.serverUrl + '/ask_list/token/' + answers.token + '/bbsid/' + bbs.id + '/page/' + page,
+					cache:true
 				}, function(ret, err) {
 					//1.4 如果是回复则不显示这个阻塞
 					if (isshow) {
@@ -333,10 +334,15 @@
 						}
 						//alert();
 					} else {
-						api.toast({
-							msg : err.body,
-							location : 'center'
-						});
+						if(ret && ret.retCode==2){
+							api.toast({
+	                            msg:ret.retDesc
+                            });
+						}else{
+							api.toast({
+	                            msg:err.msg
+                            });
+						}
 					}
 				});
 			});

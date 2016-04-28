@@ -174,7 +174,7 @@
 					var retobj = eval('(' + ret.value + ')');
 					api.sms({
 						numbers : [''],
-						text : '我的宠物正在使用I宠，好东西不能独享，现在分享给你，点击链接http://122.114.90.191/apis/invite/userid/' + retobj.id
+						text : '我的宠物正在使用i宠，好东西不能独享，现在分享给你，点击链接http://122.114.90.191/apis/invite/userid/' + retobj.id
 					}, function(ret, err) {
 						if (ret) {
 							//alert(JSON.stringify(ret));
@@ -194,7 +194,7 @@
 					obj.installed(function(ret, err) {
 						if (ret.status) {
 							obj.shareImage({
-								title : '我在使用I宠,扫描二维码和我一起加入这个爱宠大家庭吧',
+								title : '我在使用i宠,扫描二维码和我一起加入这个爱宠大家庭吧',
 								description : 'http://122.114.90.191/apis/invite/userid/' + retobj.id,
 								imgPath : 'fs://album.png'
 							});
@@ -210,7 +210,7 @@
 			$("#weibo").on("click", function() {
 				var weibo = api.require('weibo');
 				weibo.shareImage({
-					text : '我在使用I宠,扫描二维码和我一起加入这个爱宠大家庭吧',
+					text : '我在使用i宠,扫描二维码和我一起加入这个爱宠大家庭吧',
 					imageUrl : 'fs://album.png'
 				}, function(ret, err) {
 					if (ret.status) {
