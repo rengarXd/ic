@@ -200,6 +200,12 @@
 			<span class="iconfont icon-wuliu"></span> 查看物流
 			</div>
 			{{# } }}
+			<div class="aui-btn ic_btn_defunct aui-pull-right" id="evaluate" style="display: none;margin-top: 10px; " onclick="evaluatePay();">
+			<span class="iconfont icon-pingjia"></span> 立即评价
+			</div>
+			<div class="aui-btn ic_btn_defunct aui-pull-right" id="evaluated" style="display: none;margin-top: 10px; " onclick="findEvaluate();">
+			<span class="iconfont icon-pingjia"></span> 查看评价
+			</div>
 			</p>
 			</div>
 			</li>
@@ -220,6 +226,13 @@
 			});
 		}
 
+		//查看评价
+		function findEvaluate() {
+			H.$openWin("shop_evaluate_header.html", "shop_evaluate_header.html", {
+				id : result.order_comment.id
+			});
+		}
+
 		//确认收货
 		function confirmPay() {
 			api.showProgress({
@@ -230,9 +243,9 @@
 				if (ret) {
 					api.hideProgress();
 					alert(JSON.stringify(ret.retDesc));
-					location.reload();
 					H.$openWin("shop_order_finish_header", "shop_order_finish_header.html", {
-						//						ordersId : create.ordersId,
+						ordersId : create.ordersId,
+						id : ret.retValue.id,
 						type : 2
 					});
 				} else {
@@ -240,6 +253,14 @@
 					alert(JSON.stringify(err));
 					location.reload();
 				}
+			});
+		}
+
+		//评价
+		function evaluatePay() {
+			H.$openWin("shop_evaluate_header.html", "shop_evaluate_header.html", {
+				ordersId : create.ordersId,
+				id : result.order_comment.id
 			});
 		}
 
@@ -378,7 +399,24 @@
 						$("#delivery_code").text(result.freight.delivery_code);
 					}
 					$("#payment").text(result.payment);
-					//					var data = eval('(' + result.goods_list.goods_array + ')');
+					//根据状态显示按钮
+					// "status": 订单状态 1生成订单,2支付订单,3取消订单(客户触发),4作废订单(管理员触发),5完成订单,6退款,7部分退款
+					// "pay_status":支付状态 0：未支付; 1：已支付;
+					// "distribution_status": 配送状态 0：未发送,1：已发送,2：部分发送
+					if (result.status == 3 || result.status == 5 || result.status == 6) {
+						console.log(9999);
+						$("#buttonsHide").hide();
+					} else if (result.pay_status == 0 && result.distribution_status == 0) {
+						$("#paynow").show();
+						$("#cancelPay").show();
+					} else if (result.pay_status == 1 && result.distribution_status == 0) {
+						$("#refundPay").show();
+					} else if (result.pay_status == 1 && result.distribution_status == 1) {
+						$("#refundPay").show();
+						$("#cof_delivery").show();
+					} else if (result.pay_status == 1 && result.distribution_status == 2) {
+						$("#refundPay").show();
+					}
 					var t = document.getElementById('refunds_data').innerHTML;
 					laytpl(t).render(result, function(render) {
 						document.getElementById('refunds_html').innerHTML = render;
@@ -393,18 +431,13 @@
 						$("#ic_text").show();
 					});
 					//根据状态显示按钮
-					if (result.status == 3 || result.status == 5 || result.status == 6) {
-						$("#buttonsHide").hide();
-					} else if (result.pay_status == 0 && result.distribution_status == 0) {
-						$("#paynow").show();
-						$("#cancelPay").show();
-					} else if (result.pay_status == 1 && result.distribution_status == 0) {
-						$("#refundPay").show();
-					} else if (result.pay_status == 1 && result.distribution_status == 1) {
-						$("#refundPay").show();
-						$("#cof_delivery").show();
-					} else if (result.pay_status == 1 && result.distribution_status == 2) {
-						$("#refundPay").show();
+					if (result.order_comment) {
+						if (result.status == 5 && result.order_comment.status == 0) {
+							console.log(111);
+							$("#evaluate").show();
+						} else if (result.status == 5 && result.order_comment.status == 1) {
+							$("#evaluated").show();
+						}
 					}
 				} else {
 					$("#ic_loading").hide();

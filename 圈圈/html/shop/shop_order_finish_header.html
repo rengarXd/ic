@@ -34,12 +34,19 @@
 
 			H.ready(function() {
 				var content = H.$getPageParam();
-				if (content.type == 1) {
-					$("#pay_title").text('支付成功');
-				} else if (content.type == 2) {
-					$("#pay_title").text('交易成功');
-				} else if (content.type == 3) {
-					$("#pay_title").text('支付失败');
+				switch (content.type) {
+					case 1:
+						$("#pay_title").text('支付成功');
+						break;
+					case 2:
+						$("#pay_title").text('交易成功');
+						break;
+					case 3:
+						$("#pay_title").text('支付失败');
+						break;
+					case 4:
+						$("#pay_title").text('评价成功');
+						break;
 				}
 				// 快速打开窗口
 				H.$openFrameWithNav('aui-header', {

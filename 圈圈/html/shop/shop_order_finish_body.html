@@ -74,24 +74,29 @@
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript">
 		var contents = null;
-		function get_data() {
-			if (contents.type == 1) {
-				$("#chenggong").show();
-				$("#paySuccess").text('支付成功');
-				$("#message").text('请等待商家发货');
-				$("#fanhui").show();
-			} else if (contents.type == 2) {
-				$("#chenggong").show();
-				$("#paySuccess").text('交易成功');
-				$("#message").text('商家将收到您的货款！');
-				$("#pingjia").show();
-			} else if (contents.type == 3) {
-				$("#shibai").show();
-				$("#paySuccess").text('余额不足');
-				$("#message").text('请重新付款款');
-				$("#fanhui").show();
-			}
-		}
+//		function get_data() {
+//			if (contents.type == 1) {
+//				$("#chenggong").show();
+//				$("#paySuccess").text('支付成功');
+//				$("#message").text('请等待商家发货');
+//				$("#fanhui").show();
+//			} else if (contents.type == 2) {
+//				$("#chenggong").show();
+//				$("#paySuccess").text('交易成功');
+//				$("#message").text('商家将收到您的货款！');
+//				$("#pingjia").show();
+//			} else if (contents.type == 3) {
+//				$("#shibai").show();
+//				$("#paySuccess").text('余额不足');
+//				$("#message").text('请重新付款款');
+//				$("#fanhui").show();
+//			} else if (contents.type == 3) {
+//				$("#chenggong").show();
+//				$("#paySuccess").text('评价成功');
+//				$("#message").text('感谢您的支持！');
+//				$("#fanhui").show();
+//			}
+//		}
 
 		Zepto(function($) {
 			$("#order_detail").on("tap", function() {
@@ -104,11 +109,42 @@
 					name : 'main'
 				});
 			});
+			$("#pingjia").on("tap", function() {
+				H.$openWin("shop_evaluate_header", "shop_evaluate_header.html", {
+					ordersId : contents.ordersId,
+					id : contents.id
+				});
+			});
 		});
 		H.ready(function() {
 			contents = H.$getPageParam();
 			console.log(contents);
-			get_data();
+			switch (contents.type) {
+				case 1:
+					$("#chenggong").show();
+					$("#paySuccess").text('支付成功');
+					$("#message").text('请等待商家发货');
+					$("#fanhui").show();
+					break;
+				case 2:
+					$("#chenggong").show();
+					$("#paySuccess").text('交易成功');
+					$("#message").text('商家将收到您的货款！');
+					$("#pingjia").show();
+					break;
+				case 3:
+					$("#shibai").show();
+					$("#paySuccess").text('余额不足');
+					$("#message").text('请重新付款款');
+					$("#fanhui").show();
+					break;
+				case 4:
+					$("#chenggong").show();
+					$("#paySuccess").text('评价成功');
+					$("#message").text('感谢您的支持！');
+					$("#fanhui").show();
+					break;
+			}
 		});
 	</script>
 </html>
