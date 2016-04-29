@@ -152,12 +152,23 @@
 					</div>
 				</section>
 				<section class="aui-content comment" style="display: none">
-					<center style=" padding-top: 20px; padding-bottom: 20px; color: #ddd">
+					<center style=" padding-top: 20px; padding-bottom: 20px; color: #ddd;display: none" id="noCommont">
 						暂无评价
 					</center>
+					<ul class="aui-list-view" id="commont_addata_body"></ul>
 				</section>
 			</div>
 		</div>
+		<script id="commont_addata" type="text/html">
+			{{# for(var i = 0, len = d.length; i < len; i++){ }}
+			<li class="aui-list-view-cell">
+			<h5>{{ d[i].contents }}</h5>
+			<p>
+			{{ d[i].time }}
+			</p>
+			</li>
+			{{# } }}
+		</script>
 		<!--无网络提示 start-->
 		<div style="text-align: center" id="ic_nonetwork"><img src="../../image/loading.png" width="70" height="70" />
 			<br />
@@ -211,6 +222,15 @@
 							$("#store_nums").text('库存：' + ret.retValue.store_nums);
 							$("#favorite").text('收藏：' + ret.retValue.favorite);
 							$("#visit").text('查看：' + ret.retValue.visit);
+							if (ret.retValue.shop_commont.length <= 0) {
+								$("#noCommont").show();
+							} else {
+								//渲染评论列表
+								var tpl = document.getElementById('commont_addata').innerHTML;
+								laytpl(tpl).render(ret.retValue.shop_commont, function(render) {
+									document.getElementById('commont_addata_body').innerHTML = render;
+								});
+							}
 							if (ret.retValue.spec_array) {
 								//2.4将型号数据传递出去有型号
 								H.$sendEvent('haveSpec_array', {
@@ -222,11 +242,11 @@
 									goods : ret.retValue,
 								});
 							}
-							if(ret.retValue.is_favorite == 1){
+							if (ret.retValue.is_favorite == 1) {
 								api.execScript({
-									name:'shop_show_header',
-	                                script: 'collect();'
-                                });
+									name : 'shop_show_header',
+									script : 'collect();'
+								});
 							}
 							var tpl = document.getElementById('index_addata').innerHTML;
 							laytpl(tpl).render(ret.retValue.photo, function(render) {
@@ -248,9 +268,9 @@
 								$("#ic_nonetwork").show();
 								$("#ic_nonetwork span").text(err.msg);
 								api.execScript({
-									name:'shop_show_header',
-	                                script: 'close_footer();'
-                                });
+									name : 'shop_show_header',
+									script : 'close_footer();'
+								});
 							}
 							//							alert("请求错误触发:" + JSON.stringify(err.msg));
 						}
