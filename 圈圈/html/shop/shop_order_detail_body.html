@@ -200,12 +200,18 @@
 			<span class="iconfont icon-wuliu"></span> 查看物流
 			</div>
 			{{# } }}
-			<div class="aui-btn ic_btn_defunct aui-pull-right" id="evaluate" style="display: none;margin-top: 10px; " onclick="evaluatePay();">
+			<!--根据状态显示按钮-->
+			{{# if ( d.order_comment ) { }}
+			{{# if (result.status == 5 && result.order_comment.status == 0) { }}
+			<div class="aui-btn ic_btn_defunct aui-pull-right" id="evaluate" style="margin-top: 10px; " onclick="evaluatePay();">
 			<span class="iconfont icon-pingjia"></span> 立即评价
 			</div>
-			<div class="aui-btn ic_btn_defunct aui-pull-right" id="evaluated" style="display: none;margin-top: 10px; " onclick="findEvaluate();">
+			{{# } else if (result.status == 5 && result.order_comment.status == 1) { }}
+			<div class="aui-btn ic_btn_defunct aui-pull-right" id="evaluated" style="margin-top: 10px; " onclick="findEvaluate({{ d.goods_list[i].goods_id }});">
 			<span class="iconfont icon-pingjia"></span> 查看评价
 			</div>
+			{{# } }}
+			{{# } }}
 			</p>
 			</div>
 			</li>
@@ -227,8 +233,16 @@
 		}
 
 		//查看评价
-		function findEvaluate() {
-			H.$openWin("shop_evaluate_header.html", "shop_evaluate_header.html", {
+		function findEvaluate(id) {
+			H.$openWin("shop_look_header", "shop_look_header.html", {
+				goods_id : id
+			});
+		}
+
+		//评价
+		function evaluatePay() {
+			H.$openWin("shop_evaluate_header", "shop_evaluate_header.html", {
+				ordersId : create.ordersId,
 				id : result.order_comment.id
 			});
 		}
@@ -253,14 +267,6 @@
 					alert(err.msg);
 					location.reload();
 				}
-			});
-		}
-
-		//评价
-		function evaluatePay() {
-			H.$openWin("shop_evaluate_header.html", "shop_evaluate_header.html", {
-				ordersId : create.ordersId,
-				id : result.order_comment.id
 			});
 		}
 
@@ -430,15 +436,6 @@
 						$("#ic_loading").hide();
 						$("#ic_text").show();
 					});
-					//根据状态显示按钮
-					if (result.order_comment) {
-						if (result.status == 5 && result.order_comment.status == 0) {
-							console.log(111);
-							$("#evaluate").show();
-						} else if (result.status == 5 && result.order_comment.status == 1) {
-							$("#evaluated").show();
-						}
-					}
 				} else {
 					$("#ic_loading").hide();
 					if (ret && ret.retCode == 0) {
