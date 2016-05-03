@@ -81,7 +81,7 @@
 					var obj = api.require('aliPay');
 					var subject = '在线充值  ';
 					var body = 'i宠在线余额充值';
-					var amount = pay_num;
+					var amount = '0.01';
 					var tradeNO = userobj.id+Date.parse(new Date());
 					var notifyURL = 'http://www.apicloud.com';
 					obj.pay({
