@@ -4,9 +4,10 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
 		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-		<title>医生评价body</title>
+		<title>商品评价body</title>
 		<link rel="stylesheet" type="text/css" href="../../css/aui.css"/>
 		<link rel="stylesheet" type="text/css" href="../../css/fonts/iconfont.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/tools/loading.css"/>
 		<style>
 			.wenzhen_btn_wen {
 				color: #fff;
@@ -70,31 +71,107 @@
 				font-family: Georgia;
 				background: #FFFFFF;
 			}
+			.ic_bg {
+				background: rgb(221, 248, 249)
+			}
 		</style>
 	</head>
 	<body>
-		<div class="aui-content" style="background: #fff;margin-top: 10px">
-			<span class="pj" >评价<div class="aui-pull-right" id="jRate"></div></span>
-			<div id="demo-onchange-value"></div>
-			<div class="aui-form">
-				<div class="aui-input-row aui-input-rows">
-					<textarea class="aui-input" placeholder="请您给此次购物做一个评价，有助于我们更好的服务" id="content" style="height: 140px;"></textarea>
+		<div id="pingjia" style="display: none">
+			<div class="aui-content" style="background: #fff;margin-top: 10px">
+				<span class="pj" >评价<div class="aui-pull-right" id="jRate"></div></span>
+				<div id="demo-onchange-value"></div>
+				<div class="aui-form">
+					<div class="aui-input-row aui-input-rows">
+						<textarea class="aui-input" placeholder="请您给此次购物做一个评价，有助于我们更好的服务" id="content" style="height: 140px;"></textarea>
+					</div>
 				</div>
 			</div>
+			<!--撑开下部层页面-->
+			<div style="height:10px;"></div>
+			<!--撑开下部层页面-->
+			<!--我要问诊-->
+			<div class="aui-btn aui-btn-block wenzhen_btn_wen" id="consulting">
+				提交评价
+			</div>
 		</div>
-		<!--撑开下部层页面-->
-		<div style="height:10px;"></div>
-		<!--撑开下部层页面-->
-		<!--我要问诊-->
-		<div class="aui-btn aui-btn-block wenzhen_btn_wen" id="consulting">
-			提交评价
+		<div id="look_evaluate" style="display: none">
+			<div class="aui-content" style="margin-top: 10px;" id="look_html">
+				<!--<ul class="aui-list-view">
+				<li class="aui-list-view-cell" >
+				评价星级
+				</li>
+				<li class="aui-list-view-cell">
+				评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容
+				</li>
+				</ul>-->
+				<!--页面加载中-->
+				<div style="text-align: center;" id="ic_loading"><img src="../../image/loading.png" width="70" height="70" />
+					<br />
+					<span>加载中</span>
+				</div>
+				<!--页面加载中-->
+				<!--
+				{{# if ( d.retValue[i].order_no == pjId.order_no ) { }}
+				{{# $("#look{{ i }}").css("background","#f5f5f5") }}
+				{{# } }}-->
+			</div>
+			<script type="text/html" id="look_data">
+				<ul class="aui-list-view">
+				{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
+				<li class="aui-list-view-cell {{# if (d.retValue[i].order_no == pjId.order_no ) { }}ic_bg{{# } }}">
+				评价星级：
+				{{# for ( var a = 0, b = parseInt(d.retValue[i].point); a < b; a++) { }}<span class="iconfont icon-xingxing icon_red" style="color: red !important;padding-top: 0px;line-height: 27px;"></span>{{# } }}
+				</li>
+				<li class="aui-list-view-cell {{# if (d.retValue[i].order_no == pjId.order_no ) { }}ic_bg{{# } }}">
+				评价内容：
+				{{# if (d.retValue[i].contents ) { }}
+				<p style="margin-left: 18px;font-size: 14px;">
+				{{ d.retValue[i].contents }}
+				</p>
+				{{# } else { }}
+				<span style="font-size: 13px;color: #bbb">暂无评价内容</span>
+				{{# } }}
+				</li>
+				{{# } }}
+				</ul>
+			</script>
 		</div>
 	</body>
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
+	<script type="text/javascript" src="../../script/zepto.min.js"></script>
+	<script type="text/javascript" src="../../script/laytpl.js"></script>
 	<script type="text/javascript" src="../../script/star/jquery-1.11.1.min.js"></script>
 	<script type="text/javascript" src="../../script/star/jRate.js"></script>
 	<script type="text/javascript">
 		var retobj = null, result = null, pjId = null;
+		function lookEvaluate() {
+			api.ajax({
+				url : window.serverUrl + '/shop_look_commont/token/' + retobj.token + '/user_id/' + retobj.id + '/goods_id/' + pjId.goods_id,
+				timeout : 10
+			}, function(ret, err) {
+				if (ret) {
+					switch(ret.retCode) {
+						case 1:
+							alert(JSON.stringify(ret));
+							var t = document.getElementById('look_data').innerHTML;
+							laytpl(t).render(ret, function(render) {
+								document.getElementById('look_html').innerHTML = render;
+							});
+							break;
+						case 0:
+							alert(JSON.stringify(ret));
+							$("#ic_loading span").text(ret.retDesc);
+							break;
+					}
+				} else {
+					alert(JSON.stringify(err.msg));
+					$("#ic_loading span").text(err.msg);
+				}
+			});
+		}
+
+
 		$("#jRate").jRate({
 			backgroundColor : 'white',
 			startColor : '#ff7f27',
@@ -167,7 +244,13 @@
 				key : 'userinfo'
 			}, function(ret, err) {
 				retobj = eval('(' + ret.value + ')');
+				lookEvaluate();
 			});
+			if (pjId.id) {
+				$("#pingjia").show();
+			} else if (pjId.goods_id) {
+				$("#look_evaluate").show();
+			}
 		});
 	</script>
 </html>
