@@ -83,6 +83,7 @@
 			});
 			//2、qq一键授权登录
 			$("#qq_token").on("click", function() {
+				
 				//如果QQ授权token不存在
 				if (retobj.qqtoken) {
 				} else {
@@ -152,7 +153,7 @@
 										H.$setPrefs(function(ret, err) {
 										}, 'userinfo', JSON.stringify(ret.retValue));
 									}
-								}, "http://122.114.90.191/apis/app_dsf_token/token/" + retobj.token + "/weiboToken/" + ret.token);
+								}, window.serverUrl+'/app_dsf_token/token/" + retobj.token + "/weiboToken/" + ret.token);
 								//							alert(JSON.stringify(ret));
 							} else {
 								H.$toast("抱歉绑定异常，请排查原因后再试");
