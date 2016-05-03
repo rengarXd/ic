@@ -234,8 +234,9 @@
 
 		//查看评价
 		function findEvaluate(id) {
-			H.$openWin("shop_look_header", "shop_look_header.html", {
-				goods_id : id
+			H.$openWin("shop_evaluate_header", "shop_evaluate_header.html", {
+				goods_id : id,
+				order_no : result.order_no
 			});
 		}
 
