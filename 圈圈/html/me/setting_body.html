@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
 		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-		<title></title>
+		<title>系统设置body</title>
 		<link rel="stylesheet" type="text/css" href="../../css/aui.css" />
 		<link rel="stylesheet" type="text/css" href="../../css/fonts/iconfont.css" />
 		<style>
@@ -26,19 +26,23 @@
 			.icon-bg-e6567a {
 				background: #e6567a !important;
 			}
+			.ic_ds {
+				font-size: 12px;
+				padding: 7px;
+			}
 		</style>
 	</head>
 	<body>
 		<div class="aui-content">
 			<ul class="aui-list-view aui-in">
-				<li class="aui-list-view-cell" tapmode id="qq_token" status="1">
-					<a class="aui-arrow-right"> <i class="aui-iconfont iconfont icon-qq icon-bg-e6567a stetting-icon" style="font-size:12px;padding: 7px;"></i>QQ登录授权<span class="aui-badge display-none" id="qq_bd">已绑定</span></a>
+				<li class="aui-list-view-cell" tapmode id="qq_token">
+					<a class="aui-arrow-right"> <i class="aui-iconfont iconfont icon-qq icon-bg-e6567a stetting-icon ic_ds" style=""></i>QQ登录授权<span class="aui-badge display-none" id="qq_bd">已绑定</span></a>
 				</li>
-				<li class="aui-list-view-cell" tapmode id="weixin_token" status="1">
-					<a class="aui-arrow-right"> <i class="aui-iconfont iconfont icon-iconfontweixin icon-bg-7658f8 stetting-icon" style="font-size:12px; padding: 7px;"></i>微信登录授权</a>
+				<li class="aui-list-view-cell" tapmode id="weixin_token">
+					<a class="aui-arrow-right"> <i class="aui-iconfont iconfont icon-iconfontweixin icon-bg-7658f8 stetting-icon ic_ds"></i>微信登录授权<span class="aui-badge display-none" id="weixin_bd">已绑定</span></a>
 				</li>
-				<li class="aui-list-view-cell" tapmode id="weibo_token" status="1">
-					<a class="aui-arrow-right"> <i class="aui-iconfont iconfont icon-iconfontweibo icon-bg-84c9a5 stetting-icon" style="font-size:12px; padding: 7px;"></i>微博登录授权<span class="aui-badge display-none" id="weibo_bd">已绑定</span></a>
+				<li class="aui-list-view-cell" tapmode id="weibo_token">
+					<a class="aui-arrow-right"> <i class="aui-iconfont iconfont icon-iconfontweibo icon-bg-84c9a5 stetting-icon ic_ds"></i>微博登录授权<span class="aui-badge display-none" id="weibo_bd">已绑定</span></a>
 				</li>
 			</ul>
 		</div>
@@ -69,14 +73,20 @@
 				//1.1 清除islogin的偏好值
 				H.$removePrefs(function(ret, err) {
 					//1.2 清除缓存
-					api.clearCache(function(ret,err){
+					api.clearCache(function(ret, err) {
 						//1.3 跳转到用户登录界面(type=1)退出登录的处理（type=2）登录失效的处理
-						H.$openWin('user_login', '../login/login_head.html',{type:1});
+						H.$openWin('user_login', '../login/login_head.html', {
+							type : 1
+						});
 					});
-					
 				}, 'islogin');
 			});
+			//2、qq一键授权登录
 			$("#qq_token").on("click", function() {
+				//如果QQ授权token不存在
+				if (retobj.qqtoken) {
+				} else {
+				}
 				H.$getPrefs(function(ret, err) {
 					var ss = ret.qqtoken;
 					if (!ss) {
@@ -121,11 +131,18 @@
 						var retobj = eval('(' + ret.value + ')');
 						var weibo = api.require('weibo');
 						weibo.auth(function(ret, err) {
-							alert(JSON.stringify(ret));
+							//alert(JSON.stringify(ret));
 							if (ret.status) {
 								H.$showProgress();
 								H.$ajax(function(ret, err) {
 									H.$hideProgress();
+									//如果请求成功
+									if (ret) {
+									} else {
+										api.toast({
+											msg : err.msg
+										});
+									}
 									if (ret.retCode == 0) {
 										H.$toast(ret.retDesc);
 									} else {
@@ -147,14 +164,20 @@
 		});
 		H.ready(function() {
 			api.parseTapmode();
+			//3、获取偏好值
 			H.$getPrefs(function(ret, err) {
 				retobj = eval('(' + ret.value + ')');
-				//H.$toast(retobj);
+				//如果QQ已经授权过
 				if (retobj.qqtoken) {
-					$("#qq_bd").removeClass("display-none");
+					$("#qq_bd").show();
 				}
+				//如果微博已经授权过
 				if (retobj.weibotoken) {
-					$("#weibo_bd").removeClass("display-none");
+					$("#weibo_bd").show();
+				}
+				//如果微信已经授权过
+				if (retobj.weixintoken) {
+					$("#weixin_bd").show();
 				}
 			}, 'userinfo');
 			api.getCacheSize(function(ret, err) {
