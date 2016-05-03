@@ -15,7 +15,7 @@
   <preference name="fullScreen" value="false"/>  
   <preference name="autoUpdate" value="true"/>  
   <preference name="smartUpdate" value="false"/>  
-  <preference name="debug" value="false"/>  
+  <preference name="debug" value="true"/>  
   <preference name="iOS7StatusBarAppearance" value="true"/>  
   <preference name="statusBarAppearance" value="true"/>  
   <preference name="softInputMode" value="resize"/>  
@@ -49,5 +49,8 @@
   </feature>  
   <feature name="rongCloud2"> 
     <param name="appKey" value="m7ua80gbu9qwm"/> 
+  </feature>  
+  <feature name="aliPay"> 
+    <param name="urlScheme" value="AliPayA6900063015323"/> 
   </feature> 
 </widget>
