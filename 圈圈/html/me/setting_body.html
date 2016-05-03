@@ -36,13 +36,13 @@
 		<div class="aui-content">
 			<ul class="aui-list-view aui-in">
 				<li class="aui-list-view-cell" tapmode id="qq_token">
-					<a class="aui-arrow-right"> <i class="aui-iconfont iconfont icon-qq icon-bg-e6567a stetting-icon ic_ds" style=""></i>QQ登录授权<span class="aui-badge display-none" id="qq_bd">已绑定</span></a>
+					<a class="aui-arrow-right"> <i class="aui-iconfont iconfont icon-qq icon-bg-e6567a stetting-icon ic_ds"></i>QQ登录授权<span class="aui-badge display-none" id="qq_bd" style="top: 31%;">已绑定</span></a>
 				</li>
 				<li class="aui-list-view-cell" tapmode id="weixin_token">
-					<a class="aui-arrow-right"> <i class="aui-iconfont iconfont icon-iconfontweixin icon-bg-7658f8 stetting-icon ic_ds"></i>微信登录授权<span class="aui-badge display-none" id="weixin_bd">已绑定</span></a>
+					<a class="aui-arrow-right"> <i class="aui-iconfont iconfont icon-iconfontweixin icon-bg-7658f8 stetting-icon ic_ds"></i>微信登录授权<span class="aui-badge display-none" id="weixin_bd" style="top: 31%;">已绑定</span></a>
 				</li>
 				<li class="aui-list-view-cell" tapmode id="weibo_token">
-					<a class="aui-arrow-right"> <i class="aui-iconfont iconfont icon-iconfontweibo icon-bg-84c9a5 stetting-icon ic_ds"></i>微博登录授权<span class="aui-badge display-none" id="weibo_bd">已绑定</span></a>
+					<a class="aui-arrow-right"> <i class="aui-iconfont iconfont icon-iconfontweibo icon-bg-84c9a5 stetting-icon ic_ds"></i>微博登录授权<span class="aui-badge display-none" id="weibo_bd" style="top: 31%;">已绑定</span></a>
 				</li>
 			</ul>
 		</div>
@@ -83,11 +83,7 @@
 			});
 			//2、qq一键授权登录
 			$("#qq_token").on("click", function() {
-				
-				//如果QQ授权token不存在
-				if (retobj.qqtoken) {
-				} else {
-				}
+				H.$com.isdebug('retobj.qqtoken' + retobj.qqtoken);
 				H.$getPrefs(function(ret, err) {
 					var ss = ret.qqtoken;
 					if (!ss) {
@@ -125,6 +121,9 @@
 			$("#weixin_token").on("click", function() {
 				H.$toast("敬请期待");
 			});
+			/**
+			 * 微博一键绑定
+			 */
 			$("#weibo_token").on("click", function() {
 				H.$getPrefs(function(ret, err) {
 					var ss = ret.weibotoken;
@@ -132,29 +131,41 @@
 						var retobj = eval('(' + ret.value + ')');
 						var weibo = api.require('weibo');
 						weibo.auth(function(ret, err) {
-							//alert(JSON.stringify(ret));
+							H.$com.isdebug("微博一键绑定==" + JSON.stringify(ret));
 							if (ret.status) {
 								H.$showProgress();
-								H.$ajax(function(ret, err) {
-									H.$hideProgress();
-									//如果请求成功
+								api.ajax({
+									url : window.serverUrl + "/app_dsf_token/token/" + retobj.token,
+									cache : false,
+									data : {
+										values : {
+											weibotoken : ret.token
+										}
+									}
+								}, function(ret, err) {
+									api.hideProgress();
+									H.$setPrefs(function(ret, err) {
+									}, 'userinfo', JSON.stringify(ret.retValue));
 									if (ret) {
+										switch(ret.retCode) {
+											case 1:
+												api.toast({
+													msg : ret.retDesc
+												});
+												$("#weibo_bd").show();
+												break;
+											case 0:
+												api.toast({
+													msg : ret.retDesc
+												});
+												break;
+										}
 									} else {
 										api.toast({
 											msg : err.msg
 										});
 									}
-									if (ret.retCode == 0) {
-										H.$toast(ret.retDesc);
-									} else {
-										H.$toast(ret.retDesc);
-										$("#weibo_bd").removeClass("display-none");
-										//更新用户信息
-										H.$setPrefs(function(ret, err) {
-										}, 'userinfo', JSON.stringify(ret.retValue));
-									}
-								}, window.serverUrl+'/app_dsf_token/token/" + retobj.token + "/weiboToken/" + ret.token);
-								//							alert(JSON.stringify(ret));
+								});
 							} else {
 								H.$toast("抱歉绑定异常，请排查原因后再试");
 							}
