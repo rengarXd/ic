@@ -153,19 +153,19 @@
 				if (ret) {
 					switch(ret.retCode) {
 						case 1:
-							alert(JSON.stringify(ret));
+//							alert(JSON.stringify(ret));
 							var t = document.getElementById('look_data').innerHTML;
 							laytpl(t).render(ret, function(render) {
 								document.getElementById('look_html').innerHTML = render;
 							});
 							break;
 						case 0:
-							alert(JSON.stringify(ret));
+//							alert(JSON.stringify(ret));
 							$("#ic_loading span").text(ret.retDesc);
 							break;
 					}
 				} else {
-					alert(JSON.stringify(err.msg));
+//					alert(JSON.stringify(err.msg));
 					$("#ic_loading span").text(err.msg);
 				}
 			});
