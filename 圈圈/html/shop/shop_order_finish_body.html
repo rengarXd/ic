@@ -74,30 +74,29 @@
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript">
 		var contents = null;
-//		function get_data() {
-//			if (contents.type == 1) {
-//				$("#chenggong").show();
-//				$("#paySuccess").text('支付成功');
-//				$("#message").text('请等待商家发货');
-//				$("#fanhui").show();
-//			} else if (contents.type == 2) {
-//				$("#chenggong").show();
-//				$("#paySuccess").text('交易成功');
-//				$("#message").text('商家将收到您的货款！');
-//				$("#pingjia").show();
-//			} else if (contents.type == 3) {
-//				$("#shibai").show();
-//				$("#paySuccess").text('余额不足');
-//				$("#message").text('请重新付款款');
-//				$("#fanhui").show();
-//			} else if (contents.type == 3) {
-//				$("#chenggong").show();
-//				$("#paySuccess").text('评价成功');
-//				$("#message").text('感谢您的支持！');
-//				$("#fanhui").show();
-//			}
-//		}
-
+		//		function get_data() {
+		//			if (contents.type == 1) {
+		//				$("#chenggong").show();
+		//				$("#paySuccess").text('支付成功');
+		//				$("#message").text('请等待商家发货');
+		//				$("#fanhui").show();
+		//			} else if (contents.type == 2) {
+		//				$("#chenggong").show();
+		//				$("#paySuccess").text('交易成功');
+		//				$("#message").text('商家将收到您的货款！');
+		//				$("#pingjia").show();
+		//			} else if (contents.type == 3) {
+		//				$("#shibai").show();
+		//				$("#paySuccess").text('余额不足');
+		//				$("#message").text('请重新付款款');
+		//				$("#fanhui").show();
+		//			} else if (contents.type == 3) {
+		//				$("#chenggong").show();
+		//				$("#paySuccess").text('评价成功');
+		//				$("#message").text('感谢您的支持！');
+		//				$("#fanhui").show();
+		//			}
+		//		}
 		Zepto(function($) {
 			$("#order_detail").on("tap", function() {
 				H.$openWin("shop_order_detail_header", "shop_order_detail_header.html", {
@@ -145,6 +144,12 @@
 					$("#fanhui").show();
 					break;
 			}
+			//关闭当前页
+			api.addEventListener({
+				name : 'closeFinish'
+			}, function(ret, err) {
+				api.closeWin();
+			});
 		});
 	</script>
 </html>
