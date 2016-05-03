@@ -118,7 +118,7 @@
 						data : {
 							values : {
 								"comment_id" : pjId.id,
-								"content" : content,
+								"contents" : content,
 								"point" : result
 							}
 						}
@@ -127,7 +127,7 @@
 							api.hideProgress();
 							api.alert({
 								title : '温馨提示',
-								msg : JSON.stringify(ret.retDesc),
+								msg : ret.retDesc,
 								buttons : ['确定']
 							}, function(ret, err) {
 								H.$openWin("shop_order_finish_header", "shop_order_finish_header.html", {
@@ -142,7 +142,7 @@
 							});
 						} else {
 							api.hideProgress();
-							alert(JSON.stringify(err.msg));
+							alert(err.msg);
 						}
 					});
 				} else {
@@ -159,6 +159,9 @@
 		H.ready(function() {
 			api.parseTapmode();
 			pjId = H.$getPageParam();
+			api.sendEvent({
+				name : 'closeFinish'
+			});
 			console.log(JSON.stringify(pjId));
 			api.getPrefs({
 				key : 'userinfo'
