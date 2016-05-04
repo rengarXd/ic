@@ -234,19 +234,24 @@
 
 		//查看评价
 		function findEvaluate(id) {
-//			alert("评价测试id=="+id);
+			//			alert("评价测试id=="+id);
+			api.closeWin({
+				name : 'shop_evaluate_header'
+			});
 			H.$openWin("shop_evaluate_header", "shop_evaluate_header.html", {
 				goods_id : id,
-				order_no : result.order_no
+				order_no : result.order_no,
+				type : 2
 			});
 		}
 
 		//评价
 		function evaluatePay() {
-//			alert("进入评价==");
+			//			alert("进入评价==");
 			H.$openWin("shop_evaluate_header", "shop_evaluate_header.html", {
 				ordersId : create.ordersId,
-				id : result.order_comment.id
+				id : result.order_comment.id,
+				type : 1
 			});
 		}
 
@@ -482,6 +487,9 @@
 				H.$com.isdebug("刷新");
 				location.reload();
 			});
+			//			api.closeWin({
+			//				name:'shop_order_finish_header'
+			//          });
 		});
 		//1 物流信息查看
 	</script>
