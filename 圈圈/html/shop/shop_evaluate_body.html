@@ -96,7 +96,7 @@
 			</div>
 		</div>
 		<div id="look_evaluate" style="display: none">
-			<div class="aui-content" style="margin-top: 10px;" id="look_html">
+			<div class="aui-content" id="look_html">
 				<!--<ul class="aui-list-view">
 				<li class="aui-list-view-cell" >
 				评价星级
@@ -126,9 +126,9 @@
 				<li class="aui-list-view-cell {{# if (d.retValue[i].order_no == pjId.order_no ) { }}ic_bg{{# } }}">
 				评价内容：
 				{{# if (d.retValue[i].contents ) { }}
-				<p style="margin-left: 18px;font-size: 14px;">
+				<span style="font-size: 14px;">
 				{{ d.retValue[i].contents }}
-				</p>
+				</span>
 				{{# } else { }}
 				<span style="font-size: 13px;color: #bbb">暂无评价内容</span>
 				{{# } }}
@@ -153,19 +153,19 @@
 				if (ret) {
 					switch(ret.retCode) {
 						case 1:
-//							alert(JSON.stringify(ret));
+							//							alert(JSON.stringify(ret));
 							var t = document.getElementById('look_data').innerHTML;
 							laytpl(t).render(ret, function(render) {
 								document.getElementById('look_html').innerHTML = render;
 							});
 							break;
 						case 0:
-//							alert(JSON.stringify(ret));
+							//							alert(JSON.stringify(ret));
 							$("#ic_loading span").text(ret.retDesc);
 							break;
 					}
 				} else {
-//					alert(JSON.stringify(err.msg));
+					//					alert(JSON.stringify(err.msg));
 					$("#ic_loading span").text(err.msg);
 				}
 			});
@@ -239,6 +239,11 @@
 			api.sendEvent({
 				name : 'closeFinish'
 			});
+			if (pjId.id) {
+				$("#pingjia").show();
+			} else if (pjId.goods_id) {
+				$("#look_evaluate").show();
+			}
 			console.log(JSON.stringify(pjId));
 			api.getPrefs({
 				key : 'userinfo'
@@ -246,11 +251,6 @@
 				retobj = eval('(' + ret.value + ')');
 				lookEvaluate();
 			});
-			if (pjId.id) {
-				$("#pingjia").show();
-			} else if (pjId.goods_id) {
-				$("#look_evaluate").show();
-			}
 		});
 	</script>
 </html>
