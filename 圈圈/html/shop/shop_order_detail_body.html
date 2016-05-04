@@ -187,14 +187,14 @@
 			<br />
 			商品价格:<span class="aui-text-danger aui-pull-right">￥{{ d.goods_list[i].goods_price }}</span>
 			<br />
-			优惠金额:<span class="aui-text-danger aui-pull-right">￥{{ d.goods_list[i].goods_price-d.goods_list[i].real_price }}</span>
+			优惠金额:<span class="aui-text-danger aui-pull-right">￥{{ d.promotions }}</span>
 			<br />
 			商品数量:<span class="aui-pull-right aui-text-danger">x {{ d.goods_list[i].goods_nums }}</span>
 			<br />
 			配送状态:<span class="aui-text-danger aui-pull-right"><strong>{{ d.goods_list[i].orderStep }}</strong></span>
 			<br />
 			小计:
-			<span class="aui-pull-right aui-text-danger"><strong>￥{{ d.goods_list[i].real_price*d.goods_list[i].goods_nums }}</strong></span><br />
+			<span class="aui-pull-right aui-text-danger"><strong>￥{{ d.order_amount }}</strong></span><br />
 			{{# if(d.goods_list[i].delivery_id != 0){ }}
 			<div class="aui-btn ic_btn_defunct" onclick="openLogistics({{ d.goods_list[i].delivery_id }});" style="margin-top: 10px;">
 			<span class="iconfont icon-wuliu"></span> 查看物流
@@ -304,14 +304,6 @@
 
 		//立即付款
 		function openPaynow() {
-			//		H.$openWin("shop_order_creation_header","shop_order_creation_header.html",{
-			//			order_no : result.order_no,
-			//			create_time:result.create_time,
-			//			accept_name:result.accept_name,
-			//			real_freight:result.real_freight,
-			//			real_amount : result.order_amount,
-			//
-			//		});
 			api.confirm({
 				title : '温馨提示',
 				msg : '您确定要立即支付吗？',
@@ -336,10 +328,30 @@
 								});
 								//alert(JSON.stringify(ret.retDesc));
 								location.reload();
+								//插入金额变动消息
+								//								api.sendEvent({
+								//									name : 'addsystemmsg',
+								//									extra : {
+								//											title : '付款成功通知',
+								//											content : '付款成功，金额：'+result.order_amount,
+								//											status : 0,
+								//											time : Date.parse(new Date()),
+								//											type : 1
+								//										}
+								//								});
 								// 2.0 插入系统消息
-								api.sendEvent({
-									name : 'useVoucherMsg',
-								});
+								if (result.prop !== null) {
+									api.sendEvent({
+										name : 'addsystemmsg',
+										extra : {
+											title : '代金券消费成功通知',
+											content : result.note,
+											status : 0,
+											time : Date.parse(new Date()),
+											type : 1
+										}
+									});
+								}
 								H.$openWin("shop_order_finish_header", "shop_order_finish_header.html", {
 									ordersId : create.ordersId,
 									type : 1
@@ -385,6 +397,7 @@
 			//请求ajax数据
 			api.ajax({
 				url : window.serverUrl + '/refunds_order_detail/token/' + retobj.token + '/user_id/' + retobj.id + '/order_id/' + parseInt(create.ordersId),
+				cache : false
 			}, function(ret, err) {
 				if (ret && ret.retCode == 1) {
 					//					alert(JSON.stringify(ret));
@@ -461,6 +474,11 @@
 				retobj = eval('(' + ret.value + ')');
 				get_data();
 			});
+			api.addEventListener({
+	            name:'payReload'
+            },function(ret,err){
+            	location.reload();
+            });
 		});
 		//1 物流信息查看
 	</script>
