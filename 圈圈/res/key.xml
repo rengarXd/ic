@@ -4,5 +4,5 @@
 	<item name="aliPay_seller" value="zzwecool@qq.com"/>
 	<item name="aliPay_rsaPriKey" value="MIICeQIBADANBgkqhkiG9w0BAQEFAASCAmMwggJfAgEAAoGBAN3wGG32qmWrgGagIU/Ayh0iPn4jyggoaWMX4YCAxfbAQ6fM0+Rf54d7DRLYeAPZ3nFN9XLLlM3ABKG4CVrE7p3yIfb4qgIkZVww3quJbxV+Yc0JPf8HIj/PWYyZTNZQigi/Ne7GA05aPgxd/2X+DXL07tCi6+fXOBP3DsoKFjetAgMBAAECgYEA16cSBd/WKR6hkJbuZ3F8sxxwPt+F07F43fn5e4UlVyPxWZ6VEmcCMcompPZEf/F2zQAkjRw2hkqb9Yw/Qrzy4iWF+Ao3aPAfXowexnUjcpP+gGDWSZDEeEyduN4yoyLLw3VY2aiknOTFy0/R9ejcK/wKFwZyozNDc5SU1Bf2PF0CQQDvp9Iz4aK7C1pbUF38vz0scqWx58mbw0p+VrCyr+MqnoNSAtcOOTrL/a9rjox/S7QbVAe74mA5IO5sFkBxI53/AkEA7RLwX/JAuXUn4srlBmC5SJlu0//cVMYvPJ8XfoMepa9rrYLKNKJx2Ba1BQIeZjjiSzj/Ql+zXz0QdB+Sx7ICUwJBAM7VBsxx8tD9BlmCresBXZlrxOcaxVviGvuYc91zgVn5/hoci2AiMkV1xxzLpSQDwQhI6HfV8ve7HSo5thovBB8CQQCERT3R+mJ8Vs5DLfqsHUkjJV/9blKrBcwTIZxFHLj7ri0AqOlShpPIAZtLyQvW8sPnPkzE5oo4h+RnNbp6Kmo7AkEAmPe5eiCk+6OGsi3LRVMSgRg3khh87hNbZbiwagzeDhQN1vy6qxSQKrPrf4WhSPZ64H/DeRkgZTDmi0+In13qMA=="/>
 	<item name="aliPay_rsaPubKey" value="MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDd8Bht9qplq4BmoCFPwModIj5+I8oIKGljF+GAgMX2wEOnzNPkX+eHew0S2HgD2d5xTfVyy5TNwAShuAlaxO6d8iH2+KoCJGVcMN6riW8VfmHNCT3/ByI/z1mMmUzWUIoIvzXuxgNOWj4MXf9l/g1y9O7Qouvn1zgT9w7KChY3rQIDAQAB"/>
-	<item name="aliPay_notifyURL" value="http://www.ipetoo.com"/>
+	<item name="aliPay_notifyURL" value="http%3a%2f%2f122.114.90.191%2fpay%2fnotify_test"/>
 </security>
