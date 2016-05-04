@@ -96,7 +96,7 @@
 						} else {
 							api.alert({
 								title : '支付结果',
-								msg : ret.code,
+								msg : JSON.stringify(ret),
 								buttons : ['确定']
 							});
 						}
