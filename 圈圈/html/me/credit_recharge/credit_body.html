@@ -79,16 +79,11 @@
 				if (isPositiveNum(pay_num)) {
 					// 1.1 实例化支付宝客户端
 					var obj = api.require('aliPay');
-					var subject = '在线充值  ';
-					var body = 'i宠在线余额充值';
-					var amount = '0.01';
-					var tradeNO = userobj.id+Date.parse(new Date());
-					var notifyURL = 'http://www.apicloud.com';
 					obj.pay({
-						subject : subject,
-						body : body,
-						amount : amount,
-						tradeNO : tradeNO
+						subject :'在线充值',
+						body : 'i宠在线余额充值',
+						amount : '0.01',
+						tradeNO : userobj.id+Date.parse(new Date())
 					}, function(ret, err) {
 						// 如果支付成功！
 						if (ret.code == 9000) {
