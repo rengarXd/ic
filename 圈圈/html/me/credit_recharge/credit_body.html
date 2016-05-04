@@ -78,26 +78,6 @@
 				var pay_num = $("#pay_num").val();
 				if (isPositiveNum(pay_num)) {
 					configAliPay();
-					// 1.1 实例化支付宝客户端
-					//					var obj = api.require('aliPay');
-					//					obj.pay({
-					//						subject : '在线充值',
-					//						body : 'i宠在线余额充值',
-					//						amount : '0.01',
-					//						tradeNO : userobj.id + Date.parse(new Date())
-					//					}, function(ret, err) {
-					//						// 如果支付成功！
-					//						if (ret.code == 9000) {
-					//							alert("支付成功！哈哈哈");
-					//						} else {
-					//							api.alert({
-					//								title : '支付结果',
-					//								msg : JSON.stringify(ret),
-					//								buttons : ['确定']
-					//							});
-					//						}
-					//					});
-					//					});
 				} else {
 					api.toast({
 						msg : '抱歉您输入的金额有误！'
@@ -129,21 +109,19 @@
 				notifyURL : 'http://122.114.90.191/pay/notify_test'
 			}, function(ret, err) {
 				if (ret.status)
-					api.alert({
-						msg : "配置成功"
+					obj.pay({
+						subject : '在线充值',
+						body : 'i宠在线余额充值',
+						amount : '0.01',
+						tradeNO : userobj.id + Date.parse(new Date())
+					}, function(ret, err) {
+						var rets = JSON.stringify(ret);
+						api.alert({
+							title : '支付结果',
+							msg : rets,
+							buttons : ['确定']
+						});
 					});
-				obj.pay({
-					subject : '在线充值',
-					body : 'i宠在线余额充值',
-					amount : '0.01',
-					tradeNO : userobj.id + Date.parse(new Date())
-				}, function(ret, err) {
-					api.alert({
-						title : '支付结果',
-						msg : ret.statusMessage,
-						buttons : ['确定']
-					});
-				});
 			});
 		};
 	</script>
