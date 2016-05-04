@@ -209,13 +209,13 @@
 									msg : ret.retDesc,
 									buttons : ['确定']
 								}, function(ret, err) {
+									api.closeWin({
+										name : 'shop_order_finish_header'
+									});
 									H.$openWin("shop_order_finish_header", "shop_order_finish_header.html", {
 										ordersId : pjId.ordersId,
 										type : 4
 									});
-									
-									
-									
 								});
 							} else if (ret.retCode == 0) {
 								api.hideProgress();
@@ -246,15 +246,20 @@
 				key : 'userinfo'
 			}, function(ret, err) {
 				retobj = eval('(' + ret.value + ')');
-				if (pjId.id) {
-					$("#pingjia").show();
+				//				if (pjId.id) {
+				//					$("#pingjia").show();
+				//				}
+				//				if (pjId.goods_id) {
+				//					lookEvaluate();
+				//				}
+				switch (pjId.type) {
+					case 1:
+						$("#pingjia").show();
+						break;
+					case 2:
+						lookEvaluate();
+						break;
 				}
-				if (pjId.goods_id) {
-					lookEvaluate();
-				}
-			});
-			api.sendEvent({
-				name : 'closeFinish'
 			});
 			console.log(JSON.stringify(pjId));
 		});
