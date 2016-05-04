@@ -196,7 +196,7 @@
 				H.$closeCurrentWin();
 			} else {
 				api.closeToWin({
-					name : 'shop_show_header',
+					name : 'main',
 					animation : {
 						type : 'push',
 						subType : 'from_bottom',
@@ -223,12 +223,27 @@
 						});
 						//插入金额变动消息
 						api.sendEvent({
-							name : 'useCreditMsg'
+							name : 'addsystemmsg',
+							extra : {
+								title : '付款成功通知',
+								content : '付款成功，消费金额：' + orders.order_amount + '元',
+								status : 0,
+								time : Date.parse(new Date()),
+								type : 1
+							}
 						});
 						// 2.0 插入系统消息
+						var notes = $("#note").html();
 						if (orders.prop != null) {
 							api.sendEvent({
-								name : 'useVoucherMsg',
+								name : 'addsystemmsg',
+								extra : {
+									title : '代金券消费成功通知',
+									content : notes,
+									status : 0,
+									time : Date.parse(new Date()),
+									type : 1
+								}
 							});
 						}
 					} else if (ret && ret.retCode == 0) {
