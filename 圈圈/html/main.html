@@ -394,7 +394,6 @@
 						name : 'ichong',
 						sql : sql
 					}, function(ret, err) {
-						$("#brige").show();
 						api.sendEvent({
 							name : 'getsystemmsg',
 							extra : ret
@@ -418,23 +417,34 @@
 					//alert(JSON.stringify(ret));
 				});
 			});
-			//12.1.1代金卷使用时消息状态
-			api.addEventListener({
-				name : 'useVoucherMsg'
-			}, function(ret, err) {
-				if (ret) {
-					$("#brige").show();
-				} else {
-					api.toast({
-						msg : err
-					});
-				}
-			});
+			//			//12.1.1代金卷使用时消息状态
+			//			api.addEventListener({
+			//				name : 'useVoucherMsg'
+			//			}, function(ret, err) {
+			//				if (ret) {
+			//					$("#brige").show();
+			//				} else {
+			//					api.toast({
+			//						msg : err
+			//					});
+			//				}
+			//			});
+			//			//12.1.2金额变动提醒
+			//			api.addEventListener({
+			//				name : 'useCreditMsg'
+			//			}, function(ret, err) {
+			//				if (ret) {
+			//					$("#brige").show();
+			//				} else {
+			//					api.toast({
+			//						msg : err
+			//					});
+			//				}
+			//			});
 			//12.2 系统消息阅读状态
 			api.addEventListener({
 				name : 'editSystemMsgaStatus'
 			}, function(ret, err) {
-				$("#brige").hide();
 				var sql = 'UPDATE SystemMassage SET status=1';
 				db.executeSql({
 					name : 'ichong',
