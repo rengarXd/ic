@@ -507,6 +507,7 @@
 			//添加消息推送监听
 			var push = api.require('push');
 			push.setListener(function(ret, err) {
+				alert(JSOn.stringify(ret));
 				//1.1如果接受到了推送的消息
 				if (ret) {
 //					alert(JSON.stringify(ret));
