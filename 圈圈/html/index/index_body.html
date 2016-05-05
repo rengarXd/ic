@@ -509,7 +509,7 @@
 			push.setListener(function(ret, err) {
 				//1.1如果接受到了推送的消息
 				if (ret) {
-					alert(JSON.stringify(ret));
+//					alert(JSON.stringify(ret));
 					//1.2如数据库已经打开完毕
 					if (isopendb) {
 						var sql = 'INSERT INTO Push_Massage VALUSE(0,' + ret.data + ',' + ret.data + ',' + 242 + ',0)';

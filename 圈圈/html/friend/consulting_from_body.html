@@ -161,7 +161,9 @@
 				if (ret) {
 					callback(savePath + savename);
 				} else {
-					alert(JSON.stringify(err));
+					api.toast({
+						msg : err.msg
+					});
 				}
 			});
 		}
@@ -255,7 +257,9 @@
 								break;
 						};
 					} else {
-						alert(JSON.stringify(err));
+						api.toast({
+							msg : err.msg
+						});
 					}
 				});
 			});
@@ -302,7 +306,9 @@
 							});
 						}
 					} else {
-						alert(JSON.stringify(err));
+						api.toast({
+							msg : err.msg
+						});
 					}
 				});
 			});
@@ -327,7 +333,9 @@
 								break;
 						};
 					} else {
-						alert(JSON.stringify(err));
+						api.toast({
+							msg : err.msg
+						});
 					}
 				});
 			});
@@ -915,7 +923,6 @@
 					api.ajax({
 						url : 'http://122.114.90.191/apis/answernum_update/userId/' + ret.result.message.targetId + '/token/' + retobj.token
 					}, function(ret, err) {
-						
 					});
 					if (targetIdIng != ret.result.message.targetId) {
 						//                  api.notification({
@@ -1006,6 +1013,7 @@
 				}
 			})
 		}
+
 
 		H.ready(function() {
 			doctorid = H.$getPageParam();

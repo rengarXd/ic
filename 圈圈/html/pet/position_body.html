@@ -186,8 +186,7 @@
 			 *添加布告牌
 			 */
 			function addBillboard(lons, lats) {
-				setCenter(lons,lats);
-				
+				setCenter(lons, lats);
 				bMap.addBillboard({
 					id : 19,
 					coords : {
@@ -209,7 +208,9 @@
 					}
 				}, function(ret) {
 					if (ret) {
-						alert(JSON.stringify(ret));
+						api.toast({
+							msg : JSON.stringify(ret);
+						});
 					}
 				});
 			}
@@ -218,7 +219,7 @@
 			 *setCenter
 			 *设置地图中心点
 			 */
-			function setCenter(lons,lats) {
+			function setCenter(lons, lats) {
 				api.toast({
 					msg : '定位中',
 					duration : 1500,

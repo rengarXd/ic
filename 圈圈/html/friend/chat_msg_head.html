@@ -75,7 +75,9 @@
 								break;
 						}
 					} else {
-						alert(JSON.stringify(err));
+						api.toast({
+	                        msg:err.msg
+                        });
 					}
 				});
 			});
@@ -109,7 +111,9 @@
 							break;
 					}
 				} else {
-					alert(JSON.stringify(err));
+					api.toast({
+	                    msg:err.msg
+                    });
 				}
 			});
 		}

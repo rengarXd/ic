@@ -15,34 +15,7 @@
 	</head>
 	<body>
 		<div class="aui-content-padded" style="padding-top: 10px;">
-			<ul class="aui-list-view" id="ul" style="background: #F4F4F4;border-bottom: none">
-				<!-- <li  style="background: #F4F4F4">
-				<h4>订单号：<span class="ic_storing" id="order_no"></span></h4>
-				<h4>下单日期：<span class="ic_storing" id="create_time"></span></h4>
-				</li>
-				<li class="aui-list-view-cell aui-img" style="background: #ECFFED;box-shadow:2px 3px #e2e2e2;border-radius: 3px">
-				<img class="aui-img-object aui-pull-left" id="img" src="../../image/loading.png">
-				<div class="aui-img-body">
-				<h4 class="ic_goods_title" id="goods_name"></h4>
-				</div>
-				</li>
-				<li>
-				<div style="">
-				<h4>退款理由：</h4>
-				<textarea id="reason" name="content" placeholder="请输入退款原因" style="box-shadow:2px 3px #e2e2e2"></textarea>
-				</div>
-				</li>
-				<li>
-				<div style="border: 1px dashed #e2e2e2;border-radius: 3px;width: auto;height: 35px">
-				<i class="aui-iconfont aui-icon-camerafill"style="color:#A9A9A9;text-height: 30px;line-height: 35px"></i>
-				<p style="float: right;text-height: 30px;line-height: 35px">上传凭证 最多3张</p>
-				<div style="display:inline;float:right;">
-				<img src="../../image/loading.png" style="width: 30px;height: 30px;line-height: 35px;margin-top: 2px;position: absolute"/>
-				<i class="aui-iconfont aui-icon-roundclose" style="background-color:red;color:#fff;;border-radius:50px;display:inline;text-align:10px;padding:0px;position: relative;top:-5px;left: 15px"></i>
-				</div>
-				</div>
-				</li>  -->
-			</ul>
+			<ul class="aui-list-view" id="goods_html" style="background: #F4F4F4;border-bottom: none"></ul>
 			<div id="refund_apply" class="aui-btn aui-btn-danger aui-btn-block">
 				退款申请
 			</div>
@@ -91,15 +64,20 @@
 				}, function(ret, err) {
 					if (ret) {
 						if (ret.retCode == 1) {
-							alert(JSON.stringify(ret.retDesc));
+							alert(ret.retDesc);
 							refunds = ret.retValue;
-//							alert(JSON.stringify(refunds));
-							H.$openWin("order_refund_body","../me/order_header.html");
+							//							alert(JSON.stringify(refunds));
+							H.$openWin("shop_refunds_detail_header", "../me/refunds/shop_refunds_detail_header.html", {
+								id : refunds.id
+							});
+							//							H.$openWin("order_refund_body", "../me/order_header.html");
 						} else {
-							alert(JSON.stringify(ret.retDesc));
+							alert(ret.retDesc);
 						}
 					} else {
-						alert(JSON.stringify(err));
+						api.toast({
+							msg : err.msg
+						});
 					}
 				});
 			});
@@ -126,7 +104,7 @@
 						goods_lists = ret.retValue.goods_list;
 						var t = document.getElementById('goods_list').innerHTML;
 						laytpl(t).render(order, function(render) {
-							document.getElementById('ul').innerHTML = render;
+							document.getElementById('goods_html').innerHTML = render;
 							$("#order_no").text(order.order_no);
 							$("#create_time").text(order.create_time);
 							//$("#goods_name").text(order.goods_name);
