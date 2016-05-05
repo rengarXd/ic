@@ -447,24 +447,29 @@
 				});
 			});
 			//系统消息处理========================
-//			api.addEventListener({
-//				name : 'noticeclicked'
-//			}, function(ret, err) {
-//				alert(JSON.stringify(ret));
-//				var value = ret.value;
-//				if (ret.type == 0) {
-//					//APICloud推送内容
-//					
-//					db.executeSql({
-//						name : 'ichong',
-//						sql : sql
-//					}, function(ret, err) {
-//						//coding...
-//					});
-//				} else if (ret.type == 1) {
-//					//开发者自定义消息
-//				}
-//			});
+			api.addEventListener({
+				name : 'noticeclicked'
+			}, function(ret, err) {
+				alert(JSON.stringify(ret));
+				var value = ret.value;
+				if (ret.type == 0) {
+					//APICloud推送内容
+					for (var i = 0, l = value.data.length; i < l; i++) {
+						api.sendEvent({
+							name : 'addsystemmsg',
+							extra : {
+								//							title : '代金券消费成功通知',
+								content : value.data[i],
+								status : 0,
+								time : Date.parse(new Date()),
+								type : 1
+							}
+						});
+					}
+				} else if (ret.type == 1) {
+					//开发者自定义消息
+				}
+			});
 		});
 		// 10.2 添加
 		function addSerachWord(aword) {
