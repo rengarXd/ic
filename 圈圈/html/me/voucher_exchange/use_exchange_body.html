@@ -137,6 +137,7 @@
 				url : window.serverUrl + '/trade_ticket/token/' + retobj.token + '/user_id/' + retobj.id + '/ticket_id/' + ticket
 			}, function(ret, err) {
 				if (ret && ret.retCode == 1) {
+				api.hideProgress();
 					// 2.0 插入系统消息
 					api.sendEvent({
 						name : 'addsystemmsg',

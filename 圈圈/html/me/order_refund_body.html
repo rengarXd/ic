@@ -94,11 +94,11 @@
 					}, function(ret, err) {
 						if (ret) {
 							api.hideProgress();
-							alert(JSON.stringify(ret.retDesc));
+							alert(ret.retDesc);
 							location.reload();
 						} else {
 							api.hideProgress();
-							alert(JSON.stringify(err.msg));
+							alert(err.msg);
 							location.reload();
 						}
 					});

@@ -183,7 +183,9 @@
 						}
 					} else {
 						$("#ic_loading span").text('抱歉暂无数据');
-						alert(JSON.stringify(err.msg));
+						api.toast({
+							msg : err.msg
+						});
 					}
 				});
 			});

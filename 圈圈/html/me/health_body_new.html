@@ -143,7 +143,9 @@
 					//					alert(JSON.stringify(ret));
 					$("#ad_date").val(ret.year + '年' + ret.month + '月' + ret.day + '日');
 				} else {
-					alert(JSON.stringify(err));
+					api.toast({
+						msg : err.msg
+					});
 				}
 			});
 		}

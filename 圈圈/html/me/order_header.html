@@ -62,6 +62,9 @@
 					<li class="winu-flex-item winu-center-all" tapmode >
 						<a>退款</a>
 					</li>
+					<!--<li class="winu-flex-item winu-center-all" tapmode >
+					<a>评价</a>
+					</li>-->
 				</ul>
 			</nav>
 		</header>
@@ -105,6 +108,13 @@
 					url : 'order_refund_body.html',
 					name : 'order_refund_body'
 				}]
+			});
+			api.addEventListener({
+				name : 'keyback'
+			}, function(ret, err) {
+				api.closeToWin({
+					name : 'main'
+				});
 			});
 		});
 	</script>
