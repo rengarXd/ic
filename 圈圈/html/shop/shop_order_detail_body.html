@@ -390,6 +390,7 @@
 		function openRefund() {
 			//			var imgUrl = $("#goods_img").attr('src');
 			//			var goodsName = $("#goods_name").text();
+			location.reload();
 			H.$openWin("shop_refund_header", "shop_refund_header.html", {
 				id : parseInt(create.ordersId)
 				//				order_no : result.order_no,
@@ -430,7 +431,7 @@
 					// "status": 订单状态 1生成订单,2支付订单,3取消订单(客户触发),4作废订单(管理员触发),5完成订单,6退款,7部分退款
 					// "pay_status":支付状态 0：未支付; 1：已支付;
 					// "distribution_status": 配送状态 0：未发送,1：已发送,2：部分发送
-					if (result.status == 3 || result.status == 5 || result.status == 6) {
+					if (result.status == 3 || result.status == 4|| result.status == 5 || result.status == 6 || result.order_status == "申请退款" || result.order_status == "部分退款") {
 						console.log(9999);
 						$("#buttonsHide").hide();
 					} else if (result.pay_status == 0 && result.distribution_status == 0) {
