@@ -318,6 +318,18 @@
 							H.$api.setStorage('SystemMassage', true);
 						}
 					});
+				} else {
+					var sqls = 'select * from SystemMassage where status=0';
+					db.selectSql({
+						name : 'ichong',
+						sql : sqls
+					}, function(ret, err) {
+						console.log(' ret.data.length==' + ret.status);
+						if (ret.status && ret.data.length > 0) {
+							$("#brige").show();
+						} else {
+						}
+					});
 				}
 			});
 			//关键词处理=========================
@@ -402,12 +414,11 @@
 					});
 				}
 			});
-			
 			//12.1 系统消息插入
 			api.addEventListener({
 				name : 'addsystemmsg'
 			}, function(ret, err) {
-				//alert(JSON.stringify(ret));
+				//				alert(JSON.stringify(ret));
 				$("#brige").show();
 				var sql = "INSERT INTO SystemMassage(title,content,status,time,type) VALUES ('" + ret.value.title + "','" + ret.value.content + "'," + ret.value.status + "," + ret.value.time + "," + ret.value.type + ")";
 				db.executeSql({
