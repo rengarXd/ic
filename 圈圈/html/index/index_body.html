@@ -396,9 +396,9 @@
 			}, function(ret, err) {
 				//字符串转为json对象
 				var retobj = eval('(' + ret.value + ')');
-//				vConsole.ready(function() {
-//					console.log(retobj);
-//				});
+				//				vConsole.ready(function() {
+				//					console.log(retobj);
+				//				});
 				//请求首页广告数据
 				api.ajax({
 					url : window.serverUrl + '/app_index_manage/token/' + retobj.token,
@@ -510,23 +510,36 @@
 				alert(JSON.stringify(ret));
 				//1.1如果接受到了推送的消息
 				if (ret) {
-//					alert(JSON.stringify(ret));
+					//					alert(JSON.stringify(ret));
 					//1.2如数据库已经打开完毕
-					if (isopendb) {
-						var sql = 'INSERT INTO Push_Massage VALUSE(0,' + ret.data + ',' + ret.data + ',' + 242 + ',0)';
-						db.executeSql({
-							name : 'ichong',
-							sql : sql
-						}, function(ret, err) {
-							if (ret.status) {
-								alert("插入成功！");
-							};
+//					if (isopendb) {
+//						var sql = 'INSERT INTO Push_Massage VALUSE(0,' + ret.data + ',' + ret.data + ',' + 242 + ',0)';
+//						db.executeSql({
+//							name : 'ichong',
+//							sql : sql
+//						}, function(ret, err) {
+//							if (ret.status) {
+//								alert("插入成功！");
+//							};
+//						});
+//					}
+					for (var i = 0, l = ret.data.length; i < l; i++) {
+						api.sendEvent({
+							name : 'addsystemmsg',
+							extra : {
+								//							title : '代金券消费成功通知',
+								content : ret.data[i],
+								status : 0,
+								time : Date.parse(new Date()),
+								type : 1
+							}
 						});
 					}
-				}else {
+					//1.2向系统消息表发送消息
+				} else {
 					api.toast({
-	                    msg:err.msg
-                    });
+						msg : err.msg
+					});
 				}
 			});
 		});

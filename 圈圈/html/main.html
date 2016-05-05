@@ -428,30 +428,6 @@
 					//alert(JSON.stringify(ret));
 				});
 			});
-			//			//12.1.1代金卷使用时消息状态
-			//			api.addEventListener({
-			//				name : 'useVoucherMsg'
-			//			}, function(ret, err) {
-			//				if (ret) {
-			//					$("#brige").show();
-			//				} else {
-			//					api.toast({
-			//						msg : err
-			//					});
-			//				}
-			//			});
-			//			//12.1.2金额变动提醒
-			//			api.addEventListener({
-			//				name : 'useCreditMsg'
-			//			}, function(ret, err) {
-			//				if (ret) {
-			//					$("#brige").show();
-			//				} else {
-			//					api.toast({
-			//						msg : err
-			//					});
-			//				}
-			//			});
 			//12.2 系统消息阅读状态
 			api.addEventListener({
 				name : 'editSystemMsgaStatus'
@@ -471,18 +447,24 @@
 				});
 			});
 			//系统消息处理========================
-			api.addEventListener({
-				name : 'noticeclicked'
-			}, function(ret, err) {
-				alert(JSON.stringify(ret));
-				var value = ret.value;
-				if (ret.type == 0) {
-					//APICloud推送内容
-					
-				} else if (ret.type == 1) {
-					//开发者自定义消息
-				}
-			});
+//			api.addEventListener({
+//				name : 'noticeclicked'
+//			}, function(ret, err) {
+//				alert(JSON.stringify(ret));
+//				var value = ret.value;
+//				if (ret.type == 0) {
+//					//APICloud推送内容
+//					
+//					db.executeSql({
+//						name : 'ichong',
+//						sql : sql
+//					}, function(ret, err) {
+//						//coding...
+//					});
+//				} else if (ret.type == 1) {
+//					//开发者自定义消息
+//				}
+//			});
 		});
 		// 10.2 添加
 		function addSerachWord(aword) {
@@ -494,7 +476,5 @@
 				//alert(JSON.stringify(ret));
 			});
 		}
-
-		//
 	</script>
 </html>
