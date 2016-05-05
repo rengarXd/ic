@@ -312,15 +312,26 @@
 										// 2.14 标识用户登录成功下次直接进入
 										H.$setPrefs(function(ret, err) {
 										}, 'islogin', 'ok');
+										//绑定用户推送
+										push.bind({
+											userName : ret.retValue.tel,
+											userId : ret.retValue.id
+										}, function(ret, err) {
+											if (ret.status) {
+												//api.alert({msg:'绑定成功'});
+												H.$setPrefs(function(ret, err) {
+													// 2.16 发送全局加载事件更新刷新页面
+													api.sendEvent({
+														name : 'pagereload'
+													});
+													// 2.17 跳转到main页面
+													H.$openWin('main', '../main.html');
+												}, 'userinfo', JSON.stringify(ret.retValue));
+											} else {
+												//api.alert({msg:err.msg});
+											}
+										});
 										// 2.15 存储用户信息（userinfo 全局共享）
-										H.$setPrefs(function(ret, err) {
-											// 2.16 发送全局加载事件更新刷新页面
-											api.sendEvent({
-												name : 'pagereload'
-											});
-											// 2.17 跳转到main页面
-											H.$openWin('main', '../main.html');
-										}, 'userinfo', JSON.stringify(ret.retValue));
 									} else {
 										// 2.18 如果返回状态码错误
 										if (ret && ret.retCode == 0) {
