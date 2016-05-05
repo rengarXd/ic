@@ -312,13 +312,13 @@
 										// 2.14 标识用户登录成功下次直接进入
 										H.$setPrefs(function(ret, err) {
 										}, 'islogin', 'ok');
-										console.log(ret.retValue)
+										console.log(JSON.stringify(ret.retValue))
 										//绑定用户推送
 										push.bind({
 											userName : ret.retValue.tel,
 											userId : ret.retValue.id
 										}, function(ret, err) {
-											console.log(ret);
+											console.log(JSON.stringify(ret));
 											if (ret.status) {
 												//api.alert({msg:'绑定成功'});
 											} else {
