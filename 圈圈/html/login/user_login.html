@@ -474,6 +474,16 @@
 										H.$setPrefs(function(ret, err) {
 											H.$openWin('main', '../main.html');
 										}, 'userinfo', JSON.stringify(ret.retValue[0]));
+										push.bind({
+											userName : ret.retValue[0].tel,
+											userId : ret.retValue[0].id
+										}, function(ret, err) {
+											if (ret.status) {
+												//api.alert({msg:'绑定成功'});
+											} else {
+												//api.alert({msg:err.msg});
+											}
+										});
 									}
 								}, window.serverUrl + '/app_token/qq/1/token/' + ret.accessToken);
 							});
@@ -542,7 +552,6 @@
 				H.$dblclickToCloseApp(function() {
 				});
 			});
-			
 		</script>
 	</body>
 </html>
