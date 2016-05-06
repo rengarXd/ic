@@ -452,9 +452,14 @@
 			}, function(ret, err) {
 				alert(JSON.stringify(ret));
 				var value = ret.value;
-				if (ret.type == 0) {
-					//APICloud推送内容
-					for (var i = 0, l = value.data.length; i < l; i++) {
+//				if (ret.type == 0) {
+//					//APICloud推送内容
+//					
+//				} else if (ret.type == 1) {
+//					//开发者自定义消息
+//					
+//				}
+				for (var i = 0, l = value.data.length; i < l; i++) {
 						api.sendEvent({
 							name : 'addsystemmsg',
 							extra : {
@@ -466,8 +471,31 @@
 							}
 						});
 					}
-				} else if (ret.type == 1) {
-					//开发者自定义消息
+			});
+			
+						//添加消息推送监听
+			var push = api.require('push');
+			push.setListener(function(ret, err) {
+				alert(JSON.stringify(ret));
+				//1.1如果接受到了推送的消息
+				if (ret) {
+					for (var i = 0, l = ret.data.length; i < l; i++) {
+						api.sendEvent({
+							name : 'addsystemmsg',
+							extra : {
+								//title : '代金券消费成功通知',
+								content : ret.data[i],
+								status : 0,
+								time : Date.parse(new Date()),
+								type : 1
+							}
+						});
+					}
+					//1.2向系统消息表发送消息
+				} else {
+					api.toast({
+						msg : err.msg
+					});
 				}
 			});
 		});

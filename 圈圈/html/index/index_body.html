@@ -505,43 +505,43 @@
 				}
 			});
 			//添加消息推送监听
-			var push = api.require('push');
-			push.setListener(function(ret, err) {
-				alert(JSON.stringify(ret));
-				//1.1如果接受到了推送的消息
-				if (ret) {
-					//					alert(JSON.stringify(ret));
-					//1.2如数据库已经打开完毕
-//					if (isopendb) {
-//						var sql = 'INSERT INTO Push_Massage VALUSE(0,' + ret.data + ',' + ret.data + ',' + 242 + ',0)';
-//						db.executeSql({
-//							name : 'ichong',
-//							sql : sql
-//						}, function(ret, err) {
-//							if (ret.status) {
-//								alert("插入成功！");
-//							};
+//			var push = api.require('push');
+//			push.setListener(function(ret, err) {
+//				alert(JSON.stringify(ret));
+//				//1.1如果接受到了推送的消息
+//				if (ret) {
+//					//					alert(JSON.stringify(ret));
+//					//1.2如数据库已经打开完毕
+////					if (isopendb) {
+////						var sql = 'INSERT INTO Push_Massage VALUSE(0,' + ret.data + ',' + ret.data + ',' + 242 + ',0)';
+////						db.executeSql({
+////							name : 'ichong',
+////							sql : sql
+////						}, function(ret, err) {
+////							if (ret.status) {
+////								alert("插入成功！");
+////							};
+////						});
+////					}
+//					for (var i = 0, l = ret.data.length; i < l; i++) {
+//						api.sendEvent({
+//							name : 'addsystemmsg',
+//							extra : {
+//								//							title : '代金券消费成功通知',
+//								content : ret.data[i],
+//								status : 0,
+//								time : Date.parse(new Date()),
+//								type : 1
+//							}
 //						});
 //					}
-					for (var i = 0, l = ret.data.length; i < l; i++) {
-						api.sendEvent({
-							name : 'addsystemmsg',
-							extra : {
-								//							title : '代金券消费成功通知',
-								content : ret.data[i],
-								status : 0,
-								time : Date.parse(new Date()),
-								type : 1
-							}
-						});
-					}
-					//1.2向系统消息表发送消息
-				} else {
-					api.toast({
-						msg : err.msg
-					});
-				}
-			});
+//					//1.2向系统消息表发送消息
+//				} else {
+//					api.toast({
+//						msg : err.msg
+//					});
+//				}
+//			});
 		});
 		/**
 		 * 首页今日精选商品

@@ -19,10 +19,12 @@
 		<div class="aui-card">
 		<ul class="aui-list-view">
 		<li class="aui-list-view-cell">
+		{{# if(d.data[i].title) { }}
 		<h2>{{ d.data[i].title }}</h2>
+		{{# } }}
 		<p>
 		{{ d.data[i].content }}<br />
-		详情请查看积分详情
+		
 		</p>
 		</li>
 		</ul>
