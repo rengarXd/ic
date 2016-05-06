@@ -19,7 +19,7 @@
 		<div class="aui-card">
 		<ul class="aui-list-view">
 		<li class="aui-list-view-cell">
-		{{# if(d.data[i].title) { }}
+		{{# if(d.data[i].title != undefinded) { }}
 		<h2>{{ d.data[i].title }}</h2>
 		{{# } }}
 		<p>
