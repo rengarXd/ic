@@ -63,6 +63,7 @@
 			api.addEventListener({
 				name : 'getpagesystemmsg'
 			}, function(ret, err) {
+			console.log(JSON.stringify(ret));
 				//				alert(JSON.stringify(ret));
 				if (ret.value.data.length > 0) {
 					var tpl = document.getElementById('massage_data').innerHTML;
