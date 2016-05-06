@@ -47,7 +47,7 @@
 					<div class="aui-input-addon">
 						充值金额(元)：
 					</div>
-					<input type="number" class="aui-input" placeholder="请输入充值金额" id="pay_num"/>
+					<input type="number" class="aui-input" placeholder="请输入充值金额(整数)" id="pay_num"/>
 				</div>
 			</div>
 		</div>
@@ -80,7 +80,7 @@
 					configAliPay(userobj.id);
 				} else {
 					api.toast({
-						msg : '抱歉您输入的金额有误！'
+						msg : '抱歉您输入的金额只允许整数'
 					});
 					$("#pay_num").focus();
 				}
@@ -100,27 +100,45 @@
 		}
 
 		function configAliPay(uid) {
+			var num = $("#pay_num").val();
 			var obj = api.require('aliPay');
 			obj.config({
 				partner : '2088221727149058',
 				seller : 'zzwecool@qq.com',
 				rsaPriKey : 'MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAJulzg4zKqdWsSRgQKfY3nhVHVQv7Y2vuhQj0N+1isAXhUt6bi9XbGe0Hws04YR5YQ5EdjdnOrKKaMEs1MVuIcC06TCc6ibeKk3+hTL54Zud34WKxD+Z2Lofws5e/aBZ+NkfJwda92oeqlPBZaA40xVpPmMAQFoT/QdMoyo465K7AgMBAAECgYBEPCUgjoflgpj4JIZTzzyArnfEH5raIa7HA4ifelwQqH8UPuEtOftZX1q4s/8l73yAH71fvo66FPmlrny87PI4dTpNUS0lywI1QdvY1MSXSjjgRDQLaGCRjxDhU+DER/TTqr71QTh2YUMxWh2o7jOOexBC+TfUctL2M0mVT1zReQJBAM4q2wLdUKFsh4K/IoLFE9w8tM6USSYtJviIFv/fj+t9GVzxqXxSeX9+dII9vlPw7QXDvhKW0SZqyHqbuIaGSTcCQQDBROjkgkPgV5ciR0GwWNfaJ84h8snaM1TtanQuflHu5ZIEbHxCzEFlP+60BbhbFRCVdXnaHWykHtuMnIHOmrSdAkEAhXey/yC9gTNcauVH9zaUi+B1AMN4s5FJiF253f4iEsaS89uy6DwQUdxQmrxUCc2P9EprM2eVkPRSQyWqiNRIcwJAWcwcsV9dDjVkQUb+XGNLF097VQarhrhm81CM3rVOeEMuDuQg8CBbGiIUVIx71cX5yJemoBMf0TmNJM3q+gWjeQJAXyZuB2geym7EZsq+Xh2fNQ5Z1QKQrnkb6Lfs23/hgQ9Dby2O1iBA+XOwEQ7Wd99ZWy2oCSpZF4HGjPeF5euXBA==',
 				rsaPubKey : 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCbpc4OMyqnVrEkYECn2N54VR1UL+2Nr7oUI9DftYrAF4VLem4vV2xntB8LNOGEeWEORHY3ZzqyimjBLNTFbiHAtOkwnOom3ipN/oUy+eGbnd+FisQ/mdi6H8LOXv2gWfjZHycHWvdqHqpTwWWgONMVaT5jAEBaE/0HTKMqOOuSuwIDAQAB',
-				notifyURL : 'http://122.114.90.191/pay/notify_test/user_id/'+userobj.id
+				notifyURL : 'http://122.114.90.191/pay/notify_test/user_id/' + userobj.id
 			}, function(ret, err) {
 				if (ret.status)
 					obj.pay({
 						subject : '在线充值',
 						body : 'i宠在线余额充值',
-						amount : '0.01',
+						amount : num,
 						tradeNO : userobj.id + Date.parse(new Date())
 					}, function(ret, err) {
-						var rets = JSON.stringify(ret);
-						api.alert({
-							title : '支付结果',
-							msg : rets,
-							buttons : ['确定']
-						});
+						//1.0 如果支付宝提示付款成功！
+						if (ret && ret.statusCode == 9000) {
+							api.alert({
+								title : '支付结果',
+								msg : "恭喜为您的账户充值" + num + "元成功！",
+								buttons : ['确定']
+							}, function(ret, err) {
+								if (ret && ret.buttonIndex == 1) {
+									api.sendEvent({
+										name : 'creditreloads'
+									});
+									api.closeToWin({
+										name : 'me_credit_header',
+									});
+								}
+							});
+						} else {
+							api.alert({
+								title : '支付结果',
+								msg : "支付失败",
+								buttons : ['确定']
+							});
+						}
 					});
 			});
 		};

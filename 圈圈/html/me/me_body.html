@@ -193,15 +193,17 @@
 			function reload() {
 				location.reload();
 			}
+
 			function health() {
-				if( userinfoobj.ishavedevice == 1 ){
-					H.$openWin("health_header","health_header.html");
-				}else{
+				if (userinfoobj.ishavedevice == 1) {
+					H.$openWin("health_header", "health_header.html");
+				} else {
 					api.toast({
-	                    msg:'请先绑定设备'
-                    });
+						msg : '请先绑定设备'
+					});
 				}
 			}
+
 			Zepto(function($) {
 				//头像如果没有则设置默认无头像
 				$(".avatar_pic").error(function() {
@@ -227,14 +229,15 @@
 				}, function(ret, err) {
 					userinfoobj = eval('(' + ret.value + ')');
 					if (ret && ret.value) {
-						
 						$("#username").html(userinfoobj.username);
 						$("#tel").html(userinfoobj.tel);
 						$(".avatar_pic").attr('src', window.serverUrlPath + userinfoobj.head_ico);
 						$("#ujf").text(userinfoobj.point);
 						$("#yue").text('￥' + userinfoobj.balance);
 					} else {
-						alert(JSON.stringify(err));
+						api.toast({
+							msg : err
+						});
 					}
 				});
 				//余额刷新监听
@@ -242,6 +245,7 @@
 					name : 'creditreload'
 				}, function(ret, err) {
 					if (ret) {
+						H.$com.isdebug("=====me_body===页面监听刷新");
 						location.reload();
 					} else {
 					}
