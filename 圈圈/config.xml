@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<widget id="A6900063015323" version="0.0.1"> 
+<widget id="A6900063015323" version="0.0.1" sandbox="ichong"> 
   <name>i宠</name>  
   <description>i宠是为宠物人士打造的一款智能设备APP，你可以与你的设备紧密结合.</description>  
   <author email="598692079@qq.com" href="http://www.ichong.com">I宠开发团队</author>  

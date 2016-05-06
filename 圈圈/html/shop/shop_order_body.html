@@ -560,7 +560,7 @@
 			api.actionSheet({
 				title : '请选择支付方式',
 				cancelTitle : '取消',
-				buttons : ['预存款', '在线支付']
+				buttons : ['预存款', '在线支付(支付宝)']
 			}, function(ret, err) {
 				switch(ret.buttonIndex) {
 					case 1:
@@ -568,8 +568,8 @@
 						$("#payments").attr("payment", 1);
 						break;
 					case 2:
-						$("#payments").html("在线支付");
-						$("#payments").attr("payment", 11);
+						$("#payments").html("在线支付(支付宝)");
+						$("#payments").attr("payment", 18);
 						break;
 				};
 			});

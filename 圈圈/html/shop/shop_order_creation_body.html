@@ -70,10 +70,7 @@
 		</style>
 	</head>
 	<body>
-		<div class="aui-content-padded"style="padding-top: 10px;" id="order_html">
-			<p class="order_info">
-				确认支付信息
-			</p>
+		<div class="aui-content" style="padding-top: 10px;" id="order_html">
 			<ul class="aui-list-view file_view">
 				<li class="aui-list-view-cell">
 					<div class="aui-col-xs-4">
@@ -119,7 +116,7 @@
 				</li>
 			</ul>
 		</div>
-		<div class="aui-content-padded ">
+		<div class="aui-content ">
 			<ul class="aui-list-view file_view">
 				<li class="aui-list-view-cell">
 					<div class="aui-col-xs-4">
@@ -174,8 +171,8 @@
 			if (orders.pay_type == 1) {
 				$("#pay_type").html("预存款");
 			}
-			if (orders.pay_type == 11) {
-				$("#pay_type").html("在线支付");
+			if (orders.pay_type == 18) {
+				$("#pay_type").html("在线支付(支付宝)");
 			}
 			//支付方式
 			$("#order_amount").html("￥" + orders.order_amount + "元");
@@ -261,7 +258,51 @@
 				});
 			} else {
 				api.hideProgress();
-				alert('在线支付功能即将开启！');
+				var obj = api.require('aliPay');
+				obj.config({
+					partner : '2088221727149058',
+					seller : 'zzwecool@qq.com',
+					rsaPriKey : 'MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAJulzg4zKqdWsSRgQKfY3nhVHVQv7Y2vuhQj0N+1isAXhUt6bi9XbGe0Hws04YR5YQ5EdjdnOrKKaMEs1MVuIcC06TCc6ibeKk3+hTL54Zud34WKxD+Z2Lofws5e/aBZ+NkfJwda92oeqlPBZaA40xVpPmMAQFoT/QdMoyo465K7AgMBAAECgYBEPCUgjoflgpj4JIZTzzyArnfEH5raIa7HA4ifelwQqH8UPuEtOftZX1q4s/8l73yAH71fvo66FPmlrny87PI4dTpNUS0lywI1QdvY1MSXSjjgRDQLaGCRjxDhU+DER/TTqr71QTh2YUMxWh2o7jOOexBC+TfUctL2M0mVT1zReQJBAM4q2wLdUKFsh4K/IoLFE9w8tM6USSYtJviIFv/fj+t9GVzxqXxSeX9+dII9vlPw7QXDvhKW0SZqyHqbuIaGSTcCQQDBROjkgkPgV5ciR0GwWNfaJ84h8snaM1TtanQuflHu5ZIEbHxCzEFlP+60BbhbFRCVdXnaHWykHtuMnIHOmrSdAkEAhXey/yC9gTNcauVH9zaUi+B1AMN4s5FJiF253f4iEsaS89uy6DwQUdxQmrxUCc2P9EprM2eVkPRSQyWqiNRIcwJAWcwcsV9dDjVkQUb+XGNLF097VQarhrhm81CM3rVOeEMuDuQg8CBbGiIUVIx71cX5yJemoBMf0TmNJM3q+gWjeQJAXyZuB2geym7EZsq+Xh2fNQ5Z1QKQrnkb6Lfs23/hgQ9Dby2O1iBA+XOwEQ7Wd99ZWy2oCSpZF4HGjPeF5euXBA==',
+					rsaPubKey : 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCbpc4OMyqnVrEkYECn2N54VR1UL+2Nr7oUI9DftYrAF4VLem4vV2xntB8LNOGEeWEORHY3ZzqyimjBLNTFbiHAtOkwnOom3ipN/oUy+eGbnd+FisQ/mdi6H8LOXv2gWfjZHycHWvdqHqpTwWWgONMVaT5jAEBaE/0HTKMqOOuSuwIDAQAB',
+					notifyURL : 'http://122.114.90.191/pay/notify_order/order_id/' + ordersId,
+				}, function(ret, err) {
+					if (ret.status)
+						obj.pay({
+							subject : '商品支付测试',
+							body : '商品支付测试',
+							amount : orders.real_amount,
+							tradeNO : orders.order_no
+						}, function(ret, err) {
+							//1.0 如果支付宝提示付款成功！
+							if (ret && ret.statusCode == 9000) {
+								api.alert({
+									title : '支付结果',
+									msg : "恭喜您的订单已经支付成功！",
+									buttons : ['确定']
+								}, function(ret, err) {
+									if (ret && ret.buttonIndex == 1) {
+										api.openWin({
+											name : 'order_header',
+											url : '../me/order_header.html'
+										});
+									}
+								});
+							} else {
+								api.alert({
+									title : '支付结果',
+									msg : "支付失败",
+									buttons : ['确定']
+								}, function(ret, err) {
+									if (ret.buttonIndex == 1) {
+										api.openWin({
+											name : 'order_header',
+											url : '../me/order_header.html'
+										});
+									}
+								});
+							}
+						});
+				});
 			}
 		}
 
