@@ -318,66 +318,124 @@
 			}, function(ret, err) {
 				if (ret) {
 					if (ret.buttonIndex == 2) {
-						api.showProgress({
-							style : 'default',
-							animationType : 'fade',
-							title : '加载中',
-							text : '正在支付',
-							modal : false
-						});
-						api.ajax({
-							url : window.serverUrl + '/doPay/token/' + retobj.token + '/user_id/' + retobj.id + '/order_id/' + parseInt(create.ordersId),
-						}, function(ret, err) {
-							if (ret && ret.retCode == 1) {
-								api.hideProgress();
-								//								api.toast({
-								//									msg : ret.retDesc
-								//								});
-								//alert(JSON.stringify(ret.retDesc));
-								location.reload();
-								//插入金额变动消息
-								api.sendEvent({
-									name : 'addsystemmsg',
-									extra : {
-										title : '付款成功通知',
-										content : '付款成功，消费金额：' + result.order_amount + '元',
-										status : 0,
-										time : Date.parse(new Date()),
-										type : 1
-									}
-								});
-								// 2.0 插入系统消息
-								if (result.prop !== null) {
+						if (result.pay_type == 18) {
+							var obj = api.require('aliPay');
+							obj.config({
+								partner : '2088221727149058',
+								seller : 'zzwecool@qq.com',
+								rsaPriKey : 'MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAJulzg4zKqdWsSRgQKfY3nhVHVQv7Y2vuhQj0N+1isAXhUt6bi9XbGe0Hws04YR5YQ5EdjdnOrKKaMEs1MVuIcC06TCc6ibeKk3+hTL54Zud34WKxD+Z2Lofws5e/aBZ+NkfJwda92oeqlPBZaA40xVpPmMAQFoT/QdMoyo465K7AgMBAAECgYBEPCUgjoflgpj4JIZTzzyArnfEH5raIa7HA4ifelwQqH8UPuEtOftZX1q4s/8l73yAH71fvo66FPmlrny87PI4dTpNUS0lywI1QdvY1MSXSjjgRDQLaGCRjxDhU+DER/TTqr71QTh2YUMxWh2o7jOOexBC+TfUctL2M0mVT1zReQJBAM4q2wLdUKFsh4K/IoLFE9w8tM6USSYtJviIFv/fj+t9GVzxqXxSeX9+dII9vlPw7QXDvhKW0SZqyHqbuIaGSTcCQQDBROjkgkPgV5ciR0GwWNfaJ84h8snaM1TtanQuflHu5ZIEbHxCzEFlP+60BbhbFRCVdXnaHWykHtuMnIHOmrSdAkEAhXey/yC9gTNcauVH9zaUi+B1AMN4s5FJiF253f4iEsaS89uy6DwQUdxQmrxUCc2P9EprM2eVkPRSQyWqiNRIcwJAWcwcsV9dDjVkQUb+XGNLF097VQarhrhm81CM3rVOeEMuDuQg8CBbGiIUVIx71cX5yJemoBMf0TmNJM3q+gWjeQJAXyZuB2geym7EZsq+Xh2fNQ5Z1QKQrnkb6Lfs23/hgQ9Dby2O1iBA+XOwEQ7Wd99ZWy2oCSpZF4HGjPeF5euXBA==',
+								rsaPubKey : 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCbpc4OMyqnVrEkYECn2N54VR1UL+2Nr7oUI9DftYrAF4VLem4vV2xntB8LNOGEeWEORHY3ZzqyimjBLNTFbiHAtOkwnOom3ipN/oUy+eGbnd+FisQ/mdi6H8LOXv2gWfjZHycHWvdqHqpTwWWgONMVaT5jAEBaE/0HTKMqOOuSuwIDAQAB',
+								notifyURL : 'http://122.114.90.191/pay/notify_order/order_id/' + create.ordersId,
+							}, function(ret, err) {
+								if (ret.status)
+									obj.pay({
+										subject : '商品支付测试',
+										body : '商品支付测试',
+										amount : result.order_amount,
+										tradeNO : result.order_no
+									}, function(ret, err) {
+										//1.0 如果支付宝提示付款成功！
+										if (ret && ret.statusCode == 9000) {
+											location.reload();
+											//插入金额变动消息
+											api.sendEvent({
+												name : 'addsystemmsg',
+												extra : {
+													title : '付款成功通知',
+													content : '付款成功，消费金额：' + result.order_amount + '元',
+													status : 0,
+													time : Date.parse(new Date()),
+													type : 1
+												}
+											});
+											// 2.0 插入系统消息
+											if (result.prop !== null) {
+												api.sendEvent({
+													name : 'addsystemmsg',
+													extra : {
+														title : '代金券消费成功通知',
+														content : result.note,
+														status : 0,
+														time : Date.parse(new Date()),
+														type : 1
+													}
+												});
+											}
+											H.$openWin("shop_order_finish_header", "shop_order_finish_header.html", {
+												ordersId : create.ordersId,
+												type : 1
+											});
+										} else {
+											location.reload();
+											H.$openWin("shop_order_finish_header", "shop_order_finish_header.html", {
+												ordersId : create.ordersId,
+												type : 3
+											});
+										}
+									});
+							});
+						} else if (result.pay_type == 1) {
+							api.showProgress({
+								style : 'default',
+								animationType : 'fade',
+								title : '加载中',
+								text : '正在支付',
+								modal : false
+							});
+							api.ajax({
+								url : window.serverUrl + '/doPay/token/' + retobj.token + '/user_id/' + retobj.id + '/order_id/' + parseInt(create.ordersId),
+							}, function(ret, err) {
+								if (ret && ret.retCode == 1) {
+									api.hideProgress();
+									//								api.toast({
+									//									msg : ret.retDesc
+									//								});
+									//alert(JSON.stringify(ret.retDesc));
+									location.reload();
+									//插入金额变动消息
 									api.sendEvent({
 										name : 'addsystemmsg',
 										extra : {
-											title : '代金券消费成功通知',
-											content : result.note,
+											title : '付款成功通知',
+											content : '付款成功，消费金额：' + result.order_amount + '元',
 											status : 0,
 											time : Date.parse(new Date()),
 											type : 1
 										}
 									});
+									// 2.0 插入系统消息
+									if (result.prop !== null) {
+										api.sendEvent({
+											name : 'addsystemmsg',
+											extra : {
+												title : '代金券消费成功通知',
+												content : result.note,
+												status : 0,
+												time : Date.parse(new Date()),
+												type : 1
+											}
+										});
+									}
+									H.$openWin("shop_order_finish_header", "shop_order_finish_header.html", {
+										ordersId : create.ordersId,
+										type : 1
+									});
+								} else if (ret.retCode == 0) {
+									api.hideProgress();
+									alert(ret.retDesc);
+									//								H.$openWin("shop_order_finish_header", "shop_order_finish_header.html", {
+									//									ordersId : create.ordersId,
+									//									type : 3
+									//								});
+									location.reload();
+								} else {
+									api.hideProgress();
+									api.toast({
+										msg : ret.retDesc
+									});
 								}
-								H.$openWin("shop_order_finish_header", "shop_order_finish_header.html", {
-									ordersId : create.ordersId,
-									type : 1
-								});
-							} else if (ret.retCode == 0) {
-								api.hideProgress();
-								alert(ret.retDesc);
-								//								H.$openWin("shop_order_finish_header", "shop_order_finish_header.html", {
-								//									ordersId : create.ordersId,
-								//									type : 3
-								//								});
-								location.reload();
-							} else {
-								api.hideProgress();
-								api.toast({
-									msg : ret.retDesc
-								});
-							}
-						});
+							});
+						}
 					}
 				} else {
 					api.hideProgress();
@@ -431,7 +489,7 @@
 					// "status": 订单状态 1生成订单,2支付订单,3取消订单(客户触发),4作废订单(管理员触发),5完成订单,6退款,7部分退款
 					// "pay_status":支付状态 0：未支付; 1：已支付;
 					// "distribution_status": 配送状态 0：未发送,1：已发送,2：部分发送
-					if (result.status == 3 || result.status == 4|| result.status == 5 || result.status == 6 || result.order_status == "申请退款" || result.order_status == "部分退款") {
+					if (result.status == 3 || result.status == 4 || result.status == 5 || result.status == 6 || result.order_status == "申请退款" || result.order_status == "部分退款") {
 						console.log(9999);
 						$("#buttonsHide").hide();
 					} else if (result.pay_status == 0 && result.distribution_status == 0) {

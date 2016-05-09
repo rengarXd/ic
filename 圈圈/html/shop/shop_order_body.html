@@ -286,7 +286,7 @@
 						result = ret.retValue;
 						//alert(JSON.stringify(result));
 						if (contents.num) {
-							totalPlus = parseInt(contents.num) * parseInt(result.goodsList[0].sell_price);
+							totalPlus = parseInt(contents.num) * parseFloat(result.goodsList[0].sell_price);
 							$("#totalPrice").html(totalPlus);
 							totals = totalPlus;
 							//							$("#goodsNum").text(contents.num);
@@ -332,7 +332,7 @@
 						result = ret.retValue;
 						//alert(JSON.stringify(result));
 						if (contents.num) {
-							totalPlus = parseInt(contents.num) * parseInt(result.goodsList[0].sell_price);
+							totalPlus = parseInt(contents.num) * parseFloat(result.goodsList[0].sell_price);
 							$("#totalPrice").html(totalPlus);
 							totals = totalPlus;
 							//							$("#goodsNum").text(contents.num);
@@ -512,7 +512,7 @@
 						if (ret.retValue.if_delivery == 0) {
 							$("#freight").html("运费：" + fare + "元");
 							if (farebor == true) {
-								$("#totalPrice").text(totals + parseInt(fare));
+								$("#totalPrice").text(totals + parseFloat(fare));
 								farebor = false;
 							}
 						} else {
@@ -542,7 +542,7 @@
 							$("#freight").html("运费：" + fare + "元");
 							//							alert(farebor);
 							//							if (farebor == true) {
-							$("#totalPrice").text(totals + parseInt(fare));
+							$("#totalPrice").text(totals + parseFloat(fare));
 							//								farebor = false;
 							//							}
 						} else {
