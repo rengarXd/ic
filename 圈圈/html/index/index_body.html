@@ -1,585 +1,507 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<!--确保绘制和缩放的效果需要在<head>标签中添加 viewport 元数据标签-->
-		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
-		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-		<title>主body</title>
-		<!--引入aui框架win-->
-		<link rel="stylesheet" href="../../css/aui.css" />
-		<link rel="stylesheet" href="../../css/fonts/iconfont.css" />
-		<link rel="stylesheet" href="../../css/swiper/swiper.min.css" />
-		<style>
-			.aui-bg-ff3366 {
-				background: #ff3366;
-			}
-			.aui-bg-ffc80a {
-				background: #ffc80a;
-			}
-			.aui-bg-33cccc {
-				background: #33cccc;
-			}
-			.aui-bg-cc99cc {
-				background: #cc99cc;
-			}
-			.aui-color-bbb {
-				color: #bbb !important;
-			}
-			.func-menu {
-				height: 90px;
-				background: #fff;
-				margin-bottom: 10px;
-				box-shadow: inset 0 1px 0 #FFFFFF, 0 3px 5px rgba(236, 236, 236, 0.2);
-			}
-			.func-menu:after {
-				border-bottom: 1px solid #e7e7e7;
-			}
-			.item-func {
-				float: left;
-				width: 25%;
-				display: -webkit-box;
-				-webkit-box-orient: horizontal;
-				-webkit-box-pack: center;
-				-webkit-box-align: center;
-				display: box;
-				box-orient: horizontal;
-				box-pack: center;
-				box-align: center;
-				padding: 10px 0 10px 0;
-			}
-			.item-func p {
-				height: 47px;
-				width: 47px;
-				display: -webkit-box;
-				-webkit-box-orient: horizontal;
-				-webkit-box-pack: center;
-				-webkit-box-align: center;
-				display: box;
-				box-orient: horizontal;
-				box-pack: center;
-				box-align: center;
-				border-radius: 37%;
-				-webkit-border-radius: 37%;
-				margin: 0 auto;
-			}
-			.item-func p i {
-				color: #fff;
-				font-size: 28px;
-			}
-			.item-func span {
-				display: block;
-				padding: 5px 0 0 0;
-				font-size: 14px;
-				color: #666;
-				text-align: center
-			}
-			.item-func:active {
-				background: #f4f4f4;
-			}
-			.swiper-container {
-				width: 100%;
-				height: 100px;
-			}
-			.swiper-container .swiper-slide {
-				background-position: center;
-				background-size: cover;
-				-webkit-background-size: cover;
-			}
-			.banner-container .swiper-pagination {
-				bottom: 0;
-			}
-			.swiper-pagination-bullet-active {
-				background: #fefb62
-			}
-			.swiper-container-horizontal > .swiper-pagination {
-				bottom: 2px;
-			}
-			.twkb {
-				padding: 11px 20px;
-				margin-top: 10px;
-				background: #fff;
-				box-shadow: inset 0 1px 0 #FFFFFF, 0 3px 5px rgba(236, 236, 236, 0.2);
-				margin-bottom: 10px;
-			}
-			.index_more {
-				font-size: 12px;
-				background: #da6bc9;
-				color: #fff;
-				padding: 2px 6px;
-				border-radius: 8px;
-			}
-			.index_hb a {
-				color: #555555
-			}
-			.dian_0 {
-				width: 9px;
-				height: 9px;
-				background: #ff5b1c;
-				float: left;
-				margin-top: 8px;
-				margin-right: 6px;
-				border-radius: 3px;
-			}
-			.dian_1 {
-				width: 9px;
-				height: 9px;
-				background: #ffc80a;
-				float: left;
-				margin-top: 8px;
-				margin-right: 6px;
-				border-radius: 3px;
-			}
-			.dian_2 {
-				width: 9px;
-				height: 9px;
-				background: #5acace;
-				float: left;
-				margin-top: 8px;
-				margin-right: 6px;
-				border-radius: 3px;
-			}
-			.twkb2 {
-				padding-top: 11px;
-				padding-left: 5px;
-				padding-right: 5px;
-				margin-top: 10px;
-				background: #fff;
-				box-shadow: inset 0 1px 0 #FFFFFF, 0 3px 5px rgba(236, 236, 236, 0.2);
-				margin-bottom: 0
-			}
-			.slider {
-				margin-bottom: 0;
-			}
-			.slider img {
-				width: 100%;
-				height: 120px;
-				display: inherit;
-			}
-			.aui-grid-sixteen:after {
-				border: none;
-			}
-			.aui-grid-sixteen li:after {
-				border: none;
-			}
-			.aui-grid-sixteen li .aui-iconfont {
-				color: #ffffff;
-				width: 38px;
-				height: 38px;
-				line-height: 38px;
-				border-radius: 50%;
-				font-size: 20px;
-			}
-			p.goods-title {
-				font-size: 1em;
-				color: #333;
-			}
-			p.goods-info {
-				font-size: 12px;
-				color: #999;
-			}
-			.aui-line-x {
-				margin: 5px 0;
-			}
-			.aui-line-x:after {
-				border-color: #ddd;
-			}
-			.goods-price {
-				font-size: 0.875em;
-			}
-			.goods-price strong {
-				margin: 0 5px;
-				font-size: 16px;
-			}
-			.shop_title {
-				height: 42px;
-				overflow: hidden;
-			}
-			.goodss-info {
-				font-size: 10px !important;
-				line-height: 31px !important;
-			}
-			.ic_shop_ad {
-				width: 80px;
-				margin-top: 10px;
-			}
-			.goods_active {
-				background: #f5f5f5 !important;
-			}
-			.active {
-				opacity: 0.5 !important;
-			}
-		</style>
-	</head>
-	<body>
-		<!--首页广告幻灯开始-->
-		<div class="swiper-container aui-border-b" style="background: #fff">
-			<div class="swiper-wrapper" id="index_addata_body">
-				<div class="swiper-slide aui-text-center"><img src="../../image/loading.png" class="ic_shop_ad" />
-				</div>
-			</div>
-			<!-- 如果需要分页器 -->
-			<div class="swiper-pagination"></div>
-		</div>
-		<script id="index_addata" type="text/html">
-			{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
-			<div class="swiper-slide" onclick="ad_do({{ d.retValue[i].href_type }},'{{ d.retValue[i].link }}',{{ d.retValue[i].id }});" style="background-image:url(http://122.114.90.191/{{ d.retValue[i].content }})"></div>
-			{{# } }}
-		</script>
-		<!--首页广告幻灯结束-->
-		<!--首页菜单开始-->
-		<div class="func-menu aui-border-b">
-			<!--诊疗-->
-			<div class="item-func" id="consulting_header" tapmode>
-				<div class="content-area">
-					<p class="aui-bg-ff3366">
-						<i class="iconfont icon-shenfenrenzheng"></i>
-					</p>
-					<span>诊疗</span>
-				</div>
-			</div>
-			<!--诊疗-->
-			<!--问答-->
-			<div class="item-func" id="answers_header" tapmode>
-				<div class="content-area">
-					<p class="aui-bg-ffc80a">
-						<i class="iconfont icon-wenda"></i>
-					</p>
-					<span>问答</span>
-				</div>
-			</div>
-			<!--问答-->
-			<!--位置-->
-			<div class="item-func" id="position_header" tapmode >
-				<div class="content-area">
-					<p class="aui-bg-33cccc">
-						<i class="iconfont icon-weizhi"></i>
-					</p>
-					<span>位置</span>
-				</div>
-			</div>
-			<!--位置-->
-			<!--身份-->
-			<div class="item-func" id="identity_header" tapmode >
-				<div class="content-area">
-					<p class="aui-bg-cc99cc">
-						<i class="iconfont icon-shenfenrenzheng1"></i>
-					</p>
-					<span>身份</span>
-				</div>
-			</div>
-			<!--身份-->
-		</div>
-		<!--首页菜单结束-->
-		<div class="aui-content twkb aui-border-t aui-border-b">
-			<div style="height:27px">
-				<div class="aui-col-xs-6"><img src="../../image/mckb.png" style="height:20px;"/>
-				</div>
-				<div class="aui-col-xs-6" style="text-align: right;">
-					<span class="index_more">更多内容</span>
-				</div>
-			</div>
-			<div class="index_hb">
-				<ul id="index_kbdata_body"></ul>
-			</div>
-		</div>
-		<script id="index_kbdata" type="text/html">
-			{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
-			<li style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
-			<span class="dian_{{ i }}"></span><a href="#" tapmode="active" onclick="openNewPage('ic_news_header','ic_news_header.html',{newsId:{{ d.retValue[i].id }} });">{{ d.retValue[i].title }}</a>
-			</li>
-			{{# } }}
-		</script>
-		<div class="aui-content twkb2 aui-border-t">
-			<div><img src="../../image/jrjx.png" style="height: 20px;margin-left: 15px" />
-			</div>
-			<ul class="aui-list-view aui-grid-view" id="index_shopdata_body">
-				<li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode="goods_active">
-					<img src="../../image/loading.png" class="ic_shop_ad" />
-					<div class="aui-img-body aui-text-left"></div>
-				</li>
-				<li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode="goods_active">
-					<img src="../../image/loading.png" class="ic_shop_ad" />
-					<div class="aui-img-body aui-text-left"></div>
-				</li>
-			</ul>
-		</div>
-		<script id="index_shopdata" type="text/html">
-			{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
-			<li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode="goods_active" onclick="openNewPage('shop_show_header','../shop/shop_show_header.html',{goodId :{{ d.retValue[i].id }} });">
-			<img class="aui-img-object" src="http://122.114.90.191/{{ d.retValue[i].img }}">
-			<div class="aui-img-body aui-text-left">
-			<div class="shop_title">{{ d.retValue[i].name }}</div>
-			<p>
-			<span class="goods-price aui-text-danger">¥<strong>{{ d.retValue[i].sell_price }}</strong>元</span>
-			<span class=" aui-pull-right goodss-info">
-			<span class="aui-text-danger">{{ d.retValue[i].favorite }}</span>人收藏
-			</span>
-			</p>
-			</div>
-			</li>
-			{{# } }}
-		</script>
-	</body>
-	<!--封装了APICloud大量常用的类库，内置了DOM操作，模板引擎，表单验证等常用类库-->
-	<script type="text/javascript" src="../../script/AHelper.js"></script>
-	<script type="text/javascript" src="../../script/zepto.min.js"></script>
-	<script type="text/javascript" src="../../script/swiper/swiper.min.js"></script>
-	<!--<script type="text/javascript" src="../../script/tools/vconsole.min.js"></script>-->
-	<!--<script type="text/javascript" src="../../script/echo.min.js"></script>-->
-	<script type="text/javascript" src="../../script/laytpl.js"></script>
-	<script type="text/javascript">
-		//sqlite数据库对象
-		var db = null, isopendb = false;
-		/*
-		 * 1、广告处理 (href_type) 0 广告跳转
-		 * 	 广告ids (ids)
-		 */
-		function ad_do(href_type, link, ids) {
-			switch(href_type) {
-				case 0:
-					H.$openWin("ad_header", "../activity/ad_header.html", {
-						link : link
-					});
-					break;
-			}
-		}
+    <head>
+        <meta charset="utf-8">
+        <!--确保绘制和缩放的效果需要在<head>标签中添加 viewport 元数据标签-->
+        <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+        <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+        <title>主body</title>
+        <!--引入aui框架win-->
+        <link rel="stylesheet" href="../../css/aui.css" />
+        <link rel="stylesheet" href="../../css/fonts/iconfont.css" />
+        <link rel="stylesheet" href="../../css/swiper/swiper.min.css" />
+        <style>
+            .aui-bg-ff3366 {
+                background: #ff3366;
+            }
+            .aui-bg-ffc80a {
+                background: #ffc80a;
+            }
+            .aui-bg-33cccc {
+                background: #33cccc;
+            }
+            .aui-bg-cc99cc {
+                background: #cc99cc;
+            }
+            .aui-color-bbb {
+                color: #bbb !important;
+            }
+            .func-menu {
+                height: 90px;
+                background: #fff;
+                margin-bottom: 10px;
+                box-shadow: inset 0 1px 0 #FFFFFF, 0 3px 5px rgba(236, 236, 236, 0.2);
+            }
+            .func-menu:after {
+                border-bottom: 1px solid #e7e7e7;
+            }
+            .item-func {
+                float: left;
+                width: 25%;
+                display: -webkit-box;
+                -webkit-box-orient: horizontal;
+                -webkit-box-pack: center;
+                -webkit-box-align: center;
+                display: box;
+                box-orient: horizontal;
+                box-pack: center;
+                box-align: center;
+                padding: 10px 0 10px 0;
+            }
+            .item-func p {
+                height: 47px;
+                width: 47px;
+                display: -webkit-box;
+                -webkit-box-orient: horizontal;
+                -webkit-box-pack: center;
+                -webkit-box-align: center;
+                display: box;
+                box-orient: horizontal;
+                box-pack: center;
+                box-align: center;
+                border-radius: 37%;
+                -webkit-border-radius: 37%;
+                margin: 0 auto;
+            }
+            .item-func p i {
+                color: #fff;
+                font-size: 28px;
+            }
+            .item-func span {
+                display: block;
+                padding: 5px 0 0 0;
+                font-size: 14px;
+                color: #666;
+                text-align: center
+            }
+            .item-func:active {
+                background: #f4f4f4;
+            }
+            .swiper-container {
+                width: 100%;
+                height: 100px;
+            }
+            .swiper-container .swiper-slide {
+                background-position: center;
+                background-size: cover;
+                -webkit-background-size: cover;
+            }
+            .banner-container .swiper-pagination {
+                bottom: 0;
+            }
+            .swiper-pagination-bullet-active {
+                background: #fefb62
+            }
+            .swiper-container-horizontal > .swiper-pagination {
+                bottom: 2px;
+            }
+            .twkb {
+                padding: 11px 20px;
+                margin-top: 10px;
+                background: #fff;
+                box-shadow: inset 0 1px 0 #FFFFFF, 0 3px 5px rgba(236, 236, 236, 0.2);
+                margin-bottom: 10px;
+            }
+            .index_more {
+                font-size: 12px;
+                background: #da6bc9;
+                color: #fff;
+                padding: 2px 6px;
+                border-radius: 8px;
+            }
+            .index_hb a {
+                color: #555555
+            }
+            .dian_0 {
+                width: 9px;
+                height: 9px;
+                background: #ff5b1c;
+                float: left;
+                margin-top: 8px;
+                margin-right: 6px;
+                border-radius: 3px;
+            }
+            .dian_1 {
+                width: 9px;
+                height: 9px;
+                background: #ffc80a;
+                float: left;
+                margin-top: 8px;
+                margin-right: 6px;
+                border-radius: 3px;
+            }
+            .dian_2 {
+                width: 9px;
+                height: 9px;
+                background: #5acace;
+                float: left;
+                margin-top: 8px;
+                margin-right: 6px;
+                border-radius: 3px;
+            }
+            .twkb2 {
+                padding-top: 11px;
+                padding-left: 5px;
+                padding-right: 5px;
+                margin-top: 10px;
+                background: #fff;
+                box-shadow: inset 0 1px 0 #FFFFFF, 0 3px 5px rgba(236, 236, 236, 0.2);
+                margin-bottom: 0
+            }
+            .slider {
+                margin-bottom: 0;
+            }
+            .slider img {
+                width: 100%;
+                height: 120px;
+                display: inherit;
+            }
+            .aui-grid-sixteen:after {
+                border: none;
+            }
+            .aui-grid-sixteen li:after {
+                border: none;
+            }
+            .aui-grid-sixteen li .aui-iconfont {
+                color: #ffffff;
+                width: 38px;
+                height: 38px;
+                line-height: 38px;
+                border-radius: 50%;
+                font-size: 20px;
+            }
+            p.goods-title {
+                font-size: 1em;
+                color: #333;
+            }
+            p.goods-info {
+                font-size: 12px;
+                color: #999;
+            }
+            .aui-line-x {
+                margin: 5px 0;
+            }
+            .aui-line-x:after {
+                border-color: #ddd;
+            }
+            .goods-price {
+                font-size: 0.875em;
+            }
+            .goods-price strong {
+                margin: 0 5px;
+                font-size: 16px;
+            }
+            .shop_title {
+                height: 42px;
+                overflow: hidden;
+            }
+            .goodss-info {
+                font-size: 10px !important;
+                line-height: 31px !important;
+            }
+            .ic_shop_ad {
+                width: 80px;
+                margin-top: 10px;
+            }
+            .goods_active {
+                background: #f5f5f5 !important;
+            }
+            .active {
+                opacity: 0.5 !important;
+            }
+        </style>
+    </head>
+    <body>
+        <!--首页广告幻灯开始-->
+        <div class="swiper-container aui-border-b" style="background: #fff">
+            <div class="swiper-wrapper" id="index_addata_body">
+                <div class="swiper-slide aui-text-center"><img src="../../image/loading.png" class="ic_shop_ad" />
+                </div>
+            </div>
+            <!-- 如果需要分页器 -->
+            <div class="swiper-pagination"></div>
+        </div>
+        <script id="index_addata" type="text/html">
+            {{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
+            <div class="swiper-slide" id="ad_{{ d.retValue[i].id }}" onclick="ad_do({{ d.retValue[i].href_type }},'{{ d.retValue[i].link }}',{{ d.retValue[i].id }});" style="background-image:url(http://122.114.90.191/{{ d.retValue[i].content }})"></div>
+            {{# } }}
+        </script>
+        <!--首页广告幻灯结束-->
+        <!--首页菜单开始-->
+        <div class="func-menu aui-border-b">
+            <!--诊疗-->
+            <div class="item-func" id="consulting_header" tapmode="" onclick="H.$openWin('consulting_header', '../friend/consulting_header.html');">
+                <div class="content-area">
+                    <p class="aui-bg-ff3366">
+                        <i class="iconfont icon-shenfenrenzheng"></i>
+                    </p>
+                    <span>诊疗</span>
+                </div>
+            </div>
+            <!--诊疗-->
+            <!--问答-->
+            <div class="item-func" id="answers_header" tapmode="" onclick="H.$openWin('answers_header', '../friend/answers_header.html');">
+                <div class="content-area">
+                    <p class="aui-bg-ffc80a">
+                        <i class="iconfont icon-wenda"></i>
+                    </p>
+                    <span>问答</span>
+                </div>
+            </div>
+            <!--问答-->
+            <!--位置-->
+            <div class="item-func" id="position_header" tapmode="" onclick="H.$openWin('position_header', '../pet/position_header.html');" >
+                <div class="content-area">
+                    <p class="aui-bg-33cccc">
+                        <i class="iconfont icon-weizhi"></i>
+                    </p>
+                    <span>位置</span>
+                </div>
+            </div>
+            <!--位置-->
+            <!--身份-->
+            <div class="item-func" id="identity_header" tapmode="">
+                <div class="content-area">
+                    <p class="aui-bg-cc99cc">
+                        <i class="iconfont icon-shenfenrenzheng1"></i>
+                    </p>
+                    <span>身份</span>
+                </div>
+            </div>
+            <!--身份-->
+        </div>
+        <!--首页菜单结束-->
+        <div class="aui-content twkb aui-border-t aui-border-b">
+            <div style="height:27px">
+                <div class="aui-col-xs-6"><img src="../../image/mckb.png" style="height:20px;"/>
+                </div>
+                <div class="aui-col-xs-6" style="text-align: right;">
+                    <span class="index_more" tapmode="" onclick="H.$openWin('moreActivity_header', 'moreActivity_header.html');">更多内容</span>
+                </div>
+            </div>
+            <div class="index_hb">
+                <ul id="index_kbdata_body"></ul>
+            </div>
+        </div>
+        <script id="index_kbdata" type="text/html">
+            {{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
+            <li style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+            <span class="dian_{{ i }}"></span><a href="#" tapmode="active" onclick="openNewPage('ic_news_header','ic_news_header.html',{newsId:{{ d.retValue[i].id }} });">{{ d.retValue[i].title }}</a>
+            </li>
+            {{# } }}
+        </script>
+        <div class="aui-content twkb2 aui-border-t">
+            <div><img src="../../image/jrjx.png" style="height: 20px;margin-left: 15px" />
+            </div>
+            <ul class="aui-list-view aui-grid-view" id="index_shopdata_body">
+                <li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode="goods_active">
+                    <img src="../../image/loading.png" class="ic_shop_ad" />
+                    <div class="aui-img-body aui-text-left"></div>
+                </li>
+                <li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode="goods_active">
+                    <img src="../../image/loading.png" class="ic_shop_ad" />
+                    <div class="aui-img-body aui-text-left"></div>
+                </li>
+            </ul>
+        </div>
+        <script id="index_shopdata" type="text/html">
+            {{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
+            <li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode="goods_active" onclick="openNewPage('shop_show_header','../shop/shop_show_header.html',{goodId :{{ d.retValue[i].id }} });">
+            <img class="aui-img-object" src="http://122.114.90.191/{{ d.retValue[i].img }}">
+            <div class="aui-img-body aui-text-left">
+            <div class="shop_title">{{ d.retValue[i].name }}</div>
+            <p>
+            <span class="goods-price aui-text-danger">¥<strong>{{ d.retValue[i].sell_price }}</strong>元</span>
+            <span class=" aui-pull-right goodss-info">
+            <span class="aui-text-danger">{{ d.retValue[i].favorite }}</span>人收藏
+            </span>
+            </p>
+            </div>
+            </li>
+            {{# } }}
+        </script>
+    </body>
+    <!--封装了APICloud大量常用的类库，内置了DOM操作，模板引擎，表单验证等常用类库-->
+    <script type="text/javascript" src="../../script/AHelper.js"></script>
+    <script type="text/javascript" src="../../script/zepto.min.js"></script>
+    <script type="text/javascript" src="../../script/swiper/swiper.min.js"></script>
+    <!--<script type="text/javascript" src="../../script/tools/vconsole.min.js"></script>-->
+    <!--<script type="text/javascript" src="../../script/echo.min.js"></script>-->
+    <script type="text/javascript" src="../../script/laytpl.js"></script>
+    <script type="text/javascript">
+        //sqlite数据库对象
+        var db = null, userinfoobj = null;
+        /*
+         * 1、广告处理 (href_type) 0 广告跳转
+         * 	 广告ids (ids)
+         */
+        function ad_do(href_type, link, ids) {
+            switch(href_type) {
+                case 0:
+                    H.$openWin("ad_header", "../activity/ad_header.html", {
+                        link : link
+                    });
+                    break;
+            }
+        }
 
-		//图片y
-		Zepto(function() {
-			/*窗口打开处理 ok*/
-			$("#position_header").on("click", function() {
-				api.parseTapmode();
-				H.$openWin("position_header", "../pet/position_header.html");
-			});
-			/*更多活动处理*/
-			$(".index_more").on("click", function() {
-				api.parseTapmode();
-				H.$openWin("moreActivity_header", "moreActivity_header.html");
-			});
-			/*诊疗处理*/
-			$("#consulting_header").on("click", function() {
-				api.parseTapmode();
-				H.$openWin("consulting_header", "../friend/consulting_header.html");
-			});
-			/*问答处理*/
-			$("#answers_header").on("tap", function() {
-				api.parseTapmode();
-				H.$openWin("answers_header", "../friend/answers_header.html");
-			});
-			/*身份处理*/
-			$("#identity_header").on("tap", function() {
-				//1 引入二维码扫描模块
-				var FNScanner = api.require('FNScanner');
-				FNScanner.openScanner({
-					autorotation : true,
-				}, function(ret, err) {
-					//1.1 如果扫描成功
-					if (ret && ret.eventType == "success") {
-						//1.2 如果扫描的是网址
-						if (H.$com.isUrl(ret.content)) {
-							//1.3 跳转绑定页面
-							H.$openWin('pet_identity_look_header', '../pet/pet_identity_look_header.html', {
-								url : ret.content
-							});
-						} else {
-							//1.4 如果扫描的不是网址
-							api.toast({
-								msg : "抱歉，此二维码不是设备二维码"
-							});
-						}
-					} else {
-						//alert( JSON.stringify( err ) );
-					}
-				});
-			});
-		});
-		//所有的代码都写在H.ready(function(){})
-		function get_data() {
-			//获取个人认证token
-			api.getPrefs({
-				key : 'userinfo'
-			}, function(ret, err) {
-				//字符串转为json对象
-				var retobj = eval('(' + ret.value + ')');
-				//				vConsole.ready(function() {
-				//					console.log(retobj);
-				//				});
-				//请求首页广告数据
-				api.ajax({
-					url : window.serverUrl + '/app_index_manage/token/' + retobj.token,
-					cache : true
-				}, function(ret, err) {
-					//如果请求有数据返回
-					if (ret && ret.retCode == 1) {
-						var tpl = document.getElementById('index_addata').innerHTML;
-						laytpl(tpl).render(ret, function(render) {
-							document.getElementById('index_addata_body').innerHTML = render;
-							var mySwiper = new Swiper('.swiper-container', {
-								loop : true,
-								// 如果需要分页器
-								pagination : '.swiper-pagination',
-								autoplay : 3000
-							});
-						});
-					} else {
-						if (ret && ret.retCode == 0) {
-							loginguoqi();
-						}
-					}
-				});
-				//请求i宠快报数据
-				api.ajax({
-					//请求首页三条数据
-					url : window.serverUrl + '/app_kuaibao/token/' + retobj.token + '/t/1',
-					cache : true
-				}, function(ret, err) {
-					if (ret && ret.retValue) {
-						var tpl = document.getElementById('index_kbdata').innerHTML;
-						//读取模版
-						laytpl(tpl).render(ret, function(render) {
-							H.$recoverDropdownToNormal();
-							document.getElementById('index_kbdata_body').innerHTML = render;
-						});
-					} else {
-					}
-				});
-				//请求首页精选数据
-				api.ajax({
-					url : window.serverUrl + '/app_index_commend/token/' + retobj.token,
-					cache : true
-				}, function(ret, err) {
-					if (ret && ret.retCode == 1) {
-						// 获取模板内容，并加载数据
-						var tpl = document.getElementById('index_shopdata').innerHTML;
-						//读取模版
-						laytpl(tpl).render(ret, function(render) {
-							H.$recoverDropdownToNormal();
-							document.getElementById('index_shopdata_body').innerHTML = render;
-						});
-					} else {
-					}
-				});
-			});
-		}
+        //图片y
+        Zepto(function() {
+            /*身份处理*/
+            $("#identity_header").on("tap", function() {
+                //1 引入二维码扫描模块
+                var FNScanner = api.require('FNScanner');
+                FNScanner.openScanner({
+                    autorotation : true,
+                }, function(ret, err) {
+                    //1.1 如果扫描成功
+                    if (ret && ret.eventType == "success") {
+                        //1.2 如果扫描的是网址
+                        if (H.$com.isUrl(ret.content)) {
+                            //1.3 跳转绑定页面
+                            H.$openWin('pet_identity_look_header', '../pet/pet_identity_look_header.html', {
+                                url : ret.content
+                            });
+                        } else {
+                            //1.4 如果扫描的不是网址
+                            api.toast({
+                                msg : "抱歉，此二维码不是设备二维码"
+                            });
+                        }
+                    } else {
+                        //alert( JSON.stringify( err ) );
+                    }
+                });
+            });
+        });
+        H.ready(function() {
+            initUserInfo(function() {
+                initPageData();
+            });
+            initDb();
+            initEventListener();
+            H.$dropdownToRefresh(function(ret, err) {
+                initPageData();
+            });
+        });
+        //通用打开新页面方法
+        //@name窗口名称 string
+        //@url 窗体地址 string
+        //@pageParam 要给打开的页面传递的参数 JSON obj
+        function openNewPage(name, url, pageParam) {
+            H.$openWin(name, url, pageParam);
+        }
 
+        //通用AJAX请求方法（默认开启缓存）
+        //@url 请求地址
+        //@tplId 模板循环部分DOM id 【string】
+        //@tplDataId 模板被渲染部分DOM id 【string】
+        //@iscallback 是否有回调渲染幻灯
+        function _ajax(url, tplId, tplDataId, iscallback) {
+            api.ajax({
+                url : window.serverUrl + url + 'token/' + userinfoobj.token,
+                cache : true
+            }, function(ret, err) {
+                if (ret) {
+                    console.log('ret.retCode==' + ret.retCode);
+                    switch(ret.retCode) {
+                        case 1:
+                            _tpl(tplId, ret, tplDataId, function() {
+                                iscallback && initSwiper();
+                                H.$recoverDropdownToNormal();
+                            });
+                            break;
+                        case 0:
+                            loginguoqi();
+                            break;
+                    }
+                }
+            });
+        }
 
-		H.ready(function() {
-			//1.实例化本地数据库
-			db = api.require('db');
-			//1.1打开ichong数据库
-			db.openDatabase({
-				name : 'ichong'
-			}, function(ret, err) {
-				// 如果打开成功
-				if (ret.status) {
-					isopendb = true;
-					api.getPrefs({
-						key : 'isdbmassage'
-					}, function(ret, err) {
-						if (ret) {
-							var sql = "CREATE TABLE Push_Massage(id integer PRIMARY KEY autoincrement,status int,content varchar(255),title varchar(255),time int,type int)";
-							db.executeSql({
-								name : 'ichong',
-								sql : sql
-							}, function(ret, err) {
-								if (ret) {
-									api.setPrefs({
-										key : 'isdbmassage',
-										value : true
-									});
-								}
-							});
-						}
-					});
-				} else {
-					//api.alert({msg:err.msg});
-				}
-			});
-			get_data();
-			/*下拉刷新*/
-			H.$dropdownToRefresh(function(ret, err) {
-				get_data();
-			});
-			//添加页刷新的监听
-			api.addEventListener({
-				name : 'pagereload'
-			}, function(ret, err) {
-				if (ret) {
-					location.reload();
-				} else {
-				}
-			});
-			//添加消息推送监听
-			//			var push = api.require('push');
-			//			push.setListener(function(ret, err) {
-			//				alert(JSON.stringify(ret));
-			//				//1.1如果接受到了推送的消息
-			//				if (ret) {
-			//					//					alert(JSON.stringify(ret));
-			//					//1.2如数据库已经打开完毕
-			////					if (isopendb) {
-			////						var sql = 'INSERT INTO Push_Massage VALUSE(0,' + ret.data + ',' + ret.data + ',' + 242 + ',0)';
-			////						db.executeSql({
-			////							name : 'ichong',
-			////							sql : sql
-			////						}, function(ret, err) {
-			////							if (ret.status) {
-			////								alert("插入成功！");
-			////							};
-			////						});
-			////					}
-			//					for (var i = 0, l = ret.data.length; i < l; i++) {
-			//						api.sendEvent({
-			//							name : 'addsystemmsg',
-			//							extra : {
-			//								//							title : '代金券消费成功通知',
-			//								content : ret.data[i],
-			//								status : 0,
-			//								time : Date.parse(new Date()),
-			//								type : 1
-			//							}
-			//						});
-			//					}
-			//					//1.2向系统消息表发送消息
-			//				} else {
-			//					api.toast({
-			//						msg : err.msg
-			//					});
-			//				}
-			//			});
-		});
+        //模板渲染
+        //@tplId 模板循环部分DOM id 【string】
+        //@renderData 模板部分数据 【JSON对象】
+        //@tplDataId 模板被渲染部分DOM id 【string】
+        //@callback 回调函数 【匿名函数】
+        function _tpl(tplId, renderData, tplDataId, callback) {
+            var tpl = document.getElementById(tplId).innerHTML;
+            laytpl(tpl).render(renderData, function(render) {
+                document.getElementById(tplDataId).innerHTML = render;
+                callback();
+            });
+        }
 
-		//通用打开新页面方法
-		//@name窗口名称 string
-		//@url 窗体地址 string
-		//@pageParam 要给打开的页面传递的参数 JSON obj
-		function openNewPage(name, url, pageParam) {
-			H.$openWin(name, url, pageParam);
-		}
+        //初始化用户信息
+        //@callback 初始化信息回调
+        function initUserInfo(callback) {
+            api.getPrefs({
+                key : 'userinfo'
+            }, function(ret, err) {
+                userinfoobj = eval('(' + ret.value + ')');
+                callback();
+            });
+        }
 
-		//关闭页面的回调
-		function closeindex() {
-			H.$closeCurrentFrame();
-		}
+        //初始化页面数据
+        function initPageData() {
+            //幻灯信息请求及渲染
+            _ajax('/app_index_manage/', 'index_addata', 'index_addata_body', true);
+            //i宠快报信息请求及渲染
+            _ajax('/app_kuaibao/t/1/', 'index_kbdata', 'index_kbdata_body', false);
+            //首页精选数据及渲染
+            _ajax('/app_index_commend/', 'index_shopdata', 'index_shopdata_body', false);
+        }
 
-		//登录失效处理
-		function loginguoqi() {
-			//1、弹出失效提示
-			api.alert({
-				title : '温馨提示',
-				msg : '抱歉您的登录信息失效，需要点击确定重新认证',
-				buttons : ['确定']
-			}, function(ret, err) {
-				if (ret) {
-					//1.2 隐藏下拉刷新
-					H.$recoverDropdownToNormal();
-					//1.3 跳转到登录页面
-					H.$openWin('login_head', '../login/login_head.html', {
-						type : 2
-					});
-				}
-			});
-		}
-	</script>
+        //初始化页面监听
+        //@pagereload
+        function initEventListener() {
+            //页面刷新监听
+            api.addEventListener({
+                name : 'pagereload'
+            }, function(ret, err) {
+                ret && location.reload();
+            });
+        }
+
+        //初始化DB数据库
+        function initDb() {
+            //1.0引入DBsqlite数据库
+            db = api.require('db');
+        }
+
+        //初始化幻灯插件
+        function initSwiper() {
+            new Swiper('.swiper-container', {
+                loop : true,
+                // 如果需要分页器
+                pagination : '.swiper-pagination',
+                autoplay : 3000
+            });
+        }
+
+        //关闭页面的回调
+        function closeindex() {
+            H.$closeCurrentFrame();
+        }
+
+        //登录失效处理
+        function loginguoqi() {
+            //1、弹出失效提示
+            api.alert({
+                title : '温馨提示',
+                msg : '抱歉您的登录信息失效，需要点击确定重新认证',
+                buttons : ['确定']
+            }, function(ret, err) {
+                if (ret) {
+                    //1.2 隐藏下拉刷新
+                    H.$recoverDropdownToNormal();
+                    //1.3 跳转到登录页面
+                    H.$openWin('login_head', '../login/login_head.html', {
+                        type : 2
+                    });
+                }
+            });
+        }
+    </script>
 </html>
