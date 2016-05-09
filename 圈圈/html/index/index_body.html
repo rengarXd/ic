@@ -203,6 +203,12 @@
 				width: 80px;
 				margin-top: 10px;
 			}
+			.goods_active {
+				background: #f5f5f5 !important;
+			}
+			.active {
+				opacity: 0.5 !important;
+			}
 		</style>
 	</head>
 	<body>
@@ -280,7 +286,7 @@
 		<script id="index_kbdata" type="text/html">
 			{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
 			<li style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
-			<span class="dian_{{ i }}"></span><a href="#" onclick="openNews({{ d.retValue[i].id }});">{{ d.retValue[i].title }}</a>
+			<span class="dian_{{ i }}"></span><a href="#" tapmode="active" onclick="openNewPage('ic_news_header','ic_news_header.html',{newsId:{{ d.retValue[i].id }} });">{{ d.retValue[i].title }}</a>
 			</li>
 			{{# } }}
 		</script>
@@ -288,11 +294,11 @@
 			<div><img src="../../image/jrjx.png" style="height: 20px;margin-left: 15px" />
 			</div>
 			<ul class="aui-list-view aui-grid-view" id="index_shopdata_body">
-				<li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode="" onclick="openGoods(1)">
+				<li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode="goods_active">
 					<img src="../../image/loading.png" class="ic_shop_ad" />
 					<div class="aui-img-body aui-text-left"></div>
 				</li>
-				<li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode="" onclick="openGoods(1)">
+				<li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode="goods_active">
 					<img src="../../image/loading.png" class="ic_shop_ad" />
 					<div class="aui-img-body aui-text-left"></div>
 				</li>
@@ -300,7 +306,7 @@
 		</div>
 		<script id="index_shopdata" type="text/html">
 			{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
-			<li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode onclick="openGoods({{ d.retValue[i].id }})">
+			<li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode="goods_active" onclick="openNewPage('shop_show_header','../shop/shop_show_header.html',{goodId :{{ d.retValue[i].id }} });">
 			<img class="aui-img-object" src="http://122.114.90.191/{{ d.retValue[i].img }}">
 			<div class="aui-img-body aui-text-left">
 			<div class="shop_title">{{ d.retValue[i].name }}</div>
@@ -543,25 +549,15 @@
 			//				}
 			//			});
 		});
-		/**
-		 * 首页今日精选商品
-		 */
-		function openGoods(goodId) {
-			H.$openWin('shop_show_header', '../shop/shop_show_header.html', {
-				goodId : goodId
-			});
+
+		//通用打开新页面方法
+		//@name窗口名称 string
+		//@url 窗体地址 string
+		//@pageParam 要给打开的页面传递的参数 JSON obj
+		function openNewPage(name, url, pageParam) {
+			H.$openWin(name, url, pageParam);
 		}
 
-		/**
-		 * 首页i宠快报
-		 */
-		function openNews(newsId) {
-			H.$openWin('ic_news_header', 'ic_news_header.html', {
-				newsId : newsId
-			});
-		}
-
-		
 		//关闭页面的回调
 		function closeindex() {
 			H.$closeCurrentFrame();
@@ -581,10 +577,6 @@
 					//1.3 跳转到登录页面
 					H.$openWin('login_head', '../login/login_head.html', {
 						type : 2
-					});
-				} else {
-					api.toast({
-						msg : err.body
 					});
 				}
 			});
