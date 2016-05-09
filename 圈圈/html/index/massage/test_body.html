@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>消息测试body</title>
+		<link rel="stylesheet" type="text/css" href="../../../css/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../../../css/fonts/iconfont.css" />
+		<link rel="stylesheet" href="../../../css/tools/loading.css" />
+		<style>
+		</style>
+	</head>
+	<body>
+		<div class="aui-content" style="background:#fff; margin-top: 20px;">
+			<div class="aui-form">
+				<div class="aui-input-row aui-warning">
+					<label class="aui-input-addon">内容</label>
+					<input type="text" class="aui-input" id="text" />
+				</div>
+				<div class="aui-input-row ">
+					<label class="aui-input-addon">传递的数据</label>
+					<input type="text" class="aui-input" id="extra" />
+				</div>
+			</div>
+		</div>
+		<div class="aui-btn aui-btn-warning aui-btn-block" onclick="sendMessage();">
+			默认按钮(warning)
+		</div>
+	</body>
+	<script type="text/javascript" src="../../../script/AHelper.js"></script>
+	<script type="text/javascript" src="../../../script/zepto.min.js"></script>
+	<script type="text/javascript">
+		function sendMessage() {
+			api.notification({
+				notify : {
+					title : '提示消息',
+					content : $("#text").val(),
+					extra : $("#extra").val(),
+					updateCurrent : false
+				}
+			}, function(ret, err) {
+				if (ret) {
+					alert(JSON.stringify(ret));
+				} else {
+					alert(JSON.stringify(err));
+				}
+			});
+		}
+
+
+		H.ready(function() {
+		});
+	</script>
+</html>

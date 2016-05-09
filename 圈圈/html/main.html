@@ -451,26 +451,28 @@
 				name : 'noticeclicked'
 			}, function(ret, err) {
 				//alert(JSON.stringify(ret));
-				var value = ret.value;
-				//				if (ret.type == 0) {
-				//					//APICloud推送内容
-				//
-				//				} else if (ret.type == 1) {
-				//					//开发者自定义消息
-				//
-				//				}
-				for (var i = 0, l = value.data.length; i < l; i++) {
-					api.sendEvent({
-						name : 'addsystemmsg',
-						extra : {
-							//							title : '代金券消费成功通知',
-							content : value.data[i],
-							status : 0,
-							time : Date.parse(new Date()),
-							type : 1
-						}
-					});
+				if (ret.type == 0) {
+					//APICloud推送内容
+					console.log(JSON.stringify(ret));
+					H.$openWin("tip_news_header", "index/massage/tip_news_header.html", {
+						id : ret.value
+					})
+				} else if (ret.type == 1) {
+					//开发者自定义消息
 				}
+				//				var value = ret.value;
+				//				for (var i = 0, l = value.data.length; i < l; i++) {
+				//					api.sendEvent({
+				//						name : 'addsystemmsg',
+				//						extra : {
+				//							//							title : '代金券消费成功通知',
+				//							content : value.data[i],
+				//							status : 0,
+				//							time : Date.parse(new Date()),
+				//							type : 1
+				//						}
+				//					});
+				//				}
 			});
 			//添加消息推送监听
 			var push = api.require('push');

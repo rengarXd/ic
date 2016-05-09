@@ -84,7 +84,7 @@
 		function get_data() {
 			//请求ajax数据
 			api.ajax({
-				url : window.serverUrl + '/get_tip_content/token/' + retabc.token + '/user_id/' + retabc.id + '/id/' + newsId,
+				url : window.serverUrl + '/get_tip_content/token/' + retabc.token + '/user_id/' + retabc.id + '/id/' + parseInt(newsId),
 				cache : true
 			}, function(ret, err) {
 				if (ret && ret.retCode == 1) {
@@ -104,6 +104,7 @@
 
 		H.ready(function() {
 			newsId = H.$getPageParam().id;
+			console.log(newsId);
 			api.getPrefs({
 				key : 'userinfo'
 			}, function(ret, err) {
