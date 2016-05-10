@@ -30,13 +30,15 @@
 		</style>
 	</head>
 	<body>
-		<div class="aui-content" id="order_data_body" style="padding-top: 10px;">
-			<!--加载-->
-			<div style="text-align: center;" id="ic_loading"><img src="../../image/loading.png" width="70" height="70" />
-				<br />
-				<span>加载中...</span>
-			</div>
-			<!--加载-->
+		<div class="aui-content"  style="padding-top: 10px;">
+			<ul class="aui-list-view" id="order_data_body">
+				<!--加载-->
+				<div style="text-align: center;" id="ic_loading"><img src="../../image/loading.png" width="70" height="70" />
+					<br />
+					<span>加载中...</span>
+				</div>
+				<!--加载-->
+			</ul>
 		</div>
 		<!--loading-->
 		<div class="aui-text-center" id="loading" style="padding:10px 25px;display: none;color: rgb(167, 167, 167);font-size: 14px;">
@@ -53,7 +55,6 @@
 		</div>
 		<!--无网络提示 end-->
 		<script id="order_data" type="text/html">
-			<ul class="aui-list-view" >
 			{{# for(var i = 0, len = d.retValue.data.length; i < len; i++){ }}
 			<li class="aui-list-view-cell" onclick="order_detail({{ d.retValue.data[i].id }});">
 			<div class="aui-col-xs-12">
@@ -73,7 +74,6 @@
 			</div>
 			</li>
 			{{# } }}
-			</ul>
 		</script>
 	</body>
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
