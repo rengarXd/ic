@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../../css/aui-win.css" />
+		<style type="text/css">
+			.aui-bar-1d9dd5 {
+				background: #4385f6;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="aui-bar aui-bar-nav aui-bar-1d9dd5" id='period'>
+			<a class="aui-pull-left" tapmode onclick="H.$closeCurrentWin();"> <span class="aui-iconfont aui-icon-left"></span>返回 </a>
+			<div class="aui-title">
+				电子围栏
+			</div>
+		</header>
+	</body>
+	<script type="text/javascript" src="../../script/AHelper.js"></script>
+	<script type="text/javascript">
+		H.ready(function() {
+			api.parseTapmode();
+			// 快速调整当前frame到最前面
+			H.$openFrameWithNav('period', {
+				url : 'electronic_fence_body.html',
+				name : 'electronic_fence_body',
+				pageParam : H.$getPageParam()
+			});
+		});
+	</script>
+</html>
