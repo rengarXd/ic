@@ -438,6 +438,11 @@
 				addEventListenerFromFunc("positionPet", function(ret) {
 					//定位到宠物位置逻辑
 				});
+				api.addEventListener({
+	                name:'closeMap'
+                },function(ret,err){
+                	bMap.close();
+                });
 			});
 		</script>
 	</body>

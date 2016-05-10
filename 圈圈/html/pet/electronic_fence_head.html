@@ -24,6 +24,10 @@
 	<script type="text/javascript">
 		H.ready(function() {
 			api.parseTapmode();
+			api.sendEvent({
+				name : 'closeMap',
+				
+			});
 			// 快速调整当前frame到最前面
 			H.$openFrameWithNav('period', {
 				url : 'electronic_fence_body.html',
