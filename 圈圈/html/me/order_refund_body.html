@@ -40,25 +40,22 @@
 		</div>
 		<script id="refund_data" type="text/html">
 			<ul class="aui-list-view" >
-			{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
+			{{# for(var i = 0, len = d.retValue.data.length; i < len; i++){ }}
 			<li class="aui-list-view-cell" >
-			<div class="aui-col-xs-12" onclick="openRefund({{ d.retValue[i].id }});">
+			<div class="aui-col-xs-12" onclick="openRefund({{ d.retValue.data[i].id }});">
 			<span class="aui-pull-left">
-			<span class="iconfont icon-dingdan"></span> 订单编号：{{ d.retValue[i].order_no }}
-			</span><span class="aui-pull-right ic_status">{{# if(d.retValue[i].pay_status==0){ }}申请退款中{{# }else if(d.retValue[i].pay_status==1){ }}退款失败{{# }else if(d.retValue[i].pay_status==2){ }}退款成功{{# } }}</span>
+			<span class="iconfont icon-dingdan"></span> 订单编号：{{ d.retValue.data[i].order_no }}
+			</span><span class="aui-pull-right ic_status">{{# if(d.retValue.data[i].pay_status==0){ }}申请退款中{{# }else if(d.retValue.data[i].pay_status==1){ }}退款失败{{# }else if(d.retValue.data[i].pay_status==2){ }}退款成功{{# } }}</span>
 			</div>
 			<div class="aui-col-xs-12">
 			<span class="aui-pull-left">
-			日期：{{ d.retValue[i].time }}
+			日期：{{ d.retValue.data[i].time }}
 			</span>
-			{{# if(d.retValue[i].pay_status==2){ }}
-			<span class="aui-pull-right ic_price">￥{{ d.retValue[i].amount }}</span>
+			{{# if(d.retValue.data[i].pay_status==2){ }}
+			<span class="aui-pull-right ic_price">￥{{ d.retValue.data[i].amount }}</span>
 			</div>
-			<!--<div class="aui-col-xs-12">
-			<span class="aui-pull-right iconfont icon-shanchu" onclick="deleteRefund();"></span>
-			</div>-->
 			{{# }else{ }}
-			<span class="aui-pull-right iconfont icon-shanchu" onclick="deleteRefund({{ d.retValue[i].id }});"></span>
+			<span class="aui-pull-right iconfont icon-shanchu" onclick="deleteRefund({{ d.retValue.data[i].id }});"></span>
 			</div>
 			{{# } }}
 			</li>
@@ -119,8 +116,7 @@
 			}, function(ret, err) {
 				if (ret && ret.retCode == 1) {
 					//2、如果有数据
-					if (ret.retValue.length > 0) {
-
+					if (ret.retValue.data.length > 0) {
 						var tpl = document.getElementById('refund_data').innerHTML;
 						laytpl(tpl).render(ret, function(render) {
 							document.getElementById('refund_html').innerHTML = render;
@@ -160,7 +156,7 @@
 				}, function(ret, err) {
 					if (ret && ret.retCode == 1) {
 						//2、如果有数据
-						if (ret.retValue.length > 0) {
+						if (ret.retValue.data.length > 0) {
 							var tpl = document.getElementById('refund_data').innerHTML;
 							laytpl(tpl).render(ret, function(render) {
 								document.getElementById('refund_html').innerHTML = render;
