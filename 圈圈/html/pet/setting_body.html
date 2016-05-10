@@ -25,7 +25,7 @@
 				<li class="aui-list-view-cell" tapmode id="period">
 					<a class="aui-arrow-right">上报周期</a>
 				</li>
-				<li class="aui-list-view-cell" >
+				<li class="aui-list-view-cell" tapmode id="electronic">
 					<a class="aui-arrow-right">电子围栏 </a>
 				</li>
 			</ul>
@@ -46,6 +46,9 @@
 		Zepto(function($) {
 			$("#period").on('click',function(){
 				H.$openWin('period','period_head.html');
+			});
+			$("#electronic").on('click',function(){
+				H.$openWin('electronic_fence_head','electronic_fence_head.html');
 			});
 		});
 		H.ready(function() {
