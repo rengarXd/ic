@@ -3,7 +3,7 @@
 <widget id="A6900063015323" version="0.0.1"> 
   <name>i宠</name>  
   <description>i宠是为宠物人士打造的一款智能设备APP，你可以与你的设备紧密结合.</description>  
-  <author email="598692079@qq.com" href="http://www.ichong.com">I宠开发团队</author>  
+  <author email="598692079@qq.com" href="http://www.ipetoo.com">i宠开发团队</author>  
   <content src="index.html"/>  
   <preference name="pageBounce" value="false"/>  
   <preference name="appBackground" value="rgba(0,0,0,0.0)"/>  

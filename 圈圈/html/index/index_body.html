@@ -223,7 +223,7 @@
         </div>
         <script id="index_addata" type="text/html">
             {{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
-            <div class="swiper-slide" id="ad_{{ d.retValue[i].id }}" onclick="ad_do({{ d.retValue[i].href_type }},'{{ d.retValue[i].link }}',{{ d.retValue[i].id }});" style="background-image:url(http://122.114.90.191/{{ d.retValue[i].content }})"></div>
+            <div class="swiper-slide" style="background-image:url(http://122.114.90.191/{{ d.retValue[i].content }})" onclick="ad_do({{ d.retValue[i].href_type }},'{{ d.retValue[i].link }}',{{ d.retValue[i].id }});"></div>
             {{# } }}
         </script>
         <!--首页广告幻灯结束-->
@@ -331,20 +331,6 @@
     <script type="text/javascript">
         //sqlite数据库对象
         var db = null, userinfoobj = null;
-        /*
-         * 1、广告处理 (href_type) 0 广告跳转
-         * 	 广告ids (ids)
-         */
-        function ad_do(href_type, link, ids) {
-            switch(href_type) {
-                case 0:
-                    H.$openWin("ad_header", "../activity/ad_header.html", {
-                        link : link
-                    });
-                    break;
-            }
-        }
-
         //图片y
         Zepto(function() {
             /*身份处理*/
@@ -407,7 +393,7 @@
                     switch(ret.retCode) {
                         case 1:
                             _tpl(tplId, ret, tplDataId, function() {
-                                iscallback && initSwiper();
+                                iscallback && initSwiper(ret.retValue);
                                 H.$recoverDropdownToNormal();
                             });
                             break;
@@ -471,18 +457,44 @@
         }
 
         //初始化幻灯插件
-        function initSwiper() {
+        function initSwiper(ret) {
+           console.log('initSwiper++');
             new Swiper('.swiper-container', {
                 loop : true,
                 // 如果需要分页器
                 pagination : '.swiper-pagination',
                 autoplay : 3000
             });
+//           imageCache(ret, 0);
+        }
+
+        function imageCache(rets, i) {
+            if (i >= rets.length) {
+                return;
+            }
+            console.log('rets.length'+rets.length);
+            api.imageCache({
+                url : window.serverUrlPath + rets[i].content
+            }, function(ret, err) {
+                $("#ad_" + rets[i].id).css("background-image", "url(" + ret.url + ")");
+                imageCache(rets, i + 1);
+            });
         }
 
         //关闭页面的回调
         function closeindex() {
             H.$closeCurrentFrame();
+        }
+
+        //广告处理 (href_type)广告ids (ids)
+        function ad_do(href_type, link, ids) {
+            switch(href_type) {
+                case 0:
+                    H.$openWin("ad_header", "../activity/ad_header.html", {
+                        link : link
+                    });
+                    break;
+            }
         }
 
         //登录失效处理
