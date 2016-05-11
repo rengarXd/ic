@@ -31,29 +31,19 @@
 	</head>
 	<body>
 		<div class="aui-content"  style="padding-top: 10px;">
-			<ul class="aui-list-view" id="order_data_body">
-				<!--加载-->
-				<div style="text-align: center;" id="ic_loading"><img src="../../image/loading.png" width="70" height="70" />
-					<br />
-					<span>加载中...</span>
-				</div>
-				<!--加载-->
-			</ul>
+			<ul class="aui-list-view" id="order_data_body"></ul>
 		</div>
+		<!--加载-->
+		<div style="text-align: center;display: none" id="ic_loading"><img src="../../image/loading.png" width="70" height="70" />
+			<br />
+			<span>加载中...</span>
+		</div>
+		<!--加载-->
 		<!--loading-->
 		<div class="aui-text-center" id="loading" style="padding:10px 25px;display: none;color: rgb(167, 167, 167);font-size: 14px;">
 			<img src="../../image/loading01.gif" id="show" style="width: 45px;" />&nbsp;&nbsp;加载中... <span id="hide" style="display: none;">暂无更多记录</span>
 		</div>
 		<!--loading-->
-		<!--无网络提示 start-->
-		<div style="margin-top:5px;text-align: center;display: none;" id="ic_nonetwork"><img src="../../image/loading.png" width="70" height="70" />
-			<br />
-			<span style="font-size:12px; margin-bottom: 10px;" class="aui-block"></span>
-			<div class="aui-btn aui-btn-default" id="reload_page" tapmode>
-				重新加载
-			</div>
-		</div>
-		<!--无网络提示 end-->
 		<script id="order_data" type="text/html">
 			{{# for(var i = 0, len = d.retValue.data.length; i < len; i++){ }}
 			<li class="aui-list-view-cell" onclick="order_detail({{ d.retValue.data[i].id }});">
@@ -75,6 +65,15 @@
 			</li>
 			{{# } }}
 		</script>
+		<!--无网络提示 start-->
+		<div style="text-align: center;display: none;" id="ic_nonetwork"><img src="../../image/loading.png" width="70" height="70" />
+			<br />
+			<span style="font-size:12px; margin-bottom: 10px;" class="aui-block"></span>
+			<div class="aui-btn aui-btn-default" id="reload_page" tapmode>
+				重新加载
+			</div>
+		</div>
+		<!--无网络提示 end-->
 	</body>
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
@@ -99,7 +98,6 @@
 						laytpl(tpl).render(ret, function(render) {
 							document.getElementById('order_data_body').innerHTML = render;
 							H.$api.append(H.$api.byId("order_data_body"), render);
-							$("#ic_loading").hide();
 							$("#loading").hide();
 						});
 						//页面拦加载判断
@@ -128,6 +126,7 @@
 				key : 'userinfo'
 			}, function(ret, err) {
 				userobj = eval('(' + ret.value + ')');
+				$("#ic_loading").show();
 				api.ajax({
 					//1、请求所有订单 type = 1
 					url : window.serverUrl + '/me_all_order/user_id/' + userobj.id + '/token/' + userobj.token + '/type/1' + '/page/' + page
@@ -146,6 +145,7 @@
 						}
 					} else {
 						$("#ic_loading").hide();
+						$(".aui-content").hide();
 						$("#ic_nonetwork").show();
 						$("#ic_nonetwork span").text(err.msg);
 					}
