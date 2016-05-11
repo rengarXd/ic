@@ -44,6 +44,11 @@
 	</head>
 	<body>
 		<div id="old_bgs" style="display:none"></div>
+		<!--我要问诊-->
+		<div class="aui-btn aui-btn-block wenzhen_btn_wen" style="display:none" id="saveAge">
+			保存年龄
+		</div>
+		<!--我要问诊-->
 		<div class="aui-content">
 			<ul class="aui-list-view">
 				<li class="aui-list-view-cell" id="wenzhen">
@@ -266,22 +271,24 @@
 			// 年龄处理
 			$("#chongwunianling").on("click", function() {
 				$("#old_bgs").css("opacity", 0.4);
+				$("#consulting").hide();
 				$("#old_bgs").show();
+				$("#saveAge").show();
 				var UICustomPicker = api.require('UICustomPicker');
 				UICustomPicker.open({
 					rect : {
 						x : (api.frameWidth - 220) / 2,
 						y : (api.frameHeight - 340) / 2,
-						w : 180,
+						w : 220,
 						h : 340
 					},
 					styles : {
 						bg : 'rgba(0,0,0,0)',
 						normalColor : '#ffffff',
 						selectedColor : '#ffffff',
-						selectedSize : 36,
+						selectedSize : 35,
 						tagColor : '#ffffff',
-						tagSize : 36
+						tagSize : 35
 					},
 					data : [{
 						tag : '年',
@@ -292,17 +299,22 @@
 					}],
 					rows : 3,
 					fixedOn : api.frameName,
-					fixed : true
+					fixed : true,
+					autoHide : false
 				}, function(ret, err) {
 					if (ret) {
 						if (ret.data) {
+//							alert(JSON.stringify(ret));
 							var nian = ret.data[0];
 							var yue = ret.data[1];
 							$("#pet_age").html(nian + '年' + yue + '月');
-							//
-							$("#old_bgs").hide();
-							UICustomPicker.close({
-								id : ret.id
+							$("#saveAge").on("tap", function() {
+								$("#old_bgs").hide();
+								$("#saveAge").hide();
+								$("#consulting").show();
+								UICustomPicker.close({
+									id : ret.id
+								});
 							});
 						}
 					} else {
