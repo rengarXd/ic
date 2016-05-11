@@ -14,7 +14,7 @@
 	</head>
 	<body>
 		<header class="aui-bar aui-bar-nav aui-bar-1d9dd5" id='period'>
-			<a class="aui-pull-left" tapmode onclick="H.$closeCurrentWin();"> <span class="aui-iconfont aui-icon-left"></span>返回 </a>
+			<a class="aui-pull-left" tapmode onclick="closeWin();"> <span class="aui-iconfont aui-icon-left"></span>返回 </a>
 			<div class="aui-title">
 				电子围栏
 			</div>
@@ -22,12 +22,25 @@
 	</body>
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript">
+		var bMap = null;
+		function closeWin() {
+//			bMap.close();
+			H.$closeCurrentWin();
+		}
+
+
 		H.ready(function() {
 			api.parseTapmode();
 			api.sendEvent({
 				name : 'closeMap',
-				
 			});
+//			bMap = api.require('bMap');
+//			api.addEventListener({
+//				name : 'keyback'
+//			}, function(ret, err) {
+//				bMap.close();
+//				H.$closeCurrentWin();
+//			});
 			// 快速调整当前frame到最前面
 			H.$openFrameWithNav('period', {
 				url : 'electronic_fence_body.html',
