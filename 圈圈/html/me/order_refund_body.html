@@ -128,8 +128,8 @@
 				url : window.serverUrl + '/me_all_order/user_id/' + userobj.id + '/token/' + userobj.token + '/type/5' + '/page/' + page
 			}, function(ret, err) {
 				if (ret) {
-						//2、如果有数据
-						if (ret.retCode > 0) {
+					//2、如果有数据
+					if (ret.retCode > 0) {
 						var tpl = document.getElementById('refund_data').innerHTML;
 						laytpl(tpl).render(ret, function(render) {
 							document.getElementById('refund_html').innerHTML = render;

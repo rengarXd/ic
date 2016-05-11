@@ -134,10 +134,10 @@
 					if (ret) {
 						//2、如果有数据
 						if (ret.retCode > 0) {
+							$("#ic_loading").hide();
 							var tpl = document.getElementById('order_data').innerHTML;
 							laytpl(tpl).render(ret, function(render) {
 								document.getElementById('order_data_body').innerHTML = render;
-								$("#ic_loading").hide();
 							});
 						} else {
 							//2.1、如果无数据
