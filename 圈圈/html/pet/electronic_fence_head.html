@@ -24,24 +24,12 @@
 	<script type="text/javascript">
 		var bMap = null;
 		function closeWin() {
-			//			bMap.close();
 			H.$closeCurrentWin();
 		}
 
 
 		H.ready(function() {
 			api.parseTapmode();
-			api.sendEvent({
-				name : 'closeMap',
-			});
-			
-			//			bMap = api.require('bMap');
-			//			api.addEventListener({
-			//				name : 'keyback'
-			//			}, function(ret, err) {
-			//				bMap.close();
-			//				H.$closeCurrentWin();
-			//			});
 			// 快速调整当前frame到最前面
 			H.$openFrameWithNav('period', {
 				url : 'electronic_fence_body.html',
