@@ -48,20 +48,6 @@
 							vScrollBarEnabled : false,
 							hScrollBarEnabled : false
 						});
-						api.openFrame({
-							name : 'position_turn_button',
-							url : 'position_turn_button.html',
-							bgColor : 'rgba(0,0,0,0.0)',
-							rect : {
-								x : (api.frameWidth - 300) / 2,
-								y : 100,
-								w : 300,
-								h : 100
-							},
-							bounces : false,
-							vScrollBarEnabled : false,
-							hScrollBarEnabled : false
-						});
 						lat = ret.lat;
 						lon = ret.lon;
 						//1.4、打开地图
@@ -92,7 +78,7 @@
 						lon : lons,
 						lat : lats
 					},
-					zoomLevel : 18,
+					zoomLevel : 17,
 					showUserLocation : true,
 					fixedOn : api.frameName,
 					fixed : true
@@ -144,10 +130,27 @@
 						switch(ret.retCode) {
 							case 1:
 								H.$com.isdebug('宠物位置信息==' + JSON.stringify(ret));
+								//添加宠物标注
 								addAnnotations(ret.retValue);
+								//获取宠物坐标
 								petlon = ret.retValue[0].lon;
 								petlat = ret.retValue[0].lat;
-								//								addBillboard(ret.retValue[0].lon, ret.retValue[0].lat);
+								//打开滑块调节
+								api.openFrame({
+									name : 'position_turn_button',
+									url : 'position_turn_button.html',
+									bgColor : 'rgba(0,0,0,0.0)',
+									rect : {
+										x : (api.frameWidth - 300) / 2,
+										y : 100,
+										w : 300,
+										h : 100
+									},
+									bounces : false,
+									vScrollBarEnabled : false,
+									hScrollBarEnabled : false
+								});
+								//addBillboard(ret.retValue[0].lon, ret.retValue[0].lat);
 								break;
 							case 0:
 								break;
@@ -348,7 +351,7 @@
 						radius : parseFloat(ret),
 						styles : {
 							borderColor : '#1786FF',
-							borderWidth : 4,
+							borderWidth : 2,
 							fillColor : 'transparent',
 						}
 					});
