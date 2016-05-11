@@ -137,12 +137,13 @@
 				$("#ic_loading").show();
 				api.ajax({
 					//1、请求待付款订单 type = 2
-					url : window.serverUrl + '/me_all_order/user_id/' + userobj.id + '/token/' + userobj.token + '/type/2' + '/page/' + page
+					url : window.serverUrl + '/me_all_order/user_id/' + userobj.id + '/token/' + userobj.token + '/type/2' + '/page/' + page,
+					cache : false
 				}, function(ret, err) {
 					if (ret) {
 						//2、如果有数据
 						if (ret.retCode > 0) {
-							$("ic_loading").hide();
+							$("#ic_loading").hide();
 							var tpl = document.getElementById('order_data').innerHTML;
 							laytpl(tpl).render(ret, function(render) {
 								document.getElementById('order_data_body').innerHTML = render;

@@ -166,7 +166,8 @@
 				$("#ic_loading").show();
 				api.ajax({
 					//1、请求所有订单 type = 1
-					url : window.serverUrl + '/me_all_order/user_id/' + userobj.id + '/token/' + userobj.token + '/type/5'
+					url : window.serverUrl + '/me_all_order/user_id/' + userobj.id + '/token/' + userobj.token + '/type/5',
+					cache : false
 				}, function(ret, err) {
 					if (ret) {
 						//2、如果有数据

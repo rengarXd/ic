@@ -44,7 +44,6 @@
 			<img src="../../image/loading01.gif" id="show" style="width: 45px;" />&nbsp;&nbsp;加载中... <span id="hide" style="display: none;">暂无更多记录</span>
 		</div>
 		<!--loading-->
-		
 		<script id="order_data" type="text/html">
 			{{# for(var i = 0, len = d.retValue.data.length; i < len; i++){ }}
 			<li class="aui-list-view-cell" onclick="openShop({{ d.retValue.data[i].id }});">
@@ -101,8 +100,8 @@
 				url : window.serverUrl + '/me_all_order/user_id/' + userobj.id + '/token/' + userobj.token + '/type/4' + '/page/' + page
 			}, function(ret, err) {
 				if (ret) {
-						//2、如果有数据
-						if (ret.retCode > 0) {
+					//2、如果有数据
+					if (ret.retCode > 0) {
 						var tpl = document.getElementById('order_data').innerHTML;
 						laytpl(tpl).render(ret, function(render) {
 							document.getElementById('order_data_body').innerHTML = render;
@@ -140,7 +139,8 @@
 				$("#ic_loading").show();
 				api.ajax({
 					//1、请求所有订单 type = 1
-					url : window.serverUrl + '/me_all_order/user_id/' + userobj.id + '/token/' + userobj.token + '/type/4' + '/page/' + page
+					url : window.serverUrl + '/me_all_order/user_id/' + userobj.id + '/token/' + userobj.token + '/type/4' + '/page/' + page,
+					cache : false
 				}, function(ret, err) {
 					if (ret) {
 						//2、如果有数据
