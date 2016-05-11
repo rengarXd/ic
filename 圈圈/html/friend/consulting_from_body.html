@@ -304,11 +304,11 @@
 				}, function(ret, err) {
 					if (ret) {
 						if (ret.data) {
-//							alert(JSON.stringify(ret));
+							//							alert(JSON.stringify(ret));
 							var nian = ret.data[0];
 							var yue = ret.data[1];
-							$("#pet_age").html(nian + '年' + yue + '月');
 							$("#saveAge").on("tap", function() {
+								$("#pet_age").html(nian + '年' + yue + '月');
 								$("#old_bgs").hide();
 								$("#saveAge").hide();
 								$("#consulting").show();
