@@ -1,242 +1,258 @@
 <!DOCTYPE HTML>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
-		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-		<link rel="stylesheet" type="text/css" href="../../css/aui.css" />
-		<link rel="stylesheet" type="text/css" href="../../css/tools/loading.css"/>
-		<link rel="stylesheet" type="text/css" href="../../css/tools/aui-slide.css" />
-		<style type="text/css">
-			.slider {
-				margin-bottom: 0;
-			}
-			.slider-img {
-				width: 100%;
-				height: 150px;
-				display: inherit;
-			}
-			.aui-grid-sixteen:after {
-				border: none;
-			}
-			.aui-grid-sixteen li:after {
-				border: none;
-			}
-			.aui-grid-sixteen li .aui-iconfont {
-				color: #ffffff;
-				width: 38px;
-				height: 38px;
-				line-height: 38px;
-				border-radius: 50%;
-				font-size: 20px;
-			}
-			p.goods-title {
-				font-size: 1em;
-				color: #333;
-			}
-			p.goods-info {
-				font-size: 12px;
-				color: #999;
-			}
-			.aui-line-x {
-				margin: 5px 0;
-			}
-			.aui-line-x:after {
-				border-color: #ddd;
-			}
-			.goods-price {
-				font-size: 0.875em;
-			}
-			.goods-price strong {
-				margin: 0 5px;
-				font-size: 16px;
-			}
-			.shop_title {
-				height: 42px;
-				overflow: hidden;
-			}
-			p.goods-title {
-				font-size: 1em;
-				color: #333;
-			}
-			p.goods-info {
-				font-size: 12px;
-				color: #999;
-			}
-			.goodss-info {
-				font-size: 10px !important;
-				line-height: 31px !important;
-			}
-			.ic_shop_ad {
-				width: 80px;
-				margin-top: 30px;
-			}
-		</style>
-	</head>
-	<body>
-		<!--<div class="aui-content slider" id="shop_addata_body">
-		<img src="../../image/d5.png" />
-		</div>-->
-		<div id="ic_main">
-			<div id="aui-slide2" class="aui-border-b" style="background: #fff">
-				<div class="aui-slide-wrap" id="shop_addata_body" style="height:150px;text-align: center" >
-					<img class="ic_shop_ad" src="../../image/loading.png" />
-				</div>
-				<div class="aui-slide-page-wrap">
-					<!--分页容器-->
-				</div>
-			</div>
-			<script type="text/html" id="shop_addata">
-				{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
-				<div class="aui-slide-node aui-slide-node-middle aui-slide-node-center">
-				<img class="slider-img" src="http://122.114.90.191/{{ d.retValue[i].content }}" />
-				</div>
-				{{# } }}
-			</script>
-			<div class="aui-content aui-border-b">
-				<ul class="aui-grid-sixteen">
-					<li class="aui-col-xs-3 aui-text-center">
-						<span class="aui-iconfont aui-icon-profilefill aui-bg-success" ></span>
-						<p>
-							免费商品
-						</p>
-					</li>
-					<li class="aui-col-xs-3 aui-text-center">
-						<span class="aui-iconfont aui-icon-profilefill aui-bg-success" ></span>
-						<p>
-							特价商品
-						</p>
-					</li>
-					<li class="aui-col-xs-3 aui-text-center" >
-						<span class="aui-iconfont aui-icon-creativefill aui-bg-warning" ></span>
-						<p>
-							最新商品
-						</p>
-					</li>
-					<li class="aui-col-xs-3 aui-text-center" id="openAllGood">
-						<span class="aui-iconfont aui-icon-profilefill aui-bg-success" ></span>
-						<p>
-							全部商品
-						</p>
-					</li>
-				</ul>
-			</div>
-			<div class="aui-content">
-				<ul class="aui-list-view aui-grid-view" id="shopdata_body">
-					<li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode="" onclick="openGoods(1)">
-						<img class="ic_shop_ad" src="../../image/loading.png" />
-						<div class="aui-img-body aui-text-left"></div>
-					</li>
-					<li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode="" onclick="openGoods(1)">
-						<img class="ic_shop_ad" src="../../image/loading.png" />
-						<div class="aui-img-body aui-text-left"></div>
-					</li>
-				</ul>
-			</div>
-		</div>
-		<script id="shopdata" type="text/html">
-			{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
-			<li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode onclick="openGoods({{ d.retValue[i].id }})">
-			<img class="aui-img-object" src="http://122.114.90.191/{{ d.retValue[i].img }}">
-			<div class="aui-img-body aui-text-left">
-			<div class="shop_title">{{ d.retValue[i].name }}</div>
-			<p>
-			<span class="goods-price aui-text-danger">¥<strong>{{ d.retValue[i].sell_price }}</strong>元</span>
-			<span class=" aui-pull-right goodss-info">
-			<span class="aui-text-danger">{{ d.retValue[i].favorite }}</span>人收藏
-			</span>
-			</p>
-			</div>
-			</li>
-			{{# } }}
-		</script>
-		<!--无网络提示 start-->
-		<div style="text-align: center" id="ic_nonetwork"><img src="../../image/loading.png" width="70" height="70" />
-			<br />
-			<span style="font-size:12px; margin-bottom: 10px;" class="aui-block"></span>
-			<div class="aui-btn aui-btn-default" id="reload_page" tapmode>
-				重新加载
-			</div>
-		</div>
-		<!--无网络提示 end-->
-	</body>
-	<script type="text/javascript" src="../../script/AHelper.js"></script>
-	<script type="text/javascript" src="../../script/zepto.min.js"></script>
-	<script type="text/javascript" src="../../script/laytpl.js"></script>
-	<script type="text/javascript" src="../../script/tools/aui-slide.js"></script>
-	<script type="text/javascript">
-		Zepto(function($) {
-			$("#openAllGood").on("tap", function() {
-				H.$openWin("shop_all_header", "shop_all_header.html");
-			});
-			$("#openPoints").on("tap", function() {
-				H.$openWin('me_exchange_header', '../me/voucher_exchange/me_exchange_header.html');
-			});
-			$("#reload_page").on("tap", function() {
-				location.reload();
-			});
-		});
-		H.ready(function() {
-			api.getPrefs({
-				key : 'userinfo'
-			}, function(ret, err) {
-				var retobj = eval('(' + ret.value + ')');
-				//1.1 请求商品列表
-				api.ajax({
-					url : window.serverUrl + '/goods_list/token/' + retobj.token + '/user_id/' + retobj.id
-				}, function(ret, err) {
-					if (ret && ret.retCode == 1) {
-						var tpl = document.getElementById('shopdata').innerHTML;
-						//读取模版
-						laytpl(tpl).render(ret, function(render) {
-							H.$recoverDropdownToNormal();
-							document.getElementById('shopdata_body').innerHTML = render;
-						});
-					} else {
-						$("#ic_main").hide();
-						if (ret && ret.retCode == 0) {
-							$("#ic_nonetwork").show();
-							$("#ic_nonetwork span").text(ret.retDesc);
-						} else {
-							$("#ic_nonetwork").show();
-							$("#ic_nonetwork span").text(err.msg);
-						}
-					}
-				});
-				//1.2 请求市场广告数据
-				api.ajax({
-					url : window.serverUrl + '/app_shop_manage/token/' + retobj.token,
-					cache : true
-				}, function(ret, err) {
-					//如果请求有数据返回
-					if (ret && ret.retCode == 1) {
-						var tpl = document.getElementById('shop_addata').innerHTML;
-						laytpl(tpl).render(ret, function(render) {
-							document.getElementById('shop_addata_body').innerHTML = render;
-							var slide2 = new auiSlide({
-								container : document.getElementById("aui-slide2"),
-								// "width":300,
-								"height" : 150,
-								"speed" : 300,
-								"autoPlay" : 3000, //自动播放
-								"pageShow" : true,
-								"loop" : true,
-								"pageStyle" : 'line',
-								'dotPosition' : 'center'
-							})
-						});
-					} else {
-						if (ret && ret.retCode == 0) {
-							loginguoqi();
-						}
-					}
-				});
-			});
-		});
-		function openGoods(goodId) {
-			H.$openWin('shop_show_header', '../shop/shop_show_header.html', {
-				goodId : goodId
-			});
-		}
-	</script>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+        <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+        <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+        <link rel="stylesheet" type="text/css" href="../../css/tools/loading.css"/>
+        <link rel="stylesheet" type="text/css" href="../../css/tools/aui-slide.css" />
+        <style type="text/css">
+            .slider {
+                margin-bottom: 0;
+            }
+            .slider-img {
+                width: 100%;
+                height: 150px;
+                display: inherit;
+            }
+            .aui-grid-sixteen:after {
+                border: none;
+            }
+            .aui-grid-sixteen li:after {
+                border: none;
+            }
+            .aui-grid-sixteen li .aui-iconfont {
+                color: #ffffff;
+                width: 38px;
+                height: 38px;
+                line-height: 38px;
+                border-radius: 50%;
+                font-size: 20px;
+            }
+            p.goods-title {
+                font-size: 1em;
+                color: #333;
+            }
+            p.goods-info {
+                font-size: 12px;
+                color: #999;
+            }
+            .aui-line-x {
+                margin: 5px 0;
+            }
+            .aui-line-x:after {
+                border-color: #ddd;
+            }
+            .goods-price {
+                font-size: 0.875em;
+            }
+            .goods-price strong {
+                margin: 0 5px;
+                font-size: 16px;
+            }
+            .shop_title {
+                height: 42px;
+                overflow: hidden;
+            }
+            p.goods-title {
+                font-size: 1em;
+                color: #333;
+            }
+            p.goods-info {
+                font-size: 12px;
+                color: #999;
+            }
+            .goodss-info {
+                font-size: 10px !important;
+                line-height: 31px !important;
+            }
+            .ic_shop_ad {
+                width: 80px;
+                margin-top: 30px;
+            }
+        </style>
+    </head>
+    <body>
+        <!--<div class="aui-content slider" id="shop_addata_body">
+        <img src="../../image/d5.png" />
+        </div>-->
+        <div id="ic_main">
+            <div id="aui-slide2" class="aui-border-b" style="background: #fff">
+                <div class="aui-slide-wrap" id="shop_addata_body" style="height:150px;text-align: center" >
+                    <img class="ic_shop_ad" src="../../image/loading.png" />
+                </div>
+                <div class="aui-slide-page-wrap">
+                    <!--分页容器-->
+                </div>
+            </div>
+            <script type="text/html" id="shop_addata">
+                {{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
+                <div class="aui-slide-node aui-slide-node-middle aui-slide-node-center">
+                <img class="slider-img" src="http://122.114.90.191/{{ d.retValue[i].content }}" />
+                </div>
+                {{# } }}
+            </script>
+            <div class="aui-content aui-border-b">
+                <ul class="aui-grid-sixteen">
+                    <li class="aui-col-xs-3 aui-text-center">
+                        <span class="aui-iconfont aui-icon-profilefill aui-bg-success" ></span>
+                        <p>
+                            免费商品
+                        </p>
+                    </li>
+                    <li class="aui-col-xs-3 aui-text-center">
+                        <span class="aui-iconfont aui-icon-profilefill aui-bg-success" ></span>
+                        <p>
+                            特价商品
+                        </p>
+                    </li>
+                    <li class="aui-col-xs-3 aui-text-center" >
+                        <span class="aui-iconfont aui-icon-creativefill aui-bg-warning" ></span>
+                        <p>
+                            最新商品
+                        </p>
+                    </li>
+                    <li class="aui-col-xs-3 aui-text-center" id="openAllGood">
+                        <span class="aui-iconfont aui-icon-profilefill aui-bg-success" ></span>
+                        <p>
+                            全部商品
+                        </p>
+                    </li>
+                </ul>
+            </div>
+            <div class="aui-content">
+                <ul class="aui-list-view aui-grid-view" id="shopdata_body">
+                    <li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode="" onclick="openGoods(1)">
+                        <img class="ic_shop_ad" src="../../image/loading.png" />
+                        <div class="aui-img-body aui-text-left"></div>
+                    </li>
+                    <li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode="" onclick="openGoods(1)">
+                        <img class="ic_shop_ad" src="../../image/loading.png" />
+                        <div class="aui-img-body aui-text-left"></div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <script id="shopdata" type="text/html">
+            {{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
+            <li class="aui-list-view-cell aui-img aui-col-xs-6" tapmode onclick="openGoods({{ d.retValue[i].id }})">
+            <img class="aui-img-object" src="../../image/loading.png" id="goods_{{ d.retValue[i].id }}">
+            <div class="aui-img-body aui-text-left">
+            <div class="shop_title">{{ d.retValue[i].name }}</div>
+            <p>
+            <span class="goods-price aui-text-danger">¥<strong>{{ d.retValue[i].sell_price }}</strong>元</span>
+            <span class=" aui-pull-right goodss-info">
+            <span class="aui-text-danger">{{ d.retValue[i].favorite }}</span>人收藏
+            </span>
+            </p>
+            </div>
+            </li>
+            {{# } }}
+        </script>
+        <!--无网络提示 start-->
+        <div style="text-align: center" id="ic_nonetwork"><img src="../../image/loading.png" width="70" height="70" />
+            <br />
+            <span style="font-size:12px; margin-bottom: 10px;" class="aui-block"></span>
+            <div class="aui-btn aui-btn-default" id="reload_page" tapmode>
+                重新加载
+            </div>
+        </div>
+        <!--无网络提示 end-->
+    </body>
+    <script type="text/javascript" src="../../script/AHelper.js"></script>
+    <script type="text/javascript" src="../../script/zepto.min.js"></script>
+    <script type="text/javascript" src="../../script/laytpl.js"></script>
+    <script type="text/javascript" src="../../script/tools/aui-slide.js"></script>
+    <script type="text/javascript">
+        Zepto(function($) {
+            $("#openAllGood").on("tap", function() {
+                H.$openWin("shop_all_header", "shop_all_header.html");
+            });
+            $("#openPoints").on("tap", function() {
+                H.$openWin('me_exchange_header', '../me/voucher_exchange/me_exchange_header.html');
+            });
+            $("#reload_page").on("tap", function() {
+                location.reload();
+            });
+        });
+        H.ready(function() {
+            api.getPrefs({
+                key : 'userinfo'
+            }, function(ret, err) {
+                var retobj = eval('(' + ret.value + ')');
+                //1.1 请求商品列表
+                api.ajax({
+                    url : window.serverUrl + '/goods_list/token/' + retobj.token + '/user_id/' + retobj.id
+                }, function(ret, err) {
+                    if (ret && ret.retCode == 1) {
+                        var tpl = document.getElementById('shopdata').innerHTML;
+                        //读取模版
+                        laytpl(tpl).render(ret, function(render) {
+                            H.$recoverDropdownToNormal();
+                            document.getElementById('shopdata_body').innerHTML = render;
+                        });
+                        imageCache(ret.retValue, 0);
+                    } else {
+                        $("#ic_main").hide();
+                        if (ret && ret.retCode == 0) {
+                            $("#ic_nonetwork").show();
+                            $("#ic_nonetwork span").text(ret.retDesc);
+                        } else {
+                            $("#ic_nonetwork").show();
+                            $("#ic_nonetwork span").text(err.msg);
+                        }
+                    }
+                });
+                //1.2 请求市场广告数据
+                api.ajax({
+                    url : window.serverUrl + '/app_shop_manage/token/' + retobj.token,
+                    cache : true
+                }, function(ret, err) {
+                    //如果请求有数据返回
+                    if (ret && ret.retCode == 1) {
+                        var tpl = document.getElementById('shop_addata').innerHTML;
+                        laytpl(tpl).render(ret, function(render) {
+                            document.getElementById('shop_addata_body').innerHTML = render;
+                            var slide2 = new auiSlide({
+                                container : document.getElementById("aui-slide2"),
+                                // "width":300,
+                                "height" : 150,
+                                "speed" : 300,
+                                "autoPlay" : 3000, //自动播放
+                                "pageShow" : true,
+                                "loop" : true,
+                                "pageStyle" : 'line',
+                                'dotPosition' : 'center'
+                            })
+                        });
+                    } else {
+                        if (ret && ret.retCode == 0) {
+                            loginguoqi();
+                        }
+                    }
+                });
+            });
+        });
+        //打开商品
+        function openGoods(goodId) {
+            H.$openWin('shop_show_header', '../shop/shop_show_header.html', {
+                goodId : goodId
+            });
+        }
+
+        //商品图片递归缓存
+        function imageCache(rets, i) {
+            if (i >= rets.length) {
+                return;
+            }
+            console.log('rets.length' + rets.length);
+            api.imageCache({
+                url : window.serverUrlPath + rets[i].img
+            }, function(ret, err) {
+                $("#goods_" + rets[i].id).attr("src", ret.url);
+                imageCache(rets, i + 1);
+            });
+        }
+    </script>
 </html>

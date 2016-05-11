@@ -61,6 +61,7 @@
 						laytpl(tpl).render(ret, function(render) {
 							document.getElementById('bbs_list_body').innerHTML = render;
 						});
+						
 					} else if (ret && ret.retCode == 0) {
 					} else if (err) {
 						api.toast({
@@ -75,5 +76,6 @@
 				id : id,
 			});
 		}
+		
 	</script>
 </html>

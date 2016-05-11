@@ -1,223 +1,237 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
-		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-		<title>诊疗body</title>
-		<link rel="stylesheet" type="text/css" href="../../css/aui.css"/>
-		<!--第一、加载样式-->		
-		<link rel="stylesheet" type="text/css" href="../../css/tools/loading.css"/>
-		<style>
-			.aui-ellipsis-pp {
-				font-size: 10px;
-				margin-bottom: 6px;
-			}
-			.aui-ellipsis-1 {
-				font-size: 14px;
-			}
-			.intro {
-				margin-top: 8px;
-			}
-			.aui-img-body i {
-				font-size: 17px;
-				font-style: normal;
-				color: #ff4300;
-				margin-left: 13px;
-			}
-			.aui-user-view-cell .aui-img-object {
-				width: 48px !important
-			}
-			.aui-user-view-cell:active {
-				background: #f5f5f5
-			}
-			.aui-content {
-				margin-bottom: 0;
-			}
-			.aui-user-view {
-				margin-bottom: 0;
-			}
-			.aui-user-view:after {
-				border-top: 0
-			}
-		</style>
-	</head>
-	<body>
-		<!--医生列表渲染-->
-		<div class="aui-content" id="doctor_list_html">
-			<!--loading-->
-			<div class="aui-text-center" id="loading" style="padding: 20px;display: none;color: rgb(167, 167, 167);font-size: 14px;">
-				<img src="../../image/loading01.gif" style="width: 45px;" />&nbsp;&nbsp;加载中...
-			</div>
-			<!--loading-->
-		</div>
-		<!--医生列表渲染-->
-		<script id="doctor_list_data" type="text/html">
-			<ul class="aui-user-view">
-			<!--加载医师信息的循环-->
-			{{# for(var i = 0, len = d.retValue.doctorObj.length; i < len; i++){ }}
-			<!--医师信息-->
-			<li class="aui-user-view-cell aui-img" tapmode onclick="to_doctor({{ d.retValue.doctorObj[i].id }},'{{ d.retValue.doctorObj[i].rongid }}','{{ d.retValue.doctorObj[i].name }}','{{ d.retValue.doctorObj[i].pic }}');">
-			<!--医师头像 start-->
-			<img class="aui-img-object aui-pull-left" src="{{ d.retValue.doctorObj[i].pic }}">
-			<!--医师头像 end-->
-			<div class="aui-img-body">
-			<span>{{ d.retValue.doctorObj[i].name }}<i>{{ d.retValue.doctorObj[i].stars }}</i>{{# if (d.retValue.doctorObj[i].isauthent == 1){ }}<em><img src="../../image/friend/rzys.png" style="width: 80px;"/></em>{{# }}}</span>
-			<p class='aui-ellipsis-1'>
-			{{ d.retValue.doctorObj[i].jobname}}
-			</p>
-			<p class="aui-ellipsis-pp">
-			{{ d.retValue.doctorObj[i].froms }}
-			</p>
-			</div>
-			<div class="aui-line-x"></div>
-			<!--医生专长 start-->
-			<h5 class="intro">专长：{{ d.retValue.doctorObj[i].expertise }}</h5>
-			<!--医生专长 end-->
-			</li>
-			<!--加载医师信息的循环-->
-			{{# } }}
-			</ul>
-		</script>
-		<!--医生列表渲染-->
-		<!--第二、显示无网络dom-->
-		<!--无网络提示 start-->
-		<div style="text-align: center" id="ic_nonetwork"><img src="../../image/loading.png" width="70" height="70" />
-			<br />
-			<span style="font-size:12px; margin-bottom: 10px;" class="aui-block"></span>
-			<div class="aui-btn aui-btn-default" id="reload_page" tapmode>
-				重新加载
-			</div>
-		</div>
-		<!--无网络提示 end-->
-	</body>
-	<script type="text/javascript" src="../../script/AHelper.js"></script>
-	<script type="text/javascript" src="../../script/zepto.min.js"></script>
-	<script type="text/javascript" src="../../script/laytpl.js"></script>
-	<script>
-		// 1.1 加载处理
-		// @page 初始化加载一页医生数据
-		// @loadLock 是否有下一页的标识
-		// @retUserObj 返回的用户对象
-		var page = 1, loadLock = false, retUserObj = null, offline = null;
-		// 2.1 图片错误则更换为noavatar.gif
-		$("img").error(function() {
-			$(this).attr('src', "../../image/noavatar.gif");
-		});
-		// 3.1 医生详情跳转
-		// @id 医生ID  string 为发起聊天做准备
-		// @rongid 融云ID（用于发起聊天）
-		// @doctorname 医生姓名 string 为发起聊天做准备
-		// @ico 医生头像 string 为发起聊天做准备
-		function to_doctor(id, rongid, doctorname, ico) {
-			H.$openWin("consulting_doctor_header", "consulting_doctor_header.html", {
-				id : id,
-				rongid : rongid,
-				name : doctorname,
-				headico : ico
-			});
-		}
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+        <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+        <title>诊疗body</title>
+        <link rel="stylesheet" type="text/css" href="../../css/aui.css"/>
+        <!--第一、加载样式-->
+        <link rel="stylesheet" type="text/css" href="../../css/tools/loading.css"/>
+        <style>
+            .aui-ellipsis-pp {
+                font-size: 10px;
+                margin-bottom: 6px;
+            }
+            .aui-ellipsis-1 {
+                font-size: 14px;
+            }
+            .intro {
+                margin-top: 8px;
+            }
+            .aui-img-body i {
+                font-size: 17px;
+                font-style: normal;
+                color: #ff4300;
+                margin-left: 13px;
+            }
+            .aui-user-view-cell .aui-img-object {
+                width: 48px !important
+            }
+            .aui-user-view-cell:active {
+                background: #f5f5f5
+            }
+            .aui-content {
+                margin-bottom: 0;
+            }
+            .aui-user-view {
+                margin-bottom: 0;
+            }
+            .aui-user-view:after {
+                border-top: 0
+            }
+        </style>
+    </head>
+    <body>
+        <!--医生列表渲染-->
+        <div class="aui-content" id="doctor_list_html">
+            <!--loading-->
+            <div class="aui-text-center" id="loading" style="padding: 20px;display: none;color: rgb(167, 167, 167);font-size: 14px;">
+                <img src="../../image/loading01.gif" style="width: 45px;" />&nbsp;&nbsp;加载中...
+            </div>
+            <!--loading-->
+        </div>
+        <!--医生列表渲染-->
+        <script id="doctor_list_data" type="text/html">
+            <ul class="aui-user-view">
+            <!--加载医师信息的循环-->
+            {{# for(var i = 0, len = d.retValue.doctorObj.length; i < len; i++){ }}
+            <!--医师信息-->
+            <li class="aui-user-view-cell aui-img" tapmode onclick="to_doctor({{ d.retValue.doctorObj[i].id }},'{{ d.retValue.doctorObj[i].rongid }}','{{ d.retValue.doctorObj[i].name }}','{{ d.retValue.doctorObj[i].pic }}');">
+            <!--医师头像 start-->
+            <img class="aui-img-object aui-pull-left" id="ys_{{ d.retValue.doctorObj[i].id }}" src="../../image/noavatar.gif">
+            <!--医师头像 end-->
+            <div class="aui-img-body">
+            <span>{{ d.retValue.doctorObj[i].name }}<i>{{ d.retValue.doctorObj[i].stars }}</i>{{# if (d.retValue.doctorObj[i].isauthent == 1){ }}<em><img src="../../image/friend/rzys.png" style="width: 80px;"/></em>{{# }}}</span>
+            <p class='aui-ellipsis-1'>
+            {{ d.retValue.doctorObj[i].jobname}}
+            </p>
+            <p class="aui-ellipsis-pp">
+            {{ d.retValue.doctorObj[i].froms }}
+            </p>
+            </div>
+            <div class="aui-line-x"></div>
+            <!--医生专长 start-->
+            <h5 class="intro">专长：{{ d.retValue.doctorObj[i].expertise }}</h5>
+            <!--医生专长 end-->
+            </li>
+            <!--加载医师信息的循环-->
+            {{# } }}
+            </ul>
+        </script>
+        <!--医生列表渲染-->
+        <!--第二、显示无网络dom-->
+        <!--无网络提示 start-->
+        <div style="text-align: center" id="ic_nonetwork"><img src="../../image/loading.png" width="70" height="70" />
+            <br />
+            <span style="font-size:12px; margin-bottom: 10px;" class="aui-block"></span>
+            <div class="aui-btn aui-btn-default" id="reload_page" tapmode>
+                重新加载
+            </div>
+        </div>
+        <!--无网络提示 end-->
+    </body>
+    <script type="text/javascript" src="../../script/AHelper.js"></script>
+    <script type="text/javascript" src="../../script/zepto.min.js"></script>
+    <script type="text/javascript" src="../../script/laytpl.js"></script>
+    <script>
+        // 1.1 加载处理
+        // @page 初始化加载一页医生数据
+        // @loadLock 是否有下一页的标识
+        // @retUserObj 返回的用户对象
+        var page = 1, loadLock = false, retUserObj = null, offline = null;
+        // 2.1 图片错误则更换为noavatar.gif
+        $("img").error(function() {
+            $(this).attr('src', "../../image/noavatar.gif");
+        });
+        // 3.1 医生详情跳转
+        // @id 医生ID  string 为发起聊天做准备
+        // @rongid 融云ID（用于发起聊天）
+        // @doctorname 医生姓名 string 为发起聊天做准备
+        // @ico 医生头像 string 为发起聊天做准备
+        function to_doctor(id, rongid, doctorname, ico) {
+            H.$openWin("consulting_doctor_header", "consulting_doctor_header.html", {
+                id : id,
+                rongid : rongid,
+                name : doctorname,
+                headico : ico
+            });
+        }
 
-		// 4.1 获取数据并渲染
-		function get_data() {
-			// 4.2 显示加载数据样式
-			$("#loading").show();
-			// 4.3 重置加载判断
-			loadLock = true;
-			// 4.4 请求ajax数据
-			api.ajax({
-				url : window.serverUrl + '/doctor_list/token/' + retUserObj.token + '/page/' + page + '/pagesize/10',
-				cache : false,
-				timeout : 6
-			}, function(ret, err) {
-				// 4.5 如果请求成功
-				if (ret && ret.retCode == 1) {
-					var t = document.getElementById('doctor_list_data').innerHTML;
-					laytpl(t).render(ret, function(render) {
-						H.$api.append(H.$api.byId("doctor_list_html"), render);
-						api.parseTapmode();
-						H.$recoverDropdownToNormal();
-						H.$api.css(H.$api.byId("loading"), "display:none");
-						$("#loading").hide();
-					});
-					console.log(ret.retValue.length);
-					if (page == ret.retValue.page) {
-						loadLock = true;
-					} else {
-						page++;
-						loadLock = false;
-					}
-				} else {
-					$("#loading").hide();
-					if (ret && ret.retCode == 0) {
-						$("#ic_nonetwork").show();
-						$("#ic_nonetwork span").text(ret.retDesc);
-					} else {
-						$("#ic_nonetwork").show();
-						$("#ic_nonetwork span").text(err.msg);
-					}
-				}
-			});
-		}
+        // 4.1 获取数据并渲染
+        function get_data() {
+            // 4.2 显示加载数据样式
+            $("#loading").show();
+            // 4.3 重置加载判断
+            loadLock = true;
+            // 4.4 请求ajax数据
+            api.ajax({
+                url : window.serverUrl + '/doctor_list/token/' + retUserObj.token + '/page/' + page + '/pagesize/10',
+                cache : false,
+                timeout : 6
+            }, function(ret, err) {
+                // 4.5 如果请求成功
+                if (ret && ret.retCode == 1) {
+                    var t = document.getElementById('doctor_list_data').innerHTML;
+                    laytpl(t).render(ret, function(render) {
+                        H.$api.append(H.$api.byId("doctor_list_html"), render);
+                        api.parseTapmode();
+                        H.$recoverDropdownToNormal();
+                        H.$api.css(H.$api.byId("loading"), "display:none");
+                        $("#loading").hide();
+                    });
+                    imageCache(ret.retValue.doctorObj, 0);
+                    console.log(ret.retValue.length);
+                    if (page == ret.retValue.page) {
+                        loadLock = true;
+                    } else {
+                        page++;
+                        loadLock = false;
+                    }
+                } else {
+                    $("#loading").hide();
+                    if (ret && ret.retCode == 0) {
+                        $("#ic_nonetwork").show();
+                        $("#ic_nonetwork span").text(ret.retDesc);
+                    } else {
+                        $("#ic_nonetwork").show();
+                        $("#ic_nonetwork span").text(err.msg);
+                    }
+                }
+            });
+        }
 
-		//获取数据并渲染
-		function Refresh_data() {
-			//请求ajax数据
-			api.ajax({
-				url : window.serverUrl + '/doctor_list/token/' + retUserObj.token + '/page/1/pagesize/10'
-			}, function(ret, err) {
-				H.$recoverDropdownToNormal();
-				if (ret && ret.retCode == 1) {
-					$("#ic_nonetwork").hide();
-					var t = document.getElementById('doctor_list_data').innerHTML;
-					laytpl(t).render(ret, function(render) {
-						H.$api.append(H.$api.byId("doctor_list_html"), render);
-						api.parseTapmode();
-						H.$api.css(H.$api.byId("loading"), "display:none");
-					});
-				} else {
-					$("#loading").hide();
-					if (ret && ret.retCode == 0) {
-						$("#ic_nonetwork").show();
-						$("#ic_nonetwork span").text(ret.retDesc);
-					} else {
-						$("#ic_nonetwork").show();
-						$("#ic_nonetwork span").text(err.msg);
-					}
-				}
-			});
-		}
+        //获取数据并渲染
+        function Refresh_data() {
+            //请求ajax数据
+            api.ajax({
+                url : window.serverUrl + '/doctor_list/token/' + retUserObj.token + '/page/1/pagesize/10'
+            }, function(ret, err) {
+                H.$recoverDropdownToNormal();
+                if (ret && ret.retCode == 1) {
+                    $("#ic_nonetwork").hide();
+                    var t = document.getElementById('doctor_list_data').innerHTML;
+                    laytpl(t).render(ret, function(render) {
+                        H.$api.append(H.$api.byId("doctor_list_html"), render);
+                        api.parseTapmode();
+                        H.$api.css(H.$api.byId("loading"), "display:none");
+                    });
+                } else {
+                    $("#loading").hide();
+                    if (ret && ret.retCode == 0) {
+                        $("#ic_nonetwork").show();
+                        $("#ic_nonetwork span").text(ret.retDesc);
+                    } else {
+                        $("#ic_nonetwork").show();
+                        $("#ic_nonetwork span").text(err.msg);
+                    }
+                }
+            });
+        }
 
-		H.ready(function() {
-			api.parseTapmode();
-			//api.refreshHeaderLoading();
-			api.getPrefs({
-				key : 'userinfo'
-			}, function(ret, err) {
-				retUserObj = eval("(" + ret.value + ")");
-				get_data();
-			});
-			/*下拉刷新*/
-			H.$dropdownToRefresh(function(ret, err) {
-				Refresh_data();
-			});
-			api.addEventListener({
-				name : 'scrolltobottom',
-				extra : {
-					threshold : -10
-				}
-			}, function(ret, err) {
-				if (loadLock == false) {
-					get_data();
-				} else {
-				}
-			});
-		});
-		Zepto(function($) {
-			// 11.0 网络重新加载处理
-			$("#reload_page").on('click', function() {
-				location.reload();
-			});
-		});
-	</script>
+
+        H.ready(function() {
+            api.parseTapmode();
+            //api.refreshHeaderLoading();
+            api.getPrefs({
+                key : 'userinfo'
+            }, function(ret, err) {
+                retUserObj = eval("(" + ret.value + ")");
+                get_data();
+            });
+            /*下拉刷新*/
+            H.$dropdownToRefresh(function(ret, err) {
+                Refresh_data();
+            });
+            api.addEventListener({
+                name : 'scrolltobottom',
+                extra : {
+                    threshold : -10
+                }
+            }, function(ret, err) {
+                if (loadLock == false) {
+                    get_data();
+                } else {
+                }
+            });
+        });
+        Zepto(function($) {
+            // 11.0 网络重新加载处理
+            $("#reload_page").on('click', function() {
+                location.reload();
+            });
+        });
+        //图片缓存
+        function imageCache(rets, i) {
+            if (i >= rets.length) {
+                return;
+            }
+            api.imageCache({
+                url : rets[i].pic
+            }, function(ret, err) {
+                $("#ys_" + rets[i].id).attr("src", ret.url);
+                imageCache(rets, i + 1);
+            });
+        }
+    </script>
 </html>
