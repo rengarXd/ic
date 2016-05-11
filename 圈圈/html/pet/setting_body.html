@@ -1,57 +1,63 @@
 <!DOCTYPE HTML>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
-		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-		<title>设置</title>
-		<link rel="stylesheet" type="text/css" href="../../css/aui.css" />
-		<link rel="stylesheet" type="text/css" href="../../css/font/iconfont.css" />
-		<style>
-			.aui-list-text {
-				font-size: 12px;
-				color: #bbb;
-				padding: 7px;
-			}
-		</style>
-	</head>
-	<body>
-		<div class="aui-content aui-list-view aui-list-text" style="border: 0px;padding-top: 10px;">
-			硬件信息：IC-00232354352
-		</div>
-		<div class="aui-content aui-list-view" style="border-top: 0px;">
-			<label class="aui-list-text" >GPS围栏</label>
-			<ul class="aui-list-view">
-				<li class="aui-list-view-cell" tapmode id="period">
-					<a class="aui-arrow-right">上报周期</a>
-				</li>
-				<li class="aui-list-view-cell" tapmode id="electronic">
-					<a class="aui-arrow-right">电子围栏 </a>
-				</li>
-			</ul>
-		</div>
-		<div class="aui-content aui-list-view" style="border-top: 0px;">
-			<label class="aui-list-text">GPS开关</label>
-			<ul class="aui-list-view aui-list-view-cell aui-switch-body">
-				<li class="aui-switch-title">
-					开启GPS
-				</li>
-				<input type="checkbox" class="aui-switch aui-switch-success aui-pull-right" checked="checked">
-			</ul>
-		</div>
-	</body>
-	<script type="text/javascript" src="../../script/AHelper.js"></script>
-	<script type="text/javascript" src="../../script/zepto.min.js"></script>
-	<script type="text/javascript">
-		Zepto(function($) {
-			$("#period").on('click',function(){
-				H.$openWin('period','period_head.html');
-			});
-			$("#electronic").on('click',function(){
-				H.$openWin('electronic_fence_head','electronic_fence_head.html');
-			});
-		});
-		H.ready(function() {
-		});
-	</script>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+        <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+        <title>设置</title>
+        <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+        <link rel="stylesheet" type="text/css" href="../../css/font/iconfont.css" />
+        <style>
+            .aui-list-text {
+                font-size: 12px;
+                color: #bbb;
+                padding: 7px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="aui-content aui-list-view aui-list-text" style="border: 0px;padding-top: 10px;">
+            硬件信息：IC-00232354352
+        </div>
+        <div class="aui-content aui-list-view" style="border-top: 0px;">
+            <label class="aui-list-text" >GPS围栏</label>
+            <ul class="aui-list-view">
+                <li class="aui-list-view-cell" tapmode id="period">
+                    <a class="aui-arrow-right">上报周期</a>
+                </li>
+                <li class="aui-list-view-cell" tapmode id="electronic">
+                    <a class="aui-arrow-right">电子围栏 </a>
+                </li>
+            </ul>
+        </div>
+        <div class="aui-content aui-list-view" style="border-top: 0px;">
+            <label class="aui-list-text">GPS开关</label>
+            <ul class="aui-list-view aui-list-view-cell aui-switch-body">
+                <li class="aui-switch-title">
+                    开启GPS
+                </li>
+                <input type="checkbox" class="aui-switch aui-switch-success aui-pull-right" checked="checked">
+            </ul>
+        </div>
+    </body>
+    <script type="text/javascript" src="../../script/AHelper.js"></script>
+    <script type="text/javascript" src="../../script/zepto.min.js"></script>
+    <script type="text/javascript">
+        Zepto(function($) {
+            $("#period").on('click', function() {
+                H.$openWin('period', 'period_head.html');
+            });
+            $("#electronic").on('click', function() {
+                api.closeFrame({
+                    name : 'trajectory'
+                });
+                api.closeFrame({
+                    name : 'position'
+                });
+                H.$openWin('electronic_fence_head', 'electronic_fence_head.html');
+            });
+        });
+        H.ready(function() {
+        });
+    </script>
 </html>

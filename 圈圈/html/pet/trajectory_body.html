@@ -1,238 +1,79 @@
 <!DOCTYPE HTML>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
-		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-		<title></title>
-		<link rel="stylesheet" type="text/css" href="../../css/aui.css" />
-		<link rel="stylesheet" type="text/css" href="../../css/font/iconfont.css" />
-	</head>
-	<body>
-		<script type="text/javascript" src="../../script/AHelper.js"></script>
-		<script type="text/javascript" src="../../script/zepto.min.js"></script>
-		<script type="text/javascript">
-			Zepto(function() {
-			});
-			// 监听来自func页面的事件
-			function addEventListenerFromFunc(eventName, callback) {
-				api.addEventListener({
-					name : eventName
-				}, function(ret) {
-					if (ret && ret.value) {
-						var obj = ret.value;
-						if ( typeof callback == "function") {
-							callback(obj);
-						}
-					}
-				});
-			}
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+        <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+        <title></title>
+        <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+        <link rel="stylesheet" type="text/css" href="../../css/font/iconfont.css" />
+    </head>
+    <body>
+        <script type="text/javascript" src="../../script/AHelper.js"></script>
+        <script type="text/javascript" src="../../script/zepto.min.js"></script>
+        <script type="text/javascript">
+            var bMap = null;
+            console.log("3333==刷新");
+            Zepto(function() {
+            });
+            H.ready(function() {
+                initBmap();
+                openBmap();
+                  //监听关闭本页面的百度地图
+                addEventListenerFromFunc("trajectoryMapClose", function(ret) {
+                    _closeBmap();
+                });
+            });
+            //初始化百度地图
+            function initBmap() {
+                bMap = api.require('bMap');
+            }
 
+            //打开地图
+            function openBmap() {
+                bMap.open({
+                    rect : {
+                        x : 0,
+                        y : 0,
+                        w : api.frameWidth,
+                        h : api.frameHeight
+                    },
+                    zoomLevel : 10,
+                    showUserLocation : true,
+                    fixedOn : api.frameName,
+                    fixed : false
+                }, function(ret) {
+                    if (ret.status) {
+                    }
+                });
+            }
 
-			H.ready(function() {
-				bMap = api.require('bMap');
-				bMap.getLocation({
-				    accuracy: '100m',
-				    autoStop: true,
-				    filter: 1
-				}, function(ret, err){
-				    if(ret.status){
-				    			bMap.open({
-								rect : {
-									x : 0,
-									y : 0,
-									w : api.frameWidth,
-									h : api.frameHeight
-								},
-								center : {
-									lon : ret.lan,
-									lat : ret.lat
-								},
-								zoomLevel : 6,
-								showUserLocation : true,
-								fixedOn : api.frameName,
-								fixed : false
-							}, function(ret) {
-								if (ret.status) {
-									
-								}
-							});
-				    
-				    
-//				        alert(JSON.stringify(ret));
-				    }else{
-				        alert(err.code);
-				    }
-				});
-				bMap.showUserLocation({
-				    isShow: true,
-				    trackingMode: 'none'
-				});
-			
-				bMap.addAnnotations({
-					annotations : [{
-						id : 1,
-						lon : 113.608029,
-						lat : 34.811695
-					}, {
-						id : 2,
-						lon : 113.608025,
-						lat : 34.821697
-					}, {
-						id : 3,
-						lon : 113.603024,
-						lat : 34.801692
-					}],
-					icon : 'widget://',
-					draggable : false
-				}, function(ret) {
-					if (ret) {
-						alert(ret.id);
-					}
-				});
-				bMap.popupBubble({
-					id : 2
-				});
-				bMap.setBubble({
-					id : 2,
-					bgImg : 'widget://res/bubble_bg.png',
-					content : {
-						title : '毛毛',
-						subTitle : '河南省郑州市惠济区沙口路8号金沙国际号楼',
-						illus : 'http://ico.ooopic.com/ajax/iconpng/?id=145044.png'
-					},
-					styles : {
-						titleColor : '#000',
-						titleSize : 14,
-						subTitleColor : '#999',
-						subTitleSize : 12,
-						illusAlign : 'left'
-					}
-				}, function(ret) {
-					if (ret) {
-						alert(JSON.stringify(ret));
-					}
-				});
-				bMap.addMobileAnnotations({
-					annotations : [{
-						id : 10,
-						lon : 116.297,
-						lat : 40.109,
-						icon : 'widget://image/bMap_car1.png'
-					}, {
-						id : 11,
-						lon : 116.98,
-						lat : 40.109,
-						icon : 'widget://image/bMap_car2.png'
-					}, {
-						id : 12,
-						lon : 115.30,
-						lat : 40.109,
-						icon : 'widget://image/bMap_car3.png'
-					}, {
-						id : 13,
-						lon : 116.297,
-						lat : 39.109,
-						icon : 'widget://image/bMap_car1.png'
-					}, {
-						id : 14,
-						lon : 116.98,
-						lat : 39.109,
-						icon : 'widget://image/bMap_car2.png'
-					}, {
-						id : 15,
-						lon : 115.30,
-						lat : 39.109,
-						icon : 'widget://image/bMap_car3.png'
-					}]
-				});
-				bMap.addLine({
-					id : 1,
-					styles : {
-						borderColor : '#000000',
-						borderWidth : 10
-					},
-					points : [{
-						lon : 113.608029,
-						lat : 34.811695
-					}, {
-						lon : 113.608025,
-						lat : 34.821697
-					}, {
-						lon : 113.603024,
-						lat : 34.801692
-					}]
-				});
-				bMap.addBillboard({
-					id : 1,
-					coords : {
-						lon : 116.233,
-						lat : 39.134
-					},
-					bgImg : 'widget://image/bMapTest.png',
-					content : {
-						title : '毛毛',
-						subTitle : '河南省郑州市惠济区沙口路8号金沙国际号楼',
-						illus : 'http://ico.ooopic.com/ajax/iconpng/?id=145044.png'
-					},
-					styles : {
-						titleColor : '#000',
-						titleSize : 16,
-						subTitleColor : '#999',
-						subTitleSize : 12,
-						illusAlign : 'left'
-					}
-				}, function(ret) {
-					if (ret) {
-						alert(JSON.stringify(ret));
-					}
-				});
-				// close 方法的使用
-				addEventListenerFromFunc("bmapClose", function(ret) {
-					bMap.close();
-					H.$toast(api.frameName + "地图窗口已被关闭");
-				});
-				// show 方法的使用
-				addEventListenerFromFunc("bmapShow", function(ret) {
-					bMap.show();
-					api.alert({
-						msg : 'show方法执行成功！'
-					}, function(ret, err) {
-					});
-				});
-				// hide 方法的使用
-				addEventListenerFromFunc("bmapHide", function(ret) {
-					bMap.hide();
-					api.alert({
-						msg : 'hide方法执行成功！'
-					}, function(ret, err) {
-					});
-				});
-				// getLocation 方法的使用
-				addEventListenerFromFunc("bmapGetLocation", function(ret) {
-					bMap.getLocation({
-						accuracy : '100m',
-						autoStop : true,
-						filter : 1
-					}, function(ret, err) {
-						if (ret.status) {
-							alert(JSON.stringify(ret));
-							api.alert({
-								msg : 'getLocation方法执行成功！'
-							}, function(ret, err) {
-							});
-						} else {
-							alert(err.code);
-						}
-					});
-				});
-				addEventListenerFromFunc("bmapShowUserLocation", function(ret) {
-					bMap.showUserLocation({
-						isShow : true,
-						trackingMode : 'none'
-					});
-				});
-			});
-		</script>
-	</body>
+            //关闭当前页面的百度地图
+            function _closeBmap() {
+                bMap.close();
+            }
+
+            //关闭position_body的地图
+            function closePositionMap() {
+                api.execScript({
+                    frameName : 'position_body',
+                    script : '_closeBmap();'
+                });
+            }
+
+            // 监听来自func页面的事件
+            function addEventListenerFromFunc(eventName, callback) {
+                api.addEventListener({
+                    name : eventName
+                }, function(ret) {
+                    if (ret && ret.value) {
+                        var obj = ret.value;
+                        if ( typeof callback == "function") {
+                            callback(obj);
+                        }
+                    }
+                });
+            }
+        </script>
+    </body>
 </html>

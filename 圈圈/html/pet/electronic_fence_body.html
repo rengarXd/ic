@@ -285,11 +285,11 @@
 				api.hideProgress();
 				//1秒延时加载
 				setTimeout(function() {
-					bMap.startSearchGPS(function(ret) {
-						if (ret.status) {
-							alert(ret.satelliteCount);
-						}
-					});
+//					bMap.startSearchGPS(function(ret) {
+//						if (ret.status) {
+//							alert(ret.satelliteCount);
+//						}
+//					});
 					getLocation();
 				}, 1000);
 				H.$getPrefs(function(ret, err) {

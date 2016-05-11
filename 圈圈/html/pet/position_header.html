@@ -1,201 +1,218 @@
 <!DOCTYPE HTML>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
-		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-		<title></title>
-		<link rel="stylesheet" type="text/css" href="../../css/aui-win.css" />
-		<link rel="stylesheet" type="text/css" href="../../css/aui.css" />
-		<link rel="stylesheet" type="text/css" href="../../css/fonts/iconfont.css" />
-		<style type="text/css">
-			.my-header {
-				background: url('../../image/bg.jpg') no-repeat;
-				background-size: cover;
-				min-height: 220px;
-				position: relative;
-			}
-			.my-info {
-				position: relative;
-				padding: 20px 0;
-				width: 100%;
-				bottom: 0;
-				text-align: center;
-				vertical-align: center;
-			}
-			.my-info img {
-				width: 80px;
-				height: 80px;
-				border-radius: 50%;
-			}
-			.my-info p.nickname {
-				margin-top: 5px;
-				color: #ffffff;
-				font-size: 18px;
-			}
-			.my-menu {
-				position: absolute;
-				width: 100%;
-				height: 45px;
-				line-height: 45px;
-				left: 0;
-				bottom: 0;
-				text-align: center;
-				background: #ffffff;
-				filter: Alpha(opacity=50);
-				background: rgba(255, 255, 255, 0.2) none repeat scroll 0 0 !important;
-				color: #ffffff;
-				font-size: 14px;
-			}
-			.my-menu .aui-col-xs-3 {
-				border-right: 1px solid #9bd6d5;
-			}
-			.my-menu .aui-col-xs-3:last-child {
-				border-right: none;
-			}
-			.my-menu > div:active {
-				background: #ffffff;
-				filter: Alpha(opacity=50);
-				background: rgba(255, 255, 255, 0.2) none repeat scroll 0 0 !important;
-			}
-			.aui-list-view-cell {
-				line-height: 26px;
-			}
-			.display-none {
-				display: none;
-			}
-			#aui-footer .aui-iconfont {
-				font-size: 25px;
-			}
-			#aui-footer {
-				background: #f7f7f7;
-			}
-			.aui-bar-1d9dd5 {
-				background: #4385f6;
-			}
-			#aui-footer li.active-1d9dd5, #aui-footer li.active-1d9dd5 span.iconfont {
-				color: #ff0000 !important;
-				background: #fff;
-			}
-			.aui-nav .aui-bar-tab {
-				background: #e5e5e5
-			}
-			.aui-nav .aui-bar-tab .active-1d9dd5 p {
-				color: #ff0000
-			}
-		</style>
-	</head>
-	<body>
-		<header class="aui-bar aui-bar-nav header aui-bar-1d9dd5" id='position-header'>
-			<a class="aui-pull-left" tapmode onclick="close_map();"> <span class="aui-iconfont aui-icon-left"></span>返回 </a>
-			<div class="aui-title">
-				位置
-			</div>
-		</header>
-		<header class="aui-bar aui-bar-nav header aui-bar-1d9dd5 display-none" id='trajectory-header'>
-			<a class="aui-pull-left" tapmode onclick="H.$closeCurrentWin();"> <span class="aui-iconfont aui-icon-left"></span>返回 </a>
-			<div class="aui-title">
-				轨迹
-			</div>
-		</header>
-		<header class="aui-bar aui-bar-nav header aui-bar-1d9dd5 display-none" id='setting-header'>
-			<a class="aui-pull-left" tapmode onclick="H.$closeCurrentWin();"> <span class="aui-iconfont aui-icon-left"></span>返回 </a>
-			<div class="aui-title">
-				设置
-			</div>
-		</header>
-		<footer class="aui-nav" id="aui-footer">
-			<ul class="aui-bar-tab">
-				<li class="active-1d9dd5" tapmode data-header="position-header" data-frameName="position">
-					<span class="aui-iconfont iconfont icon-weizhi"></span>
-					<p>
-						位置
-					</p>
-				</li>
-				<li data-header="trajectory-header" tapmode  data-frameName="trajectory">
-					<span class="aui-iconfont iconfont icon-guiji"></span>
-					<p>
-						轨迹
-					</p>
-				</li>
-				<li data-header="setting-header" tapmode  data-frameName="setting">
-					<span class="aui-iconfont iconfont icon-iconshezhi"></span>
-					<p>
-						设置
-					</p>
-				</li>
-			</ul>
-		</footer>
-	</body>
-	<script type="text/javascript" src="../../script/AHelper.js"></script>
-	<script type="text/javascript" src="../../script/zepto.min.js"></script>
-	<script type="text/javascript">
-		var frames = [];
-		// 显示指定frame
-		function showFrame(frameName) {
-			$("#aui-footer li").each(function() {
-				var fName = $(this).attr("data-frameName");
-				if (fName != frameName) {
-					H.$setFrameStatus(fName, true);
-					H.$setFrameStatus("setting_head", true);
-					H.$setFrameStatus("setting_body", true);
-				} else {
-					H.$setFrameStatus(fName, false);
-				}
-			});
-		}
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+        <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+        <title></title>
+        <link rel="stylesheet" type="text/css" href="../../css/aui-win.css" />
+        <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+        <link rel="stylesheet" type="text/css" href="../../css/fonts/iconfont.css" />
+        <style type="text/css">
+            .my-header {
+                background: url('../../image/bg.jpg') no-repeat;
+                background-size: cover;
+                min-height: 220px;
+                position: relative;
+            }
+            .my-info {
+                position: relative;
+                padding: 20px 0;
+                width: 100%;
+                bottom: 0;
+                text-align: center;
+                vertical-align: center;
+            }
+            .my-info img {
+                width: 80px;
+                height: 80px;
+                border-radius: 50%;
+            }
+            .my-info p.nickname {
+                margin-top: 5px;
+                color: #ffffff;
+                font-size: 18px;
+            }
+            .my-menu {
+                position: absolute;
+                width: 100%;
+                height: 45px;
+                line-height: 45px;
+                left: 0;
+                bottom: 0;
+                text-align: center;
+                background: #ffffff;
+                filter: Alpha(opacity=50);
+                background: rgba(255, 255, 255, 0.2) none repeat scroll 0 0 !important;
+                color: #ffffff;
+                font-size: 14px;
+            }
+            .my-menu .aui-col-xs-3 {
+                border-right: 1px solid #9bd6d5;
+            }
+            .my-menu .aui-col-xs-3:last-child {
+                border-right: none;
+            }
+            .my-menu > div:active {
+                background: #ffffff;
+                filter: Alpha(opacity=50);
+                background: rgba(255, 255, 255, 0.2) none repeat scroll 0 0 !important;
+            }
+            .aui-list-view-cell {
+                line-height: 26px;
+            }
+            .display-none {
+                display: none;
+            }
+            #aui-footer .aui-iconfont {
+                font-size: 25px;
+            }
+            #aui-footer {
+                background: #f7f7f7;
+            }
+            .aui-bar-1d9dd5 {
+                background: #4385f6;
+            }
+            #aui-footer li.active-1d9dd5, #aui-footer li.active-1d9dd5 span.iconfont {
+                color: #ff0000 !important;
+                background: #fff;
+            }
+            .aui-nav .aui-bar-tab {
+                background: #e5e5e5
+            }
+            .aui-nav .aui-bar-tab .active-1d9dd5 p {
+                color: #ff0000
+            }
+        </style>
+    </head>
+    <body>
+        <header class="aui-bar aui-bar-nav header aui-bar-1d9dd5" id='position-header'>
+            <a class="aui-pull-left" tapmode onclick="H.$closeCurrentWin();"> <span class="aui-iconfont aui-icon-left"></span>返回 </a>
+            <div class="aui-title">
+                位置
+            </div>
+        </header>
+        <header class="aui-bar aui-bar-nav header aui-bar-1d9dd5 display-none" id='trajectory-header'>
+            <a class="aui-pull-left" tapmode onclick="H.$closeCurrentWin();"> <span class="aui-iconfont aui-icon-left"></span>返回 </a>
+            <div class="aui-title">
+                轨迹
+            </div>
+        </header>
+        <header class="aui-bar aui-bar-nav header aui-bar-1d9dd5 display-none" id='setting-header'>
+            <a class="aui-pull-left" tapmode onclick="H.$closeCurrentWin();"> <span class="aui-iconfont aui-icon-left"></span>返回 </a>
+            <div class="aui-title">
+                设置
+            </div>
+        </header>
+        <footer class="aui-nav" id="aui-footer">
+            <ul class="aui-bar-tab">
+                <li class="active-1d9dd5" tapmode data-header="position-header" data-frameName="position">
+                    <span class="aui-iconfont iconfont icon-weizhi"></span>
+                    <p>
+                        位置
+                    </p>
+                </li>
+                <li data-header="trajectory-header" tapmode  data-frameName="trajectory">
+                    <span class="aui-iconfont iconfont icon-guiji"></span>
+                    <p>
+                        轨迹
+                    </p>
+                </li>
+                <li data-header="setting-header" tapmode  data-frameName="setting">
+                    <span class="aui-iconfont iconfont icon-iconshezhi"></span>
+                    <p>
+                        设置
+                    </p>
+                </li>
+            </ul>
+        </footer>
+    </body>
+    <script type="text/javascript" src="../../script/AHelper.js"></script>
+    <script type="text/javascript" src="../../script/zepto.min.js"></script>
+    <script type="text/javascript">
+        var frames = [];
+        // 显示指定frame
+        function showFrame(frameName) {
+            $("#aui-footer li").each(function() {
+                var fName = $(this).attr("data-frameName");
+                if (fName != frameName) {
+                    H.$setFrameStatus(fName, true);
+                    H.$setFrameStatus("setting_head", true);
+                    H.$setFrameStatus("setting_body", true);
+                } else {
+                    H.$setFrameStatus(fName, false);
+                }
+            });
+        }
 
-		function sendEventTobMap(eventName, data) {
-			api.showProgress({
-				style : 'default',
-				animationType : 'fade',
-				title : '努力加载中...',
-				text : '先喝杯茶...',
-				modal : false
-			});
-			data = ( typeof arguments[1] == "undefined" || arguments[1] == null) ? {} : arguments[1];
-			api.sendEvent({
-				name : eventName,
-				extra : data
-			});
-			api.hideProgress();
-		}
+        function sendEventTobMap(eventName, data) {
+            api.showProgress({
+                style : 'default',
+                animationType : 'fade',
+                title : '努力加载中...',
+                text : '先喝杯茶...',
+                modal : false
+            });
+            data = ( typeof arguments[1] == "undefined" || arguments[1] == null) ? {} : arguments[1];
+            api.sendEvent({
+                name : eventName,
+                extra : data
+            });
+            api.hideProgress();
+        }
 
-		Zepto(function($) {
-			$("#aui-footer").on("tap", "li", function() {
-				var eventName = $(this).attr("data-event");
-				sendEventTobMap(eventName);
-				var that = $(this);
-				var headerId = that.attr("data-header");
-				var frameName = that.attr("data-frameName");
-				that.addClass("active-1d9dd5").siblings("#aui-footer li").removeClass("active-1d9dd5");
-				$("#" + headerId).removeClass("display-none").siblings(".header").addClass("display-none");
-				showFrame(frameName);
-				if (frames.indexOf(frameName) == -1) {
-					frames.push(frameName);
-					// 打开新的frame
-					H.$openFrameWithNav(headerId, {
-						url : frameName + "_body.html",
-						name : frameName,
-						bounces : false
-					}, 'aui-footer');
-				}
-			});
-		});
-		H.ready(function() {
-			api.parseTapmode();
-			frames.push('position');
-			// 打开新的frame
-			H.$openFrameWithNav('position-header', {
-				url : 'position' + "_body.html",
-				name : 'position_body',
-				bounces : false
-			}, 'aui-footer');
-		});
-		function close_map() {
-			api.sendEvent('close_map');
-			api.closeWin({
-			});
-		}
-	</script>
+        Zepto(function($) {
+            $("#aui-footer").on("tap", "li", function() {
+                var eventName = $(this).attr("data-event");
+                sendEventTobMap(eventName);
+                var that = $(this);
+                var headerId = that.attr("data-header");
+                var frameName = that.attr("data-frameName");
+                that.addClass("active-1d9dd5").siblings("#aui-footer li").removeClass("active-1d9dd5");
+                $("#" + headerId).removeClass("display-none").siblings(".header").addClass("display-none");
+                showFrame(frameName);
+                console.log("frameName==" + frameName);
+                //如果是position则
+                if ("position" == frameName) {
+                    api.sendEvent({
+                        name : "trajectoryMapClose",
+                    });
+                    api.closeFrame({
+                        name : 'trajectory'
+                    });
+                    openFrame(headerId, frameName);
+                } else if ("trajectory" == frameName) {
+                    api.sendEvent({
+                        name : "positionMapClose"
+                    });
+                    api.closeFrame({
+                        name : 'position'
+                    });
+                    openFrame(headerId, frameName);
+                } else {
+                    openFrame(headerId, frameName);
+                }
+            });
+        });
+        H.ready(function() {
+            api.parseTapmode();
+            frames.push('position');
+            // 打开新的frame
+            H.$openFrameWithNav('position-header', {
+                url : 'position' + "_body.html",
+                name : 'position',
+                bounces : false,
+            }, 'aui-footer');
+        });
+        //打开Frame
+        function openFrame(headerId, frameName) {
+            // 打开新的frame
+            H.$openFrameWithNav(headerId, {
+                url : frameName + "_body.html",
+                name : frameName,
+                bounces : false,
+                reload : true
+            }, 'aui-footer');
+        }
+    </script>
 </html>
