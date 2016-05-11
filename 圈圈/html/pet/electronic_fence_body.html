@@ -135,7 +135,7 @@
 								//获取宠物坐标
 								petlon = ret.retValue[0].lon;
 								petlat = ret.retValue[0].lat;
-								//打开滑块调节
+								//打开滑块调节Frame
 								api.openFrame({
 									name : 'position_turn_button',
 									url : 'position_turn_button.html',
@@ -175,27 +175,7 @@
 				}, function(ret) {
 					if (ret) {
 						//设置点击标注时弹出的气泡信息
-						//						addBillboard(annotations[0].lon, annotations[0].lat);
-						//						console.log(annotations[0].lon + ',' + annotations[0].lat);
-						//						alert(annotations[0].lon + ',' + annotations[0].lat);
-						//						api.addEventListener({
-						//							name : 'radius'
-						//						}, function(ret, err) {
-						//							var radius = ret.value;
-						//							bMap.addCircle({
-						//								id : 4,
-						//								center : {
-						//									lon : annotations[0].lon,
-						//									lat : annotations[0].lat
-						//								},
-						//								radius : parseFloat(radius),
-						//								styles : {
-						//									borderColor : '#1786FF',
-						//									borderWidth : 4,
-						//									fillColor : 'transparent',
-						//								}
-						//							});
-						//						});
+						addBillboard(annotations[0].lon, annotations[0].lat);
 					}
 				});
 				bMap.setCenter({
@@ -213,32 +193,28 @@
 			 */
 			function addBillboard(lons, lats) {
 				setCenter(lons, lats);
-				bMap.addBillboard({
-					id : 19,
-					coords : {
-						lon : lons,
-						lat : lats
-					},
-					bgImg : 'widget://image/map_bgp.png',
-					content : {
-						title : '大毛',
-						subTitle : '13分钟前',
-						illus : 'widget://image/map_pet.png'
-					},
-					styles : {
-						titleColor : '#ffffff',
-						titleSize : 12,
-						subTitleColor : '#ffffff',
-						subTitleSize : 11,
-						illusAlign : 'left'
-					}
-				}, function(ret) {
-					if (ret) {
-						api.toast({
-							msg : JSON.stringify(ret)
-						});
-					}
-				});
+				for (var i = 0; i <= 5; i++) {
+					bMap.setBubble({
+						id : i,
+						bgImg : 'widget://image/map_bgp.png',
+						content : {
+							title : '毛毛(2016年02月28日23:43:09)',
+							subTitle : '河南省郑州市惠济区沙口路8号金沙国际号楼',
+							illus : 'widget://image/map_pet.png'
+						},
+						styles : {
+							titleColor : '#ffc000',
+							titleSize : 13,
+							subTitleColor : '#fff',
+							subTitleSize : 12,
+							illusAlign : 'left'
+						}
+					}, function(ret) {
+						if (ret) {
+							alert(JSON.stringify(ret));
+						}
+					});
+				}
 			}
 
 			/*
@@ -249,7 +225,7 @@
 				api.toast({
 					msg : '定位中',
 					duration : 1500,
-					location : 'top'
+					//					location : 'top'
 				});
 				bMap.setCenter({
 					coords : {
@@ -274,6 +250,7 @@
 				api.showProgress({
 					title : "定位中"
 				});
+				
 				//1.2、引入bMap模块
 				H.$com.isdebug('1.2、引入bMap模块');
 				bMap = api.require('bMap');
@@ -292,36 +269,6 @@
 //					});
 					getLocation();
 				}, 1000);
-				H.$getPrefs(function(ret, err) {
-					var retobj = eval('(' + ret.value + ')');
-					H.$ajax(function(ret, err) {
-						H.$toast(ret);
-						H.$hideProgress();
-						for (var i = 0; i <= 5; i++) {
-							bMap.setBubble({
-								id : i,
-								bgImg : 'widget://image/map_bgp.png',
-								content : {
-									title : '毛毛(2016年02月28日23:43:09)',
-									subTitle : '河南省郑州市惠济区沙口路8号金沙国际号楼',
-									illus : 'widget://image/map_pet.png'
-								},
-								styles : {
-									titleColor : '#ffc000',
-									titleSize : 13,
-									subTitleColor : '#fff',
-									subTitleSize : 12,
-									illusAlign : 'left'
-								}
-							}, function(ret) {
-								if (ret) {
-									alert(JSON.stringify(ret));
-								}
-							});
-						}
-						//用户设备定位API
-					}, window.deviceserverUrl + '/position/token/' + retobj.token);
-				}, 'userinfo');
 				// 定位到当前位置
 				addEventListenerFromFunc("position", function(ret) {
 					//定位到当前位置逻辑
