@@ -254,7 +254,7 @@
 										//压缩图片
 										imgCompress(returnUrl, 0.5, 0.5, getExt(returnUrl), function(compressImg) {
 											uploadFile(window.serverUrl + '/user_ico_upload/token/' + retobj.token + '/user_id/' + retobj.id, compressImg, function(serverImg) {
-												console.log(JSON.stringify(serverImg.userinfo[0]));
+//												console.log(JSON.stringify(serverImg.userinfo[0]));
 												var picurl = window.serverUrlPath + serverImg.imgdata.data;
 												H.$setPrefs(function(ret, err) {
 													$("#nopic").attr("src", picurl);
@@ -423,7 +423,7 @@
 					}, function(ret, err) {
 						if (ret.status) {
 							$("#nopic").attr("src", ret.url);
-							console.log(ret.url);
+//							console.log(ret.url);
 						}
 					});
 				}

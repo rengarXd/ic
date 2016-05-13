@@ -324,7 +324,7 @@
 						name : 'ichong',
 						sql : sqls
 					}, function(ret, err) {
-						console.log(' ret.data.length==' + ret.status);
+//						console.log(' ret.data.length==' + ret.status);
 						if (ret.status && ret.data.length > 0) {
 							$("#brige").show();
 						} else {
@@ -449,7 +449,7 @@
 				//alert(JSON.stringify(ret));
 				if (ret.type == 0) {
 					//APICloud推送内容
-					console.log(JSON.stringify(ret));
+//					console.log(JSON.stringify(ret));
 					//					api.openWin({
 					//						name : 'tip_news_header',
 					//						url : 'index/massage/tip_news_header.html',
@@ -475,8 +475,7 @@
 			//添加消息推送监听
 			var push = api.require('push');
 			push.setListener(function(ret, err) {
-				console.log(JSON.stringify(ret));
-				//				alert(JSON.stringify(ret));
+//				console.log(JSON.stringify(ret));
 				//1.1如果接受到了推送的消息
 				if (ret) {
 					for (var i = 0, l = ret.data.length; i < l; i++) {

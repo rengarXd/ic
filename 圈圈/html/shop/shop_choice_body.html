@@ -144,7 +144,7 @@
 			//1.1接受传递的型号选择数据
 			datas = eval('(' + api.pageParam.spec_array + ')');
 			for (var js2 in datas) {
-				console.log('js2==' + JSON.stringify(js2));
+//				console.log('js2==' + JSON.stringify(js2));
 				templis.push(datas[js2]);
 				typenum++;
 			}
@@ -184,8 +184,8 @@
 			$("#specList" + p + " span").eq(ii).addClass("active").siblings().removeClass('active');
 			var temp = $(".ic_type").find(".active");
 			if (parseInt(typenum) == parseInt(temp.length)) {
-				console.log('temp.length==' + temp.length);
-				console.log('typenum' + typenum);
+//				console.log('temp.length==' + temp.length);
+//				console.log('typenum' + typenum);
 				api.showProgress({
 					title : '加载中'
 				});

@@ -246,12 +246,6 @@
 				key : 'userinfo'
 			}, function(ret, err) {
 				retobj = eval('(' + ret.value + ')');
-				//				if (pjId.id) {
-				//					$("#pingjia").show();
-				//				}
-				//				if (pjId.goods_id) {
-				//					lookEvaluate();
-				//				}
 				switch (pjId.type) {
 					case 1:
 						$("#pingjia").show();
@@ -261,7 +255,6 @@
 						break;
 				}
 			});
-			console.log(JSON.stringify(pjId));
 		});
 	</script>
 </html>

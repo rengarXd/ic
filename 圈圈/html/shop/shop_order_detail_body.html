@@ -490,7 +490,7 @@
 					// "pay_status":支付状态 0：未支付; 1：已支付;
 					// "distribution_status": 配送状态 0：未发送,1：已发送,2：部分发送
 					if (result.status == 3 || result.status == 4 || result.status == 5 || result.status == 6 || result.order_status == "申请退款" || result.order_status == "部分退款") {
-						console.log(9999);
+//						console.log(9999);
 						$("#buttonsHide").hide();
 					} else if (result.pay_status == 0 && result.distribution_status == 0) {
 						$("#paynow").show();
