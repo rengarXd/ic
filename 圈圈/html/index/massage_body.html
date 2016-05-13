@@ -157,7 +157,8 @@
 					$("#systemnum").text(ret.value.data.length);
 					$("#systemtime").text(H.$com.transJsTimestamp(ret.value.data[0].time));
 					$("#systemmsg").text(ret.value.data[0].title);
-					//alert(JSON.stringify(ret));
+					
+					console.log(JSON.stringify(ret));
 				}
 			});
 			api.addEventListener({
