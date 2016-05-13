@@ -387,17 +387,13 @@
 			}, function(ret, err) {
 				if (ret.value) {
 					//12.1 查询
-					var sql = 'select * from SystemMassage where status=1 order by id desc';
+					var sql = 'select * from SystemMassage order by id desc';
 					//12.2 给详情页发查询到的数据
 					db.selectSql({
 						name : 'ichong',
 						sql : sql
 					}, function(ret, err) {
-						api.sendEvent({
-							name : 'getpagesystemmsg',
-							extra : ret
-						}, function(ret, err) {
-						});
+                        
 					});
 				} else {
 					var sql = 'select * from SystemMassage where status=0';
@@ -513,5 +509,6 @@
 				//alert(JSON.stringify(ret));
 			});
 		}
+		
 	</script>
 </html>
