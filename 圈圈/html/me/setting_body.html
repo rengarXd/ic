@@ -1,204 +1,210 @@
 <!DOCTYPE HTML>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
-		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-		<title>系统设置body</title>
-		<link rel="stylesheet" type="text/css" href="../../css/aui.css" />
-		<link rel="stylesheet" type="text/css" href="../../css/fonts/iconfont.css" />
-		<style>
-			.display-none {
-				display: none;
-			}
-			.icon-bg-70a1cd {
-				background: #70a1cd !important;
-			}
-			.icon-bg-84c9a5 {
-				background: #84c9a5 !important;
-			}
-			.icon-bg-eac14d {
-				background: #eac14d !important;
-			}
-			.icon-bg-7658f8 {
-				background: #7658f8 !important;
-			}
-			.icon-bg-e6567a {
-				background: #e6567a !important;
-			}
-			.ic_ds {
-				font-size: 12px;
-				padding: 7px;
-			}
-		</style>
-	</head>
-	<body>
-		<div class="aui-content">
-			<ul class="aui-list-view aui-in">
-				<li class="aui-list-view-cell" tapmode id="qq_token">
-					<a class="aui-arrow-right"> <i class="aui-iconfont iconfont icon-qq icon-bg-e6567a stetting-icon ic_ds"></i>QQ登录授权<span class="display-none" id="qq_bd" style="float: right;margin-right: 16px;color: #C0BCBC;">已绑定</span></a>
-				</li>
-				<li class="aui-list-view-cell" tapmode id="weixin_token">
-					<a class="aui-arrow-right"> <i class="aui-iconfont iconfont icon-iconfontweixin icon-bg-7658f8 stetting-icon ic_ds"></i>微信登录授权<span class="display-none" id="weixin_bd" style="float: right;margin-right: 16px;color: #C0BCBC;">已绑定</span></a>
-				</li>
-				<li class="aui-list-view-cell" tapmode id="weibo_token">
-					<a class="aui-arrow-right"> <i class="aui-iconfont iconfont icon-iconfontweibo icon-bg-84c9a5 stetting-icon ic_ds"></i>微博登录授权<span class="display-none" id="weibo_bd" style="float: right;margin-right: 16px;color: #C0BCBC;">已绑定</span></a>
-				</li>
-			</ul>
-		</div>
-		<div class="aui-content">
-			<ul class="aui-list-view">
-				<li class="aui-list-view-cell" id="clear-cache">
-					<a class="aui-arrow-right"> 清除缓存 <span class="aui-badge">12</span> </a>
-				</li>
-				<li class="aui-list-view-cell" id="logout">
-					<a class="aui-arrow-right"> 退出登录 </a>
-				</li>
-			</ul>
-		</div>
-	</body>
-	<script type="text/javascript" src="../../script/AHelper.js"></script>
-	<script type="text/javascript" src="../../script/zepto.min.js"></script>
-	<script type="text/javascript">
-		Zepto(function() {
-			// 清除缓存
-			$("#clear-cache").on("tap", function() {
-				api.clearCache(function(ret, err) {
-					$("#clear-cache span.aui-badge").text("0 M");
-					H.$toast("清除成功");
-				});
-			});
-			//1、退出app程序
-			$("#logout").on("tap", function() {
-				//1.1 清除islogin的偏好值
-				H.$removePrefs(function(ret, err) {
-					//1.2 清除缓存
-					api.clearCache(function(ret, err) {
-						//1.3 跳转到用户登录界面(type=1)退出登录的处理（type=2）登录失效的处理
-						H.$openWin('user_login', '../login/login_head.html', {
-							type : 1
-						});
-					});
-				}, 'islogin');
-			});
-			//2、qq一键授权登录
-			$("#qq_token").on("click", function() {
-				H.$com.isdebug('retobj.qqtoken' + retobj.qqtoken);
-				H.$getPrefs(function(ret, err) {
-					var ss = ret.qqtoken;
-					if (!ss) {
-						var retobj = eval('(' + ret.value + ')');
-						var obj = api.require('qq');
-						obj.installed(function(ret, err) {
-							if (ret.status) {
-								obj.login(function(ret, err) {
-									var qqtoken = ret.accessToken;
-									H.$showProgress();
-									H.$getPrefs(function(ret, err) {
-										H.$ajax(function(ret, err) {
-											var rtemp = ret;
-											H.$hideProgress();
-											if (ret.retCode == 0) {
-												H.$toast(ret.retDesc);
-											} else {
-												H.$toast(ret.retDesc);
-												$("#qq_bd").removeClass("display-none");
-												//H.$alert(JSON.stringify(ret.retValue));
-												//更新用户信息
-												H.$setPrefs(function(ret, err) {
-												}, 'userinfo', JSON.stringify(rtemp.retValue));
-											}
-										}, "http://122.114.90.191/apis/app_dsf_token/token/" + retobj.token + "/qqToken/" + qqtoken);
-									}, 'userinfo');
-								});
-							} else {
-								H.$toast("抱歉您的手机上没有安装手机QQ，暂无法授权");
-							}
-						});
-					}
-				}, 'userinfo');
-			});
-			$("#weixin_token").on("click", function() {
-				H.$toast("敬请期待");
-			});
-			/**
-			 * 微博一键绑定
-			 */
-			$("#weibo_token").on("click", function() {
-				H.$getPrefs(function(ret, err) {
-					var ss = ret.weibotoken;
-					if (!ss) {
-						var retobj = eval('(' + ret.value + ')');
-						var weibo = api.require('weibo');
-						weibo.auth(function(ret, err) {
-							H.$com.isdebug("微博一键绑定==" + JSON.stringify(ret));
-							if (ret.status) {
-								H.$showProgress();
-								api.ajax({
-									url : window.serverUrl + "/app_dsf_token/token/" + retobj.token,
-									cache : false,
-									data : {
-										values : {
-											weibotoken : ret.token
-										}
-									}
-								}, function(ret, err) {
-									api.hideProgress();
-									H.$setPrefs(function(ret, err) {
-									}, 'userinfo', JSON.stringify(ret.retValue));
-									if (ret) {
-										switch(ret.retCode) {
-											case 1:
-												api.toast({
-													msg : ret.retDesc
-												});
-												$("#weibo_bd").show();
-												break;
-											case 0:
-												api.toast({
-													msg : ret.retDesc
-												});
-												break;
-										}
-									} else {
-										api.toast({
-											msg : err.msg
-										});
-									}
-								});
-							} else {
-								H.$toast("抱歉绑定异常，请排查原因后再试");
-							}
-						});
-					}
-				}, 'userinfo');
-			});
-		});
-		H.ready(function() {
-			api.parseTapmode();
-			//3、获取偏好值
-			H.$getPrefs(function(ret, err) {
-				retobj = eval('(' + ret.value + ')');
-				//如果QQ已经授权过
-				if (retobj.qqtoken) {
-					$("#qq_bd").show();
-				}
-				//如果微博已经授权过
-				if (retobj.weibotoken) {
-					$("#weibo_bd").show();
-				}
-				//如果微信已经授权过
-				if (retobj.weixintoken) {
-					$("#weixin_bd").show();
-				}
-			}, 'userinfo');
-			api.getCacheSize(function(ret, err) {
-				if (ret) {
-					$("#clear-cache span.aui-badge").text((ret.size / 1000 / 1000).toFixed(2) + " M");
-				} else {
-					$("#clear-cache span.aui-badge").text("0 M");
-				}
-			});
-		});
-	</script>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+        <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+        <title>系统设置body</title>
+        <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+        <link rel="stylesheet" type="text/css" href="../../css/fonts/iconfont.css" />
+        <style>
+            .display-none {
+                display: none;
+            }
+            .icon-bg-70a1cd {
+                background: #70a1cd !important;
+            }
+            .icon-bg-84c9a5 {
+                background: #84c9a5 !important;
+            }
+            .icon-bg-eac14d {
+                background: #eac14d !important;
+            }
+            .icon-bg-7658f8 {
+                background: #7658f8 !important;
+            }
+            .icon-bg-e6567a {
+                background: #e6567a !important;
+            }
+            .ic_ds {
+                font-size: 12px;
+                padding: 7px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="aui-content">
+            <ul class="aui-list-view aui-in">
+                <li class="aui-list-view-cell" tapmode id="qq_token">
+                    <a class="aui-arrow-right"> <i class="aui-iconfont iconfont icon-qq icon-bg-e6567a stetting-icon ic_ds"></i>QQ登录授权<span class="display-none" id="qq_bd" style="float: right;margin-right: 16px;color: #C0BCBC;">已绑定</span></a>
+                </li>
+                <li class="aui-list-view-cell" tapmode id="weixin_token">
+                    <a class="aui-arrow-right"> <i class="aui-iconfont iconfont icon-iconfontweixin icon-bg-7658f8 stetting-icon ic_ds"></i>微信登录授权<span class="display-none" id="weixin_bd" style="float: right;margin-right: 16px;color: #C0BCBC;">已绑定</span></a>
+                </li>
+                <li class="aui-list-view-cell" tapmode id="weibo_token">
+                    <a class="aui-arrow-right"> <i class="aui-iconfont iconfont icon-iconfontweibo icon-bg-84c9a5 stetting-icon ic_ds"></i>微博登录授权<span class="display-none" id="weibo_bd" style="float: right;margin-right: 16px;color: #C0BCBC;">已绑定</span></a>
+                </li>
+            </ul>
+        </div>
+        <div class="aui-content">
+            <ul class="aui-list-view">
+                <li class="aui-list-view-cell" id="clear-cache">
+                    <a class="aui-arrow-right"> 清除缓存 <span class="aui-badge">12</span> </a>
+                </li>
+                <li class="aui-list-view-cell" id="logout">
+                    <a class="aui-arrow-right"> 退出登录 </a>
+                </li>
+            </ul>
+        </div>
+    </body>
+    <script type="text/javascript" src="../../script/AHelper.js"></script>
+    <script type="text/javascript" src="../../script/zepto.min.js"></script>
+    <script type="text/javascript">
+        Zepto(function() {
+            // 清除缓存
+            $("#clear-cache").on("tap", function() {
+                api.clearCache(function(ret, err) {
+                    $("#clear-cache span.aui-badge").text("0 M");
+                    H.$toast("清除成功");
+                });
+            });
+            //1、退出app程序
+            $("#logout").on("tap", function() {
+                //1.1 清除islogin的偏好值
+                H.$removePrefs(function(ret, err) {
+                    //1.2 清除缓存
+                    api.clearCache(function(ret, err) {
+                        //1.3 跳转到用户登录界面(type=1)退出登录的处理（type=2）登录失效的处理
+                        H.$openWin('user_login', '../login/login_head.html', {
+                            type : 1
+                        });
+                    });
+                }, 'islogin');
+            });
+            //2、qq一键授权登录
+            $("#qq_token").on("click", function() {
+                H.$com.isdebug('retobj.qqtoken' + retobj.qqtoken);
+                H.$getPrefs(function(ret, err) {
+                    var ss = ret.qqtoken;
+                    if (!ss) {
+                        var retobj = eval('(' + ret.value + ')');
+                        var obj = api.require('qq');
+                        obj.installed(function(ret, err) {
+                            if (ret.status) {
+                                obj.login(function(ret, err) {
+                                    if (ret.status) {
+                                        var qqtoken = ret.accessToken;
+                                        H.$showProgress();
+                                        H.$getPrefs(function(ret, err) {
+                                            H.$ajax(function(ret, err) {
+                                                var rtemp = ret;
+                                                H.$hideProgress();
+                                                if (ret.retCode == 0) {
+                                                    H.$toast(ret.retDesc);
+                                                } else {
+                                                    H.$toast(ret.retDesc);
+                                                    $("#qq_bd").removeClass("display-none");
+                                                    //H.$alert(JSON.stringify(ret.retValue));
+                                                    //更新用户信息
+                                                    H.$setPrefs(function(ret, err) {
+                                                    }, 'userinfo', JSON.stringify(rtemp.retValue));
+                                                }
+                                            }, "http://122.114.90.191/apis/app_dsf_token/token/" + retobj.token + "/qqToken/" + qqtoken);
+                                        }, 'userinfo');
+                                    }else{
+                                        api.toast({
+	                                        msg:'操作取消'
+                                        });
+                                    }
+                                });
+                            } else {
+                                H.$toast("抱歉您的手机上没有安装手机QQ，暂无法授权");
+                            }
+                        });
+                    }
+                }, 'userinfo');
+            });
+            $("#weixin_token").on("click", function() {
+                H.$toast("敬请期待");
+            });
+            /**
+             * 微博一键绑定
+             */
+            $("#weibo_token").on("click", function() {
+                H.$getPrefs(function(ret, err) {
+                    var ss = ret.weibotoken;
+                    if (!ss) {
+                        var retobj = eval('(' + ret.value + ')');
+                        var weibo = api.require('weibo');
+                        weibo.auth(function(ret, err) {
+                            H.$com.isdebug("微博一键绑定==" + JSON.stringify(ret));
+                            if (ret.status) {
+                                H.$showProgress();
+                                api.ajax({
+                                    url : window.serverUrl + "/app_dsf_token/token/" + retobj.token,
+                                    cache : false,
+                                    data : {
+                                        values : {
+                                            weibotoken : ret.token
+                                        }
+                                    }
+                                }, function(ret, err) {
+                                    api.hideProgress();
+                                    H.$setPrefs(function(ret, err) {
+                                    }, 'userinfo', JSON.stringify(ret.retValue));
+                                    if (ret) {
+                                        switch(ret.retCode) {
+                                            case 1:
+                                                api.toast({
+                                                    msg : ret.retDesc
+                                                });
+                                                $("#weibo_bd").show();
+                                                break;
+                                            case 0:
+                                                api.toast({
+                                                    msg : ret.retDesc
+                                                });
+                                                break;
+                                        }
+                                    } else {
+                                        api.toast({
+                                            msg : err.msg
+                                        });
+                                    }
+                                });
+                            } else {
+                                H.$toast("抱歉绑定异常，请排查原因后再试");
+                            }
+                        });
+                    }
+                }, 'userinfo');
+            });
+        });
+        H.ready(function() {
+            api.parseTapmode();
+            //3、获取偏好值
+            H.$getPrefs(function(ret, err) {
+                retobj = eval('(' + ret.value + ')');
+                //如果QQ已经授权过
+                if (retobj.qqtoken) {
+                    $("#qq_bd").show();
+                }
+                //如果微博已经授权过
+                if (retobj.weibotoken) {
+                    $("#weibo_bd").show();
+                }
+                //如果微信已经授权过
+                if (retobj.weixintoken) {
+                    $("#weixin_bd").show();
+                }
+            }, 'userinfo');
+            api.getCacheSize(function(ret, err) {
+                if (ret) {
+                    $("#clear-cache span.aui-badge").text((ret.size / 1000 / 1000).toFixed(2) + " M");
+                } else {
+                    $("#clear-cache span.aui-badge").text("0 M");
+                }
+            });
+        });
+    </script>
 </html>

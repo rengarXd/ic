@@ -1,575 +1,577 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<!--确保绘制和缩放的效果需要在<head>标签中添加 viewport 元数据标签-->
-		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
-		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-		<title>登录页面</title>
-		<!--引入aui框架win-->
-		<link rel="stylesheet" href="../../css/aui.css" />
-		<link rel="stylesheet" href="../../css/fonts/iconfont.css" />
-		<style>
-			html, body {
-				background: rgba(0,0,0,0);
-			}
-			.qq_bg {
-				background: #1191ff
-			}
-			/*第三方登录线*/
-			.ds_line {
-				height: 1px;
-				border-top: 1px solid #B5B5B0;
-				text-align: center;
-				margin-right: 20px;
-				margin-left: 20px;
-			}
-			.ds_desc {
-				position: relative;
-				top: -9px;
-				font-size: 12px;
-				color: #848482;
-				text-align: center
-			}
-			.qq_dsf {
-				margin-top: 30px;
-				color: #fff;
-				height: 32px;
-			}
-			.qq_login_text {
-				font-size: 13px;
-				text-align: center
-			}
-			.qq_login_icon_qq {
-				background: #ff7400;
-				padding: 10px;
-				border-radius: 50%;
-				font-size: 30px;
-				margin-bottom: 10px;
-			}
-			.qq_login_icon_weixin {
-				background: #ffc600;
-				padding: 10px;
-				border-radius: 50%;
-				font-size: 30px;
-				margin-bottom: 10px;
-			}
-			.qq_login_icon_weibo {
-				background: #0fded8;
-				padding: 10px;
-				border-radius: 50%;
-				font-size: 30px;
-				margin-bottom: 10px;
-			}
-			.qq_login_icon_qq:active {
-				background: #F79645
-			}
-			.qq_login_icon_weixin:active {
-				background: #FBD141
-			}
-			.qq_login_icon_weibo:active {
-				background: #4DC1BE
-			}
-			.qq_text {
-				text-align: center;
-				color: #000;
-				margin-top: 20px;
-				font-size: 13px;
-			}
-			.qq_login_t {
-				padding-left: 20px;
-				padding-right: 20px;
-				margin-bottom: 70px;
-			}
-			.qq_login_t a {
-				color: #6F6C6C;
-				font-size: 13px;
-				text-decoration: underline
-			}
-			.qq_login_t a:active {
-				color: #55b0f7
-			}
-			.qq_login_button {
-				-moz-border-radius: 10px;
-				-khtml-border-radius: 10px;
-				-webkit-border-radius: 10px;
-				background-color: #ff7200;
-				color: #fff;
-				padding: 9px;
-				margin-bottom: 10px;
-				border: 0 !important;
-			}
-			.qq_login_button:active {
-				background: #EE6C03
-			}
-			.qq_userpawd {
-				background-color: #fff;
-				padding: 3px 10px;
-				-moz-border-radius: 10px;
-				-khtml-border-radius: 10px;
-				-webkit-border-radius: 10px;
-				border: 0 !important;
-				margin-bottom: 20px;
-			}
-			.qq_text_white {
-				color: #fff;
-				margin-left: 6px;
-			}
-			.qq_input {
-				background-color: #3DA7FF;
-				margin-left: 10px;
-				color: #fff
-			}
-			.aui-line-x {
-				margin: 10px 0;
-			}
-			::-webkit-input-placeholder {/* WebKit browsers */
-				color: #BEBBBB;
-			}
-			:-moz-placeholder {/* Mozilla Firefox 4 to 18 */
-				color: #BEBBBB;
-			}
-			::-moz-placeholder {/* Mozilla Firefox 19+ */
-				color: #BEBBBB;
-			}
-			:-ms-input-placeholder {/* Internet Explorer 10+ */
-				color: #BEBBBB;
-			}
-			.qq_code_button {
-				float: right;
-				background-color: #f1f0f0;
-				height: 28px;
-				line-height: 16px;
-				color: #656463;
-				border: 0 !important;
-				font-size: 12px;
-				-moz-border-radius-bottomleft: 4px;
-				-moz-border-radius-bottomright: 4px;
-				-khtml-border-radius: 4px;
-				-webkit-border-bottom-left-radius: 4px;
-				-webkit-border-bottom-right-radius: 4px;
-				border-bottom-left-radius: 4px;
-				border-bottom-right-radius: 4px;
-			}
-			.aui-input-row:first-child:after {
-				border-top: 0;
-			}
-			.aui-input-row:last-child:after {
-				border-bottom: 0
-			}
-			.aui-input-row {
-				padding: 0
-			}
-			/*第三方登录线*/
-		</style>
-	</head>
-	<body>
-		<!--<header class="aui-bar aui-bar-nav qq_bg"></header>-->
-		<div class="aui-content" style="text-align: center;
-		">
-			<img src="../../image/login/login_logo.png" style="width: 154px;
-			margin-top: 60px"/>
-		</div>
-		<div class="aui-content-padded qq_login_t">
-			<div class="qq_userpawd">
-				<div class="aui-form" style="background-color: #fff;">
-					<div class="aui-input-row" style="border-top:0px">
-						<label class="aui-input-addon" style="color: #000">手机号</label>
-						<input type="tel" id="tel" data-rule="tm" data-nullmsg="手机号不能为空" data-errmsg="你输入的不是一个手机号" data-sucmsg="" style="background-color: #fff;color:#000" class="aui-input" placeholder="请输入手机号码"/>
-					</div>
-					<div class="aui-input-row" style="border-top:0px">
-						<span class="aui-input-addon" style="color: #000">验证码</span>
-						<input type="tel" id="code" style="background-color: #fff;color: #000" class="aui-input" placeholder="******"/>
-						<span class="aui-input-addon">
-							<div class="aui-btn qq_code_button" tapmode id="sendVerify" status="1" tapmode onclick="getVerify()">
-								获取验证码
-							</div> </span>
-					</div>
-				</div>
-			</div>
-			<div>
-				<button class="aui-btn aui-btn-block qq_login_button" tapmode id="app_login_btn">
-					登录
-				</button>
-			</div>
-			<div>
-				<div class="aui-col-xs-6" style="text-align: left">
-					<a href="#">变更登录名</a>
-				</div>
-				<div class="aui-col-xs-6" style="text-align: right">
-					<a href="#" id="register">注册协议</a>
-				</div>
-			</div>
-		</div>
-		<div class="aui-content" style="margin-top: 30px;">
-			<!--第三方登录开始-->
-			<div style="    height: 10px;">
-				<div class="aui-col-xs-4">
-					<div class="ds_line"></div>
-				</div>
-				<div class="aui-col-xs-4 ds_desc">
-					<span>使用其他账号登录</span>
-				</div>
-				<div class="aui-col-xs-4">
-					<div class="ds_line"></div>
-				</div>
-			</div>
-			<div class="qq_dsf">
-				<div class="aui-col-xs-4 qq_login_text" id="qq" tapmode>
-					<span class="iconfont icon-qq qq_login_icon_qq"></span>
-				</div>
-				<div class="aui-col-xs-4 qq_login_text" id="weixin" tapmode>
-					<span class="iconfont icon-iconfontweixin qq_login_icon_weixin"></span>
-				</div>
-				<div class="aui-col-xs-4 qq_login_text" id="weibo" tapmode>
-					<span class="iconfont icon-iconfontweibo qq_login_icon_weibo"></span>
-				</div>
-			</div>
-			<div class="qq_text">
-				<div class="aui-col-xs-4">
-					QQ
-				</div>
-				<div class="aui-col-xs-4">
-					微信
-				</div>
-				<div class="aui-col-xs-4">
-					微博
-				</div>
-			</div>
-			<!--第三方登录结束-->
-		</div>
-		<!--封装了APICloud大量常用的类库，内置了DOM操作，模板引擎，表单验证等常用类库-->
-		<script type="text/javascript" src="../../script/AHelper.js"></script>
-		<script type="text/javascript" src="../../script/zepto.min.js"></script>
-		<script type="text/javascript">
-			//初始化计时器
-			var times, smsVerify = null, push = null;
-			/**
-			 * 通过 ok
-			 * 1.1 验证手机号是否正确的方法方法封装 回调isTel方法 pass
-			 */
-			function verifyTel(tel) {
-				//1.2 手机号的正则
-				var a = /^((\(\d{3}\))|(\d{3}\-))?13\d{9}|14[57]\d{8}|15\d{9}|18\d{9}$/;
-				//1.3 判断手机号
-				if (tel.length != 11 || !tel.match(a)) {
-					//1.4 如果不是正确的手机号
-					H.$toast("请输入正确的手机号！");
-					//回调出去，进行具体操作（不是正常的手机号）
-					isTel(false, tel);
-				} else {
-					//1.4 如果是正确的手机号
-					//回调出去，进行具体操作（不是正常的手机号）
-					isTel(true, tel);
-				}
-			}
+    <head>
+        <meta charset="utf-8">
+        <!--确保绘制和缩放的效果需要在<head>标签中添加 viewport 元数据标签-->
+        <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+        <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+        <title>登录页面</title>
+        <!--引入aui框架win-->
+        <link rel="stylesheet" href="../../css/aui.css" />
+        <link rel="stylesheet" href="../../css/fonts/iconfont.css" />
+        <style>
+            html, body {
+                background: rgba(0,0,0,0);
+            }
+            .qq_bg {
+                background: #1191ff
+            }
+            /*第三方登录线*/
+            .ds_line {
+                height: 1px;
+                border-top: 1px solid #B5B5B0;
+                text-align: center;
+                margin-right: 20px;
+                margin-left: 20px;
+            }
+            .ds_desc {
+                position: relative;
+                top: -9px;
+                font-size: 12px;
+                color: #848482;
+                text-align: center
+            }
+            .qq_dsf {
+                margin-top: 30px;
+                color: #fff;
+                height: 32px;
+            }
+            .qq_login_text {
+                font-size: 13px;
+                text-align: center
+            }
+            .qq_login_icon_qq {
+                background: #ff7400;
+                padding: 10px;
+                border-radius: 50%;
+                font-size: 30px;
+                margin-bottom: 10px;
+            }
+            .qq_login_icon_weixin {
+                background: #ffc600;
+                padding: 10px;
+                border-radius: 50%;
+                font-size: 30px;
+                margin-bottom: 10px;
+            }
+            .qq_login_icon_weibo {
+                background: #0fded8;
+                padding: 10px;
+                border-radius: 50%;
+                font-size: 30px;
+                margin-bottom: 10px;
+            }
+            .qq_login_icon_qq:active {
+                background: #F79645
+            }
+            .qq_login_icon_weixin:active {
+                background: #FBD141
+            }
+            .qq_login_icon_weibo:active {
+                background: #4DC1BE
+            }
+            .qq_text {
+                text-align: center;
+                color: #000;
+                margin-top: 20px;
+                font-size: 13px;
+            }
+            .qq_login_t {
+                padding-left: 20px;
+                padding-right: 20px;
+                margin-bottom: 70px;
+            }
+            .qq_login_t a {
+                color: #6F6C6C;
+                font-size: 13px;
+                text-decoration: underline
+            }
+            .qq_login_t a:active {
+                color: #55b0f7
+            }
+            .qq_login_button {
+                -moz-border-radius: 10px;
+                -khtml-border-radius: 10px;
+                -webkit-border-radius: 10px;
+                background-color: #ff7200;
+                color: #fff;
+                padding: 9px;
+                margin-bottom: 10px;
+                border: 0 !important;
+            }
+            .qq_login_button:active {
+                background: #EE6C03
+            }
+            .qq_userpawd {
+                background-color: #fff;
+                padding: 3px 10px;
+                -moz-border-radius: 10px;
+                -khtml-border-radius: 10px;
+                -webkit-border-radius: 10px;
+                border: 0 !important;
+                margin-bottom: 20px;
+            }
+            .qq_text_white {
+                color: #fff;
+                margin-left: 6px;
+            }
+            .qq_input {
+                background-color: #3DA7FF;
+                margin-left: 10px;
+                color: #fff
+            }
+            .aui-line-x {
+                margin: 10px 0;
+            }
+            ::-webkit-input-placeholder {/* WebKit browsers */
+                color: #BEBBBB;
+            }
+            :-moz-placeholder {/* Mozilla Firefox 4 to 18 */
+                color: #BEBBBB;
+            }
+            ::-moz-placeholder {/* Mozilla Firefox 19+ */
+                color: #BEBBBB;
+            }
+            :-ms-input-placeholder {/* Internet Explorer 10+ */
+                color: #BEBBBB;
+            }
+            .qq_code_button {
+                float: right;
+                background-color: #f1f0f0;
+                height: 28px;
+                line-height: 16px;
+                color: #656463;
+                border: 0 !important;
+                font-size: 12px;
+                -moz-border-radius-bottomleft: 4px;
+                -moz-border-radius-bottomright: 4px;
+                -khtml-border-radius: 4px;
+                -webkit-border-bottom-left-radius: 4px;
+                -webkit-border-bottom-right-radius: 4px;
+                border-bottom-left-radius: 4px;
+                border-bottom-right-radius: 4px;
+            }
+            .aui-input-row:first-child:after {
+                border-top: 0;
+            }
+            .aui-input-row:last-child:after {
+                border-bottom: 0
+            }
+            .aui-input-row {
+                padding: 0
+            }
+            /*第三方登录线*/
+        </style>
+    </head>
+    <body>
+        <!--<header class="aui-bar aui-bar-nav qq_bg"></header>-->
+        <div class="aui-content" style="text-align: center;
+        ">
+            <img src="../../image/login/login_logo.png" style="width: 154px;
+            margin-top: 60px"/>
+        </div>
+        <div class="aui-content-padded qq_login_t">
+            <div class="qq_userpawd">
+                <div class="aui-form" style="background-color: #fff;">
+                    <div class="aui-input-row" style="border-top:0px">
+                        <label class="aui-input-addon" style="color: #000">手机号</label>
+                        <input type="tel" id="tel" data-rule="tm" data-nullmsg="手机号不能为空" data-errmsg="你输入的不是一个手机号" data-sucmsg="" style="background-color: #fff;color:#000" class="aui-input" placeholder="请输入手机号码"/>
+                    </div>
+                    <div class="aui-input-row" style="border-top:0px">
+                        <span class="aui-input-addon" style="color: #000">验证码</span>
+                        <input type="tel" id="code" style="background-color: #fff;color: #000" class="aui-input" placeholder="******"/>
+                        <span class="aui-input-addon">
+                            <div class="aui-btn qq_code_button" tapmode id="sendVerify" status="1" tapmode onclick="getVerify()">
+                                获取验证码
+                            </div> </span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button class="aui-btn aui-btn-block qq_login_button" tapmode id="app_login_btn">
+                    登录
+                </button>
+            </div>
+            <div>
+                <div class="aui-col-xs-6" style="text-align: left">
+                    <a href="#">变更登录名</a>
+                </div>
+                <div class="aui-col-xs-6" style="text-align: right">
+                    <a href="#" id="register">注册协议</a>
+                </div>
+            </div>
+        </div>
+        <div class="aui-content" style="margin-top: 30px;">
+            <!--第三方登录开始-->
+            <div style="    height: 10px;">
+                <div class="aui-col-xs-4">
+                    <div class="ds_line"></div>
+                </div>
+                <div class="aui-col-xs-4 ds_desc">
+                    <span>使用其他账号登录</span>
+                </div>
+                <div class="aui-col-xs-4">
+                    <div class="ds_line"></div>
+                </div>
+            </div>
+            <div class="qq_dsf">
+                <div class="aui-col-xs-4 qq_login_text" id="qq" tapmode>
+                    <span class="iconfont icon-qq qq_login_icon_qq"></span>
+                </div>
+                <div class="aui-col-xs-4 qq_login_text" id="weixin" tapmode>
+                    <span class="iconfont icon-iconfontweixin qq_login_icon_weixin"></span>
+                </div>
+                <div class="aui-col-xs-4 qq_login_text" id="weibo" tapmode>
+                    <span class="iconfont icon-iconfontweibo qq_login_icon_weibo"></span>
+                </div>
+            </div>
+            <div class="qq_text">
+                <div class="aui-col-xs-4">
+                    QQ
+                </div>
+                <div class="aui-col-xs-4">
+                    微信
+                </div>
+                <div class="aui-col-xs-4">
+                    微博
+                </div>
+            </div>
+            <!--第三方登录结束-->
+        </div>
+        <!--封装了APICloud大量常用的类库，内置了DOM操作，模板引擎，表单验证等常用类库-->
+        <script type="text/javascript" src="../../script/AHelper.js"></script>
+        <script type="text/javascript" src="../../script/zepto.min.js"></script>
+        <script type="text/javascript">
+            //初始化计时器
+            var times, smsVerify = null, push = null;
+            /**
+             * 通过 ok
+             * 1.1 验证手机号是否正确的方法方法封装 回调isTel方法 pass
+             */
+            function verifyTel(tel) {
+                //1.2 手机号的正则
+                var a = /^((\(\d{3}\))|(\d{3}\-))?13\d{9}|14[57]\d{8}|15\d{9}|18\d{9}$/;
+                //1.3 判断手机号
+                if (tel.length != 11 || !tel.match(a)) {
+                    //1.4 如果不是正确的手机号
+                    H.$toast("请输入正确的手机号！");
+                    //回调出去，进行具体操作（不是正常的手机号）
+                    isTel(false, tel);
+                } else {
+                    //1.4 如果是正确的手机号
+                    //回调出去，进行具体操作（不是正常的手机号）
+                    isTel(true, tel);
+                }
+            }
 
-			/**
-			 * 通过 ok
-			 * 2.1 如果验证成功进行验证码发送
-			 */
-			function isTel(is, tel) {
-				// 2.2 获取发送验证码对象
-				var sendVerify = H.$api.byId('sendVerify');
-				//2.3 获取状态字段（阻断发送多次发送短信）
-				var status = H.$api.attr(sendVerify, 'status');
-				if (status != 1) {
-					return;
-				}
-				//2.4 如果手机号通过
-				if (is) {
-					// 2.6 进行短信的注册
-					smsVerify.register(function(ret, err) {
-						// 2.7 如果注册成功
-						if (ret.status) {
-							//api.alert({msg: '注册成功'});
-						} else {
-							//api.alert({msg: err.code+' 注册失败'});
-						}
-					});
-					// 2.7 发送短信
-					smsVerify.sms({
-						phone : tel,
-						country : "86"
-					}, function(ret, err) {
-						// 2.8 如果发送成功
-						if (ret.status) {
-							// 2.9 如果安卓手机智能验证成功
-							if (ret.smart == true) {
-								// 2.10 提示智能验证成功
-								H.$toast("您的手机在此设备曾经登陆过，已智能验证成功！");
-								// 2.11 显示阻塞页面
-								H.$showProgress({
-									title : '登录中'
-								});
-								// 2.12 获取用户信息
-								api.ajax({
-									url : window.serverUrl + '/user_login/tel/' + tel + '/code/0000',
-								}, function(ret, err) {
-									H.$hideProgress();
-									// 2.13 如果返回信息成功
-									if (ret && ret.retCode == 1) {
-										// 2.14 标识用户登录成功下次直接进入
-										H.$setPrefs(function(ret, err) {
-										}, 'islogin', 'ok');
-										console.log(JSON.stringify(ret.retValue))
-										// 2.15 存储用户信息（userinfo 全局共享）
-										H.$setPrefs(function(ret, err) {
-											// 2.16 发送全局加载事件更新刷新页面
-											api.sendEvent({
-												name : 'pagereload'
-											});
-											// 2.17 跳转到main页面
-											H.$openWin('main', '../main.html');
-										}, 'userinfo', JSON.stringify(ret.retValue));
-										//2.18绑定用户推送
-										push.bind({
-											userName : ret.retValue.tel,
-											userId : ret.retValue.id
-										}, function(ret, err) {
-											console.log(JSON.stringify(ret));
-											if (ret.status) {
-												//api.alert({msg:'绑定成功'});
-												console.log('绑定成功');
-											} else {
-//												api.alert({
-//													msg : err.msg
-//												});
-												console.log(err.msg);
-											}
-										});
-									} else {
-										// 2.18 如果返回状态码错误
-										if (ret && ret.retCode == 0) {
-											// 2.19 显示服务器返回的错误信息
-											H.$toast(ret.retDesc);
-										} else {
-											// 2.20 隐藏阻塞页面
-											H.$hideProgress();
-											// 2.21 提示网络错误信息
-											H.$toast(err.body);
-										}
-									}
-								});
-							} else {
-								H.$toast("验证短信发送成功，请注意查收！");
-							}
-						} else {
-							// 2.22 提示验证码错误失败原因
-							H.$toast("验证码发送失败原因：" + err.msg);
-							// 2.23 重置发送状态
-							H.$api.attr(sendVerify, 'status', '1');
-						}
-					});
-					H.$api.attr(sendVerify, 'status', '0');
-					H.$api.removeAttr(sendVerify, 'onclick');
-					H.$api.html(sendVerify, '<span id="getVerify">60</span>S');
-					times = 59;
-					isinerval = setInterval("CountDown()", 1000);
-				} else {
-					// 2.25 上面已有处理
-				}
-			}
+            /**
+             * 通过 ok
+             * 2.1 如果验证成功进行验证码发送
+             */
+            function isTel(is, tel) {
+                // 2.2 获取发送验证码对象
+                var sendVerify = H.$api.byId('sendVerify');
+                //2.3 获取状态字段（阻断发送多次发送短信）
+                var status = H.$api.attr(sendVerify, 'status');
+                if (status != 1) {
+                    return;
+                }
+                //2.4 如果手机号通过
+                if (is) {
+                    // 2.6 进行短信的注册
+                    smsVerify.register(function(ret, err) {
+                        // 2.7 如果注册成功
+                        if (ret.status) {
+                            //api.alert({msg: '注册成功'});
+                        } else {
+                            //api.alert({msg: err.code+' 注册失败'});
+                        }
+                    });
+                    // 2.7 发送短信
+                    smsVerify.sms({
+                        phone : tel,
+                        country : "86"
+                    }, function(ret, err) {
+                        // 2.8 如果发送成功
+                        if (ret.status) {
+                            // 2.9 如果安卓手机智能验证成功
+                            if (ret.smart == true) {
+                                // 2.10 提示智能验证成功
+                                H.$toast("您的手机在此设备曾经登陆过，已智能验证成功！");
+                                // 2.11 显示阻塞页面
+                                H.$showProgress({
+                                    title : '登录中'
+                                });
+                                // 2.12 获取用户信息
+                                api.ajax({
+                                    url : window.serverUrl + '/user_login/tel/' + tel + '/code/0000',
+                                }, function(ret, err) {
+                                    H.$hideProgress();
+                                    // 2.13 如果返回信息成功
+                                    if (ret && ret.retCode == 1) {
+                                        // 2.14 标识用户登录成功下次直接进入
+                                        H.$setPrefs(function(ret, err) {
+                                        }, 'islogin', 'ok');
+                                        console.log(JSON.stringify(ret.retValue))
+                                        // 2.15 存储用户信息（userinfo 全局共享）
+                                        H.$setPrefs(function(ret, err) {
+                                            // 2.16 发送全局加载事件更新刷新页面
+                                            api.sendEvent({
+                                                name : 'pagereload'
+                                            });
+                                            // 2.17 跳转到main页面
+                                            H.$openWin('main', '../main.html');
+                                        }, 'userinfo', JSON.stringify(ret.retValue));
+                                        //2.18绑定用户推送
+                                        push.bind({
+                                            userName : ret.retValue.tel,
+                                            userId : ret.retValue.id
+                                        }, function(ret, err) {
+                                            console.log(JSON.stringify(ret));
+                                            if (ret.status) {
+                                                //api.alert({msg:'绑定成功'});
+                                                console.log('绑定成功');
+                                            } else {
+                                                //												api.alert({
+                                                //													msg : err.msg
+                                                //												});
+                                                console.log(err.msg);
+                                            }
+                                        });
+                                    } else {
+                                        // 2.18 如果返回状态码错误
+                                        if (ret && ret.retCode == 0) {
+                                            // 2.19 显示服务器返回的错误信息
+                                            H.$toast(ret.retDesc);
+                                        } else {
+                                            // 2.20 隐藏阻塞页面
+                                            H.$hideProgress();
+                                            // 2.21 提示网络错误信息
+                                            H.$toast(err.body);
+                                        }
+                                    }
+                                });
+                            } else {
+                                H.$toast("验证短信发送成功，请注意查收！");
+                            }
+                        } else {
+                            // 2.22 提示验证码错误失败原因
+                            H.$toast("验证码发送失败原因：" + err.msg);
+                            // 2.23 重置发送状态
+                            H.$api.attr(sendVerify, 'status', '1');
+                        }
+                    });
+                    H.$api.attr(sendVerify, 'status', '0');
+                    H.$api.removeAttr(sendVerify, 'onclick');
+                    H.$api.html(sendVerify, '<span id="getVerify">60</span>S');
+                    times = 59;
+                    isinerval = setInterval("CountDown()", 1000);
+                } else {
+                    // 2.25 上面已有处理
+                }
+            }
 
-			/**
-			 * 通过 ok
-			 * 3.1 获取验证码方法（获取当前输入的手机号的值，执行验证方法）
-			 */
-			function getVerify() {
-				verifyTel(H.$api.val(H.$api.byId('tel')));
-			}
+            /**
+             * 通过 ok
+             * 3.1 获取验证码方法（获取当前输入的手机号的值，执行验证方法）
+             */
+            function getVerify() {
+                verifyTel(H.$api.val(H.$api.byId('tel')));
+            }
 
-			/**
-			 * 通过 ok
-			 * 计时器
-			 */
-			function CountDown() {
-				if (times < 1) {
-					var sendVerify = H.$api.byId('sendVerify');
-					H.$api.attr(sendVerify, 'onclick', 'getVerify()');
-					H.$api.attr(sendVerify, 'status', '1');
-					api.parseTapmode();
-					H.$api.html(sendVerify, '重新获取');
-					clearInterval(isinerval);
-					return;
-				}
-				var getVerify = H.$api.byId('getVerify');
-				H.$api.html(getVerify, '' + times + '');
-				times--;
-			}
+            /**
+             * 通过 ok
+             * 计时器
+             */
+            function CountDown() {
+                if (times < 1) {
+                    var sendVerify = H.$api.byId('sendVerify');
+                    H.$api.attr(sendVerify, 'onclick', 'getVerify()');
+                    H.$api.attr(sendVerify, 'status', '1');
+                    api.parseTapmode();
+                    H.$api.html(sendVerify, '重新获取');
+                    clearInterval(isinerval);
+                    return;
+                }
+                var getVerify = H.$api.byId('getVerify');
+                H.$api.html(getVerify, '' + times + '');
+                times--;
+            }
 
-			Zepto(function($) {
-				// 3.1 登录按钮被点击
-				$("#app_login_btn").on("tap", function() {
-					// 3.2 获取手机号
-					var tel = H.$api.val(H.$api.byId('tel'));
-					// 3.3 获取验证码
-					var code = H.$api.val(H.$api.byId('code'));
-					//3.4 手机号的正则
-					var a = /^((\(\d{3}\))|(\d{3}\-))?13\d{9}|14[57]\d{8}|15\d{9}|18\d{9}$/;
-					if (tel.length != 11 || !tel.match(a)) {
-						H.$toast("请输入正确的手机号！");
-						return;
-					} else {
-						if (code.length != 4) {
-							H.$toast("验证码格式错误！");
-							return;
-						} else {
-							// 3.5 注册验证
-							smsVerify.register(function(ret, err) {
-								if (ret.status) {
-									api.showProgress({
-										title : '登录中'
-									});
-									//校验验证码
-									smsVerify.verify({
-										phone : tel,
-										country : "86",
-										code : code
-									}, function(ret, err) {
-										if (ret.status) {
-											H.$ajax(function(ret, err) {
-												H.$hideProgress();
-												if (ret && ret.retCode == 1) {
-													//设置偏好值islogin
-													H.$setPrefs(function(ret, err) {
-													}, 'islogin', 'ok');
-													//存储用户信息
-													H.$setPrefs(function(ret, err) {
-													}, 'userinfo', JSON.stringify(ret.retValue));
-													api.sendEvent({
-														name : 'pagereload',
-													});
-													H.$openWin('main', '../main.html');
-													//绑定用户推送
-													push.bind({
-														userName : ret.retValue.tel,
-														userId : ret.retValue.id
-													}, function(ret, err) {
-														console.log(JSON.stringify(ret));
-														if (ret.status) {
-															//api.alert({msg:'绑定成功'});
-														} else {
-															//api.alert({msg:err.msg});
-														}
-													});
-												} else {
-													H.$hideProgress();
-													H.$toast("抱歉，手机号信息错误，请核对！");
-													return;
-												}
-											}, window.serverUrl + '/user_login/tel/' + tel + '/code/' + code);
-										} else {
-											H.$hideProgress();
-											H.$toast("抱歉" + err.msg);
-											return;
-										}
-									});
-								} else {
-									H.$hideProgress();
-									H.$tosat("抱歉，登录异常，请稍后再试！");
-									return;
-								}
-							});
-						}
-					}
-				});
-				$('#qq').on("click", function() {
-					var obj = api.require('qq');
-					obj.installed(function(ret, err) {
-						if (ret.status) {
-							obj.login(function(ret, err) {
-								H.$showProgress();
-								H.$ajax(function(ret, err) {
-									if (ret.retCode == 0) {
-										H.$hideProgress();
-										H.$alert(ret.retDesc);
-									} else {
-										H.$hideProgress();
-										H.$setPrefs(function(ret, err) {
-										}, 'islogin', 'ok');
-										//存储用户信息
-										H.$setPrefs(function(ret, err) {
-											H.$openWin('main', '../main.html');
-										}, 'userinfo', JSON.stringify(ret.retValue[0]));
-										push.bind({
-											userName : ret.retValue[0].tel,
-											userId : ret.retValue[0].id
-										}, function(ret, err) {
-											if (ret.status) {
-												//api.alert({msg:'绑定成功'});
-											} else {
-												//api.alert({msg:err.msg});
-											}
-										});
-									}
-								}, window.serverUrl + '/app_token/qq/1/token/' + ret.accessToken);
-							});
-						} else {
-							H.$toast("抱歉，您的手机上没有安装QQ");
-						}
-					});
-				});
-				$('#weixin').on("click", function() {
-					H.$toast("敬请期待");
-				});
-				$('#weibo').on("click", function() {
-					//H.$toast("微博登录");
-					var weibo = api.require('weibo');
-					weibo.auth(function(ret, err) {
-						H.$showProgress();
-						if (ret.status) {
-							H.$hideProgress();
-							H.$ajax(function(ret, err) {
-								if (ret.retCode == 0) {
-									H.$hideProgress();
-									H.$alert(ret.retDesc);
-								} else {
-									H.$hideProgress();
-									H.$setPrefs(function(ret, err) {
-									}, 'islogin', 'ok');
-									//存储用户信息
-									H.$setPrefs(function(ret, err) {
-										H.$openWin('main', '../main.html');
-									}, 'userinfo', JSON.stringify(ret.retValue[0]));
-								}
-							}, window.serverUrl + '/app_token/weibo/1/token/' + ret.token);
-						} else {
-							H.$hideProgress();
-							H.$toast("抱歉，微博认证异常，您可以选择使用其他方式登录");
-						}
-					});
-				});
-				$('#register').on("tap", function() {
-					H.$openWin('register_agreement_header', 'register_agreement_header.html');
-				})
-			});
-			//所有的代码都写在H.ready(function(){})
-			H.ready(function() {
-				api.parseTapmode();
-				// 3.1 初始化短信模块
-				smsVerify = api.require('smsVerify');
-				// 4.1 初始化push对象
-				push = api.require('push');
-				// 3.2 优化点击
-				api.parseTapmode();
-				var types = H.$getPageParam();
-				//1.(type=1)退出登录的处理（type=2）登录失效的处理
-				switch (types.type) {
-					case 1 :
-						api.closeWin({
-							name : 'main'
-						});
-						break;
-					case 2:
-						api.closeWin({
-							name : 'main'
-						});
-						break;
-				}
-				H.$dblclickToCloseApp(function() {
-				});
-			});
-		</script>
-	</body>
+            Zepto(function($) {
+                // 3.1 登录按钮被点击
+                $("#app_login_btn").on("tap", function() {
+                    // 3.2 获取手机号
+                    var tel = H.$api.val(H.$api.byId('tel'));
+                    // 3.3 获取验证码
+                    var code = H.$api.val(H.$api.byId('code'));
+                    //3.4 手机号的正则
+                    var a = /^((\(\d{3}\))|(\d{3}\-))?13\d{9}|14[57]\d{8}|15\d{9}|18\d{9}$/;
+                    if (tel.length != 11 || !tel.match(a)) {
+                        H.$toast("请输入正确的手机号！");
+                        return;
+                    } else {
+                        if (code.length != 4) {
+                            H.$toast("验证码格式错误！");
+                            return;
+                        } else {
+                            // 3.5 注册验证
+                            smsVerify.register(function(ret, err) {
+                                if (ret.status) {
+                                    api.showProgress({
+                                        title : '登录中'
+                                    });
+                                    //校验验证码
+                                    smsVerify.verify({
+                                        phone : tel,
+                                        country : "86",
+                                        code : code
+                                    }, function(ret, err) {
+                                        if (ret.status) {
+                                            H.$ajax(function(ret, err) {
+                                                H.$hideProgress();
+                                                if (ret && ret.retCode == 1) {
+                                                    //设置偏好值islogin
+                                                    H.$setPrefs(function(ret, err) {
+                                                    }, 'islogin', 'ok');
+                                                    //存储用户信息
+                                                    H.$setPrefs(function(ret, err) {
+                                                    }, 'userinfo', JSON.stringify(ret.retValue));
+                                                    api.sendEvent({
+                                                        name : 'pagereload',
+                                                    });
+                                                    H.$openWin('main', '../main.html');
+                                                    //绑定用户推送
+                                                    push.bind({
+                                                        userName : ret.retValue.tel,
+                                                        userId : ret.retValue.id
+                                                    }, function(ret, err) {
+                                                        console.log(JSON.stringify(ret));
+                                                        if (ret.status) {
+                                                            //api.alert({msg:'绑定成功'});
+                                                        } else {
+                                                            //api.alert({msg:err.msg});
+                                                        }
+                                                    });
+                                                } else {
+                                                    H.$hideProgress();
+                                                    H.$toast("抱歉，手机号信息错误，请核对！");
+                                                    return;
+                                                }
+                                            }, window.serverUrl + '/user_login/tel/' + tel + '/code/' + code);
+                                        } else {
+                                            H.$hideProgress();
+                                            H.$toast("抱歉" + err.msg);
+                                            return;
+                                        }
+                                    });
+                                } else {
+                                    H.$hideProgress();
+                                    H.$tosat("抱歉，登录异常，请稍后再试！");
+                                    return;
+                                }
+                            });
+                        }
+                    }
+                });
+                $('#qq').on("click", function() {
+                    var obj = api.require('qq');
+                    obj.installed(function(ret, err) {
+                        if (ret.status) {
+                            obj.login(function(ret, err) {
+                                if (ret.status) {
+                                    H.$showProgress();
+                                    H.$ajax(function(ret, err) {
+                                        if (ret.retCode == 0) {
+                                            H.$hideProgress();
+                                            H.$alert(ret.retDesc);
+                                        } else {
+                                            H.$hideProgress();
+                                            H.$setPrefs(function(ret, err) {
+                                            }, 'islogin', 'ok');
+                                            //存储用户信息
+                                            H.$setPrefs(function(ret, err) {
+                                                H.$openWin('main', '../main.html');
+                                            }, 'userinfo', JSON.stringify(ret.retValue));
+                                            push.bind({
+                                                userName : ret.retValue.tel,
+                                                userId : ret.retValue.id
+                                            }, function(ret, err) {
+                                                if (ret.status) {
+                                                    //api.alert({msg:'绑定成功'});
+                                                } else {
+                                                    //api.alert({msg:err.msg});
+                                                }
+                                            });
+                                        }
+                                    }, window.serverUrl + '/app_token/qq/1/token/' + ret.accessToken);
+                                }
+                            });
+                        } else {
+                            H.$toast("抱歉，您的手机上没有安装QQ");
+                        }
+                    });
+                });
+                $('#weixin').on("click", function() {
+                    H.$toast("敬请期待");
+                });
+                $('#weibo').on("click", function() {
+                    //H.$toast("微博登录");
+                    var weibo = api.require('weibo');
+                    weibo.auth(function(ret, err) {
+                        H.$showProgress();
+                        if (ret.status) {
+                            H.$hideProgress();
+                            H.$ajax(function(ret, err) {
+                                if (ret.retCode == 0) {
+                                    H.$hideProgress();
+                                    H.$alert(ret.retDesc);
+                                } else {
+                                    H.$hideProgress();
+                                    H.$setPrefs(function(ret, err) {
+                                    }, 'islogin', 'ok');
+                                    //存储用户信息
+                                    H.$setPrefs(function(ret, err) {
+                                        H.$openWin('main', '../main.html');
+                                    }, 'userinfo', JSON.stringify(ret.retValue));
+                                }
+                            }, window.serverUrl + '/app_token/weibo/1/token/' + ret.token);
+                        } else {
+                            H.$hideProgress();
+                            H.$toast("抱歉，微博认证异常，您可以选择使用其他方式登录");
+                        }
+                    });
+                });
+                $('#register').on("tap", function() {
+                    H.$openWin('register_agreement_header', 'register_agreement_header.html');
+                })
+            });
+            //所有的代码都写在H.ready(function(){})
+            H.ready(function() {
+                api.parseTapmode();
+                // 3.1 初始化短信模块
+                smsVerify = api.require('smsVerify');
+                // 4.1 初始化push对象
+                push = api.require('push');
+                // 3.2 优化点击
+                api.parseTapmode();
+                var types = H.$getPageParam();
+                //1.(type=1)退出登录的处理（type=2）登录失效的处理
+                switch (types.type) {
+                    case 1 :
+                        api.closeWin({
+                            name : 'main'
+                        });
+                        break;
+                    case 2:
+                        api.closeWin({
+                            name : 'main'
+                        });
+                        break;
+                }
+                H.$dblclickToCloseApp(function() {
+                });
+            });
+        </script>
+    </body>
 </html>
