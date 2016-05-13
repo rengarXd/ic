@@ -454,12 +454,22 @@
 				if (ret.type == 0) {
 					//APICloud推送内容
 					console.log(JSON.stringify(ret));
-					//					H.$openWin("tip_news_header", "", )
-					api.openWin({
-						name : 'tip_news_header',
-						url : 'index/massage/tip_news_header.html',
-						pageParam : {
-							id : ret.value
+					//					api.openWin({
+					//						name : 'tip_news_header',
+					//						url : 'index/massage/tip_news_header.html',
+					//						pageParam : {
+					//							id : ret.value
+					//						}
+					//					});
+					var value = ret.value;
+					api.sendEvent({
+						name : 'addsystemmsg',
+						extra : {
+							title : '推送消息通知',
+							content : value,
+							status : 0,
+							time : Date.parse(new Date()),
+							type : 1
 						}
 					});
 				} else if (ret.type == 1) {
