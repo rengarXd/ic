@@ -1,77 +1,93 @@
 <!DOCTYPE HTML>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
-		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-		<title>系统消息推送body</title>
-		<link rel="stylesheet" type="text/css" href="../../../css/aui.css" />
-		<link rel="stylesheet" type="text/css" href="../../../css/tools/loading.css" />
-		<style>
-			.ic_massage_title {
-				margin: 10px 0;
-			}
-		</style>
-	</head>
-	<script id="massage_data" type="text/html">
-		{{# for(var i = 0, len = d.data.length; i < len; i++){ }}
-		<h6 class="aui-text-center ic_massage_title"> {{ H.$com.transJsTimestamp(d.data[i].time) }} </h6>
-		<div class="aui-card">
-		<ul class="aui-list-view">
-		<li class="aui-list-view-cell">
-		{{# if(d.data[i].title != "undefined") { }}
-		<h2>{{ d.data[i].title }}</h2>
-		{{# } }}
-		<p>
-		{{ d.data[i].content }}<br />
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+        <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+        <title>系统消息推送body</title>
+        <link rel="stylesheet" type="text/css" href="../../../css/aui.css" />
+        <link rel="stylesheet" type="text/css" href="../../../css/tools/loading.css" />
+        <style>
+            .ic_massage_title {
+                margin: 10px 0;
+            }
+        </style>
+    </head>
+    <script id="massage_data" type="text/html">
+        {{# for(var i = 0, len = d.data.length; i < len; i++){ }}
+        <h6 class="aui-text-center ic_massage_title"> {{ H.$com.transJsTimestamp(d.data[i].time) }} </h6>
+        <div class="aui-card">
+        <ul class="aui-list-view">
+        <li class="aui-list-view-cell">
+        {{# if(d.data[i].title != "undefined") { }}
+        <h2>{{ d.data[i].title }}</h2>
+        {{# } }}
+        <p>
+        {{ d.data[i].content }}<br />
+        </p>
+        </li>
+        </ul>
+        </div>
+        {{# } }}
+    </script>
+    <body style="padding-top: 12px;" id="massage_data_body">
+        <!--页面加载中-->
+        <div style="text-align: center" id="ic_loading"><img src="../../../image/loading.png" width="70" height="70" />
+            <br />
+            <span>暂无系统消息</span>
+        </div>
+        <!--页面加载中-->
+    </body>
+    <script type="text/javascript" src="../../../script/AHelper.js"></script>
+    <script type="text/javascript" src="../../../script/laytpl.js"></script>
+    <script type="text/javascript">
+        var db = null;
+        H.ready(function() {
+            initDb();
+            initSystemMsgData(function(ret) {
+                _readerData(ret);
+                changeSystemStatus();
+            });
+        });
+        
+        //初始化DB模块
+        function initDb() {
+            db = api.require('db');
+        }
 
-		</p>
-		</li>
-		</ul>
-		</div>
-		{{# } }}
-	</script>
-	<body style="padding-top: 12px;" id="massage_data_body">
-		<!--页面加载中-->
-		<div style="text-align: center" id="ic_loading"><img src="../../../image/loading.png" width="70" height="70" />
-			<br />
-			<span>暂无系统消息</span>
-		</div>
-		<!--页面加载中-->
-	</body>
-	<script type="text/javascript" src="../../../script/AHelper.js"></script>
-	<script type="text/javascript" src="../../../script/laytpl.js"></script>
-	<script type="text/javascript">
-		H.ready(function() {
-			var isIOS = api.systemType == "ios" ? true : false;
-			if (isIOS) {
-				location.reload();
-			}
-			// 1.0 获取数据 type = 1 为详细页获取系统信息列表
-			api.sendEvent({
-				name : 'systemmassage',
-				extra : {
-					type : 1
-				}
-			}, function(ret, err) {
-			});
-			// 1.1 清零系统消息数据状态操作
-			api.sendEvent({
-				name : 'editSystemMsgaStatus'
-			}, function(ret, err) {
-			});
-			api.addEventListener({
-				name : 'getpagesystemmsg'
-			}, function(ret, err) {
-				console.log(JSON.stringify(ret));
-				//				alert(JSON.stringify(ret));
-				if (ret.value.data.length > 0) {
-					var tpl = document.getElementById('massage_data').innerHTML;
-					laytpl(tpl).render(ret.value, function(render) {
-						document.getElementById('massage_data_body').innerHTML = render;
-					});
-				}
-			});
-		});
-	</script>
+        //获取系统信息表数据
+        function initSystemMsgData(callback) {
+            db.openDatabase({
+                name : 'ichong'
+            }, function(ret, err) {
+                //12.1 查询
+                var sql = 'select * from SystemMassage order by id desc';
+                //12.2 给详情页发查询到的数据
+                db.selectSql({
+                    name : 'ichong',
+                    sql : sql
+                }, function(ret, err) {
+                    callback(ret);
+                });
+            });
+        }
+
+        //渲染数据
+        function _readerData(ret) {
+            //console.log('_readerData==' + JSON.stringify(ret));
+            if (ret.data.length > 0) {
+                var tpl = document.getElementById('massage_data').innerHTML;
+                laytpl(tpl).render(ret, function(render) {
+                    document.getElementById('massage_data_body').innerHTML = render;
+                });
+            }
+        }
+
+        //更改数据查看状态
+        function changeSystemStatus() {
+            api.sendEvent({
+                name : 'editSystemMsgaStatus'
+            });
+        }
+    </script>
 </html>
