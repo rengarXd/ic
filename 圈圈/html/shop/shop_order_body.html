@@ -123,13 +123,6 @@
 		<script type="text/html" id="cart_data">
 			<div class="aui-content">
 			<ul class="aui-list-view">
-			<!--{{# if ( d.retValue.address.length == 0 ) { }}
-			<li class="aui-list-view-cell">
-			<div class="q_addressd" onclick="add_page();" style="text-align: center;">
-			<span class="iconfont icon-14052229 q_address"></span>&nbsp;&nbsp;新增地址
-			</div>
-			</li>
-			{{# } else { }}-->
 			<li class="aui-list-view-cell" onclick="openAddress();" style="background: url(../../image/shop/address.png) repeat-x" >
 			<div class="aui-arrow-right" style="margin: 8px 0 8px 0;">
 			<div class="aui-col-xs-1">
@@ -145,27 +138,6 @@
 			</div>
 			</div>
 			</li>
-			<!--			{{# } }}
-			{{# for(var a = 1, b = d.retValue.address.length; a < b; a++) { }}
-			<li class="aui-list-view-cell address_list" style="display: none;">
-			<div style="margin: 8px 0 8px 0;">
-			<div class="aui-col-xs-2" >
-			<input class="aui-radio" type="radio" name="demo1" onclick="closeAddress({{ a }});">
-			</div>
-			<div class="aui-col-xs-10">
-			<span style="float: left" >收货人：{{ d.retValue.address[a].accept_name }}<span class="aui-pull-right" style="margin-right: 12px;" >{{ d.retValue.address[a].mobile}}</span>
-			<p style="margin-top: 5px;" >
-			收货地址：{{ d.retValue.address[a].province_val }} {{ d.retValue.address[a].city_val }} {{ d.retValue.address[a].area_val }} {{ d.retValue.address[a].address }}
-			</p> </span>
-			</div>
-			</div>
-			</li>
-			{{# } }}
-			<li class="aui-list-view-cell address_list" style="display: none;">
-			<div class="q_addressd" onclick="add_page();" style="text-align: center;">
-			<span class="iconfont icon-14052229 q_address"></span>&nbsp;&nbsp;新增地址
-			</div>
-			</li>-->
 			</ul>
 			</div>
 			<div class="aui-content">
@@ -203,19 +175,6 @@
 			</div>
 			</div>
 			</li>
-			<!--<li class="aui-list-view-cell">
-			<div class="aui-col-xs-6">
-			购买数量
-			</div>-->
-			<!--<div class="aui-col-xs-6">
-			<div class="aui-counter aui-danger aui-pull-right">
-			<div class="aui-counter-minus aui-disabled" onclick="minus();"></div>
-			<input class="aui-counter-input" type="number" id="member" name="memVal" value="1" onchange="changeNum(this.value);" >-->
-			<!--onfocus="this.blur();"-->
-			<!--<div class="aui-counter-plus" onclick="plus();"></div>
-			</div>
-			</div>
-			</li>-->
 			<li class="aui-list-view-cell">
 			<span>商家类别<span class="aui-pull-right">商城自营</span></span>
 			</li>
@@ -370,114 +329,6 @@
 			}
 		}
 
-		//新增地址
-		function add_page() {
-			H.$openWin("user_shop_address_add_header", "../me/user_shop_address_add_header.html");
-		}
-
-		//2、打开地址选择
-		function openAddress() {
-			//			$(".address_list").toggle();
-			H.$openWin("user_shop_address_header", "../me/user_shop_address_header.html", {
-				type : 1
-			});
-		}
-
-		//2.1、关闭地址选择器并选择相应地址
-		function closeAddress(a) {
-			$(".address_list").hide();
-			$("#shouhuoren").html(result.address[a].accept_name);
-			$("#telephone").html(result.address[a].mobile);
-			$("#addressInfo").html(result.address[a].province_val + result.address[a].city_val + result.address[a].area_val + result.address[a].address);
-			accept_name = result.address[a].accept_name;
-			province = result.address[a].province;
-			city = result.address[a].city;
-			area = result.address[a].area;
-			address = result.address[a].address;
-			mobile = result.address[a].mobile;
-		}
-
-		/*
-		处理商品数量加
-		* */
-		//		function plus() {
-		//			//4、处理数量加
-		//			//4.1 获取最新数量
-		//			var member = $("#member").val();
-		//			//4.2 转整型
-		//			var m = parseInt(member);
-		//			//4.2 数量+1
-		//			$("#member").val(m + 1);
-		//			//4.3 判断数量
-		//			if (m >= 1) {
-		//				$(".aui-counter-minus").removeClass('aui-disabled');
-		//			}
-		//			$("#countNum").html(++member);
-		//			$("#goodsNum").html(member);
-		//			fare();
-		//			totalPlus = parseInt(member) * parseInt(result.goodsList[0].sell_price);
-		//			$("#totalPrice").html(totalPlus);
-		//		}
-		//
-		//		/*处理数量减*/
-		//		function minus() {
-		//			//5.1 获取最新的数量
-		//			var members = $("#member").val();
-		//			//5.2 字符串转换为整型
-		//			var ms = parseInt(members);
-		//			if (ms < 2) {
-		//				$(".aui-counter-minus").addClass('aui-disabled');
-		//			} else {
-		//				$("#member").val(ms - 1);
-		//			}
-		//			//4.3 判断数量
-		//			if (ms < 1) {
-		//				$(".aui-counter-minus").remove('minus();');
-		//			}
-		//			$("#countNum").html($("#member").val());
-		//			$("#goodsNum").html($("#member").val());
-		//			fare();
-		//			var minuend = result.goodsList[0].sell_price;
-		//			if (members > 1) {
-		//				var totalMinus = parseInt($("#totalPrice").html()) - parseInt(minuend);
-		//				$("#totalPrice").html(totalMinus);
-		//			} else {
-		//				api.toast({
-		//					msg : '商品数量最少为1件'
-		//				});
-		//			}
-		//		}
-		//
-		//		//手动改变数量
-		//		function changeNum(nums) {
-		//			var buyNums = parseInt($.trim($('#member').val()));
-		//			if (isNaN(buyNums) || buyNums == 0) {
-		//				api.toast({
-		//					msg : '请填写正确的商品数量'
-		//				});
-		//				$("#member").val(1);
-		//				$("#countNum").html(1);
-		//				fare();
-		//				$("#totalPrice").html(result.goodsList[0].sell_price);
-		//				return;
-		//			}
-		//			if (buyNums > result.goodsList[0].store_nums) {
-		//				api.toast({
-		//					msg : '商品数量不能大于库存'
-		//				});
-		//				$("#member").val(result.goodsList[0].store_nums);
-		//				$("#countNum").html(result.goodsList[0].store_nums);
-		//				fare();
-		//				$("#totalPrice").html(parseInt(result.goodsList[0].store_nums) * parseInt(result.goodsList[0].sell_price));
-		//				return;
-		//			} else {
-		//				$("#totalPrice").html(parseInt(nums) * parseInt(result.goodsList[0].sell_price));
-		//				$("#goodsNum").html(nums);
-		//				$("#countNum").html(nums);
-		//				fare();
-		//				return;
-		//			}
-		//		}
 		//选择配送方式
 		function Distribution() {
 			api.actionSheet({
