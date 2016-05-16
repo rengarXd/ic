@@ -123,6 +123,13 @@
 		<script type="text/html" id="cart_data">
 			<div class="aui-content">
 			<ul class="aui-list-view">
+			{{# if ( d.retValue.address.length == 0 ) { }}
+			<li class="aui-list-view-cell">
+			<div class="q_addressd" onclick="add_page();" style="text-align: center;">
+			<span class="iconfont icon-14052229 q_address"></span>&nbsp;&nbsp;新增地址
+			</div>
+			</li>
+			{{# } else { }}
 			<li class="aui-list-view-cell" onclick="openAddress();" style="background: url(../../image/shop/address.png) repeat-x" >
 			<div class="aui-arrow-right" style="margin: 8px 0 8px 0;">
 			<div class="aui-col-xs-1">
@@ -138,6 +145,7 @@
 			</div>
 			</div>
 			</li>
+			{{# } }}
 			</ul>
 			</div>
 			<div class="aui-content">
@@ -347,6 +355,21 @@
 						fares();
 						break;
 				};
+			});
+		}
+
+		//新增地址
+		function add_page() {
+			H.$openWin("user_shop_address_header", "../me/user_shop_address_header.html", {
+				type : 1
+			});
+		}
+
+		//2、打开地址选择
+		function openAddress() {
+			//$(".address_list").toggle();
+			H.$openWin("user_shop_address_header", "../me/user_shop_address_header.html", {
+				type : 1
 			});
 		}
 
