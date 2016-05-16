@@ -51,13 +51,13 @@
 					url : window.serverUrl + '/userinfo/token/' + userobj.token + '/user_id/' + userobj.id
 				}, function(ret, err) {
 					if (ret && ret.retCode == 1) {
-						$("#me_credit").text('￥' + ret.retValue[0].balance);
+						$("#me_credit").text('￥' + ret.retValue.balance);
 						$("#loading_ico").hide();
 						H.$setPrefs(function(ret, err) {
 							api.sendEvent({
 								name : 'creditreload'
 							});
-						}, 'userinfo', JSON.stringify(ret.retValue[0]));
+						}, 'userinfo', JSON.stringify(ret.retValue));
 					} else {
 						api.toast({
 							msg : '抱歉获取您的余额失败'

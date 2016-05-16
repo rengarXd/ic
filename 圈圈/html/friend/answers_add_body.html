@@ -354,8 +354,12 @@
 							api.sendEvent({
 								name : 'answers_pagereload',
 							});
+							api.sendEvent({
+							     name:'reloadUserInfo'
+							});
 							api.closeWin({
 							});
+							
 						} else {
 							api.toast({
 								msg : ret.retDesc

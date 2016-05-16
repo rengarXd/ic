@@ -273,6 +273,15 @@
 			H.$dblclickToCloseApp(function() {
 				//双击退出的时候执行的操作
 			});
+			H.$addEventListener(function(ret,err){
+			     H.$ajax(function(ret,err){
+                    H.$setPrefs(function(ret,err){
+                        api.sendEvent({
+                            name:'creditreload'
+                        });
+                    },'userinfo',JSON.stringify(ret.retValue));
+			     },window.serverUrl + '/userinfo/token/' + userobj.token + '/user_id/' + userobj.id);
+			},'reloadUserInfo');
 			//更改标题
 			H.$addEventListener(function(ret, err) {
 				$("#pet-header .aui-title").text("未绑定硬件");
