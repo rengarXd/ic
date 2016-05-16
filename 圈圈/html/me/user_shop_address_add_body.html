@@ -102,6 +102,17 @@
 		//2 保存地址
 		function save_a() {
 			// 2.0 防止重复提交
+			var valDatas = {
+				user_id : userobj.id,
+				accept_name : $("#accept_name").val(),
+				mobile : $("#mobile").val(),
+				address : $("#address").val(),
+				zip : $("#zip").val(),
+				province : province,
+				city : city,
+				area : area,
+				is_default : is_default
+			};
 			var checkSubmitFlg = false;
 			if (!checkSubmitFlg) {
 				$("#btn").text("保存中...");
@@ -115,17 +126,7 @@
 					cache : false,
 					timeout : 10,
 					data : {
-						values : {
-							user_id : userobj.id,
-							accept_name : $("#accept_name").val(),
-							mobile : $("#mobile").val(),
-							address : $("#address").val(),
-							zip : $("#zip").val(),
-							province : province,
-							city : city,
-							area : area,
-							is_default : is_default
-						}
+						values : valDatas
 					}
 				}, function(ret, err) {
 					checkSubmitFlg = true;
@@ -135,9 +136,6 @@
 							name : 'user_shop_address_header',
 							frameName : 'user_shop_address_body',
 							script : 'reload();'
-						});
-						api.sendEvent({
-							name : 'addressChange'
 						});
 						api.closeWin({
 						});

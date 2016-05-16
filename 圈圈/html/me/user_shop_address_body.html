@@ -35,7 +35,7 @@
 		<script id="addressData" type="text/html">
 			<ul class="aui-list-view">
 			{{# for(var i = 0, len = d.length; i < len; i++){ }}
-			<li class="aui-list-view-cell">
+			<li class="aui-list-view-cell" onclick="choiceAds({{ i }});">
 			<div class="aui-col-xs-11">
 			<h3>{{ d[i].accept_name }}<span class="aui-pull-right">{{ d[i].telphone }}</span></h3>
 			<p>
@@ -65,13 +65,38 @@
 	<script type="text/javascript" src="../../script/laytpl.js"></script>
 	<script type="text/javascript">
 		//1 共享用户对象
-		var userobj = null;
+		var userobj = null, addressFile = null;
 		Zepto(function($) {
 			$("#add_page").on("tap", function() {
 				H.$openWin("user_shop_address_add_header", "user_shop_address_add_header.html");
 			});
 		});
+		//订单更改地址
+		function choiceAds(i) {
+			var valDatas = addressFile[i];
+//			{
+//				user_id : userobj.id,
+//				accept_name : addressFile[i].accept_name,
+//				mobile : addressFile[i].mobile,
+//				address : addressFile[i].address,
+//				zip : addressFile[i].zip,
+//				province : addressFile[i].province_val,
+//				city : addressFile[i].city_val,
+//				area : addressFile[i].area_val,
+//				is_default : addressFile[i].is_default
+//			};
+			if (addressCode == 1) {
+				api.sendEvent({
+					name : 'addressChange',
+					extra : valDatas
+				});
+				api.closeWin();
+			}
+		}
+
+
 		H.ready(function() {
+			addressCode = H.$getPageParam().type;
 			api.getPrefs({
 				key : 'userinfo'
 			}, function(ret, err) {
@@ -87,9 +112,10 @@
 					api.hideProgress();
 					//2.1 判断返回状态
 					if (ret && ret.retCode == 1) {
+						addressFile = ret.retValue;
 						//2.2  渲染
 						var tpl = document.getElementById('addressData').innerHTML;
-						laytpl(tpl).render(ret.retValue, function(render) {
+						laytpl(tpl).render(addressFile, function(render) {
 							document.getElementById('addressData_body').innerHTML = render;
 						});
 					} else if (ret && ret.retCode == 0) {
