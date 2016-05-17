@@ -276,8 +276,13 @@
 			}
 		}
 
-		//获取数据渲染
-		function cart2Render() {
+		//获取商品数量
+		function goods_Num() {
+			if (contents.num) {
+				$("#member").val(parseInt(contents.num));
+			} else {
+				$("#member").val(parseInt(1));
+			}
 		}
 
 		//1、获取数据
@@ -298,11 +303,7 @@
 							$("#ic_loading").hide();
 							$(".aui-content").show();
 							api.parseTapmode();
-							if (contents.num) {
-								$("#member").val(parseInt(contents.num));
-							} else {
-								$("#member").val(parseInt(1));
-							}
+							goods_Num();
 						});
 						isAddress();
 					} else {
@@ -328,11 +329,7 @@
 							$("#ic_loading").hide();
 							$(".aui-content").show();
 							api.parseTapmode();
-							if (contents.num) {
-								$("#member").val(parseInt(contents.num));
-							} else {
-								$("#member").val(parseInt(1));
-							}
+							goods_Num();
 						});
 						isAddress();
 					} else {
@@ -545,7 +542,7 @@
 									switch (ret.retCode) {
 										case 0 :
 											api.hideProgress();
-											alert('请检查您提交过的订单信息，不要重复提交');
+											alert(ret.retDesc);
 											break;
 										case 1 :
 											api.hideProgress();
@@ -555,10 +552,16 @@
 											H.$openWin("shop_order_detail_header", "shop_order_detail_header.html", {
 												ordersId : orders.order_id
 											});
+											setTimeout(function() {
+												api.closeWin();
+											}, 800);
 											break;
 										case 2 :
 											api.hideProgress();
 											H.$openWin("shop_order_creation_header", "shop_order_creation_header.html", orders);
+											setTimeout(function() {
+												api.closeWin();
+											}, 800);
 											break;
 									}
 								} else {
@@ -592,7 +595,7 @@
 									switch (ret.retCode) {
 										case 0 :
 											api.hideProgress();
-											alert('请检查您提交过的订单信息，不要重复提交');
+											alert(ret.retDesc);
 											break;
 										case 1 :
 											api.hideProgress();
@@ -602,11 +605,17 @@
 											H.$openWin("shop_order_detail_header", "shop_order_detail_header.html", {
 												ordersId : orders.order_id
 											});
+											setTimeout(function() {
+												api.closeWin();
+											}, 800);
 											break;
 										case 2 :
 											//											console.log(JSON.stringify(orders));
 											api.hideProgress();
 											H.$openWin("shop_order_creation_header", "shop_order_creation_header.html", orders);
+											setTimeout(function() {
+												api.closeWin();
+											}, 800);
 											break;
 									}
 								} else {

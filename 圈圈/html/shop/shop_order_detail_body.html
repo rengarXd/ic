@@ -235,9 +235,9 @@
 		//查看评价
 		function findEvaluate(id) {
 			//			alert("评价测试id=="+id);
-			api.closeWin({
-				name : 'shop_evaluate_header'
-			});
+//			api.closeWin({
+//				name : 'shop_evaluate_header'
+//			});
 			H.$openWin("shop_evaluate_header", "shop_evaluate_header.html", {
 				goods_id : id,
 				order_no : result.order_no,
@@ -270,6 +270,9 @@
 						id : ret.retValue.id,
 						type : 2
 					});
+					setTimeout(function() {
+						api.closeWin();
+					}, 800);
 				} else {
 					api.hideProgress();
 					alert(err.msg);
@@ -336,7 +339,7 @@
 									}, function(ret, err) {
 										//1.0 如果支付宝提示付款成功！
 										if (ret && ret.statusCode == 9000) {
-											location.reload();
+											//											location.reload();
 											//插入金额变动消息
 											api.sendEvent({
 												name : 'addsystemmsg',
@@ -365,12 +368,13 @@
 												ordersId : create.ordersId,
 												type : 1
 											});
-										} else {
 											location.reload();
+										} else {
 											H.$openWin("shop_order_finish_header", "shop_order_finish_header.html", {
 												ordersId : create.ordersId,
 												type : 3
 											});
+											location.reload();
 										}
 									});
 							});
@@ -387,11 +391,6 @@
 							}, function(ret, err) {
 								if (ret && ret.retCode == 1) {
 									api.hideProgress();
-									//								api.toast({
-									//									msg : ret.retDesc
-									//								});
-									//alert(JSON.stringify(ret.retDesc));
-									location.reload();
 									//插入金额变动消息
 									api.sendEvent({
 										name : 'addsystemmsg',
@@ -420,13 +419,14 @@
 										ordersId : create.ordersId,
 										type : 1
 									});
+									location.reload();
 								} else if (ret.retCode == 0) {
 									api.hideProgress();
 									alert(ret.retDesc);
-									//								H.$openWin("shop_order_finish_header", "shop_order_finish_header.html", {
-									//									ordersId : create.ordersId,
-									//									type : 3
-									//								});
+									H.$openWin("shop_order_finish_header", "shop_order_finish_header.html", {
+										ordersId : create.ordersId,
+										type : 3
+									});
 									location.reload();
 								} else {
 									api.hideProgress();
@@ -444,18 +444,12 @@
 			});
 		}
 
-		//打开退款详情页
+		//打开退款申请页
 		function openRefund() {
-			//			var imgUrl = $("#goods_img").attr('src');
-			//			var goodsName = $("#goods_name").text();
-			location.reload();
 			H.$openWin("shop_refund_header", "shop_refund_header.html", {
 				id : parseInt(create.ordersId)
-				//				order_no : result.order_no,
-				//				create_time : result.create_time,
-				//				img : imgUrl,
-				//				goods_name : goodsName
 			});
+			location.reload();
 		}
 
 		//1、获取数据
@@ -490,7 +484,7 @@
 					// "pay_status":支付状态 0：未支付; 1：已支付;
 					// "distribution_status": 配送状态 0：未发送,1：已发送,2：部分发送
 					if (result.status == 3 || result.status == 4 || result.status == 5 || result.status == 6 || result.order_status == "申请退款" || result.order_status == "部分退款") {
-//						console.log(9999);
+						//						console.log(9999);
 						$("#buttonsHide").hide();
 					} else if (result.pay_status == 0 && result.distribution_status == 0) {
 						$("#paynow").show();

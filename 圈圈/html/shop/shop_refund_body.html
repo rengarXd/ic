@@ -65,11 +65,16 @@
 					if (ret) {
 						if (ret.retCode == 1) {
 							alert(ret.retDesc);
-							refunds = ret.retValue;
 							//							alert(JSON.stringify(refunds));
-							H.$openWin("shop_refunds_detail_header", "../me/refunds/shop_refunds_detail_header.html", {
-								id : refunds.id
+							api.sendEvent({
+								name : 'payReload'
 							});
+							H.$openWin("shop_refunds_detail_header", "../me/refunds/shop_refunds_detail_header.html", {
+								id : ret.retValue.id
+							});
+							setTimeout(function() {
+								api.closeWin();
+							}, 800);
 							//							H.$openWin("order_refund_body", "../me/order_header.html");
 						} else {
 							alert(ret.retDesc);

@@ -148,7 +148,7 @@
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript">
-		var retobj = null, orders = null, datas = null, ordersId = null, type = null,order_no=null;
+		var retobj = null, orders = null, datas = null, ordersId = null, type = null, order_no = null;
 		function get_data(orders) {
 			$("#order_no").html(orders.order_no);
 			//订单编号
@@ -189,18 +189,14 @@
 
 		//返回商品页
 		function removeData() {
-			if (orders.types == 1) {
-				H.$closeCurrentWin();
-			} else {
-				api.closeToWin({
-					name : 'main',
-					animation : {
-						type : 'push',
-						subType : 'from_bottom',
-						duration : 500
-					}
-				});
-			}
+			api.closeToWin({
+				name : 'shop_show_header',
+				animation : {
+					type : 'push',
+					subType : 'from_bottom',
+					duration : 500
+				}
+			});
 		}
 
 		//支付
@@ -243,12 +239,18 @@
 								}
 							});
 						}
+						setTimeout(function() {
+							api.closeWin();
+						}, 800);
 					} else if (ret && ret.retCode == 0) {
 						api.hideProgress();
 						H.$openWin("shop_order_finish_header", "shop_order_finish_header.html", {
 							ordersId : ordersId,
 							type : 3
 						});
+						setTimeout(function() {
+							api.closeWin();
+						}, 800);
 					} else {
 						api.hideProgress();
 						api.toast({
@@ -275,60 +277,35 @@
 						}, function(ret, err) {
 							//1.0 如果支付宝提示付款成功！
 							if (ret && ret.statusCode == 9000) {
-//								api.alert({
-//									title : '支付结果',
-//									msg : "恭喜您的订单已经支付成功！",
-//									buttons : ['确定']
-//								}, function(ret, err) {
-//									if (ret && ret.buttonIndex == 1) {
-//										api.openWin({
-//											name : 'order_header',
-//											url : '../me/order_header.html'
-//										});
-//									}
-//								});
 								H.$openWin("shop_order_finish_header", "shop_order_finish_header.html", {
 									ordersId : ordersId,
 									type : 1
 								});
+								setTimeout(function() {
+									api.closeWin();
+								}, 800);
 							} else {
-//								api.alert({
-//									title : '支付结果',
-//									msg : "支付失败",
-//									buttons : ['确定']
-//								}, function(ret, err) {
-//									if (ret.buttonIndex == 1) {
-//										api.openWin({
-//											name : 'order_header',
-//											url : '../me/order_header.html'
-//										});
-//									}
-//								});
 								H.$openWin("shop_order_finish_header", "shop_order_finish_header.html", {
 									ordersId : ordersId,
 									type : 3
 								});
+								setTimeout(function() {
+									api.closeWin();
+								}, 800);
 							}
 						});
 				});
 			}
 		}
 
-		function openDetail(id) {
-			H.$openWin("shop_order_detail_header", "shop_order_detail_header.html", {
-				ordersId : id
-			})
-		}
-
 
 		H.ready(function() {
 			orders = H.$getPageParam();
-//			console.log(JSON.stringify(orders));
+			//			console.log(JSON.stringify(orders));
 			if (orders.id) {
 				ordersId = orders.id;
 			} else {
 				ordersId = orders.order_id;
-			
 			}
 			order_no = orders.order_no;
 			get_data(orders);

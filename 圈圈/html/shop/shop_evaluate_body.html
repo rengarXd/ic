@@ -209,13 +209,13 @@
 									msg : ret.retDesc,
 									buttons : ['确定']
 								}, function(ret, err) {
-									api.closeWin({
-										name : 'shop_order_finish_header'
-									});
 									H.$openWin("shop_order_finish_header", "shop_order_finish_header.html", {
 										ordersId : pjId.ordersId,
 										type : 4
 									});
+									setTimeout(function() {
+										api.closeWin();
+									}, 1000);
 								});
 							} else if (ret.retCode == 0) {
 								api.hideProgress();

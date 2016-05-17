@@ -79,7 +79,7 @@
 				立即购买
 			</div>
 			<!--<div class="aui-col-xs-4 buy" id="joincat" style="background: #FF8502" tapmode >
-				加入购物车
+			加入购物车
 			</div>-->
 			<div class="aui-col-xs-4">
 				<div class="aui-col-xs-6 blue" id="collection-btn" tapmode >
@@ -173,6 +173,7 @@
 							goodId : haveSpec_array.id,
 							store_nums : haveSpec_array.store_nums
 						})
+						$("#buy").attr("openchoiced", 1);
 					} else {
 						//						alert(JSON.stringify(noneSpec_array));
 						H.$openFrame('shop_choice_num_body', 'shop_choice_num_body.html', noneSpec_array, {
@@ -181,6 +182,7 @@
 							goodId : noneSpec_array.id,
 							store_nums : noneSpec_array.store_nums
 						});
+						$("#buy").attr("openchoiced", 2);
 					}
 				});
 			});
@@ -221,6 +223,27 @@
 					name : 'noneSpec_array'
 				}, function(ret, err) {
 					noneSpec_array = ret.value.goods;
+				});
+				//监听返回按键关闭Frame
+				api.addEventListener({
+					name : 'keyback'
+				}, function(ret, err) {
+					var isopenChoice = $("#buy").attr("openchoiced");
+					if (isopenChoice == 1) {
+						api.execScript({
+							frameName : 'shop_choice_body',
+							script : 'closeShareFrame();'
+						});
+						$("#buy").removeAttr("openchoiced");
+					} else if (isopenChoice == 2) {
+						api.execScript({
+							frameName : 'shop_choice_num_body',
+							script : 'closeShareFrame();'
+						});
+						$("#buy").removeAttr("openchoiced");
+					} else {
+						H.$closeCurrentWin();
+					}
 				});
 			}
 			function closeWin() {
