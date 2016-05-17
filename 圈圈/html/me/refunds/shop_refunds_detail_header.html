@@ -17,18 +17,18 @@
 	<body>
 		<!--标题栏 start-->
 		<header class="aui-bar aui-bar-nav aui-bar-1d9dd5 header" id='aui-header'>
-			<a class="aui-pull-left" tapmode onclick="closeWin();"> <span class="aui-iconfont aui-icon-left"></span>返回 </a>
+			<a class="aui-pull-left" tapmode onclick="H.$closeCurrentWin();"> <span class="aui-iconfont aui-icon-left"></span>返回 </a>
 			<div class="aui-title">
 				退款详情
 			</div>
 		</header>
 		<script type="text/javascript" src="../../../script/AHelper.js"></script>
 		<script type="text/javascript">
-			function closeWin() {
-				api.closeToWin({
-					name : 'order_header'
-				});
-			}
+//			function closeWin() {
+//				api.closeToWin({
+//					name : 'order_header'
+//				});
+//			}
 
 
 			H.ready(function() {
@@ -38,13 +38,13 @@
 					name : 'shop_refunds_detail_body',
 					pageParam : H.$getPageParam()
 				});
-				api.addEventListener({
-					name : 'keyback'
-				}, function(ret, err) {
-					api.closeToWin({
-						name : 'order_header'
-					});
-				});
+//				api.addEventListener({
+//					name : 'keyback'
+//				}, function(ret, err) {
+//					api.closeToWin({
+//						name : 'order_header'
+//					});
+//				});
 			});
 		</script>
 	</body>
