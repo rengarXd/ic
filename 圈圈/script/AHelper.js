@@ -1533,12 +1533,18 @@
 		// @winName：window名称
 		// @winUrl：window地址
 		// @pageParam：参数
-		$openWin : function(winName, winUrl, pageParam) {
+		$openWin : function(winName, winUrl, pageParam, animation) {
 			pageParam = pageParam ? pageParam : api.pageParam;
+			animation = animation ? animation : {
+				type : "fade", //动画类型（详见动画类型常量）
+				//subType : "from_right", //动画子类型（详见动画子类型常量）
+				duration : 300 //动画过渡时间，默认300毫秒
+			}
 			$$apicloud.openWin({
 				name : winName,
 				url : winUrl,
-				pageParam : pageParam
+				pageParam : pageParam,
+				animation : animation
 			});
 		},
 		// 关闭window窗口
