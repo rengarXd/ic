@@ -80,7 +80,7 @@
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript" src="../../script/laytpl.js"></script>
 	<script type="text/javascript">
-		var page = 1, loadLock = false, userobj = null, pagecount = null;
+		var page = 1, loadLock = false, userobj = null;
 		var refunds = null, refundobj = null;
 		Zepto(function($) {
 			$("#reload_page").on("tap", function() {
@@ -122,7 +122,6 @@
 
 		//拦加载
 		function get_data() {
-			$("#loading").show();
 			api.ajax({
 				//1、请求所有订单 type = 1
 				url : window.serverUrl + '/me_all_order/user_id/' + userobj.id + '/token/' + userobj.token + '/type/5' + '/page/' + page
@@ -132,8 +131,8 @@
 					if (ret.retCode > 0) {
 						var tpl = document.getElementById('refund_data').innerHTML;
 						laytpl(tpl).render(ret, function(render) {
-							document.getElementById('refund_html').innerHTML = render;
-							H.$api.append(H.$api.byId("refund_html"), render);
+							//							document.getElementById('refund_html').innerHTML = render;
+							H.$api.append(H.$api.byId('refund_html'), render);
 							$("#ic_loading").hide();
 							$("#loading").hide();
 						});
@@ -146,7 +145,7 @@
 						}
 					} else {
 						//2.1、如果无数据
-						$("#ic_loading span").text('抱歉暂无数据');
+						$("#hide").show();
 					}
 				} else {
 					$("#loading").hide();
@@ -166,7 +165,7 @@
 				$("#ic_loading").show();
 				api.ajax({
 					//1、请求所有订单 type = 1
-					url : window.serverUrl + '/me_all_order/user_id/' + userobj.id + '/token/' + userobj.token + '/type/5',
+					url : window.serverUrl + '/me_all_order/user_id/' + userobj.id + '/token/' + userobj.token + '/type/5' + '/page/' + page,
 					cache : false
 				}, function(ret, err) {
 					if (ret) {
@@ -196,7 +195,10 @@
 				}
 			}, function(ret, err) {
 				if (loadLock == false) {
-					get_data();
+					$("#loading").show();
+					setTimeout(function() {
+						get_data();
+					}, 500);
 				}
 			});
 		});

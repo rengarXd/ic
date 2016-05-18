@@ -86,7 +86,6 @@
 			})
 		});
 		function get_data() {
-			$("#loading").show();
 			api.ajax({
 				//1、请求所有订单 type = 1
 				url : window.serverUrl + '/me_all_order/user_id/' + userobj.id + '/token/' + userobj.token + '/type/1' + '/page/' + page
@@ -96,7 +95,7 @@
 					if (ret.retValue.data.length > 0) {
 						var tpl = document.getElementById('order_data').innerHTML;
 						laytpl(tpl).render(ret, function(render) {
-							document.getElementById('order_data_body').innerHTML = render;
+//							document.getElementById('order_data_body').innerHTML = render;
 							H.$api.append(H.$api.byId("order_data_body"), render);
 							$("#loading").hide();
 						});
@@ -159,7 +158,10 @@
 				}
 			}, function(ret, err) {
 				if (loadLock == false) {
-					get_data();
+					$("#loading").show();
+					setTimeout(function() {
+						get_data();
+					}, 500);
 				}
 			});
 		});
