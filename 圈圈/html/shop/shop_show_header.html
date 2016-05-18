@@ -172,7 +172,7 @@
 							y : 0,
 							goodId : haveSpec_array.id,
 							store_nums : haveSpec_array.store_nums
-						})
+						},false);
 						$("#buy").attr("openchoiced", 1);
 					} else {
 						//						alert(JSON.stringify(noneSpec_array));
@@ -181,7 +181,7 @@
 							y : 0,
 							goodId : noneSpec_array.id,
 							store_nums : noneSpec_array.store_nums
-						});
+						},false);
 						$("#buy").attr("openchoiced", 2);
 					}
 				});

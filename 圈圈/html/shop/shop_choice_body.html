@@ -155,7 +155,6 @@
 			laytpl(tpl).render(templis, function(render) {
 				document.getElementById('shopdata_body').innerHTML = render;
 			});
-			
 		});
 		//4、关闭购买
 		function closeShareFrame() {
@@ -165,9 +164,9 @@
 				"height" : "0"
 			});
 			api.execScript({
-				name:'shop_show_header',
-	            script: 'removeChoice();'
-            });
+				name : 'shop_show_header',
+				script : 'removeChoice();'
+			});
 			setTimeout(function() {
 				H.$closeCurrentFrame();
 			}, 300);
