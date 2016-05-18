@@ -164,6 +164,10 @@
 				"-webkit-animation" : "swiperend 0.3s",
 				"height" : "0"
 			});
+			api.execScript({
+				name:'shop_show_header',
+	            script: 'removeChoice();'
+            });
 			setTimeout(function() {
 				H.$closeCurrentFrame();
 			}, 300);

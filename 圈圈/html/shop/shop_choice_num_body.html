@@ -125,12 +125,6 @@
 			store_nums = H.$getPageParam().store_nums;
 			//			alert(JSON.stringify(goodId));
 			$("#store_num").html(store_nums);
-			//监听返回按键关闭Frame
-			api.addEventListener({
-				name : 'keyback'
-			}, function(ret, err) {
-				closeShareFrame();
-			});
 		});
 		//4、关闭购买
 		function closeShareFrame() {
@@ -138,6 +132,10 @@
 				"animation" : "swiperend 0.3s",
 				"-webkit-animation" : "swiperend 0.3s",
 				"height" : "0"
+			});
+			api.execScript({
+				name : 'shop_show_header',
+				script : 'removeChoice();'
 			});
 			setTimeout(function() {
 				H.$closeCurrentFrame();

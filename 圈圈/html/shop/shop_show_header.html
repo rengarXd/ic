@@ -234,25 +234,29 @@
 							frameName : 'shop_choice_body',
 							script : 'closeShareFrame();'
 						});
-						$("#buy").removeAttr("openchoiced");
+						removeChoice();
 					} else if (isopenChoice == 2) {
 						api.execScript({
 							frameName : 'shop_choice_num_body',
 							script : 'closeShareFrame();'
 						});
-						$("#buy").removeAttr("openchoiced");
+						removeChoice();
 					} else {
 						H.$closeCurrentWin();
 					}
 				});
 			}
+			function removeChoice() {
+				$("#buy").removeAttr("openchoiced");
+			}
+
 			function closeWin() {
 				api.closeWin();
 			}
 
-			function close_footer() {
-				$("#aui-footer").hide();
-			}
+//			function close_footer() {
+//				$("#aui-footer").hide();
+//			}
 		</script>
 	</body>
 </html>
