@@ -247,9 +247,7 @@
 					productId : productId,
 					num : memNum
 				});
-				setTimeout(function() {
-					H.$closeCurrentFrame();
-				}, 800);
+				closeShareFrame();
 			} else {
 				api.toast({
 					msg : '请将型号选择完整'
