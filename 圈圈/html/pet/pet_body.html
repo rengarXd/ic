@@ -1,342 +1,341 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<!--确保绘制和缩放的效果需要在<head>标签中添加 viewport 元数据标签-->
-		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
-		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-		<title>宠物body</title>
-		<!--引入aui框架-->
-		<link rel="stylesheet" href="../../css/aui.css" />
-		<link rel="stylesheet" href="../../css/fonts/iconfont.css" />
-		<style>
-			#circle {
-				width: 200px;
-				height: 200px;
-				margin: 0 auto;
-				border: 5px #A1BFFF dotted;
-				-webkit-border-radius: 100px 100px 100px 100px;
-			}
-			#circle_small {
-				width: 140px;
-				height: 140px;
-				background: #21bdfe;
-				-webkit-border-radius: 100px;
-				margin: 23px auto 0;
-				color: #fff;
-				text-align: center;
-				padding: 20px;
-				font-size: 14px;
-				animation: rond 2s infinite;
-				-webkit-animation: rond 2s infinite;
-			}
-			.func-menu {
-				height: 90px;
-				background: #fff;
-				margin-bottom: 10px;
-				box-shadow: inset 0 1px 0 #FFFFFF, 0 3px 5px rgba(236, 236, 236, 0.2);
-				border-bottom: 1px solid #E4E4E4;
-			}
-			.item-func {
-				float: left;
-				width: 25%;
-				display: -webkit-box;
-				-webkit-box-orient: horizontal;
-				-webkit-box-pack: center;
-				-webkit-box-align: center;
-				display: box;
-				box-orient: horizontal;
-				box-pack: center;
-				box-align: center;
-				padding: 10px 0 10px 0;
-			}
-			.item-func p {
-				height: 47px;
-				width: 47px;
-				display: -webkit-box;
-				-webkit-box-orient: horizontal;
-				-webkit-box-pack: center;
-				-webkit-box-align: center;
-				display: box;
-				box-orient: horizontal;
-				box-pack: center;
-				box-align: center;
-				border-radius: 37%;
-				-webkit-border-radius: 37%;
-				margin: 0 auto;
-			}
-			.item-func p i {
-				color: #fff;
-				font-size: 28px;
-			}
-			.item-func span {
-				display: block;
-				padding: 5px 0 0 0;
-				font-size: 14px;
-				color: #666;
-				text-align: center
-			}
-			.item-func:active {
-				background: #f4f4f4;
-			}
-			.aui-list-view-cell:active {
-				background: #f4f4f4
-			}
-			#test {
-				height: 10px;
-				width: 10px;
-				position: absolute;
-				background-color: #E7EAF0;
-				border-radius: 50%;
-				top: 2px;
-				left: -9px;
-			}
-			#rond {
-				height: 100px;
-				width: 100px;
-				border: 1px solid #fff;
-				border-radius: 50%;
-				position: absolute;
-				top: 20px;
-				left: 15px;
-				animation: rond 2s infinite;
-				-webkit-animation: rond 2s infinite;
-				background: #1c84f3;
-			}
-			.q_pb {
-				position: absolute;
-				/* z-index: 110; */
-				width: 186px;
-				/* height: 140px; */
-				color: #fff;
-				top: 55px;
-				/* left: 31px; */
-				text-align: center;
-			}
-			@keyframes rond {
-			0% {transform : rotate(0deg);}
-			100% {transform : rotate(360deg);}
-			}
-			@-webkit-keyframes rond {
-			0% {-webkit-transform : rotate(0deg);}
-			100% {-webkit-transform : rotate(360deg);}
-			}
-			#nodevice {
-				height: 139px;
-				background: #fff;
-			}
-			.ic_bj {
-				background: #86d855;
-				color: #fff;
-			}
-			.ic_buy {
-				background: #21bdfe;
-				color: #fff;
-			}
-			.ic_ddd {
-				background: #ddd !important;
-			}
-		</style>
-	</head>
-	<body>
-		<div class="aui-content" style="background: #0099ff;height:240px;margin-bottom: 0">
-			<div id="circle">
-				<div id="circle_small">
-					<div id="test"></div>
-				</div>
-				<div class="q_pb">
-					<span>---</span>
-					<h1 id="stup">溜宠步数</h1>
-					<h1 style="font-size: 35px">00000</h1>
-				</div>
-			</div>
-		</div>
-		<!--有设备-->
-		<div class="func-menu" id="havedevice">
-			<div class="item-func" tapmode>
-				<div class="content-area">
-					<p class="aui-bg-info">
-						<i class="iconfont icon-6"></i>
-					</p>
-					<span>溜宠</span>
-				</div>
-			</div>
-			<div class="item-func" id="position_header" tapmode >
-				<div class="content-area">
-					<p class="aui-bg-success">
-						<i class="iconfont icon-weizhi"></i>
-					</p>
-					<span>位置</span>
-				</div>
-			</div>
-			<div class="item-func" tapmode  id="identity_header">
-				<div class="content-area">
-					<p class="aui-bg-danger">
-						<i class="iconfont icon-gouzheng"></i>
-					</p>
-					<span>身份</span>
-				</div>
-			</div>
-			<div class="item-func" tapmode onclick="H.$openWin("setting", "setting_head.html");">
-				<div class="content-area">
-					<p class="aui-bg-warning">
-						<i class="iconfont icon-set"></i>
-					</p>
-					<span>设置</span>
-				</div>
-			</div>
-		</div>
-		<!--有设备-->
-		<!--无设备-->
-		<div id="nodevice" style="display: none">
-			<div class="aui-tips aui-tips-warning" id="device_do">
-				<div class="aui-tips-content aui-arrow-right aui-ellipsis-1">
-					<i class="aui-iconfont aui-icon-warnfill"></i>
-					未绑定设备，点我去购买设备或绑定设备
-				</div>
-			</div>
-			<div class="item-func" tapmode>
-				<div class="content-area">
-					<p class="aui-bg-info ic_ddd">
-						<i class="iconfont icon-6"></i>
-					</p>
-					<span>溜宠</span>
-				</div>
-			</div>
-			<div class="item-func" tapmode >
-				<div class="content-area">
-					<p class="aui-bg-success ic_ddd">
-						<i class="iconfont icon-weizhi"></i>
-					</p>
-					<span>位置</span>
-				</div>
-			</div>
-			<div class="item-func" tapmode >
-				<div class="content-area">
-					<p class="aui-bg-danger ic_ddd">
-						<i class="iconfont icon-gouzheng"></i>
-					</p>
-					<span>身份</span>
-				</div>
-			</div>
-			<div class="item-func" tapmode >
-				<div class="content-area">
-					<p class="aui-bg-warning ic_ddd">
-						<i class="iconfont icon-set"></i>
-					</p>
-					<span>设置</span>
-				</div>
-			</div>
-			<!--	<div class="aui-col-xs-6" style="padding: 14px;">
-			<div class="aui-btn aui-btn-block ic_bj" style="background: #86d855;border: 0">
-			绑定设备
-			</div>
-			</div>
-			<div class="aui-col-xs-6" style="padding: 14px;">
-			<div class="aui-btn aui-btn-block ic_buy" style="background: #21bdfe;border: 0">
-			购买设备
-			</div>
-			</div>-->
-		</div>
-		<!--无设备-->
-		<div class="aui-content">
-			<ul class="aui-list-view">
-				<li class="aui-list-view-cell">
-					<h3>马上装i宠，30000套智能定位项圈免费拿！</h3>
-					<p>
-						i宠智能项圈，让您的实时掌握宠物位置情况，免费领取了
-					</p>
-				</li>
-				<li class="aui-list-view-cell">
-					<h3>5.1日节日福利，点击去领取了</h3>
-					<p>
-						福利来了，快去领取您的节日福利
-					</p>
-				</li>
-			</ul>
-		</div>
-		</div></div> <script src="../../script/AHelper.js" type="text/javascript"></script>
-		<script src="../../script/zepto.min.js" type="text/javascript"></script>
-		<script>
-			Zepto(function($) {
-			});
-			H.ready(function() {
-				api.getPrefs({
-					key : 'userinfo'
-				}, function(ret, err) {
-					//alert(JSON.stringify(ret));
-					var userobj = eval('(' + ret.value + ')');
-					//1、如果没有设备
-					if (userobj.ishavedevice == 0) {
-						$("#nodevice").show();
-						$('#stup').text("步数无法更新");
-						//1、2 隐藏功能菜单，提示
-						$("#havedevice").hide();
-						api.sendEvent({
-							name : 'changepettitle',
-						});
-					}
-				});
-				/*窗口打开处理 ok*/
-				$("#position_header").on("click", function() {
-					H.$openWin("position_header", "position_header.html");
-				});
-			
-				$("#device_do").on('click', function() {
-					do_device();
-				});
-				$("#nodevice .item-func").on('click', function() {
-					do_device();
-				});
-				$("#identity_header").on("click", function() {
-					var FNScanner = api.require('FNScanner');
-					FNScanner.openScanner({
-						autorotation : true,
-					}, function(ret, err) {
-						if (ret) {
-							//alert(JSON.stringify(ret));
-							FNScanner.closeView();
-						} else {
-							//alert(JSON.stringify(err));
-							FNScanner.closeView();
-						}
-					});
-				});
-				//1、绑定设备的处理
-				//				$(".ic_bj").on("click", function() {
-				//				});
-				api.addEventListener({
-					name : 'pagereload'
-				}, function(ret, err) {
-					if (ret) {
-						location.reload();
-					} else {
-					}
-				});
-			});
-			function do_device() {
-				api.confirm({
-					title : '',
-					msg : '购买或者去绑定设备',
-					buttons : ['购买', '绑定设备']
-				}, function(ret, err) {
-					if (ret && ret.buttonIndex == 1) {
-						//2.2 设备购买处理
-					} else if (ret && ret.buttonIndex == 2) {
-						//2.3 设备绑定处理
-						var FNScanner = api.require('FNScanner');
-						FNScanner.openScanner({
-							autorotation : true,
-						}, function(ret, err) {
-							if (ret) {
-								//alert(JSON.stringify(ret));
-							} else {
-								//alert(JSON.stringify(err));
-							}
-						});
-					}
-				});
-			}
-		</script>
-	</body>
+    <head>
+        <meta charset="utf-8">
+        <!--确保绘制和缩放的效果需要在<head>标签中添加 viewport 元数据标签-->
+        <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+        <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+        <title>宠物body</title>
+        <!--引入aui框架-->
+        <link rel="stylesheet" href="../../css/aui.css" />
+        <link rel="stylesheet" href="../../css/fonts/iconfont.css" />
+        <style>
+            #circle {
+                width: 200px;
+                height: 200px;
+                margin: 0 auto;
+                border: 5px #A1BFFF dotted;
+                -webkit-border-radius: 100px 100px 100px 100px;
+            }
+            #circle_small {
+                width: 140px;
+                height: 140px;
+                background: #21bdfe;
+                -webkit-border-radius: 100px;
+                margin: 23px auto 0;
+                color: #fff;
+                text-align: center;
+                padding: 20px;
+                font-size: 14px;
+                animation: rond 2s infinite;
+                -webkit-animation: rond 2s infinite;
+            }
+            .func-menu {
+                height: 90px;
+                background: #fff;
+                margin-bottom: 10px;
+                box-shadow: inset 0 1px 0 #FFFFFF, 0 3px 5px rgba(236, 236, 236, 0.2);
+                border-bottom: 1px solid #E4E4E4;
+            }
+            .item-func {
+                float: left;
+                width: 25%;
+                display: -webkit-box;
+                -webkit-box-orient: horizontal;
+                -webkit-box-pack: center;
+                -webkit-box-align: center;
+                display: box;
+                box-orient: horizontal;
+                box-pack: center;
+                box-align: center;
+                padding: 10px 0 10px 0;
+            }
+            .item-func p {
+                height: 47px;
+                width: 47px;
+                display: -webkit-box;
+                -webkit-box-orient: horizontal;
+                -webkit-box-pack: center;
+                -webkit-box-align: center;
+                display: box;
+                box-orient: horizontal;
+                box-pack: center;
+                box-align: center;
+                border-radius: 37%;
+                -webkit-border-radius: 37%;
+                margin: 0 auto;
+            }
+            .item-func p i {
+                color: #fff;
+                font-size: 28px;
+            }
+            .item-func span {
+                display: block;
+                padding: 5px 0 0 0;
+                font-size: 14px;
+                color: #666;
+                text-align: center
+            }
+            .item-func:active {
+                background: #f4f4f4;
+            }
+            .aui-list-view-cell:active {
+                background: #f4f4f4
+            }
+            #test {
+                height: 10px;
+                width: 10px;
+                position: absolute;
+                background-color: #E7EAF0;
+                border-radius: 50%;
+                top: 2px;
+                left: -9px;
+            }
+            #rond {
+                height: 100px;
+                width: 100px;
+                border: 1px solid #fff;
+                border-radius: 50%;
+                position: absolute;
+                top: 20px;
+                left: 15px;
+                animation: rond 2s infinite;
+                -webkit-animation: rond 2s infinite;
+                background: #1c84f3;
+            }
+            .q_pb {
+                position: absolute;
+                /* z-index: 110; */
+                width: 186px;
+                /* height: 140px; */
+                color: #fff;
+                top: 55px;
+                /* left: 31px; */
+                text-align: center;
+            }
+            @keyframes rond {
+            0% {transform : rotate(0deg);}
+            100% {transform : rotate(360deg);}
+            }
+            @-webkit-keyframes rond {
+            0% {-webkit-transform : rotate(0deg);}
+            100% {-webkit-transform : rotate(360deg);}
+            }
+            #nodevice {
+                height: 139px;
+                background: #fff;
+            }
+            .ic_bj {
+                background: #86d855;
+                color: #fff;
+            }
+            .ic_buy {
+                background: #21bdfe;
+                color: #fff;
+            }
+            .ic_ddd {
+                background: #ddd !important;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="aui-content" style="background: #0099ff;height:240px;margin-bottom: 0">
+            <div id="circle">
+                <div id="circle_small">
+                    <div id="test"></div>
+                </div>
+                <div class="q_pb">
+                    <span>---</span>
+                    <h1 id="stup">溜宠步数</h1>
+                    <h1 style="font-size: 35px">00000</h1>
+                </div>
+            </div>
+        </div>
+        <!--有设备-->
+        <div class="func-menu" id="havedevice">
+            <div class="item-func" tapmode>
+                <div class="content-area">
+                    <p class="aui-bg-info">
+                        <i class="iconfont icon-6"></i>
+                    </p>
+                    <span>溜宠</span>
+                </div>
+            </div>
+            <div class="item-func" id="position_header" tapmode >
+                <div class="content-area">
+                    <p class="aui-bg-success">
+                        <i class="iconfont icon-weizhi"></i>
+                    </p>
+                    <span>位置</span>
+                </div>
+            </div>
+            <div class="item-func" tapmode  id="identity_header">
+                <div class="content-area">
+                    <p class="aui-bg-danger">
+                        <i class="iconfont icon-gouzheng"></i>
+                    </p>
+                    <span>身份</span>
+                </div>
+            </div>
+            <div class="item-func" tapmode onclick="H.$openWin("setting", "setting_head.html");">
+                <div class="content-area">
+                    <p class="aui-bg-warning">
+                        <i class="iconfont icon-set"></i>
+                    </p>
+                    <span>设置</span>
+                </div>
+            </div>
+        </div>
+        <!--有设备-->
+        <!--无设备-->
+        <div id="nodevice" style="display: none">
+            <div class="aui-tips aui-tips-warning" id="device_do">
+                <div class="aui-tips-content aui-arrow-right aui-ellipsis-1">
+                    <i class="aui-iconfont aui-icon-warnfill"></i>
+                    未绑定设备，点我去购买设备或绑定设备
+                </div>
+            </div>
+            <div class="item-func" tapmode>
+                <div class="content-area">
+                    <p class="aui-bg-info ic_ddd">
+                        <i class="iconfont icon-6"></i>
+                    </p>
+                    <span>溜宠</span>
+                </div>
+            </div>
+            <div class="item-func" tapmode >
+                <div class="content-area">
+                    <p class="aui-bg-success ic_ddd">
+                        <i class="iconfont icon-weizhi"></i>
+                    </p>
+                    <span>位置</span>
+                </div>
+            </div>
+            <div class="item-func" tapmode >
+                <div class="content-area">
+                    <p class="aui-bg-danger ic_ddd">
+                        <i class="iconfont icon-gouzheng"></i>
+                    </p>
+                    <span>身份</span>
+                </div>
+            </div>
+            <div class="item-func" tapmode >
+                <div class="content-area">
+                    <p class="aui-bg-warning ic_ddd">
+                        <i class="iconfont icon-set"></i>
+                    </p>
+                    <span>设置</span>
+                </div>
+            </div>
+            <!--	<div class="aui-col-xs-6" style="padding: 14px;">
+            <div class="aui-btn aui-btn-block ic_bj" style="background: #86d855;border: 0">
+            绑定设备
+            </div>
+            </div>
+            <div class="aui-col-xs-6" style="padding: 14px;">
+            <div class="aui-btn aui-btn-block ic_buy" style="background: #21bdfe;border: 0">
+            购买设备
+            </div>
+            </div>-->
+        </div>
+        <!--无设备-->
+        <div class="aui-content">
+            <ul class="aui-list-view">
+                <li class="aui-list-view-cell">
+                    <h3>马上装i宠，30000套智能定位项圈免费拿！</h3>
+                    <p>
+                        i宠智能项圈，让您的实时掌握宠物位置情况，免费领取了
+                    </p>
+                </li>
+                <li class="aui-list-view-cell">
+                    <h3>5.1日节日福利，点击去领取了</h3>
+                    <p>
+                        福利来了，快去领取您的节日福利
+                    </p>
+                </li>
+            </ul>
+        </div>
+        </div></div> <script src="../../script/AHelper.js" type="text/javascript"></script>
+        <script src="../../script/zepto.min.js" type="text/javascript"></script>
+        <script>
+            Zepto(function($) {
+            });
+            H.ready(function() {
+                api.getPrefs({
+                    key : 'userinfo'
+                }, function(ret, err) {
+                    //alert(JSON.stringify(ret));
+                    var userobj = eval('(' + ret.value + ')');
+                    //1、如果没有设备
+                    if (userobj.ishavedevice == 0) {
+                        $("#nodevice").show();
+                        $('#stup').text("步数无法更新");
+                        //1、2 隐藏功能菜单，提示
+                        $("#havedevice").hide();
+                        api.sendEvent({
+                            name : 'changepettitle',
+                        });
+                    }
+                });
+                /*窗口打开处理 ok*/
+                $("#position_header").on("click", function() {
+                    H.$openWin("position_header", "position_header.html");
+                });
+                $("#device_do").on('click', function() {
+                    do_device();
+                });
+                $("#nodevice .item-func").on('click', function() {
+                    do_device();
+                });
+                $("#identity_header").on("click", function() {
+                    var FNScanner = api.require('FNScanner');
+                    FNScanner.openScanner({
+                        autorotation : true,
+                    }, function(ret, err) {
+                        if (ret) {
+                            alert(JSON.stringify(ret));
+                            FNScanner.closeView();
+                        } else {
+                            //alert(JSON.stringify(err));
+                            FNScanner.closeView();
+                        }
+                    });
+                });
+                //1、绑定设备的处理
+                //				$(".ic_bj").on("click", function() {
+                //				});
+                api.addEventListener({
+                    name : 'pagereload'
+                }, function(ret, err) {
+                    if (ret) {
+                        location.reload();
+                    } else {
+                    }
+                });
+            });
+            function do_device() {
+                api.confirm({
+                    title : '',
+                    msg : '购买或者去绑定设备',
+                    buttons : ['购买', '绑定设备']
+                }, function(ret, err) {
+                    if (ret && ret.buttonIndex == 1) {
+                        //2.2 设备购买处理
+                    } else if (ret && ret.buttonIndex == 2) {
+                        //2.3 设备绑定处理
+                        var FNScanner = api.require('FNScanner');
+                        FNScanner.openScanner({
+                            autorotation : true,
+                        }, function(ret, err) {
+                            if (ret) {
+                                //alert(JSON.stringify(ret));
+                            } else {
+                                //alert(JSON.stringify(err));
+                            }
+                        });
+                    }
+                });
+            }
+        </script>
+    </body>
 </html>
