@@ -17,15 +17,10 @@
 				z-index: 100;
 			}
 			.quanquan {
+				height:50%;
 				text-align: center;
-				margin-left: 93px;
-				margin-top: 180px;
 			}
-			/*.spinner {
-			 text-align: center;
-			 margin-left: 90px;
-			 padding-top: 180px;
-			 }*/
+			
 		</style>
 	</head>
 	<body class="H-flexbox-horizontal H-width-100-percent H-height-100-percent H-overflow-hidden">
@@ -66,27 +61,13 @@
 			</div>
 			<div class="H-tabs-items H-theme-background-color-white H-flex-item H-height-100-percent H-overflow-scrolling" id="tap_loading" style="display: none;">
 			<!--<img src="../../../image/loading.png" width="70" height="70" class="quanquan"/>-->
-			<h6>
-			<div class="spinner ">
-			<div class="spinner-container container1">
-			<div class="circle1"></div>
-			<div class="circle2"></div>
-			<div class="circle3"></div>
-			<div class="circle4"></div>
+			<div class="H-flexbox-vertical H-center-all">
+				<div class="H-flex-item H-text-align-center H-font-size-10">
+					<img src="../../../image/spinner_2x.gif" width="30" height="30" /><br />加载中...
+				</div>
+				
 			</div>
-			<div class="spinner-container container2">
-			<div class="circle1"></div>
-			<div class="circle2"></div>
-			<div class="circle3"></div>
-			<div class="circle4"></div>
-			</div>
-			<div class="spinner-container container3">
-			<div class="circle1"></div>
-			<div class="circle2"></div>
-			<div class="circle3"></div>
-			<div class="circle4"></div>
-			</div>
-			</div></h6>
+			
 			</div>
 		</script>
 		<script type="text/html" id="shop_child_data">
@@ -113,6 +94,7 @@
 					location.reload();
 				})
 			});
+			
 			H.ready(function() {
 				initUserInfo(function() {
 					initPageData();
