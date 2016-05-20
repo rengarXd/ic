@@ -4,8 +4,8 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
 		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-		<link rel="stylesheet" type="text/css" href="../../css/aui.css" />
-		<link rel="stylesheet" type="text/css" href="../../css/tools/loading.css"/>
+		<link rel="stylesheet" type="text/css" href="../../../css/aui.css" />
+		<link rel="stylesheet" type="text/css" href="../../../css/tools/loading.css"/>
 		<style type="text/css">
 			p.goods-title {
 				font-size: 1em;
@@ -53,7 +53,7 @@
 	<body>
 		<div class="aui-content" id="shopdata_body"></div>
 		<div id="ic_loading" style="display: none;">
-			<img src="../../image/loading.png" />
+			<img src="../../../image/loading.png" />
 			<h6>
 			<div class="spinner">
 				<div class="spinner-container container1">
@@ -95,7 +95,7 @@
 			</ul>
 		</script>
 		<!--无网络提示 start-->
-		<div style="text-align: center" id="ic_nonetwork"><img src="../../image/loading.png" width="70" height="70" />
+		<div style="text-align: center" id="ic_nonetwork"><img src="../../../image/loading.png" width="70" height="70" />
 			<br />
 			<span style="font-size:12px; margin-bottom: 10px;" class="aui-block"></span>
 			<div class="aui-btn aui-btn-default" id="reload_page" tapmode>
@@ -104,12 +104,12 @@
 		</div>
 		<!--无网络提示 end-->
 	</body>
-	<script type="text/javascript" src="../../script/AHelper.js"></script>
-	<script type="text/javascript" src="../../script/zepto.min.js"></script>
-	<script type="text/javascript" src="../../script/laytpl.js"></script>
+	<script type="text/javascript" src="../../../script/AHelper.js"></script>
+	<script type="text/javascript" src="../../../script/zepto.min.js"></script>
+	<script type="text/javascript" src="../../../script/laytpl.js"></script>
 	<script type="text/javascript">
 		function openGoods(goodId) {
-			H.$openWin('shop_show_header', '../shop/shop_show_header.html', {
+			H.$openWin('shop_show_header', '../shop_show_header.html', {
 				goodId : goodId
 			});
 		}
@@ -131,7 +131,7 @@
 					url : window.serverUrl + '/get_new_shop_list/token/' + retobj.token + '/user_id/' + retobj.id
 				}, function(ret, err) {
 					if (ret && ret.retCode == 1) {
-						//						alert(JSON.stringify(ret.retValue));
+						//alert(JSON.stringify(ret.retValue));
 						var tpl = document.getElementById('shopdata').innerHTML;
 						//读取模版
 						$("#ic_loading").hide();

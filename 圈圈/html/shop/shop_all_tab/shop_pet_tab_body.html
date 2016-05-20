@@ -1,0 +1,241 @@
+﻿<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>全部商品分类body</title>
+		<link href="../../../css/Hui/Hui.css" rel="stylesheet" type="text/css" />
+		<link href="../../../css/tools/loading.css" rel="stylesheet" type="text/css" />
+		<style type="text/css">
+			body {
+				background-color: #fff;
+			}
+			.H-tabs-active:after {
+				border-left: 5px solid #5cb85c;
+				border-right: 2px solid #fff;
+				z-index: 100;
+			}
+			.quanquan {
+				text-align: center;
+				margin-left: 93px;
+				margin-top: 180px;
+			}
+			/*.spinner {
+			 text-align: center;
+			 margin-left: 90px;
+			 padding-top: 180px;
+			 }*/
+		</style>
+	</head>
+	<body class="H-flexbox-horizontal H-width-100-percent H-height-100-percent H-overflow-hidden">
+		<div id="shop_tap_html" style="display: none;" class="H-flexbox-horizontal H-width-100-percent H-height-100-percent H-overflow-hidden"></div>
+		<div style="text-align: center;display: none;" id="ic_loading"><img src="../../../image/loading.png" />
+			<br />
+			<span>加载中</span>
+		</div>
+		<!--无网络提示 start-->
+		<div style="text-align: center;display: none;" id="ic_nonetwork"><img src="../../../image/loading.png" width="70" height="70" />
+			<br />
+			<span style="font-size:12px; margin-bottom: 10px;" class="aui-block"></span>
+			<div class="aui-btn aui-btn-default" id="reload_page" tapmode>
+				重新加载
+			</div>
+		</div>
+		<!--无网络提示 end-->
+		<script type="text/html" id="shop_tap_data">
+			<div class="H-tabs-channel H-width-100 H-height-100-percent H-overflow-scrolling H-border-horizontal-right-after H-theme-background-color-f4f4f4">
+			<ul class="H-width-100-percent H-auto-height"  >
+			<li tapmode="" onclick="onloadPageData({{ d.retValue[0].id }},'{{ 0 }}');" class="H-channel-item H-tabs-active H-theme-font-color9 H-theme-background-color-white H-font-size-13  H-padding-15 H-text-show-row-1 H-font-weight-500 H-border-vertical-bottom-after H-width-100-percent H-box-sizing-border-box">
+			{{ d.retValue[0].title }}
+			</li>
+			{{# for(var i = 1, len = d.retValue.length; i < len; i++){ }}
+			<li tapmode="" onclick="onloadPageData({{ d.retValue[i].id }},'{{ i }}');" class="H-channel-item H-font-size-13 H-padding-15 H-text-show-row-1 H-font-weight-500 H-border-vertical-bottom-after H-width-100-percent H-box-sizing-border-box">
+			{{ d.retValue[i].title }}
+			</li>
+			{{# }　}}
+			</ul>
+			</div>
+			<div class="H-tabs-items H-theme-background-color-white H-flex-item H-height-100-percent H-overflow-scrolling"  id="shop_data_show" style="display: none" >
+			{{# for(var a = 0, b = d.retValue.length; a < b; a++){ }}
+			<div class="H-tabs-item H-padding-vertical-both-10 H-padding-horizontal-left-10"  >
+			<div class="H-clear-both H-width-100-percent H-display-table H-box-sizing-border-box" id="shop_child_html{{ a }}" >
+			</div>
+			</div>
+			{{# }　}}
+			</div>
+			<div class="H-tabs-items H-theme-background-color-white H-flex-item H-height-100-percent H-overflow-scrolling" id="tap_loading" style="display: none;">
+			<img src="../../../image/loading.png" width="70" height="70" class="quanquan"/>
+			<h6>
+			<div class="spinner ">
+			<div class="spinner-container container1">
+			<div class="circle1"></div>
+			<div class="circle2"></div>
+			<div class="circle3"></div>
+			<div class="circle4"></div>
+			</div>
+			<div class="spinner-container container2">
+			<div class="circle1"></div>
+			<div class="circle2"></div>
+			<div class="circle3"></div>
+			<div class="circle4"></div>
+			</div>
+			<div class="spinner-container container3">
+			<div class="circle1"></div>
+			<div class="circle2"></div>
+			<div class="circle3"></div>
+			<div class="circle4"></div>
+			</div>
+			</div></h6>
+			</div>
+		</script>
+		<script type="text/html" id="shop_child_data">
+			{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
+			<div class="H-display-table-cell H-float-left  H-box-sizing-border-box H-width-avg-3 H-padding-horizontal-right-10 H-margin-vertical-bottom-10">
+			{{# if (d.retValue[i].img == "") { }}
+			<img src="../../../image/loading.png" class="H-width-100-percent H-display-block H-theme-background-color-f4f4f4" alt="" title="" />
+			{{# } else { }}
+			<img src="http://122.114.90.191/{{ d.retValue[i].img }}" class="H-width-100-percent H-display-block H-theme-background-color-f4f4f4" alt="" title="" onclick="openGoods({{ d.retValue[i].id }});" />
+			{{# } }}
+			<div class="H-text-show-row-1" style="text-align: center;font-size: 11px;">
+			{{ d.retValue[i].name }}
+			</div>
+			</div>
+			{{# }　}}
+		</script>
+		<script type="text/javascript" src="../../../script/hui/H.js" ></script>
+		<script type="text/javascript" src="../../../script/zepto.min.js"></script>
+		<script type="text/javascript" src="../../../script/laytpl.js"></script>
+		<script type="text/javascript">
+			var userinfoobj = null, catid = null;
+			Zepto(function($) {
+				$("#reload_page").on("tap", function() {
+					location.reload();
+				})
+			});
+			H.ready(function() {
+				initUserInfo(function() {
+					initPageData();
+				});
+			});
+			//frame组件切换
+			function initCate() {
+				H.on(H.Ds(".H-tabs-channel ul li"), "click", function(event) {
+					var channel_item = H.getParents(event.target, "H-channel-item");
+					var index = H.getIndex(channel_item);
+					H.addClass(channel_item, "H-tabs-active H-theme-font-color9 H-theme-background-color-white");
+					H.removeClass(H.siblings(channel_item), "H-tabs-active H-theme-font-color9 H-theme-background-color-white");
+					var tab_item = H.D(".H-tabs-items .H-tabs-item:nth-child(" + (index + 1) + ")")
+					H.removeClass(tab_item, "H-display-none-important");
+					H.addClass(H.siblings(tab_item), "H-display-none-important");
+				});
+				onloadPageData(catid, '0');
+			}
+
+			//初始化用户信息
+			//@callback 初始化信息回调
+			function initUserInfo(callback) {
+				api.getPrefs({
+					key : 'userinfo'
+				}, function(ret, err) {
+					userinfoobj = eval('(' + ret.value + ')');
+					callback();
+				});
+			}
+
+			//模板渲染
+			//@tplId 模板循环部分DOM id 【string】
+			//@renderData 模板部分数据 【JSON对象】
+			//@tplDataId 模板被渲染部分DOM id 【string】
+			//@callback 回调函数 【匿名函数】
+			function _tpl(tplId, renderData, tplDataId) {
+				var tpl = document.getElementById(tplId).innerHTML;
+				laytpl(tpl).render(renderData, function(render) {
+					document.getElementById(tplDataId).innerHTML = render;
+					$("#shop_tap_html").show();
+					initCate();
+				});
+			}
+
+			//通用AJAX请求方法（默认开启缓存）
+			//@url 请求地址
+			//@tplId 模板循环部分DOM id 【string】
+			//@tplDataId 模板被渲染部分DOM id 【string】
+			function _ajax(url, tplId, tplDataId) {
+				$("#ic_loading").show();
+				api.ajax({
+					url : 'http://122.114.90.191/apis/' + url + '/token/' + userinfoobj.token + '/user_id/' + userinfoobj.id,
+					cache : true
+				}, function(ret, err) {
+					if (ret) {
+						//                  console.log('ret.retCode==' + ret.retCode);
+						switch(ret.retCode) {
+							case 1:
+								catid = ret.retValue[0].id;
+								//							console.log('catid[0].id' + catid[0].id);
+								$("#ic_loading").hide();
+								_tpl(tplId, ret, tplDataId);
+								break;
+							case 0:
+								$("#ic_loading span").text(ret.retDesc);
+								break;
+						}
+					} else {
+						$("#ic_loading").hide();
+						$("#ic_nonetwork").show();
+						$("#ic_nonetwork span").text(err.msg);
+					}
+				});
+			}
+
+			//打开不同分类下的商品列表
+			function openGoods() {
+				openNewPage("shop_all_header", "shop_all_header.html");
+			}
+
+			//通用打开新页面方法
+			//@name窗口名称 string
+			//@url 窗体地址 string
+			//@pageParam 要给打开的页面传递的参数 JSON obj
+			function openNewPage(name, url, pageParam) {
+				H.openWin(name, url, pageParam);
+			}
+
+			//初始化页面数据
+			function initPageData() {
+				//商品分类列表
+				_ajax('getCategoryListTop', 'shop_tap_data', 'shop_tap_html');
+			}
+
+			function onloadPageData(id, i) {
+				$("#shop_data_show").hide();
+				$("#tap_loading").show();
+				//幻灯信息请求及渲染
+				api.ajax({
+					url : 'http://122.114.90.191/apis/getCategoryByParentid/token/' + userinfoobj.token + '/cat/' + id + '/user_id/' + userinfoobj.id,
+					cache : true
+				}, function(ret, err) {
+					if (ret) {
+						switch(ret.retCode) {
+							case 1:
+								var childid = 'shop_child_html' + i;
+								var tpl = document.getElementById('shop_child_data').innerHTML;
+								laytpl(tpl).render(ret, function(render) {
+									document.getElementById(childid).innerHTML = render;
+									$("#tap_loading").hide();
+									$("#shop_data_show").show();
+								});
+								break;
+							case 0:
+								$("#tap_loading").hide();
+								api.toast({
+									msg : ret.retDesc
+								});
+								break;
+						}
+					}
+				});
+			}
+		</script>
+	</body>
+</html>
