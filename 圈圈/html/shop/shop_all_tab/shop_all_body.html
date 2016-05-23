@@ -107,7 +107,7 @@
 		<script type="text/javascript" src="../../../script/zepto.min.js"></script>
 		<script type="text/javascript" src="../../../script/laytpl.js"></script>
 		<script type="text/javascript">
-			var goods_id;
+			var goods_id, order;
 			function openGoods(goodId) {
 				H.$openWin('shop_show_header', '../shop_show_header.html', {
 					goodId : goodId
@@ -123,6 +123,17 @@
 			H.ready(function() {
 				goods_id = H.$getPageParam();
 //				console.log(JSON.stringify(goods_id));
+				switch (goods_id.order) {
+					case 0:
+						order = 'new';
+						break;
+					case 1:
+						order = 'visit';
+						break;
+					case 2:
+						order = 'price';
+						break;
+				}
 				$("#ic_loading").show();
 				api.getPrefs({
 					key : 'userinfo'
@@ -130,7 +141,7 @@
 					var retobj = eval('(' + ret.value + ')');
 					//1.1 请求商品列表
 					api.ajax({
-						url : window.serverUrl + '/goods_list/token/' + retobj.token + '/user_id/' + retobj.id + '/cat/' + goods_id.id
+						url : window.serverUrl + '/goods_list/token/' + retobj.token + '/user_id/' + retobj.id + '/cat/' + goods_id.id + '/order/' + order
 					}, function(ret, err) {
 						if (1 == ret.retCode && ret) {
 							//alert(JSON.stringify(ret.retValue));

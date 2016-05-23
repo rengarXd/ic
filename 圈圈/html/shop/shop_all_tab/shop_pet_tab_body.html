@@ -72,7 +72,7 @@
 			{{# if (d.retValue[i].img == "") { }}
 			<img src="../../../image/loading.png" class="H-width-100-percent H-display-block H-theme-background-color-f4f4f4" alt="" title="" />
 			{{# } else { }}
-			<img src="http://122.114.90.191/{{ d.retValue[i].img }}" class="H-width-100-percent H-display-block H-theme-background-color-f4f4f4" alt="" title="" onclick="openGoods({{ d.retValue[i].id }});" />
+			<img src="http://122.114.90.191/{{ d.retValue[i].img }}" class="H-width-100-percent H-display-block H-theme-background-color-f4f4f4" alt="" title="" onclick="openGoods({{ d.retValue[i].id }},{{ d.retValue[i].sort }});" />
 			{{# } }}
 			<div class="H-text-show-row-1" style="text-align: center;font-size: 11px;">
 			{{ d.retValue[i].name }}
@@ -166,9 +166,9 @@
 			}
 
 			//打开不同分类下的商品列表
-			function openGoods(id) {
+			function openGoods(id, sort) {
 				openNewPage("shop_all_header", "shop_all_header.html", {
-					id : id
+					id : id,
 				});
 			}
 
