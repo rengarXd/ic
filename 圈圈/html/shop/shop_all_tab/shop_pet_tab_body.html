@@ -17,10 +17,9 @@
 				z-index: 100;
 			}
 			.quanquan {
-				height:50%;
+				height: 50%;
 				text-align: center;
 			}
-			
 		</style>
 	</head>
 	<body class="H-flexbox-horizontal H-width-100-percent H-height-100-percent H-overflow-hidden">
@@ -60,14 +59,11 @@
 			{{# }　}}
 			</div>
 			<div class="H-tabs-items H-theme-background-color-white H-flex-item H-height-100-percent H-overflow-scrolling" id="tap_loading" style="display: none;">
-			<!--<img src="../../../image/loading.png" width="70" height="70" class="quanquan"/>-->
 			<div class="H-flexbox-vertical H-center-all">
-				<div class="H-flex-item H-text-align-center H-font-size-10">
-					<img src="../../../image/spinner_2x.gif" width="30" height="30" /><br />加载中...
-				</div>
-				
+			<div class="H-flex-item H-text-align-center H-font-size-10">
+			<img src="../../../image/spinner_2x.gif" width="30" height="30" /><br />加载中...
 			</div>
-			
+			</div>
 			</div>
 		</script>
 		<script type="text/html" id="shop_child_data">
@@ -94,7 +90,6 @@
 					location.reload();
 				})
 			});
-			
 			H.ready(function() {
 				initUserInfo(function() {
 					initPageData();
@@ -171,8 +166,10 @@
 			}
 
 			//打开不同分类下的商品列表
-			function openGoods() {
-				openNewPage("shop_all_header", "shop_all_header.html");
+			function openGoods(id) {
+				openNewPage("shop_all_header", "shop_all_header.html", {
+					id : id
+				});
 			}
 
 			//通用打开新页面方法
