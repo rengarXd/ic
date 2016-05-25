@@ -77,7 +77,9 @@
 		//幻灯插件实例化及配置
 		var swiper = new Swiper('.swiper-container', {
 			pagination : '.swiper-pagination',
-			paginationClickable : true
+			paginationClickable : true,
+//			effect:"coverflow"
+            
 		});
 		Zepto(function($) {
 			//点击确定进入按钮
@@ -90,10 +92,10 @@
 					//如果有值
 					if (rets && rets.value) {
 						//打开APP首页
-						H.$openWin('main', 'main.html', {});
+						H.$openWin('main', './main.html', {});
 					} else {
 						//打开用户登录页面
-						H.$openWin('login_head', 'login/login_head.html', {});
+						H.$openWin('login_head', './login/login_head.html', {});
 					}
 				}, 'user_islogin');
 			});
