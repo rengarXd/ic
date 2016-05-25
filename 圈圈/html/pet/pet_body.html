@@ -177,7 +177,7 @@
                     <span>身份</span>
                 </div>
             </div>
-            <div class="item-func" tapmode onclick="H.$openWin("setting", "setting_head.html");">
+            <div class="item-func" tapmode onclick="H.$openWin('setting', 'setting_head.html')">
                 <div class="content-area">
                     <p class="aui-bg-warning">
                         <i class="iconfont icon-set"></i>
@@ -258,6 +258,7 @@
         </div></div> <script src="../../script/AHelper.js" type="text/javascript"></script>
         <script src="../../script/zepto.min.js" type="text/javascript"></script>
         <script>
+            var userobj = null;
             Zepto(function($) {
             });
             H.ready(function() {
@@ -265,7 +266,7 @@
                     key : 'userinfo'
                 }, function(ret, err) {
                     //alert(JSON.stringify(ret));
-                    var userobj = eval('(' + ret.value + ')');
+                    userobj = eval('(' + ret.value + ')');
                     //1、如果没有设备
                     if (userobj.ishavedevice == 0) {
                         $("#nodevice").show();
@@ -328,11 +329,48 @@
                             autorotation : true,
                         }, function(ret, err) {
                             if (ret) {
-                                //alert(JSON.stringify(ret));
+                                if (ret.eventType == "success") {
+                                    activation(ret.content);
+                                } else {
+//                                  api.toast({
+//                                      msg : '抱歉失败！'
+//                                  });
+                                }
+                                //
+                                console.log(JSON.stringify(ret));
                             } else {
                                 //alert(JSON.stringify(err));
                             }
                         });
+                    }
+                });
+            }
+
+            function activation(deviceid) {
+                api.showProgress({
+                    title : "激活中..."
+                });
+                api.ajax({
+                    url : window.deviceserverUrl + '/pet_binding_device/token/' + userobj.token + '/user_id/' + userobj.id + '/deviceid/' + deviceid,
+                    cache : true
+                }, function(ret, err) {
+                    if (ret) {
+                        api.hideProgress();
+                        switch(ret.retCode) {
+                            case 1:
+                                //console.log(JSON.stringify(ret));
+                                api.setPrefs({
+                                    key : 'userinfo',
+                                    value : JSON.stringify(ret.retValue)
+                                });
+                                location.reload();
+                                break;
+                            case 0:
+                                api.toast({
+                                    msg : ret.retDesc
+                                });
+                                break;
+                        }
                     }
                 });
             }
