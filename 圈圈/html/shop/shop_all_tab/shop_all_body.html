@@ -127,7 +127,6 @@
 		<script type="text/javascript" src="../../../script/laytpl.js"></script>
 		<script type="text/javascript">
 			var goods_id, order, retobj, datas, isswitch = false;
-			var now = new Date();
 			function openGoods(goodId) {
 				H.$openWin('shop_show_header', '../shop_show_header.html', {
 					goodId : goodId
@@ -141,14 +140,14 @@
 				laytpl(tpl).render(renderData, function(render) {
 					//H.$recoverDropdownToNormal();
 					document.getElementById(tplDataId).innerHTML = render;
-					console.log(now.getMilliseconds());
+//					console.log(now.getMilliseconds());
 				});
 			}
 
 			//ajax请求
 			function _ajax() {
 				$("#ic_loading").show();
-				console.log(now.getMilliseconds());
+//				console.log(now.getMilliseconds());
 				api.ajax({
 					url : window.serverUrl + '/goods_list/token/' + retobj.token + '/user_id/' + retobj.id + '/cat/' + goods_id.id + '/order/' + order,
 					cache : true
@@ -157,7 +156,7 @@
 						//alert(JSON.stringify(ret.retValue));
 						$("#ic_loading").hide();
 						datas = ret;
-						console.log(now.getMilliseconds());
+//						console.log(now.getMilliseconds());
 						if (isswitch == true) {
 							_laytpl('shopdata1', datas, 'shopdata_body');
 							H.$sendEvent('colfont');
