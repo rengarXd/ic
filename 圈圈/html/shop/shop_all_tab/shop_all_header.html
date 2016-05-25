@@ -8,6 +8,7 @@
 		<link rel="stylesheet" type="text/css" href="../../../css/aui-win.css" />
 		<!--		<link rel="stylesheet" type="text/css" href="../../../css/winu-ui.css" />-->
 		<link href="../../../css/Hui/Hui.css" rel="stylesheet" type="text/css" />
+		<link href="../../../css/fonts/iconfont.css" rel="stylesheet" type="text/css" />
 		<style type="text/css">
 			.aui-bar-1d9dd5 {
 				background: #1786FF;
@@ -46,6 +47,8 @@
 			<div class="aui-title">
 				商品列表
 			</div>
+			<span class="iconfont icon-100 aui-pull-right"  style="display: none;" id="liebiao" onclick="liebiao();"></span>
+			<span class="iconfont icon-fenlei aui-pull-right" style="display: none;" id="fangkuai" onclick="fangkuai();"></span>
 			<nav id="nav-list">
 				<ul class="H-flexbox-horizontal">
 					<li class="H-flex-item H-center-all" tapmode >
@@ -67,6 +70,14 @@
 		function setStyle(index) {
 			var that = $("#nav-list li").eq(index);
 			that.children("a").addClass("on").parent().siblings().children("a").removeClass("on");
+		}
+
+		function liebiao() {
+			H.$sendEvent('ulswitch');
+		}
+
+		function fangkuai() {
+			H.$sendEvent('colswitch');
 		}
 
 		Zepto(function($) {
@@ -94,11 +105,23 @@
 				});
 			}
 			H.$openFrameGroupWithNav(function(ret, err) {
+				//				console.log(ret.index);
 				setStyle(ret.index);
 			}, 'aui-header', {
 				name : 'groups',
-				frames : frames
+				frames : frames,
+				preload : 2
 			});
+			H.$addEventListener(function(ret) {
+				//切换为列表图标
+				$("#fangkuai").hide();
+				$("#liebiao").show();
+			}, 'ulfont');
+			H.$addEventListener(function(ret) {
+				//切换为块图标
+				$("#liebiao").hide();
+				$("#fangkuai").show();
+			}, 'colfont');
 		});
 	</script>
 </html>

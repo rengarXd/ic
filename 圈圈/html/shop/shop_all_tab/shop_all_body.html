@@ -7,6 +7,9 @@
 		<link rel="stylesheet" type="text/css" href="../../../css/aui.css" />
 		<link rel="stylesheet" type="text/css" href="../../../css/tools/loading.css"/>
 		<style type="text/css">
+			body {
+				background-color: #fff;
+			}
 			p.goods-title {
 				font-size: 1em;
 				color: #333;
@@ -86,9 +89,25 @@
 			<p>
 			<span class="goods-price aui-text-danger">¥<strong>{{ d.retValue[i].sell_price }}</strong>元</span>
 			<span class=" aui-pull-right goodss-info">
-			市场价<span class="aui-text-danger">{{ d.retValue[i].market_price }}</span>元
+			浏览量<span class="aui-text-danger">{{ d.retValue[i].visit }}</span>次
 			</span>
 			</p>
+			</div>
+			</li>
+			{{# } }}
+			</ul>
+		</script>
+		<script id="shopdata1" type="text/html">
+			<ul class="aui-list-view">
+			{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
+			<li class="aui-list-view-cell aui-img">
+			<img class="aui-img-object aui-pull-left" src="http://122.114.90.191/{{ d.retValue[i].img }}">
+			<div class="aui-img-body">
+			{{ d.retValue[i].name }}
+			<p><span class="goods-price aui-text-danger">¥<strong>{{ d.retValue[i].sell_price }}</strong>元</span>
+			<span class=" aui-pull-right goodss-info">
+			浏览量<span class="aui-text-danger">{{ d.retValue[i].visit }}</span>次
+			</span></p>
 			</div>
 			</li>
 			{{# } }}
@@ -107,12 +126,69 @@
 		<script type="text/javascript" src="../../../script/zepto.min.js"></script>
 		<script type="text/javascript" src="../../../script/laytpl.js"></script>
 		<script type="text/javascript">
-			var goods_id, order;
+			var goods_id, order, retobj, datas, isswitch = false;
 			function openGoods(goodId) {
 				H.$openWin('shop_show_header', '../shop_show_header.html', {
 					goodId : goodId
 				});
 			}
+
+			//模板渲染
+			function _laytpl(tplId, renderData, tplDataId) {
+				var tpl = document.getElementById(tplId).innerHTML;
+				//读取模版
+				laytpl(tpl).render(renderData, function(render) {
+					//H.$recoverDropdownToNormal();
+					document.getElementById(tplDataId).innerHTML = render;
+				});
+			}
+
+			//ajax请求
+			function _ajax() {
+				$("#ic_loading").show();
+				api.ajax({
+					url : window.serverUrl + '/goods_list/token/' + retobj.token + '/user_id/' + retobj.id + '/cat/' + goods_id.id + '/order/' + order
+				}, function(ret, err) {
+					if (1 == ret.retCode && ret) {
+						//alert(JSON.stringify(ret.retValue));
+						$("#ic_loading").hide();
+						datas = ret;
+						console.log(isswitch);
+						if (isswitch == true) {
+							_laytpl('shopdata1', datas, 'shopdata_body');
+							H.$sendEvent('colfont');
+						} else {
+							_laytpl('shopdata', datas, 'shopdata_body');
+							H.$sendEvent('ulfont');
+						}
+					} else {
+						$("#ic_loading").hide();
+						if (0 == ret.retCode && ret) {
+							$("#ic_nonetwork").show();
+							$("#ic_nonetwork span").text(ret.retDesc);
+						} else {
+							$("#ic_nonetwork").show();
+							$("#ic_nonetwork span").text(err.msg);
+						}
+					}
+				});
+			}
+
+			//来自body的监听事件
+//			function addeventlistener() {
+//				//事件名
+//				var listen = ['ulswitch', 'colswitch'];
+//				//图标ID
+//				var idnames = ['#liebiao', '#fangkuai'];
+//				var setlisten = ['colfont', 'ulfont']
+//				for (var i = 0, len = listen.length; i < len; i++) {
+//					H.$addEventListener(function(ret) {
+//						//切换为列表图标
+//						_laytpl('shopdata' + JSON.stringify(i), datas, 'shopdata_body');
+//						H.$sendEvent(setlisten[i]);
+//					}, listen[i]);
+//				};
+//			}
 
 			Zepto(function($) {
 				//  网络重新加载处理
@@ -122,48 +198,39 @@
 			});
 			H.ready(function() {
 				goods_id = H.$getPageParam();
-//				console.log(JSON.stringify(goods_id));
-				switch (goods_id.order) {
-					case 0:
-						order = 'new';
-						break;
-					case 1:
-						order = 'visit';
-						break;
-					case 2:
-						order = 'price';
-						break;
-				}
-				$("#ic_loading").show();
+				//								console.log(JSON.stringify(goods_id));
 				api.getPrefs({
 					key : 'userinfo'
 				}, function(ret, err) {
-					var retobj = eval('(' + ret.value + ')');
+					retobj = eval('(' + ret.value + ')');
 					//1.1 请求商品列表
-					api.ajax({
-						url : window.serverUrl + '/goods_list/token/' + retobj.token + '/user_id/' + retobj.id + '/cat/' + goods_id.id + '/order/' + order
-					}, function(ret, err) {
-						if (1 == ret.retCode && ret) {
-							//alert(JSON.stringify(ret.retValue));
-							var tpl = document.getElementById('shopdata').innerHTML;
-							//读取模版
-							$("#ic_loading").hide();
-							laytpl(tpl).render(ret, function(render) {
-								//H.$recoverDropdownToNormal();
-								document.getElementById('shopdata_body').innerHTML = render;
-							});
-						} else {
-							$("#ic_loading").hide();
-							if (0 == ret.retCode && ret) {
-								$("#ic_nonetwork").show();
-								$("#ic_nonetwork span").text(ret.retDesc);
-							} else {
-								$("#ic_nonetwork").show();
-								$("#ic_nonetwork span").text(err.msg);
-							}
-						}
-					});
+					switch (goods_id.order) {
+						case 0:
+							order = 'new';
+							_ajax();
+							break;
+						case 1:
+							order = 'visit';
+							_ajax();
+							break;
+						case 2:
+							order = 'price';
+							_ajax();
+							break;
+					}
 				});
+				H.$addEventListener(function(ret) {
+					//切换为列表形式的渲染
+					_laytpl('shopdata1', datas, 'shopdata_body');
+					isswitch = true;
+					H.$sendEvent('colfont');
+				}, 'ulswitch');
+				H.$addEventListener(function(ret) {
+					//切换为块状形式的渲染
+					_laytpl('shopdata', datas, 'shopdata_body');
+					isswitch = false;
+					H.$sendEvent('ulfont');
+				}, 'colswitch');
 			});
 		</script>
 	</body>

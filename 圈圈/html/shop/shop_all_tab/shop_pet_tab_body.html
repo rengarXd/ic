@@ -70,7 +70,7 @@
 			{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
 			<div class="H-display-table-cell H-float-left  H-box-sizing-border-box H-width-avg-3 H-padding-horizontal-right-10 H-margin-vertical-bottom-10">
 			{{# if (d.retValue[i].img == "") { }}
-			<img src="../../../image/loading.png" class="H-width-100-percent H-display-block H-theme-background-color-f4f4f4" alt="" title="" />
+			<img src="../../../image/loading.png" class="H-width-100-percent H-display-block H-theme-background-color-f4f4f4" alt="" title="" onclick="openGoods({{ d.retValue[i].id }},{{ d.retValue[i].sort }});" />
 			{{# } else { }}
 			<img src="http://122.114.90.191/{{ d.retValue[i].img }}" class="H-width-100-percent H-display-block H-theme-background-color-f4f4f4" alt="" title="" onclick="openGoods({{ d.retValue[i].id }},{{ d.retValue[i].sort }});" />
 			{{# } }}
