@@ -1,522 +1,572 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<!--确保绘制和缩放的效果需要在<head>标签中添加 viewport 元数据标签-->
-		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
-		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-		<title>main页面主框架header</title>
-		<!--引入aui框架win-->
-		<link rel="stylesheet" href="../css/aui-win.css" />
-		<link rel="stylesheet" href="../css/fonts/iconfont.css" />
-		<style>
-			input[type="text"] {
-				-webkit-appearance: none;
-				-webkit-user-select: text;
-				background-color: #fff;
-				border-radius: 3px;
-				outline: none;
-			}
-			body {
-				background: #ffffff;
-			}
-			.display-none {
-				display: none;
-			}
-			.brige {
-				display: inline-block;
-				position: absolute;
-				top: 5px;
-				left: 51%;
-				z-index: 100;
-				background: red;
-				border-radius: 50%;
-				-webkit-border-radius: 50%;
-				/*				font-size: 11px;*/
-				height: 8px;
-				line-height: 8px;
-				text-align: center;
-				min-width: 8px;
-				color: #fff;
-				font-style: normal;
-			}
-			#aui-footer .aui-iconfont {
-				font-size: 25px;
-			}
-			#aui-footer {
-				background: #e5e5e5;
-				/*border-top: 1px solid #e2e2e2;*/
-			}
-			.aui-bar-1d9dd5 {
-				background: #1786FF;
-			}
-			.aui_bar_f4f4f4 {
-				background: #f4f4f4;
-			}
-			#aui-footer li.active-1d9dd5, #aui-footer li.active-1d9dd5 span.aui-iconfont {
-				color: #ff0000 !important;
-				background: #fff;
-			}
-			.icon-size {
-				font-size: 26px
-			}
-			#index_massage span:active {
-				color: #34495E
-			}
-			.aui-bar .aui-iconfont {
-				line-height: 30px;
-			}
-			#aui-footer .aui-bar-tab {
-				background: #e5e5e5;
-			}
-			.serach_in {
-				width: 95%;
-				-moz-border-radius: 4px;
-				-khtml-border-radius: 4px;
-				-webkit-border-radius: 4px;
-				height: 31px;
-				margin-top: 6px;
-				margin-left: 8px;
-				font-size: 13px;
-				color: #8fb2f6;
-				border: 0 !important;
-				line-height: 19px;
-				padding-left: 8px;
-			}
-			.index_massage {
-				text-align: center;
-				font-size: 11px;
-				line-height: 32px;
-			}
-			.index_massage i {
-				line-height: 33px;
-				font-size: 22px;
-			}
-			.index_massage p {
-				line-height: 0px;
-			}
-			.index_massage:active {
-				color: #ddd
-			}
-			/*搜索框搜索*/
-			.index_serach_icon {
-				position: relative;
-				top: -16px;
-				color: #1c84f3;
-				font-size: 22px;
-				right: 4px;
-			}
-			.header {
-				height: 45px;
-			}
-		</style>
-	</head>
-	<body>
-		<!--标题栏 start-->
-		<header class="aui-bar aui-bar-nav aui-bar-1d9dd5 header" id='index-header'>
-			<div class="aui-col-xs-10" style="line-height: 0; text-align: right">
-				<input class="serach_in aui-input" type="text" placeholder="大家都在搜：狗狗在哪儿 " id="input_box">
-				<span class="iconfont icon-sousuo index_serach_icon"></span>
-			</div>
-			<div class="aui-col-xs-2 index_massage" id="index_massage">
-				<i class="iconfont icon-xiaoxi"></i>
-				<p>
-					消息
-				</p>
-				<em class="brige" style="display: none;" id="brige"></em>
-			</div>
-		</header>
-		<header class="aui-bar aui-bar-nav aui-bar-1d9dd5 display-none header" id='pet-header' style="background: #0099ff">
-			<div class="aui-title" style="font-size: 14px;">
-				硬件ID在线  电量56%
-			</div>
-			<a class="aui-pull-right"> <span class="aui-iconfont aui-icon-my"></span></a>
-		</header>
-		<header class="aui-bar aui-bar-nav aui-bar-1d9dd5 display-none header" id='friend-header'>
-			<div class="aui-title">
-				友邻
-			</div>
-		</header>
-		<header class="aui-bar aui-bar-nav aui-bar-1d9dd5 display-none header" id='shop-header'>
-			<div class="aui-title">
-				市场
-			</div>
-		</header>
-		<header class="aui-bar aui-bar-nav aui-bar-1d9dd5 display-none header" id='me-header'>
-			<div class="aui-title">
-				我的
-			</div>
-			<a class="aui-pull-right" id="setting_to" style="line-height: 19px;padding-top: 7px;"> <span class="iconfont icon-iconshezhi" style="line-height: 23px;
-			font-size: 20px;"></span>
-			<p style="font-size: 10px;line-height: 9px;">
-				设置
-			</p></a>
-		</header>
-		<!--标题栏 end-->
-		<footer class="aui-nav" id="aui-footer">
-			<ul class="aui-bar-tab">
-				<li class="active-1d9dd5" data-header="index-header" data-frameName="index" tapmode>
-					<span class="aui-iconfont iconfont icon-shouye"></span>
-					<p>
-						首页
-					</p>
-				</li>
-				<li data-header="pet-header" data-frameName="pet" tapmode>
-					<span class="aui-iconfont iconfont icon-1"></span>
-					<p>
-						宠物
-					</p>
-				</li>
-				<li data-header="friend-header" data-frameName="friend" tapmode>
-					<span class="aui-iconfont iconfont icon-pengyouquan"></span>
-					<p>
-						友邻
-					</p>
-					<!--消息样式-->
-					<!--<em class="brige" id="brige">8</em>-->
-					<!--消息样式-->
-				</li>
-				<li data-header="shop-header" data-frameName="shop" tapmode>
-					<span class="aui-iconfont iconfont icon-gouwuche"></span>
-					<p>
-						市场
-					</p>
-				</li>
-				<li data-header="me-header" data-frameName="me" tapmode>
-					<span class="aui-iconfont iconfont icon-wode"></span>
-					<p>
-						我的
-					</p>
-				</li>
-			</ul>
-		</footer>
-	</body>
-	<!--封装了APICloud大量常用的类库，内置了DOM操作，模板引擎，表单验证等常用类库-->
-	<script type="text/javascript" src="../script/AHelper.js"></script>
-	<script type="text/javascript" src="../script/zepto.min.js"></script>
-	<script type="text/javascript">
-		var userobj = null, db = null;
-		//设置数组
-		var frames = [];
-		// 显示指定frame
-		function showFrame(frameName) {
-			$("#aui-footer li").each(function() {
-				var fName = $(this).attr("data-frameName");
-				if (fName != frameName) {
-					H.$setFrameStatus(fName, true);
-				} else {
-					H.$setFrameStatus(fName, false);
-				}
-			});
-		}
+    <head>
+        <meta charset="utf-8">
+        <!--确保绘制和缩放的效果需要在<head>标签中添加 viewport 元数据标签-->
+        <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+        <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+        <title>main页面主框架header</title>
+        <!--引入aui框架win-->
+        <link rel="stylesheet" href="../css/aui-win.css" />
+        <link rel="stylesheet" href="../css/fonts/iconfont.css" />
+        <style>
+            input[type="text"] {
+                -webkit-appearance: none;
+                -webkit-user-select: text;
+                background-color: #fff;
+                border-radius: 3px;
+                outline: none;
+            }
+            body {
+                background: #ffffff;
+            }
+            .display-none {
+                display: none;
+            }
+            .brige {
+                display: inline-block;
+                position: absolute;
+                top: 5px;
+                left: 51%;
+                z-index: 100;
+                background: red;
+                border-radius: 50%;
+                -webkit-border-radius: 50%;
+                /*				font-size: 11px;*/
+                height: 8px;
+                line-height: 8px;
+                text-align: center;
+                min-width: 8px;
+                color: #fff;
+                font-style: normal;
+            }
+            #aui-footer .aui-iconfont {
+                font-size: 25px;
+            }
+            #aui-footer {
+                background: #e5e5e5;
+                /*border-top: 1px solid #e2e2e2;*/
+            }
+            .aui-bar-1d9dd5 {
+                background: #1786FF;
+            }
+            .aui_bar_f4f4f4 {
+                background: #f4f4f4;
+            }
+            #aui-footer li.active-1d9dd5, #aui-footer li.active-1d9dd5 span.aui-iconfont {
+                color: #ff0000 !important;
+                background: #fff;
+            }
+            .icon-size {
+                font-size: 26px
+            }
+            #index_massage span:active {
+                color: #34495E
+            }
+            .aui-bar .aui-iconfont {
+                line-height: 30px;
+            }
+            #aui-footer .aui-bar-tab {
+                background: #e5e5e5;
+            }
+            .serach_in {
+                width: 95%;
+                -moz-border-radius: 4px;
+                -khtml-border-radius: 4px;
+                -webkit-border-radius: 4px;
+                height: 31px;
+                margin-top: 6px;
+                margin-left: 8px;
+                font-size: 13px;
+                color: #8fb2f6;
+                border: 0 !important;
+                line-height: 19px;
+                padding-left: 8px;
+            }
+            .index_massage {
+                text-align: center;
+                font-size: 11px;
+                line-height: 32px;
+            }
+            .index_massage i {
+                line-height: 33px;
+                font-size: 22px;
+            }
+            .index_massage p {
+                line-height: 0px;
+            }
+            .index_massage:active {
+                color: #ddd
+            }
+            /*搜索框搜索*/
+            .index_serach_icon {
+                position: relative;
+                top: -16px;
+                color: #1c84f3;
+                font-size: 22px;
+                right: 4px;
+            }
+            .header {
+                height: 45px;
+            }
+        </style>
+    </head>
+    <body>
+        <!--标题栏 首页 start-->
+        <header class="aui-bar aui-bar-nav aui-bar-1d9dd5 header" id='index-header'>
+            <div class="aui-col-xs-10" style="line-height: 0; text-align: right">
+                <input class="serach_in aui-input" type="text" placeholder="大家都在搜：狗狗在哪儿 " id="input_box">
+                <span class="iconfont icon-sousuo index_serach_icon"></span>
+            </div>
+            <div class="aui-col-xs-2 index_massage" id="index_massage">
+                <i class="iconfont icon-xiaoxi"></i>
+                <p>
+                    消息
+                </p>
+                <em class="brige" style="display: none;" id="brige"></em>
+            </div>
+        </header>
+        <!--标题栏 首页 end-->
+        <!--标题栏 宠物 start-->
+        <header class="aui-bar aui-bar-nav aui-bar-1d9dd5 display-none header" id='pet-header' style="background: #0099ff">
+            <div class="aui-title" style="font-size: 14px;">
+                硬件在线  电量56%
+            </div>
+            <a class="aui-pull-right"> <span class="aui-iconfont aui-icon-my"></span></a>
+        </header>
+        <!--标题栏 宠物 end-->
+        <!--标题栏 友邻 start-->
+        <header class="aui-bar aui-bar-nav aui-bar-1d9dd5 display-none header" id='friend-header'>
+            <div class="aui-title">
+                友邻
+            </div>
+        </header>
+        <!--标题栏 友邻 end-->
+        <!--标题栏 市场 start-->
+        <header class="aui-bar aui-bar-nav aui-bar-1d9dd5 display-none header" id='shop-header'>
+            <div class="aui-title">
+                市场
+            </div>
+        </header>
+        <!--标题栏 市场 end-->
+        <!--标题栏 我的 start-->
+        <header class="aui-bar aui-bar-nav aui-bar-1d9dd5 display-none header" id='me-header'>
+            <div class="aui-title">
+                我的
+            </div>
+            <a class="aui-pull-right" id="setting_to" style="line-height: 19px;padding-top: 7px;"> <span class="iconfont icon-iconshezhi" style="line-height: 23px;
+            font-size: 20px;"></span>
+            <p style="font-size: 10px;line-height: 9px;">
+                设置
+            </p></a>
+        </header>
+        <!--标题栏 我的 end-->
+        <!--脚部 start-->
+        <footer class="aui-nav" id="aui-footer">
+            <ul class="aui-bar-tab">
+                <li class="active-1d9dd5" data-header="index-header" data-frameName="index" tapmode>
+                    <span class="aui-iconfont iconfont icon-shouye"></span>
+                    <p>
+                        首页
+                    </p>
+                </li>
+                <li data-header="pet-header" data-frameName="pet" tapmode>
+                    <span class="aui-iconfont iconfont icon-1"></span>
+                    <p>
+                        宠物
+                    </p>
+                </li>
+                <li data-header="friend-header" data-frameName="friend" tapmode>
+                    <span class="aui-iconfont iconfont icon-pengyouquan"></span>
+                    <p>
+                        友邻
+                    </p>
+                    <!--消息样式-->
+                    <!--<em class="brige" id="brige">8</em>-->
+                    <!--消息样式-->
+                </li>
+                <li data-header="shop-header" data-frameName="shop" tapmode>
+                    <span class="aui-iconfont iconfont icon-gouwuche"></span>
+                    <p>
+                        市场
+                    </p>
+                </li>
+                <li data-header="me-header" data-frameName="me" tapmode>
+                    <span class="aui-iconfont iconfont icon-wode"></span>
+                    <p>
+                        我的
+                    </p>
+                </li>
+            </ul>
+        </footer>
+        <!--脚部 end-->
+    </body>
+    <!--封装了APICloud大量常用的类库，内置了DOM操作，模板引擎，表单验证等常用类库-->
+    <script type="text/javascript" src="../script/AHelper.js"></script>
+    <script type="text/javascript" src="../script/zepto.min.js"></script>
+    <script type="text/javascript">
+        //@userobj 用户数据对象
+        //@db sqlite数据库对象
+        //@frames 窗口组数组
+        var userobj = null, db = null, frames = [] ,push = null;
+        //=====显示指定frame其余都隐藏=========
+        //@frameName 传入窗口名
+        function showFrame(frameName) {
+            $("#aui-footer li").each(function() {
+                var fName = $(this).attr("data-frameName");
+                if (fName != frameName) {
+                    H.$setFrameStatus(fName, true);
+                } else {
+                    H.$setFrameStatus(fName, false);
+                }
+            });
+        }
 
-		Zepto(function($) {
-			$("#aui-footer").on("tap", "li", function() {
-				var that = $(this);
-				var headerId = that.attr("data-header");
-				var frameName = that.attr("data-frameName");
-				that.addClass("active-1d9dd5").siblings("#aui-footer li").removeClass("active-1d9dd5");
-				$("#" + headerId).removeClass("display-none").siblings(".header").addClass("display-none");
-				showFrame(frameName);
-				if (frames.indexOf(frameName) == -1) {
-					frames.push(frameName);
-					// 打开新的frame
-					H.$openFrameWithNav(headerId, {
-						url : frameName + "/" + frameName + "_body.html",
-						name : frameName,
-						bounces : false
-					}, 'aui-footer');
-				}
-			});
-			$("#index_massage").on('click', function() {
-				$("#brige").hide();
-				H.$openWin('massage_header', 'index/massage_header.html');
-			});
-			$("#input_box").on('click', function() {
-				H.$openWin('search_header', 'index/search_header.html');
-			});
-			$("#setting_to").on("tap", function() {
-				H.$openWin('setting_head.', 'me/setting_head.html');
-			});
-		});
-		//所有的代码都写在H.ready(function(){})
-		H.ready(function() {
-			api.setStatusBarStyle({
-				style : 'light',
-				color : '#000000'
-			});
-			frames.push('contact');
-			api.getPrefs({
-				key : 'userinfo'
-			}, function(ret, err) {
-				userobj = eval('(' + ret.value + ')');
-				if (userobj.ishavedevice == 0) {
-				}
-			});
-			// 打开新的frame
-			H.$openFrameWithNav('index-header', {
-				url : 'index/index' + "_body.html",
-				name : 'index',
-				bounces : false
-			}, 'aui-footer');
-			// 断开网络
-			H.$addEventListener(function(ret, err) {
-				H.$toast('抱歉，检测到您已断开网络');
-			}, 'offline');
-			// 连接网络
-			H.$addEventListener(function(ret, err) {
-				H.$toast('已连接上网络');
-				api.sendEvent({
-					name : 'pagereload'
-				});
-			}, 'online');
-			H.$dblclickToCloseApp(function() {
-				//双击退出的时候执行的操作
-			});
-			H.$addEventListener(function(ret,err){
-			     H.$ajax(function(ret,err){
-                    H.$setPrefs(function(ret,err){
+        //======初始化脚部点击事件=========
+        function initFooterEvent() {
+            $("#aui-footer").on("click", "li", function() {
+                var that = $(this);
+                var headerId = that.attr("data-header");
+                var frameName = that.attr("data-frameName");
+                that.addClass("active-1d9dd5").siblings("#aui-footer li").removeClass("active-1d9dd5");
+                $("#" + headerId).removeClass("display-none").siblings(".header").addClass("display-none");
+                showFrame(frameName);
+                if (frames.indexOf(frameName) == -1) {
+                    frames.push(frameName);
+                    // 打开新的frame
+                    H.$openFrameWithNav(headerId, {
+                        url : frameName + "/" + frameName + "_body.html",
+                        name : frameName,
+                        bounces : false
+                    }, 'aui-footer');
+                }
+            });
+        }
+
+        //======初始化页面点击事件==========
+        function initClickEvent() {
+            //消息按钮点击处理
+            $("#index_massage").on('click', function() {
+                $("#brige").hide();
+                H.$openWin('massage_header', 'index/massage_header.html');
+            });
+            //搜索框的点击处理
+            $("#input_box").on('click', function() {
+                H.$openWin('search_header', 'index/search_header.html');
+            });
+            //设置的点击处理
+            $("#setting_to").on("click", function() {
+                H.$openWin('setting_head.', 'me/setting_head.html');
+            });
+        }
+
+        //======初始化状态栏===========
+        function initStatusBar() {
+            api.setStatusBarStyle({
+                style : 'light',
+                color : '#000000'
+            });
+        }
+
+        //=======初始化用户数据=======
+        function initUserInfo() {
+            api.getPrefs({
+                key : 'userinfo'
+            }, function(ret, err) {
+                userobj = eval('(' + ret.value + ')');
+                //如果设备没有被激活的处理
+                if (userobj.ishavedevice == 0) {
+                }
+            });
+        }
+        
+        //=======初始化模块==========
+        function initModel(){
+            db = api.require('db');
+            push = api.require('push');
+        }
+
+        //======初始化监听事件=======
+        function initListenerEvent() {
+            // 断开网络
+            H.$addEventListener(function(ret, err) {
+                H.$toast('抱歉，检测到您已断开网络');
+            }, 'offline');
+            // 连接网络
+            H.$addEventListener(function(ret, err) {
+                H.$toast('已连接上网络');
+                api.sendEvent({
+                    name : 'pagereload'
+                });
+            }, 'online');
+            H.$dblclickToCloseApp(function() {
+                //双击退出的时候执行的操作
+            });
+        }
+
+        Zepto(function($) {
+            //初始化脚部点击事件
+            initFooterEvent();
+            //初始化页面点击事件
+            initClickEvent();
+        });
+        H.ready(function() {
+            var start = new Date().getTime();//起始时间
+            //?
+            frames.push('contact');
+            //初始化状态栏
+            initStatusBar();
+            //初始化用户数据
+            initUserInfo();
+            //初始化监听事件
+            initListenerEvent();
+            //初始化模块
+            initModel();
+            //打开第一次初始化的窗体
+            H.$openFrameWithNav('index-header', {
+                url : 'index/index' + "_body.html",
+                name : 'index',
+                bounces : false
+            }, 'aui-footer');
+            
+            //添加reloadUserInfo监听更新用户最新数据
+            H.$addEventListener(function(ret, err) {
+                H.$ajax(function(ret, err) {
+                    if(ret && ret.retValue){
+                         H.$setPrefs(function(ret, err) {
+                            api.sendEvent({
+                                name : 'creditreload'
+                            });
+                        }, 'userinfo', JSON.stringify(ret.retValue));
+                    }
+                }, window.serverUrl + '/userinfo/token/' + userobj.token + '/user_id/' + userobj.id);
+            }, 'reloadUserInfo');
+            //更改标题
+            H.$addEventListener(function(ret, err) {
+                $("#pet-header .aui-title").text("未绑定硬件");
+            }, 'changepettitle');
+            // 10 初始化DB模块
+            
+            var SerachWordStatus = H.$api.getStorage('SerachWordStatus');
+            var SystemMassage = H.$api.getStorage('SystemMassage');
+            // 10.8 如果 SerachWord表没有创建则初始化表
+            // 10.1 打开ichong数据库
+            db.openDatabase({
+                name : 'ichong'
+            }, function(ret, err) {
+                // 10.2 搜索离线表
+                if (!SerachWordStatus) {
+                    // 10.3 初始化(搜索表) id 自增主键ID  word 关键词
+                    var serachWordSql = 'CREATE TABLE SerachWord(id integer primary key autoincrement, word varchar(100))';
+                    db.executeSql({
+                        name : 'ichong',
+                        sql : serachWordSql
+                    }, function(ret, err) {
+                        // 10.4 如果创建表成功
+                        if (ret.status) {
+                            //alert('创建SerachWordStatus成功');
+                            // 10.5 存储创建状态
+                            H.$api.setStorage('SerachWordStatus', true);
+                        }
+                    });
+                }
+                //10.3 系统消息表
+                if (!SystemMassage) {
+                    // 10.3 初始化(搜索表) id 自增主键ID  word 关键词
+                    // id 系统消息ID [title] 消息标题 [content] 消息正文 [status] 是否查阅状态 [time] 接收时间 [type] 消息类型 1 兑换券 2 回复通知
+                    var systemmassage = 'CREATE TABLE SystemMassage(id integer primary key autoincrement,title varchar(80),content varchar(200),status int,time varchar(50),type int)';
+                    db.executeSql({
+                        name : 'ichong',
+                        sql : systemmassage
+                    }, function(ret, err) {
+                        // 10.4 如果创建表成功
+                        if (ret.status) {
+                            //alert('创建SystemMassage表成功');
+                            // 10.5 存储创建状态
+                            H.$api.setStorage('SystemMassage', true);
+                        }
+                    });
+                } else {
+                    var sqls = 'select * from SystemMassage where status=0';
+                    db.selectSql({
+                        name : 'ichong',
+                        sql : sqls
+                    }, function(ret, err) {
+                        //						console.log(' ret.data.length==' + ret.status);
+                        if (ret.status && ret.data.length > 0) {
+                            $("#brige").show();
+                        } else {
+                        }
+                    });
+                }
+            });
+            //关键词处理=========================
+            // 10.2 添加关键词添加监听
+            api.addEventListener({
+                name : 'addSerachWord'
+            }, function(ret, err) {
+                var ds = ret;
+                var sql = "SELECT word FROM SerachWord where word='" + ret.value.word + "'";
+                db.selectSql({
+                    name : 'ichong',
+                    sql : sql
+                }, function(ret, err) {
+                    //如果有数据
+                    if (ret.data.length > 0) {
+                    } else {
+                        // 回调
+                        addSerachWord(ds.value.word);
+                    }
+                });
+            });
+            // 11.2 获取关键词数据
+            api.addEventListener({
+                name : 'getSerachWord'
+            }, function(ret, err) {
+                var sql = "SELECT * FROM SerachWord";
+                db.selectSql({
+                    name : 'ichong',
+                    sql : sql
+                }, function(ret, err) {
+                    api.sendEvent({
+                        name : 'serachwordpage',
+                        extra : {
+                            data : ret.data
+                        }
+                    })
+                });
+            });
+            // 11.3 删除搜索关键词数据
+            api.addEventListener({
+                name : 'delSerachWord'
+            }, function(ret, err) {
+                var sql = "delete from SerachWord;";
+                db.executeSql({
+                    name : 'ichong',
+                    sql : sql
+                }, function(ret, err) {
+                });
+            });
+            //关键词处理=========================
+            //系统消息处理========================
+            //12.0 系统消息监听
+            api.addEventListener({
+                name : 'systemmassage'
+            }, function(ret, err) {
+                if (ret.value) {
+                    //12.1 查询
+                    var sql = 'select * from SystemMassage order by id desc';
+                    //12.2 给详情页发查询到的数据
+                    db.selectSql({
+                        name : 'ichong',
+                        sql : sql
+                    }, function(ret, err) {
+                    });
+                } else {
+                    var sql = 'select * from SystemMassage where status=0';
+                    //12.2 给消息列表页发数据
+                    db.selectSql({
+                        name : 'ichong',
+                        sql : sql
+                    }, function(ret, err) {
                         api.sendEvent({
-                            name:'creditreload'
+                            name : 'getsystemmsg',
+                            extra : ret
+                        }, function(ret, err) {
                         });
-                    },'userinfo',JSON.stringify(ret.retValue));
-			     },window.serverUrl + '/userinfo/token/' + userobj.token + '/user_id/' + userobj.id);
-			},'reloadUserInfo');
-			//更改标题
-			H.$addEventListener(function(ret, err) {
-				$("#pet-header .aui-title").text("未绑定硬件");
-			}, 'changepettitle');
-			// 10 初始化DB模块
-			db = api.require('db');
-			var SerachWordStatus = H.$api.getStorage('SerachWordStatus');
-			var SystemMassage = H.$api.getStorage('SystemMassage');
-			// 10.8 如果 SerachWord表没有创建则初始化表
-			// 10.1 打开ichong数据库
-			db.openDatabase({
-				name : 'ichong'
-			}, function(ret, err) {
-				// 10.2 搜索离线表
-				if (!SerachWordStatus) {
-					// 10.3 初始化(搜索表) id 自增主键ID  word 关键词
-					var serachWordSql = 'CREATE TABLE SerachWord(id integer primary key autoincrement, word varchar(100))';
-					db.executeSql({
-						name : 'ichong',
-						sql : serachWordSql
-					}, function(ret, err) {
-						// 10.4 如果创建表成功
-						if (ret.status) {
-							//alert('创建SerachWordStatus成功');
-							// 10.5 存储创建状态
-							H.$api.setStorage('SerachWordStatus', true);
-						}
-					});
-				}
-				//10.3 系统消息表
-				if (!SystemMassage) {
-					// 10.3 初始化(搜索表) id 自增主键ID  word 关键词
-					// id 系统消息ID [title] 消息标题 [content] 消息正文 [status] 是否查阅状态 [time] 接收时间 [type] 消息类型 1 兑换券 2 回复通知
-					var systemmassage = 'CREATE TABLE SystemMassage(id integer primary key autoincrement,title varchar(80),content varchar(200),status int,time varchar(50),type int)';
-					db.executeSql({
-						name : 'ichong',
-						sql : systemmassage
-					}, function(ret, err) {
-						// 10.4 如果创建表成功
-						if (ret.status) {
-							//alert('创建SystemMassage表成功');
-							// 10.5 存储创建状态
-							H.$api.setStorage('SystemMassage', true);
-						}
-					});
-				} else {
-					var sqls = 'select * from SystemMassage where status=0';
-					db.selectSql({
-						name : 'ichong',
-						sql : sqls
-					}, function(ret, err) {
-//						console.log(' ret.data.length==' + ret.status);
-						if (ret.status && ret.data.length > 0) {
-							$("#brige").show();
-						} else {
-						}
-					});
-				}
-			});
-			//关键词处理=========================
-			// 10.2 添加关键词添加监听
-			api.addEventListener({
-				name : 'addSerachWord'
-			}, function(ret, err) {
-				var ds = ret;
-				var sql = "SELECT word FROM SerachWord where word='" + ret.value.word + "'";
-				db.selectSql({
-					name : 'ichong',
-					sql : sql
-				}, function(ret, err) {
-					//如果有数据
-					if (ret.data.length > 0) {
-					} else {
-						// 回调
-						addSerachWord(ds.value.word);
-					}
-				});
-			});
-			// 11.2 获取关键词数据
-			api.addEventListener({
-				name : 'getSerachWord'
-			}, function(ret, err) {
-				var sql = "SELECT * FROM SerachWord";
-				db.selectSql({
-					name : 'ichong',
-					sql : sql
-				}, function(ret, err) {
-					api.sendEvent({
-						name : 'serachwordpage',
-						extra : {
-							data : ret.data
-						}
-					})
-				});
-			});
-			// 11.3 删除搜索关键词数据
-			api.addEventListener({
-				name : 'delSerachWord'
-			}, function(ret, err) {
-				var sql = "delete from SerachWord;";
-				db.executeSql({
-					name : 'ichong',
-					sql : sql
-				}, function(ret, err) {
-				});
-			});
-			//关键词处理=========================
-			//系统消息处理========================
-			//12.0 系统消息监听
-			api.addEventListener({
-				name : 'systemmassage'
-			}, function(ret, err) {
-				if (ret.value) {
-					//12.1 查询
-					var sql = 'select * from SystemMassage order by id desc';
-					//12.2 给详情页发查询到的数据
-					db.selectSql({
-						name : 'ichong',
-						sql : sql
-					}, function(ret, err) {
-                        
-					});
-				} else {
-					var sql = 'select * from SystemMassage where status=0';
-					//12.2 给消息列表页发数据
-					db.selectSql({
-						name : 'ichong',
-						sql : sql
-					}, function(ret, err) {
-						api.sendEvent({
-							name : 'getsystemmsg',
-							extra : ret
-						}, function(ret, err) {
-						});
-					});
-				}
-			});
-			//12.1 系统消息插入
-			api.addEventListener({
-				name : 'addsystemmsg'
-			}, function(ret, err) {
-				//				alert(JSON.stringify(ret));
-				$("#brige").show();
-				var sql = "INSERT INTO SystemMassage(title,content,status,time,type) VALUES ('" + ret.value.title + "','" + ret.value.content + "'," + ret.value.status + "," + ret.value.time + "," + ret.value.type + ")";
-				db.executeSql({
-					name : 'ichong',
-					sql : sql
-				}, function(ret, err) {
-					//alert(JSON.stringify(ret));
-				});
-			});
-			//12.2 系统消息阅读状态
-			api.addEventListener({
-				name : 'editSystemMsgaStatus'
-			}, function(ret, err) {
-				var sql = 'UPDATE SystemMassage SET status=1';
-				db.executeSql({
-					name : 'ichong',
-					sql : sql
-				}, function(ret, err) {
-					//					alert(JSON.stringify(ret));
-					//更新系统消息数量
-					api.execScript({
-						name : 'massage_header',
-						frameName : 'massage_body',
-						script : 'changenum(1);'
-					});
-				});
-			});
-			//系统消息处理========================
-			api.addEventListener({
-				name : 'noticeclicked'
-			}, function(ret, err) {
-				//alert(JSON.stringify(ret));
-				if (ret.type == 0) {
-					//APICloud推送内容
-//					console.log(JSON.stringify(ret));
-					//					api.openWin({
-					//						name : 'tip_news_header',
-					//						url : 'index/massage/tip_news_header.html',
-					//						pageParam : {
-					//							id : ret.value
-					//						}
-					//					});
-					var value = ret.value;
-					api.sendEvent({
-						name : 'addsystemmsg',
-						extra : {
-							title : '推送消息通知',
-							content : value,
-							status : 0,
-							time : Date.parse(new Date()),
-							type : 1
-						}
-					});
-				} else if (ret.type == 1) {
-					//开发者自定义消息
-				}
-			});
-			//添加消息推送监听
-			var push = api.require('push');
-			push.setListener(function(ret, err) {
-//				console.log(JSON.stringify(ret));
-				//1.1如果接受到了推送的消息
-				if (ret) {
-					for (var i = 0, l = ret.data.length; i < l; i++) {
-						api.sendEvent({
-							name : 'addsystemmsg',
-							extra : {
-								title : '系统通知',
-								content : ret.data[i],
-								status : 0,
-								time : Date.parse(new Date()),
-								type : 1
-							}
-						});
-					}
-					//1.2向系统消息表发送消息
-				} else {
-					api.toast({
-						msg : err.msg
-					});
-				}
-			});
-		});
-		// 10.2 添加
-		function addSerachWord(aword) {
-			var addSerachWordSql = "INSERT INTO SerachWord(word) VALUES ('" + aword + "')";
-			db.executeSql({
-				name : 'ichong',
-				sql : addSerachWordSql
-			}, function(ret, err) {
-				//alert(JSON.stringify(ret));
-			});
-		}
-		
-	</script>
+                    });
+                }
+            });
+            //12.1 系统消息插入
+            api.addEventListener({
+                name : 'addsystemmsg'
+            }, function(ret, err) {
+                //				alert(JSON.stringify(ret));
+                $("#brige").show();
+                var sql = "INSERT INTO SystemMassage(title,content,status,time,type) VALUES ('" + ret.value.title + "','" + ret.value.content + "'," + ret.value.status + "," + ret.value.time + "," + ret.value.type + ")";
+                db.executeSql({
+                    name : 'ichong',
+                    sql : sql
+                }, function(ret, err) {
+                    //alert(JSON.stringify(ret));
+                });
+            });
+            //12.2 系统消息阅读状态
+            api.addEventListener({
+                name : 'editSystemMsgaStatus'
+            }, function(ret, err) {
+                var sql = 'UPDATE SystemMassage SET status=1';
+                db.executeSql({
+                    name : 'ichong',
+                    sql : sql
+                }, function(ret, err) {
+                    //					alert(JSON.stringify(ret));
+                    //更新系统消息数量
+                    api.execScript({
+                        name : 'massage_header',
+                        frameName : 'massage_body',
+                        script : 'changenum(1);'
+                    });
+                });
+            });
+            //系统消息处理========================
+            api.addEventListener({
+                name : 'noticeclicked'
+            }, function(ret, err) {
+                //alert(JSON.stringify(ret));
+                if (ret.type == 0) {
+                    var value = ret.value;
+                    api.sendEvent({
+                        name : 'addsystemmsg',
+                        extra : {
+                            title : '推送消息通知',
+                            content : value,
+                            status : 0,
+                            time : Date.parse(new Date()),
+                            type : 1
+                        }
+                    });
+                } else if (ret.type == 1) {
+                    //开发者自定义消息
+                }
+            });
+            //添加消息推送监听
+           
+            push.setListener(function(ret, err) {
+                //console.log(JSON.stringify(ret));
+                //1.1如果接受到了推送的消息
+                if (ret) {
+                    for (var i = 0, l = ret.data.length; i < l; i++) {
+                        api.sendEvent({
+                            name : 'addsystemmsg',
+                            extra : {
+                                title : '系统通知',
+                                content : ret.data[i],
+                                status : 0,
+                                time : Date.parse(new Date()),
+                                type : 1
+                            }
+                        });
+                    }
+                    //1.2向系统消息表发送消息
+                } else {
+                    api.toast({
+                        msg : err.msg
+                    });
+                }
+            });
+            var end = new Date().getTime();//接受时间
+            console.log("运行时间=="+(end - start)+"ms");
+        });
+        // 10.2 添加
+        function addSerachWord(aword) {
+            var addSerachWordSql = "INSERT INTO SerachWord(word) VALUES ('" + aword + "')";
+            db.executeSql({
+                name : 'ichong',
+                sql : addSerachWordSql
+            }, function(ret, err) {
+                //alert(JSON.stringify(ret));
+            });
+        }
+    </script>
 </html>
