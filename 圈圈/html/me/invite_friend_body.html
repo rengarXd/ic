@@ -1,258 +1,258 @@
 <!DOCTYPE HTML>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
-		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-		<title>邀请好友body</title>
-		<link rel="stylesheet" type="text/css" href="../../css/aui.css" />
-		<link rel="stylesheet" type="text/css" href="../../css/fonts/iconfont.css" />
-		<style>
-			/*第三方登录线*/
-			.ds_line {
-				margin-top: 30px;
-				height: 1px;
-				border-top: 1px solid #dddddd;
-				text-align: center;
-				margin-right: 20px;
-				margin-left: 20px;
-			}
-			.ds_line span {
-				position: relative;
-				top: -14px;
-				background: #f4f4f4;
-				padding: 0 10px;
-				font-size: 12px;
-				color: #848484
-			}
-			.qq_dsf {
-				margin-top: 30px;
-				color: #fff;
-				height: 32px;
-			}
-			.qq_login_text {
-				font-size: 13px;
-				text-align: center
-			}
-			.qq_login_icon_qq {
-				background: #ff7400;
-				padding: 10px;
-				border-radius: 50%;
-				font-size: 30px;
-				margin-bottom: 10px;
-			}
-			.qq_login_icon_weixin {
-				background: #ffc600;
-				padding: 10px;
-				border-radius: 50%;
-				font-size: 30px;
-				margin-bottom: 10px;
-			}
-			.qq_login_icon_weibo {
-				background: #0fded8;
-				padding: 10px;
-				border-radius: 50%;
-				font-size: 30px;
-				margin-bottom: 10px;
-			}
-			.qq_login_icon_duanxin {
-				background: #56b725;
-				padding: 10px;
-				border-radius: 50%;
-				font-size: 30px;
-				margin-bottom: 10px;
-			}
-			.qq_login_icon_qq:active {
-				background: #F79645
-			}
-			.qq_login_icon_weixin:active {
-				background: #FBD141
-			}
-			.qq_login_icon_weibo:active {
-				background: #4DC1BE
-			}
-			.qq_login_icon_duanxin:active {
-				background: #87e758
-			}
-			.qq_text {
-				text-align: center;
-				color: #000;
-				margin-top: 20px;
-				font-size: 13px;
-				height: 20px;
-			}
-			.qq_login_t {
-				padding-left: 20px;
-				padding-right: 20px;
-				margin-bottom: 70px;
-			}
-			.qq_login_t a {
-				color: #6F6C6C;
-				font-size: 13px;
-				text-decoration: underline
-			}
-			.qq_login_t a:active {
-				color: #55b0f7
-			}
-			.yaw p {
-				text-indent: 2em;
-				line-height: 28px;
-			}
-			.yaw h4 {
-				margin-bottom: 10px;
-				padding-left: 10px;
-			}
-		</style>
-	</head>
-	<body>
-		<div class="aui-content">
-			<div class="ds_line">
-				<span>立即用以下方式邀请好友</span>
-			</div>
-		</div>
-		<div class="aui-content">
-			<div class="qq_dsf">
-				<div class="aui-col-xs-3 qq_login_text" id="qq">
-					<span class="iconfont icon-qq qq_login_icon_qq"></span>
-				</div>
-				<div class="aui-col-xs-3 qq_login_text" id="weixin">
-					<span class="iconfont icon-iconfontweixin qq_login_icon_weixin"></span>
-				</div>
-				<div class="aui-col-xs-3 qq_login_text" id="weibo">
-					<span class="iconfont icon-iconfontweibo qq_login_icon_weibo"></span>
-				</div>
-				<div class="aui-col-xs-3 qq_login_text" id="duanxin">
-					<span class="iconfont icon-duanxin qq_login_icon_duanxin"></span>
-				</div>
-			</div>
-			<div class="qq_text">
-				<div class="aui-col-xs-3">
-					QQ
-				</div>
-				<div class="aui-col-xs-3">
-					微信
-				</div>
-				<div class="aui-col-xs-3">
-					微博
-				</div>
-				<div class="aui-col-xs-3">
-					短信
-				</div>
-			</div>
-			<div class="aui-content" style="text-align: center">
-				<div class="ds_line" style="height: 30px;">
-					<span>我的邀请二维码</span>
-				</div>
-				<img src="../../image/loading_more.gif" id="ewm" />
-			</div>
-			<div class="ds_line"></div>
-		</div>
-		<div class="aui-content-padded yaw">
-			<h4>如何获得邀请</h4>
-			<p>
-				1、请将生成的推荐二维码给您的朋友扫描
-			</p>
-			<p>
-				2、您的朋友扫描后会跳转一个属于您的邀请页面
-			</p>
-			<p>
-				3、您的朋友输入手机号，并且校验通过，系统提示邀请成功
-			</p>
-			<p>
-				4、您的朋友下载app，并且登录成功即您邀请成功
-			</p>
-			</ul>
-		</div>
-	</body>
-	<script type="text/javascript" src="../../script/AHelper.js"></script>
-	<script type="text/javascript" src="../../script/zepto.min.js"></script>
-	<script type="text/javascript">
-		Zepto(function() {
-			//短信按钮触发进行短信发送处理
-			$("#duanxin").on("click", function() {
-				H.$getPrefs(function(ret, err) {
-					var retobj = eval('(' + ret.value + ')');
-					api.sms({
-						numbers : [''],
-						text : '我的宠物正在使用i宠，好东西不能独享，现在分享给你，点击链接http://122.114.90.191/apis/invite/userid/' + retobj.id
-					}, function(ret, err) {
-						if (ret) {
-							//alert(JSON.stringify(ret));
-						} else {
-							//alert(JSON.stringify(err));
-						}
-					});
-				}, 'userinfo');
-			});
-			//QQ按钮点击触发进行分享处理
-			$("#qq").on("click", function() {
-				api.getPrefs({
-					key : 'userinfo'
-				}, function(ret, err) {
-					var retobj = eval('(' + ret.value + ')');
-					var obj = api.require('qq');
-					obj.installed(function(ret, err) {
-						if (ret.status) {
-							obj.shareImage({
-								title : '我在使用i宠,扫描二维码和我一起加入这个爱宠大家庭吧',
-								description : 'http://122.114.90.191/apis/invite/userid/' + retobj.id,
-								imgPath : 'fs://album.png'
-							});
-						} else {
-							api.toast({
-								msg : '抱歉手机上没有安装QQ'
-							});
-						}
-					});
-				});
-			});
-			//微博按钮点击以后进行分享处理
-			$("#weibo").on("click", function() {
-				var weibo = api.require('weibo');
-				weibo.shareImage({
-					text : '我在使用i宠,扫描二维码和我一起加入这个爱宠大家庭吧',
-					imageUrl : 'fs://album.png'
-				}, function(ret, err) {
-					if (ret.status) {
-						alert('分享图片内容成功');
-					}
-				});
-			});
-			//微信按钮点击以后进行分享处理
-			$("#weixin").on("click", function() {
-				api.toast({
-					msg : '敬请期待'
-				});
-			});
-		});
-		H.ready(function() {
-			//做一个延时操作
-			setTimeout(function() {
-				//初始化进入生成二维码
-				api.getPrefs({
-					key : 'userinfo'
-				}, function(ret, err) {
-					var retobj = eval('(' + ret.value + ')');
-					var FNScanner = api.require('FNScanner');
-					FNScanner.encodeImg({
-						content : window.serverUrl+'/invite/user_id/' + retobj.id,
-						//不保存到相册，每次进入都生成
-						saveToAlbum : false,
-						saveImg : {
-							path : 'fs://album.png',
-							w : 240,
-							h : 240
-						}
-					}, function(ret, err) {
-						if (ret.status) {
-							document.getElementById("ewm").src = ret.imgPath
-							//alert( JSON.stringify( ret ) );
-						} else {
-							//alert(JSON.stringify(err));
-						}
-					});
-				});
-			}, 700);
-		});
-	</script>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+        <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+        <title>邀请好友body</title>
+        <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+        <link rel="stylesheet" type="text/css" href="../../css/fonts/iconfont.css" />
+        <style>
+            /*第三方登录线*/
+            .ds_line {
+                margin-top: 30px;
+                height: 1px;
+                border-top: 1px solid #dddddd;
+                text-align: center;
+                margin-right: 20px;
+                margin-left: 20px;
+            }
+            .ds_line span {
+                position: relative;
+                top: -14px;
+                background: #f4f4f4;
+                padding: 0 10px;
+                font-size: 12px;
+                color: #848484
+            }
+            .qq_dsf {
+                margin-top: 30px;
+                color: #fff;
+                height: 32px;
+            }
+            .qq_login_text {
+                font-size: 13px;
+                text-align: center
+            }
+            .qq_login_icon_qq {
+                background: #ff7400;
+                padding: 10px;
+                border-radius: 50%;
+                font-size: 30px;
+                margin-bottom: 10px;
+            }
+            .qq_login_icon_weixin {
+                background: #ffc600;
+                padding: 10px;
+                border-radius: 50%;
+                font-size: 30px;
+                margin-bottom: 10px;
+            }
+            .qq_login_icon_weibo {
+                background: #0fded8;
+                padding: 10px;
+                border-radius: 50%;
+                font-size: 30px;
+                margin-bottom: 10px;
+            }
+            .qq_login_icon_duanxin {
+                background: #56b725;
+                padding: 10px;
+                border-radius: 50%;
+                font-size: 30px;
+                margin-bottom: 10px;
+            }
+            .qq_login_icon_qq:active {
+                background: #F79645
+            }
+            .qq_login_icon_weixin:active {
+                background: #FBD141
+            }
+            .qq_login_icon_weibo:active {
+                background: #4DC1BE
+            }
+            .qq_login_icon_duanxin:active {
+                background: #87e758
+            }
+            .qq_text {
+                text-align: center;
+                color: #000;
+                margin-top: 20px;
+                font-size: 13px;
+                height: 20px;
+            }
+            .qq_login_t {
+                padding-left: 20px;
+                padding-right: 20px;
+                margin-bottom: 70px;
+            }
+            .qq_login_t a {
+                color: #6F6C6C;
+                font-size: 13px;
+                text-decoration: underline
+            }
+            .qq_login_t a:active {
+                color: #55b0f7
+            }
+            .yaw p {
+                text-indent: 2em;
+                line-height: 28px;
+            }
+            .yaw h4 {
+                margin-bottom: 10px;
+                padding-left: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="aui-content">
+            <div class="ds_line">
+                <span>立即用以下方式邀请好友</span>
+            </div>
+        </div>
+        <div class="aui-content">
+            <div class="qq_dsf">
+                <div class="aui-col-xs-3 qq_login_text" id="qq">
+                    <span class="iconfont icon-qq qq_login_icon_qq"></span>
+                </div>
+                <div class="aui-col-xs-3 qq_login_text" id="weixin">
+                    <span class="iconfont icon-iconfontweixin qq_login_icon_weixin"></span>
+                </div>
+                <div class="aui-col-xs-3 qq_login_text" id="weibo">
+                    <span class="iconfont icon-iconfontweibo qq_login_icon_weibo"></span>
+                </div>
+                <div class="aui-col-xs-3 qq_login_text" id="duanxin">
+                    <span class="iconfont icon-duanxin qq_login_icon_duanxin"></span>
+                </div>
+            </div>
+            <div class="qq_text">
+                <div class="aui-col-xs-3">
+                    QQ
+                </div>
+                <div class="aui-col-xs-3">
+                    微信
+                </div>
+                <div class="aui-col-xs-3">
+                    微博
+                </div>
+                <div class="aui-col-xs-3">
+                    短信
+                </div>
+            </div>
+            <div class="aui-content" style="text-align: center">
+                <div class="ds_line" style="height: 30px;">
+                    <span>我的邀请二维码</span>
+                </div>
+                <img src="../../image/loading_more.gif" id="ewm" />
+            </div>
+            <div class="ds_line"></div>
+        </div>
+        <div class="aui-content-padded yaw">
+            <h4>如何获得邀请</h4>
+            <p>
+                1、请将生成的推荐二维码给您的朋友扫描
+            </p>
+            <p>
+                2、您的朋友扫描后会跳转一个属于您的邀请页面
+            </p>
+            <p>
+                3、您的朋友输入手机号，并且校验通过，系统提示邀请成功
+            </p>
+            <p>
+                4、您的朋友下载app，并且登录成功即您邀请成功
+            </p>
+            </ul>
+        </div>
+    </body>
+    <script type="text/javascript" src="../../script/AHelper.js"></script>
+    <script type="text/javascript" src="../../script/zepto.min.js"></script>
+    <script type="text/javascript">
+        Zepto(function() {
+            //短信按钮触发进行短信发送处理
+            $("#duanxin").on("click", function() {
+                H.$getPrefs(function(ret, err) {
+                    var retobj = eval('(' + ret.value + ')');
+                    api.sms({
+                        numbers : [''],
+                        text : '我的宠物正在使用i宠，好东西不能独享，现在分享给你，点击链接http://www.ipetoo.com/apis/invite/user_id/' + retobj.id
+                    }, function(ret, err) {
+                        if (ret) {
+                            //alert(JSON.stringify(ret));
+                        } else {
+                            //alert(JSON.stringify(err));
+                        }
+                    });
+                }, 'userinfo');
+            });
+            //QQ按钮点击触发进行分享处理
+            $("#qq").on("click", function() {
+                api.getPrefs({
+                    key : 'userinfo'
+                }, function(ret, err) {
+                    var retobj = eval('(' + ret.value + ')');
+                    var obj = api.require('qq');
+                    obj.installed(function(ret, err) {
+                        if (ret.status) {
+                            obj.shareImage({
+                                title : '我在使用i宠,扫描二维码和我一起加入这个爱宠大家庭吧',
+                                description : 'http://www.ipetoo.com/apis/invite/user_id/' + retobj.id,
+                                imgPath : 'fs://album.png'
+                            });
+                        } else {
+                            api.toast({
+                                msg : '抱歉手机上没有安装QQ'
+                            });
+                        }
+                    });
+                });
+            });
+            //微博按钮点击以后进行分享处理
+            $("#weibo").on("click", function() {
+                var weibo = api.require('weibo');
+                weibo.shareImage({
+                    text : '我在使用i宠,扫描二维码和我一起加入这个爱宠大家庭吧',
+                    imageUrl : 'fs://album.png'
+                }, function(ret, err) {
+                    if (ret.status) {
+                        alert('分享图片内容成功');
+                    }
+                });
+            });
+            //微信按钮点击以后进行分享处理
+            $("#weixin").on("click", function() {
+                api.toast({
+                    msg : '敬请期待'
+                });
+            });
+        });
+        H.ready(function() {
+            //做一个延时操作
+            setTimeout(function() {
+                //初始化进入生成二维码
+                api.getPrefs({
+                    key : 'userinfo'
+                }, function(ret, err) {
+                    var retobj = eval('(' + ret.value + ')');
+                    var FNScanner = api.require('FNScanner');
+                    FNScanner.encodeImg({
+                        content : window.serverUrl + '/invite/user_id/' + retobj.id,
+                        //不保存到相册，每次进入都生成
+                        saveToAlbum : false,
+                        saveImg : {
+                            path : 'fs://album.png',
+                            w : 240,
+                            h : 240
+                        }
+                    }, function(ret, err) {
+                        if (ret.status) {
+                            document.getElementById("ewm").src = ret.imgPath
+                            //alert( JSON.stringify( ret ) );
+                        } else {
+                            //alert(JSON.stringify(err));
+                        }
+                    });
+                });
+            }, 700);
+        });
+    </script>
 </html>
