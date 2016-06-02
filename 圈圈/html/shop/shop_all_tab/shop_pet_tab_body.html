@@ -70,9 +70,9 @@
 			{{# for(var i = 0, len = d.retValue.length; i < len; i++){ }}
 			<div class="H-display-table-cell H-float-left  H-box-sizing-border-box H-width-avg-3 H-padding-horizontal-right-10 H-margin-vertical-bottom-10">
 			{{# if (d.retValue[i].img == "") { }}
-			<img src="../../../image/loading.png" class="H-width-100-percent H-display-block H-theme-background-color-f4f4f4" alt="" title="" onclick="openGoods({{ d.retValue[i].id }},{{ d.retValue[i].sort }});" />
+			<img src="../../../image/loading.png"  class="H-width-100-percent H-display-block H-theme-background-color-f4f4f4" alt="" title="" onclick="openGoods({{ d.retValue[i].id }},{{ d.retValue[i].sort }});" />
 			{{# } else { }}
-			<img src="http://122.114.90.191/{{ d.retValue[i].img }}" class="H-width-100-percent H-display-block H-theme-background-color-f4f4f4" alt="" title="" onclick="openGoods({{ d.retValue[i].id }},{{ d.retValue[i].sort }});" />
+			<img src="../../../image/loading.png" id="tb_{{ d.retValue[i].id }}"  class="H-width-100-percent H-display-block H-theme-background-color-f4f4f4" alt="" title="" onclick="openGoods({{ d.retValue[i].id }},{{ d.retValue[i].sort }});" />
 			{{# } }}
 			<div class="H-text-show-row-1" style="text-align: center;font-size: 11px;">
 			{{ d.retValue[i].name }}
@@ -95,6 +95,19 @@
 					initPageData();
 				});
 			});
+			//图片缓存
+			function imageCache(rets, i) {
+				if (i >= rets.length) {
+					return;
+				}
+				api.imageCache({
+					url : 'http://122.114.90.191/' + rets[i].img
+				}, function(ret, err) {
+						$("#tb_" + rets[i].id).attr("src", ret.url);
+						imageCache(rets, i + 1);
+				});
+			}
+
 			//frame组件切换
 			function initCate() {
 				H.on(H.Ds(".H-tabs-channel ul li"), "click", function(event) {
@@ -125,12 +138,11 @@
 			//@renderData 模板部分数据 【JSON对象】
 			//@tplDataId 模板被渲染部分DOM id 【string】
 			//@callback 回调函数 【匿名函数】
-			function _tpl(tplId, renderData, tplDataId) {
+			function _tpl(tplId, renderData, tplDataId, callback) {
 				var tpl = document.getElementById(tplId).innerHTML;
 				laytpl(tpl).render(renderData, function(render) {
 					document.getElementById(tplDataId).innerHTML = render;
-					$("#shop_tap_html").show();
-					initCate();
+					callback();
 				});
 			}
 
@@ -141,7 +153,7 @@
 			function _ajax(url, tplId, tplDataId) {
 				$("#ic_loading").show();
 				api.ajax({
-					url : 'http://122.114.90.191/apis/' + url + '/token/' + userinfoobj.token + '/user_id/' + userinfoobj.id,
+					url : baseUrl + '/' + url + '/token/' + userinfoobj.token + '/user_id/' + userinfoobj.id,
 					cache : true
 				}, function(ret, err) {
 					if (ret) {
@@ -151,7 +163,10 @@
 								catid = ret.retValue[0].id;
 								//							console.log('catid[0].id' + catid[0].id);
 								$("#ic_loading").hide();
-								_tpl(tplId, ret, tplDataId);
+								_tpl(tplId, ret, tplDataId, function() {
+									$("#shop_tap_html").show();
+									initCate();
+								});
 								break;
 							case 0:
 								$("#ic_loading span").text(ret.retDesc);
@@ -204,6 +219,7 @@
 									$("#tap_loading").hide();
 									$("#shop_data_show").show();
 								});
+								imageCache(ret.retValue, 0);
 								break;
 							case 0:
 								$("#tap_loading").hide();

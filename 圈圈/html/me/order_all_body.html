@@ -48,14 +48,13 @@
 			{{# for(var i = 0, len = d.retValue.data.length; i < len; i++){ }}
 			<li class="aui-list-view-cell" onclick="order_detail({{ d.retValue.data[i].id }});">
 			<div class="aui-col-xs-12">
-			<sapn class="aui-pull-left">
+			<span class="aui-pull-left">
 			<span class="iconfont icon-dingdan"></span> 订单编号：{{ d.retValue.data[i].order_no }}
-			</sapn><span class="aui-pull-right ic_status">{{# if(d.retValue.data[i].status==5){ }}完成订单{{# }else if(d.retValue.data[i].status==2){ }}等待发货{{# }else if(d.retValue.data[i].status==1){ }}待付款{{# } else if(d.retValue.data[i].status==6) { }}已退款{{# } else if(d.retValue.data[i].status==3) { }}已取消{{# } }}</span>
-			</div>
+			</span><span class="aui-pull-right ic_status">{{ d.retValue.data[i].statusText }}</span></div>
 			<div class="aui-col-xs-12">
-			<sapn class="aui-pull-left">
+			<span class="aui-pull-left">
 			日期：{{ d.retValue.data[i].create_time }}
-			</sapn><span class="aui-pull-right ic_price">￥{{ d.retValue.data[i].order_amount }}</span>
+			</span><span class="aui-pull-right ic_price">￥{{ d.retValue.data[i].order_amount }}</span>
 			</div>
 			<div class="aui-col-xs-12">
 			<sapn class="aui-pull-left">
@@ -95,7 +94,7 @@
 					if (ret.retValue.data.length > 0) {
 						var tpl = document.getElementById('order_data').innerHTML;
 						laytpl(tpl).render(ret, function(render) {
-//							document.getElementById('order_data_body').innerHTML = render;
+							//							document.getElementById('order_data_body').innerHTML = render;
 							H.$api.append(H.$api.byId("order_data_body"), render);
 							$("#loading").hide();
 						});
@@ -119,6 +118,34 @@
 			});
 		}
 
+		//初始化请求
+		function _ajax() {
+			api.ajax({
+				//1、请求所有订单 type = 1
+				url : window.serverUrl + '/me_all_order/user_id/' + userobj.id + '/token/' + userobj.token + '/type/1' + '/page/' + page
+			}, function(ret, err) {
+				if (ret) {
+					//2、如果有数据
+					if (ret.retCode > 0) {
+						$("#ic_loading").hide();
+						var tpl = document.getElementById('order_data').innerHTML;
+						laytpl(tpl).render(ret, function(render) {
+							H.$recoverDropdownToNormal();
+							document.getElementById('order_data_body').innerHTML = render;
+						});
+					} else {
+						//2.1、如果无数据
+						$("#ic_loading span").text('抱歉暂无数据');
+					}
+				} else {
+					$("#ic_loading").hide();
+					$(".aui-content").hide();
+					$("#ic_nonetwork").show();
+					$("#ic_nonetwork span").text(err.msg);
+				}
+			});
+		}
+
 
 		H.ready(function() {
 			api.getPrefs({
@@ -126,29 +153,10 @@
 			}, function(ret, err) {
 				userobj = eval('(' + ret.value + ')');
 				$("#ic_loading").show();
-				api.ajax({
-					//1、请求所有订单 type = 1
-					url : window.serverUrl + '/me_all_order/user_id/' + userobj.id + '/token/' + userobj.token + '/type/1' + '/page/' + page
-				}, function(ret, err) {
-					if (ret) {
-						//2、如果有数据
-						if (ret.retCode > 0) {
-							$("#ic_loading").hide();
-							var tpl = document.getElementById('order_data').innerHTML;
-							laytpl(tpl).render(ret, function(render) {
-								document.getElementById('order_data_body').innerHTML = render;
-							});
-						} else {
-							//2.1、如果无数据
-							$("#ic_loading span").text('抱歉暂无数据');
-						}
-					} else {
-						$("#ic_loading").hide();
-						$(".aui-content").hide();
-						$("#ic_nonetwork").show();
-						$("#ic_nonetwork span").text(err.msg);
-					}
+				H.$dropdownToRefresh(function() {
+					_ajax();
 				});
+				_ajax();
 			});
 			//向上滑动监听
 			api.addEventListener({

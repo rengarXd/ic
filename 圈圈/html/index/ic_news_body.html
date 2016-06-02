@@ -2,9 +2,9 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
 		<title>i宠快报body</title>
-		<link rel="stylesheet" type="text/css" href="../../css/aui.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/aui.css" />
 		<link rel="stylesheet" type="text/css" href="../../css/tools/loading.css" />
 		<style>
 			body {
@@ -62,7 +62,7 @@
 			</div>
 		</div>
 		<!--无网络提示 start-->
-		<div style="text-align: center;display: none;" id="ic_nonetwork" ><img src="../../image/loading.png" width="70" height="70" />
+		<div style="text-align: center;display: none;" id="ic_nonetwork"><img src="../../image/loading.png" width="70" height="70" />
 			<br />
 			<span style="font-size:12px; margin-bottom: 10px;" class="aui-block"></span>
 			<div class="aui-btn aui-btn-default" id="reload_page" tapmode>
@@ -78,42 +78,66 @@
 		<div class="ic_conetnt">{{ d.retValue.content }}</div>
 	</script>
 	<script type="text/javascript" src="../../script/AHelper.js"></script>
+	<!--	<script type="text/javascript" src="../../script/hui/H.js"></script>-->
 	<script type="text/javascript" src="../../script/zepto.min.js"></script>
 	<script type="text/javascript" src="../../script/laytpl.js"></script>
 	<script type="text/javascript">
 		var retabc = null, newsId = null;
-		function get_data() {
-			//请求ajax数据
-			api.ajax({
-				url : window.serverUrl + '/notice_detail/token/' + retabc.token + '/id/' + newsId,
-				cache : true
-			}, function(ret, err) {
-				if (ret && ret.retCode == 1) {
-					var t = document.getElementById('news_data').innerHTML;
-					laytpl(t).render(ret, function(render) {
-						document.getElementById('news_html').innerHTML = render;
-						api.parseTapmode();
-					});
-				} else {
-					$("#ic_loading").hide();
-					if (ret && ret.retCode == 0) {
-						$("#ic_nonetwork").show();
-						$("#ic_nonetwork span").text(ret.retDesc);
-					} else {
-						$("#ic_nonetwork").show();
-						$("#ic_nonetwork span").text(err.msg);
-					}
-				}
+		//渲染处理
+		function _laytpl(retData, dataId, htmlId, callback) {
+			var t = document.getElementById(dataId).innerHTML;
+			laytpl(t).render(retData, function(render) {
+				document.getElementById(htmlId).innerHTML = render;
+				callback();
 			});
 		}
 
-		H.ready(function() {
-			newsId = H.$getPageParam().newsId;
-			api.getPrefs({
-				key : 'userinfo'
-			}, function(ret, err) {
+		//错误异常处理
+		function errorDo(ret, err) {
+			$("#ic_loading").hide();
+			if (ret && ret.retCode == 0) {
+				$("#ic_nonetwork").show();
+				$("#ic_nonetwork span").text(ret.retDesc);
+			} else {
+				$("#ic_nonetwork").show();
+				$("#ic_nonetwork span").text(err.msg);
+			}
+		}
+
+		//结果处理
+		function resultTpl(ret, err) {
+			if (ret && ret.retCode == 1) {
+			
+				_laytpl(ret, 'news_data', 'news_html', function() {
+					api.parseTapmode();
+				});
+			} else {
+				errorDo(ret, err);
+			}
+		}
+
+		//ajax请求
+		function _ajax(url) {
+			//			console.log(url);
+			H.$ajax(function(ret, err) {
+				resultTpl(ret, err);
+			}, url, true);
+		}
+
+		//获取偏好值
+		function initPref(callback) {
+			H.$getPrefs(function(ret, err) {
 				retabc = eval("(" + ret.value + ")");
-				get_data();
+				if ( typeof callback == "function") {
+					callback();
+				}
+			}, 'userinfo');
+		}
+
+		H.ready(function() {
+			newsId = api.pageParam.newsId;
+			initPref(function() {
+				_ajax(window.serverUrl + '/notice_detail/token/' + retabc.token + '/id/' + newsId);
 			});
 		});
 		Zepto(function() {
