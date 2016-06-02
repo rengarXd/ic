@@ -255,7 +255,8 @@
                 </li>
             </ul>
         </div>
-        </div></div> <script src="../../script/AHelper.js" type="text/javascript"></script>
+        </div></div> 
+        <script src="../../script/AHelper.js" type="text/javascript"></script>
         <script src="../../script/zepto.min.js" type="text/javascript"></script>
         <script>
             var userobj = null;
@@ -273,9 +274,7 @@
                         $('#stup').text("步数无法更新");
                         //1、2 隐藏功能菜单，提示
                         $("#havedevice").hide();
-                        api.sendEvent({
-                            name : 'changepettitle',
-                        });
+                        H.$sendEvent('changepettitle');
                     }
                 });
                 /*窗口打开处理 ok*/
