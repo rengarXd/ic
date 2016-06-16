@@ -234,10 +234,6 @@
 
 		//查看评价
 		function findEvaluate(id) {
-			//			alert("评价测试id=="+id);
-//			api.closeWin({
-//				name : 'shop_evaluate_header'
-//			});
 			H.$openWin("shop_evaluate_header", "shop_evaluate_header.html", {
 				goods_id : id,
 				order_no : result.order_no,
@@ -257,8 +253,7 @@
 
 		//确认收货
 		function confirmPay() {
-			api.showProgress({
-			});
+			api.showProgress();
 			api.ajax({
 				url : window.serverUrl + '/order_status/op/confirm/token/' + retobj.token + '/user_id/' + retobj.id + '/order_id/' + parseInt(create.ordersId),
 			}, function(ret, err) {
