@@ -1,247 +1,247 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<!--确保绘制和缩放的效果需要在<head>标签中添加 viewport 元数据标签-->
-		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
-		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-		<title>友邻</title>
-		<!--引入aui框架-->
-		<link rel="stylesheet" href="../../css/aui.css" />
-		<link rel="stylesheet" href="../../css/fonts/iconfont.css" />
-		<link rel="stylesheet" href="../../css/tools/animate.min.css" />
-		<style>
-			.aui-arrow-right {
-				line-height: 26px;
-			}
-			.f_pic {
-				width: 50px;
-				height: 50px;
-				float: left;
-				text-align: center;
-				background: #ff3366;
-				color: #fff;
-				/* font-size: 24px; */
-				border-radius: 38%;
-				margin-right: 10px;
-			}
-			.f_pic span {
-				font-size: 28px;
-				line-height: 46px;
-			}
-			.aui-list-view-cell:active {
-				background: #f5f5f5
-			}
-			.friend_ad img {
-				width: 100%;
-				padding: 0 2%;
-				margin-top: 6px;
-			}
-			.img-cont img {
-				max-width: 45px;
-				height: 45px;
-				line-height: 45px;
-				border-radius: 50%;
-				margin-right: 11px;
-			}
-			.tiezi_data img {
-				width: 35px !important;
-				height: 35px !important;
-			}
-			.aui-col-xs-3 {
-				padding-right: 5px;
-			}
-			.aui-col-xs-3 img {
-				height: 80px !important;
-				width: 100% !important;
-			}
-			img .loading {
-				width: 100%;
-				background: url('../../image/friend/firend_nopic.png') no-repeat center center;
-				background-color: rgb(0, 0, 0);
-			}
-		</style>
-	</head>
-	<body>
-		<div class="aui-content">
-			<ul class="aui-list-view">
-				<li class="aui-list-view-cell" id="consulting_header" tapmode>
-					<div class="aui-arrow-right">
-						<div class="f_pic">
-							<span class="iconfont icon-shenfenrenzheng"></span>
-						</div>
-						<div class="f_title">
-							<h3>诊疗</h3>
-							<p>
-								专业医生免费在线问诊
-							</p>
-						</div>
-					</div>
-				</li>
-				<li class="aui-list-view-cell" id="answers_header" tapmode>
-					<div class="aui-arrow-right">
-						<div class="f_pic" style="background: #ffc80a">
-							<span class="iconfont icon-wenda"></span>
-						</div>
-						<div class="f_title">
-							<h3>问答</h3>
-							<p>
-								养宠人士互助沟通的平台
-							</p>
-						</div>
-					</div>
-				</li>
-			</ul>
-		</div>
-<!--		<div class="aui-content friend_ad">
-			<ul class="aui-list-view">
-				<li class="aui-list-view-cell">
-					<div class="aui-col-xs-6">
-						<img src="../../image/friend/ad_01.png" />
-					</div>
-					<div class="aui-col-xs-6">
-						<img src="../../image/friend/ad_02.png" />
-					</div>
-				</li>
-			</ul>
-		</div>-->
-		<!--帖子信息-->
-		<div class="aui-content" id="tiezi_body"></div>
-		<!--loading-->
-		<div class="aui-text-center" id="loading" style="padding: 25px;display: none;font-size: 14px;color: #9B9B9B;">
-			<img src="../../image/loading01.gif" style="width: 45px;" />&nbsp;&nbsp;加载中...
-		</div>
-		<!--loading-->
-		<script id="tiezi_data" type="text/html">
-			<ul class="aui-list-view animated fadeIn" style="margin-bottom: 0" >
-			{{# for(var i = 0, len = d.retValue.bbsList.length; i < len; i++){ }}
-			<li class="aui-list-view-cell tiezi_data" onclick="to_answers({{ d.retValue.bbsList[i].id }});">
-			<div class="img-cont tiezi_data">
-			{{#if (d.retValue.bbsList[i].head_ico == null){}}
-			<img class="aui-pull-left" src="../../image/noavatar.gif">
-			{{#}else{}}
-			<img class="aui-pull-left" src="http://122.114.90.191/{{ d.retValue.bbsList[i].head_ico }}" tapmode >
-			{{# }}}
-			</div>
-			<div class="aui-img-body">
-			<span>{{ d.retValue.bbsList[i].username }}</span><i class="iconfont icon-jifen" style="float: right;color: #009f3b;font-size: 14px;"> {{ d.retValue.bbsList[i].point }}</i>
-			<p class='aui-ellipsis-1'>
-			来自 {{ d.retValue.bbsList[i].comedevice}}
-			</p>
-			</div>
-			<p style="margin-top: 5px; margin-bottom: 5px;">
-			{{ d.retValue.bbsList[i].inter}}
-			{{# if(d.retValue.bbsList[i].imgs.length>0){ }}
-			<div class="aui-content" style="display: inline-block;" id="an_photo">
-			{{# for (var ii = 0, lens = d.retValue.bbsList[i].imgs.length; ii < lens; ii ++) { }}
-			<div class="aui-col-xs-3"><img src="../../image/friend/firend_nopic.png" data-echo="http://122.114.90.191/{{ d.retValue.bbsList[i].imgs[ii].im }}" class="aui-img loading" />
-			</div>
-			{{# } }}
-			</div>
-			{{# } }}
-			</p>
-			<h6>{{ H.$com.jsDateDiff(d.retValue.bbsList[i].time)}}<span class="iconfont icon-iconxiaoxi" style="float: right;font-size: 12px;"> {{ d.retValue.bbsList[i].askcount}}</span></h6>
-			</li>
-			{{# } }}
-			</ul>
-		</script>
-	</body>
-	<script type="text/javascript" src="../../script/AHelper.js"></script>
-	<script type="text/javascript" src="../../script/zepto.min.js"></script>
-	<script type="text/javascript" src="../../script/laytpl.js"></script>
-	<script type="text/javascript" src="../../script/echo.min.js"></script>
-	<script type="text/javascript">
-		var page = 1, loadLock = false, userobj = null;
-		Zepto(function($) {
-			$("#consulting_header").on("click", function() {
-				H.$openWin("consulting_header", "consulting_header.html");
-			});
-			/*问答处理*/
-			$("#answers_header").on("click", function() {
-				H.$openWin("answers_header", "answers_header.html");
-			});
-		});
-		function get_data() {
-			api.parseTapmode();
-			loadLock = true;
-			$("#loading").show();
-			// 1、 最新问题
-			api.ajax({
-				url : window.serverUrl + '/bbs_list/token/' + userobj.token + '/page/' + page + '/pagesize/10',
-				cache : true
-			}, function(ret, err) {
-				if (ret && ret.retCode == 1) {
-					//alert(JSON.stringify(ret.retValue));
-					var tpl = document.getElementById('tiezi_data').innerHTML;
-					//读取模版
-					laytpl(tpl).render(ret, function(render) {
-						H.$recoverDropdownToNormal();
-						H.$api.append(H.$api.byId("tiezi_body"), render);
-						$("#loading").hide();
-						echo.init({
-							offset : 0,
-							throttle : 0,
-						});
-						//$("#loading").hide();
-						if (ret.retValue.count == page) {
-							loadLock = true;
-						} else {
-							page++;
-							loadLock = false;
-						}
-					});
-				} else {
-					if (ret && ret.retCode == 0) {
-						api.toast({
-							msg : '抱歉获取数据失败，请稍后再试！'
-						});
-					} else {
-						api.toast({
-							msg : err.body
-						});
-					}
-				}
-			});
-		}
+    <head>
+        <meta charset="utf-8">
+        <!--确保绘制和缩放的效果需要在<head>标签中添加 viewport 元数据标签-->
+        <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+        <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+        <title>友邻</title>
+        <!--引入aui框架-->
+        <link rel="stylesheet" href="../../css/aui.css" />
+        <link rel="stylesheet" href="../../css/fonts/iconfont.css" />
+        <link rel="stylesheet" href="../../css/tools/animate.min.css" />
+        <style>
+            .aui-arrow-right {
+                line-height: 26px;
+            }
+            .f_pic {
+                width: 50px;
+                height: 50px;
+                float: left;
+                text-align: center;
+                background: #ff3366;
+                color: #fff;
+                /* font-size: 24px; */
+                border-radius: 38%;
+                margin-right: 10px;
+            }
+            .f_pic span {
+                font-size: 28px;
+                line-height: 46px;
+            }
+            .aui-list-view-cell:active {
+                background: #f5f5f5
+            }
+            .friend_ad img {
+                width: 100%;
+                padding: 0 2%;
+                margin-top: 6px;
+            }
+            .img-cont img {
+                max-width: 45px;
+                height: 45px;
+                line-height: 45px;
+                border-radius: 50%;
+                margin-right: 11px;
+            }
+            .tiezi_data img {
+                width: 35px !important;
+                height: 35px !important;
+            }
+            .aui-col-xs-3 {
+                padding-right: 5px;
+            }
+            .aui-col-xs-3 img {
+                height: 80px !important;
+                width: 100% !important;
+            }
+            img .loading {
+                width: 100%;
+                background: url('../../image/friend/firend_nopic.png') no-repeat center center;
+                background-color: rgb(0, 0, 0);
+            }
+        </style>
+    </head>
+    <body>
+        <div class="aui-content">
+            <ul class="aui-list-view">
+                <li class="aui-list-view-cell" id="consulting_header" tapmode>
+                    <div class="aui-arrow-right">
+                        <div class="f_pic">
+                            <span class="iconfont icon-shenfenrenzheng"></span>
+                        </div>
+                        <div class="f_title">
+                            <h3>诊疗</h3>
+                            <p>
+                                专业医生免费在线问诊
+                            </p>
+                        </div>
+                    </div>
+                </li>
+                <li class="aui-list-view-cell" id="answers_header" tapmode>
+                    <div class="aui-arrow-right">
+                        <div class="f_pic" style="background: #ffc80a">
+                            <span class="iconfont icon-wenda"></span>
+                        </div>
+                        <div class="f_title">
+                            <h3>问答</h3>
+                            <p>
+                                养宠人士互助沟通的平台
+                            </p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!--		<div class="aui-content friend_ad">
+        <ul class="aui-list-view">
+        <li class="aui-list-view-cell">
+        <div class="aui-col-xs-6">
+        <img src="../../image/friend/ad_01.png" />
+        </div>
+        <div class="aui-col-xs-6">
+        <img src="../../image/friend/ad_02.png" />
+        </div>
+        </li>
+        </ul>
+        </div>-->
+        <!--帖子信息-->
+        <div class="aui-content" id="tiezi_body"></div>
+        <!--loading-->
+        <div class="aui-text-center" id="loading" style="padding: 25px;display: none;font-size: 14px;color: #9B9B9B;">
+            <img src="../../image/loading01.gif" style="width: 45px;" />&nbsp;&nbsp;加载中...
+        </div>
+        <!--loading-->
+        <script id="tiezi_data" type="text/html">
+            <ul class="aui-list-view animated fadeIn" style="margin-bottom: 0" >
+            {{# for(var i = 0, len = d.retValue.bbsList.length; i < len; i++){ }}
+            <li class="aui-list-view-cell tiezi_data" onclick="to_answers({{ d.retValue.bbsList[i].id }});">
+            <div class="img-cont tiezi_data">
+            {{#if (d.retValue.bbsList[i].head_ico == null){}}
+            <img class="aui-pull-left" src="../../image/noavatar.gif">
+            {{#}else{}}
+            <img class="aui-pull-left" src="http://122.114.90.191/{{ d.retValue.bbsList[i].head_ico }}" tapmode >
+            {{# }}}
+            </div>
+            <div class="aui-img-body">
+            <span>{{ d.retValue.bbsList[i].username }}</span><i class="iconfont icon-jifen" style="float: right;color: #009f3b;font-size: 14px;"> {{ d.retValue.bbsList[i].point }}</i>
+            <p class='aui-ellipsis-1'>
+            来自 {{ d.retValue.bbsList[i].comedevice}}
+            </p>
+            </div>
+            <p style="margin-top: 5px; margin-bottom: 5px;">
+            {{ d.retValue.bbsList[i].inter}}
+            {{# if(d.retValue.bbsList[i].imgs.length>0){ }}
+            <div class="aui-content" style="display: inline-block;" id="an_photo">
+            {{# for (var ii = 0, lens = d.retValue.bbsList[i].imgs.length; ii < lens; ii ++) { }}
+            <div class="aui-col-xs-3"><img src="../../image/friend/firend_nopic.png" data-echo="http://122.114.90.191/{{ d.retValue.bbsList[i].imgs[ii].im }}" class="aui-img loading" />
+            </div>
+            {{# } }}
+            </div>
+            {{# } }}
+            </p>
+            <h6>{{ H.$com.jsDateDiff(d.retValue.bbsList[i].time)}}<span class="iconfont icon-iconxiaoxi" style="float: right;font-size: 12px;"> {{ d.retValue.bbsList[i].askcount}}</span></h6>
+            </li>
+            {{# } }}
+            </ul>
+        </script>
+    </body>
+    <script type="text/javascript" src="../../script/AHelper.js"></script>
+    <script type="text/javascript" src="../../script/zepto.min.js"></script>
+    <script type="text/javascript" src="../../script/laytpl.js"></script>
+    <script type="text/javascript" src="../../script/echo.min.js"></script>
+    <script type="text/javascript">
+        var page = 1, loadLock = false, userobj = null;
+        Zepto(function($) {
+            $("#consulting_header").on("click", function() {
+                H.$openWin("consulting_header", "consulting_header.html");
+            });
+            /*问答处理*/
+            $("#answers_header").on("click", function() {
+                H.$openWin("answers_header", "answers_header.html");
+            });
+        });
+        function get_data() {
+            api.parseTapmode();
+            loadLock = true;
+            $("#loading").show();
+            // 1、 最新问题
+            api.ajax({
+                url : window.serverUrl + '/bbs_list/token/' + userobj.token + '/page/' + page + '/pagesize/10',
+                cache : true
+            }, function(ret, err) {
+                if (ret && ret.retCode == 1) {
+                    //alert(JSON.stringify(ret.retValue));
+                    var tpl = document.getElementById('tiezi_data').innerHTML;
+                    //读取模版
+                    laytpl(tpl).render(ret, function(render) {
+                        H.$recoverDropdownToNormal();
+                        H.$api.append(H.$api.byId("tiezi_body"), render);
+                        $("#loading").hide();
+                        echo.init({
+                            offset : 0,
+                            throttle : 0,
+                        });
+                        //$("#loading").hide();
+                        if (ret.retValue.count == page) {
+                            loadLock = true;
+                        } else {
+                            page++;
+                            loadLock = false;
+                        }
+                    });
+                } else {
+                    if (ret && ret.retCode == 0) {
+                        api.toast({
+                            msg : '抱歉获取数据失败，请稍后再试！'
+                        });
+                    } else {
+                        api.toast({
+                            msg : err.body
+                        });
+                    }
+                }
+            });
+        }
 
-		function to_answers(id) {
-			H.$openWin("answers_show_header", "answers_show_header.html", {
-				id : id,
-			});
-		}
+        function to_answers(id) {
+            H.$openWin("answers_show_header", "answers_show_header.html", {
+                id : id,
+            });
+        }
 
 
-		H.ready(function() {
-			api.getPrefs({
-				key : 'userinfo'
-			}, function(ret, err) {
-				userobj = eval('(' + ret.value + ')');
-				get_data();
-			});
-			api.addEventListener({
-				name : 'answers_pagereload'
-			}, function(ret, err) {
-				if (ret) {
-					location.reload();
-				} else {
-				}
-			});
-			/*下拉刷新*/
-			H.$dropdownToRefresh(function(ret, err) {
-				get_data();
-			});
-			// 2.0 底部加载更多
-			api.addEventListener({
-				name : 'scrolltobottom',
-				extra : {
-					threshold : 0
-				}
-			}, function(ret, err) {
-				if (loadLock == false) {
-					get_data();
-				}
-			});
-		});
-	</script>
-	</body>
+        H.ready(function() {
+            api.getPrefs({
+                key : 'userinfo'
+            }, function(ret, err) {
+                userobj = eval('(' + ret.value + ')');
+                get_data();
+            });
+            api.addEventListener({
+                name : 'answers_pagereload'
+            }, function(ret, err) {
+                if (ret) {
+                    location.reload();
+                } else {
+                }
+            });
+            /*下拉刷新*/
+            H.$dropdownToRefresh(function(ret, err) {
+                get_data();
+            });
+            // 2.0 底部加载更多
+            api.addEventListener({
+                name : 'scrolltobottom',
+                extra : {
+                    threshold : 0
+                }
+            }, function(ret, err) {
+                if (loadLock == false) {
+                    get_data();
+                }
+            });
+        });
+    </script>
+    </body>
 </html>

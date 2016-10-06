@@ -11,7 +11,7 @@
  * 文档地址：http://www.kancloud.cn/winu/hybrid
  * 开源地址：http://git.oschina.net/winu.net/H.js
  */
-var baseUrl = "http://122.114.90.191/apis"; ! function(factory) {
+var baseUrl = "http://www.ipetoo.com/apis"; ! function(factory) {
 	if ( typeof require === "function" && typeof exports === "object" && typeof module === "object") {
 		var target = module["exports"] || exports;
 		factory(target)

@@ -389,7 +389,7 @@
                 cache : true
             }, function(ret, err) {
                 if (ret) {
-//                  console.log('ret.retCode==' + ret.retCode);
+                    //                  console.log('ret.retCode==' + ret.retCode);
                     switch(ret.retCode) {
                         case 1:
                             _tpl(tplId, ret, tplDataId, function() {
@@ -458,14 +458,14 @@
 
         //初始化幻灯插件
         function initSwiper(ret) {
-//         console.log('initSwiper++');
+            //         console.log('initSwiper++');
             new Swiper('.swiper-container', {
                 loop : true,
                 // 如果需要分页器
                 pagination : '.swiper-pagination',
                 autoplay : 3000
             });
-//           imageCache(ret, 0);
+            //           imageCache(ret, 0);
         }
 
         //递归缓存图片
@@ -473,7 +473,7 @@
             if (i >= rets.length) {
                 return;
             }
-//          console.log('rets.length'+rets.length);
+            //          console.log('rets.length'+rets.length);
             api.imageCache({
                 url : window.serverUrlPath + rets[i].content
             }, function(ret, err) {

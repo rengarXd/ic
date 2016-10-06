@@ -11,9 +11,9 @@
  * 开源地址：http://git.oschina.net/winu.net/AHelper.js
  */! function(win) {
 	var modules = {};
-	window.serverUrl = "http://122.114.90.191/apis";
-	window.deviceserverUrl = "http://122.114.90.191/deviceapi";
-	window.serverUrlPath = "http://122.114.90.191/";
+	window.serverUrl = "http://www.ipetoo.com/apis";
+	window.deviceserverUrl = "http://www.ipetoo.com/deviceapi";
+	window.serverUrlPath = "http://www.ipetoo.com/";
 	window.debug = true;
 	var nowtime, secondNum;
 	var $$com = {
